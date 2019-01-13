@@ -11,7 +11,14 @@ export class DynamicDimensionService {
   loadAll() {
     return this.httpClient
       .get(
-        'dimensions.json?fields=id,displayShortName~rename(name),dimensionType,items[id,name,dimensiotnType]&paging=false'
+        'dimensions.json?fields=id,displayShortName~rename(name),dimensionType,items[id,name,dimensionType]&paging=false',
+        {
+          useIndexDb: true,
+          indexDbConfig: {
+            schema: { name: 'dynamic-dimension', keyPath: 'id' },
+            arrayKey: 'dimensions'
+          }
+        }
       )
       .pipe(map((res: any) => res.dimensions || []));
   }
