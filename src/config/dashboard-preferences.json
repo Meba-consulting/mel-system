@@ -1,0 +1,6 @@
+{
+  "id": "nmcp-malaria",
+  "useDataStoreAsSource": true,
+  "allowAdditionalAttributes": true,
+  "additionalAttributes": ["globalSelections"]
+}

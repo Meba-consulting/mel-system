@@ -1,0 +1,173 @@
+<div class="selection-filter-container">
+  <!--selection filter header-->
+  <div class="selection-filter-header">
+    <button
+      class="selection-filter-btn filter-control-btn"
+      (click)="toggleFilters($event)"
+      [title]="'Filter by different dimensions' | translate"
+    >
+      <img [src]="filterIcon" alt="" />
+      <img [src]="showFilters ? arrowLeftIcon : arrowRightIcon" alt="" />
+    </button>
+    <div class="selection-filter-btn-list" *ngIf="showFilters">
+      <!--data filter button-->
+      <button
+        *ngIf="filterConfig?.showDataFilter"
+        [ngClass]="{
+          'selection-filter-btn': true,
+          'active-filter': selectedFilter === 'DATA'
+        }"
+        [title]="'Filter by data' | translate"
+        (click)="toggleCurrentFilter($event, 'DATA')"
+      >
+        <img [src]="dataIcon" alt="" />&nbsp;{{
+          'Data Mapping' | translate
+        }}&nbsp;
+        <img
+          [ngClass]="{ 'arrow-up': selectedFilter === 'DATA' }"
+          [src]="arrowDownIcon"
+          alt=""
+        />
+      </button>
+      <!--end of data filter button-->
+
+      <!--period filter button-->
+      <button
+        *ngIf="filterConfig?.showPeriodFilter"
+        [ngClass]="{
+          'selection-filter-btn': true,
+          'active-filter': selectedFilter === 'PERIOD'
+        }"
+        [title]="'Filter by period' | translate"
+        (click)="toggleCurrentFilter($event, 'PERIOD')"
+      >
+        <img [src]="periodIcon" alt="" />&nbsp;{{ 'Period' | translate }}&nbsp;
+        <img
+          [ngClass]="{ 'arrow-up': selectedFilter === 'PERIOD' }"
+          [src]="arrowDownIcon"
+          alt=""
+        />
+      </button>
+      <!--end of period filter button-->
+
+      <!--org unit filter button-->
+      <button
+        *ngIf="filterConfig?.showOrgUnitFilter"
+        [ngClass]="{
+          'selection-filter-btn': true,
+          'active-filter': selectedFilter === 'ORG_UNIT'
+        }"
+        [title]="'Filter by organisation unit' | translate"
+        (click)="toggleCurrentFilter($event, 'ORG_UNIT')"
+      >
+        <img [src]="orgUnitIcon" alt="" />&nbsp;{{
+          'Org-Unit' | translate
+        }}&nbsp;
+        <img
+          [ngClass]="{ 'arrow-up': selectedFilter === 'ORG_UNIT' }"
+          [src]="arrowDownIcon"
+          alt=""
+        />
+      </button>
+      <!-- end of orgunit filter button -->
+
+      <!-- layout filter -->
+      <button
+        *ngIf="filterConfig?.showLayout"
+        [ngClass]="{
+          'selection-filter-btn': true,
+          'active-filter': selectedFilter === 'LAYOUT'
+        }"
+        [title]="'Layout' | translate"
+        (click)="toggleCurrentFilter($event, 'LAYOUT')"
+      >
+        <img [src]="orgUnitcon" alt="" />&nbsp;{{ 'Layout' | translate }}&nbsp;
+        <img
+          [ngClass]="{ 'arrow-up': selectedFilter === 'LAYOUT' }"
+          [src]="arrowDownIcon"
+          alt=""
+        />
+      </button>
+      <!--end of layout button-->
+
+      <!-- dynamic dimension filter button -->
+      <button
+        *ngIf="filterConfig?.showDynamicDimension"
+        [ngClass]="{
+          'selection-filter-btn': true,
+          'active-filter': selectedFilter === 'DYNAMIC'
+        }"
+        [title]="'Layout' | translate"
+        (click)="toggleCurrentFilter($event, 'DYNAMIC')"
+      >
+        <img [src]="dataIcon" alt="" />&nbsp;{{
+          'Dynamic dimensions' | translate
+        }}&nbsp;
+        <img
+          [ngClass]="{ 'arrow-up': selectedFilter === 'DYNAMIC' }"
+          [src]="arrowDownIcon"
+          alt=""
+        />
+      </button>
+      <!-- end of dynamic dimension filter button -->
+
+      <!--selections update button-->
+      <!--<button-->
+      <!--class="selection-filter-btn"-->
+      <!--[title]="'Update' | translate"-->
+      <!--&gt;-->
+      <!--<img src="assets/icon/tick.png" alt="">-->
+      <!--</button>-->
+      <!--end of selections update button-->
+    </div>
+  </div>
+  <!--end of selection filter header-->
+
+  <!--selection filter body-->
+  <div
+    class="selection-filter-body"
+    *ngIf="selectedFilter !== '' && showFilterBody"
+  >
+    <!--data filter-->
+    <app-data-filter
+      *ngIf="selectedFilter === 'DATA'"
+      [selectedItems]="selectedData"
+      (dataFilterClose)="onFilterClose($event, 'DATA')"
+      (dataFilterUpdate)="onFilterUpdate($event, 'DATA')"
+    ></app-data-filter>
+    <!--end of data filter-->
+
+    <!--period filter-->
+    <app-period-filter
+      *ngIf="selectedFilter === 'PERIOD'"
+      [selectedPeriods]="selectedPeriods"
+      (periodFilterClose)="onFilterClose($event, 'PERIOD')"
+      (periodFilterUpdate)="onFilterUpdate($event, 'PERIOD')"
+    ></app-period-filter>
+    <!--end of period filter-->
+
+    <!--org unit filter-->
+    <ngx-dhis2-org-unit-filter
+      *ngIf="selectedFilter === 'ORG_UNIT'"
+      [selectedOrgUnitItems]="selectedOrgUnits"
+      (orgUnitClose)="onFilterClose($event, 'ORG_UNIT')"
+      (orgUnitUpdate)="onFilterUpdate($event, 'ORG_UNIT')"
+    ></ngx-dhis2-org-unit-filter>
+    <!--end of org unit filter-->
+
+    <app-layout
+      [layoutModel]="layoutItem"
+      *ngIf="selectedFilter === 'LAYOUT'"
+      (layoutUpdate)="onFilterUpdate($event, 'LAYOUT')"
+      (layoutClose)="onFilterClose($event, 'LAYOUT')"
+    ></app-layout>
+
+    <ngx-dhis2-dynamic-dimension
+      [selectedDynamicDimensions]="selectedDynamicDimensions"
+      *ngIf="selectedFilter === 'DYNAMIC'"
+      (dynamicDimensionClose)="onFilterClose($event, 'DYNAMIC')"
+      (dynamicDimensionUpdate)="onFilterUpdate($event, 'DYNAMIC')"
+    ></ngx-dhis2-dynamic-dimension>
+  </div>
+  <!--end of selection filter body-->
+</div>

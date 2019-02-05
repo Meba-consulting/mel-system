@@ -1,0 +1,37 @@
+<div
+  class="row"
+  [@open]
+  *ngIf="progressMessages?.totalItems !== progressMessages.loadedItems"
+>
+  <div class="col-md-10 col-sm-10 col-xs-9">
+    <small>{{ progressMessages.message }}</small>
+  </div>
+  <div class="col-md-2 col-sm-2 col-xs-3">
+    <small class="float-right"
+      >{{ progressMessages.loadedItems }}/{{ progressMessages.totalItems }} ({{
+        progressMessages.percent
+      }}%)</small
+    >
+  </div>
+</div>
+<div
+  class="row"
+  *ngIf="progressMessages.totalItems !== progressMessages.loadedItems"
+>
+  <div class="col-md-12">
+    <div class="progress" style="height: 7px;">
+      <div
+        class="progress-bar progress-bar-success progress-bar-striped {{
+          progressMessages.loadedItems < progressMessages.totalItems
+            ? 'active'
+            : ''
+        }}"
+        role="progressbar"
+        [attr.aria-valuenow]="progressMessages.progress"
+        aria-valuemin="0"
+        aria-valuemax="100"
+        [ngStyle]="{ width: progressMessages.percent + '%' }"
+      ></div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,45 @@
+[
+  {
+    "id": "Xm4TNggmC8J",
+    "name": "Uncomplicated Malaria Diagnosis (OPD)",
+    "dashboards": ["tFidynXMnDn", "lUCZ9Rq344R", "OMJ5l5Ic0C1", "gLUc5SJjoXS"]
+  },
+  {
+    "id": "kquEMGaUMyn",
+    "name": "Malaria Testing",
+    "dashboards": ["emcZaaBYQ4j", "n0ff9qrTqH9", "kUMDv9RGdyq", "jtK9L4yyaSL"]
+  },
+  {
+    "id": "HOzTDHYZwiE",
+    "name": "Malaria Commodities (Pharm)",
+    "dashboards": ["xfv6fKNeNuL", "ElPSNI3mFf0", "uDbJGRmnoPQ", "Jj2trBJvOeG"]
+  },
+  {
+    "id": "AKVXOZUiE12",
+    "name": "Severe Malaria Morbidity and Mortality (IPD)",
+    "dashboards": ["UuyjEPGdeLK", "nc6YfIQ4SRZ", "nbDajKsJ2gG", "W17wZSERoeB"]
+  },
+  {
+    "id": "dCBBM28wKfV",
+    "name": "Preventive services (RCH)",
+    "dashboards": ["skeLgxeb6HD", "k6x9Pvvpt9u", "uyOGOweH1bX", "KhfYVW3ye34"]
+  },
+  {
+    "id": "BXEq47PU58f",
+    "name": "Accountability Tool",
+    "dashboards": ["azp3dWWf8dw"]
+  },
+  {
+    "id": "DoSVwKTsNvZ",
+    "name": "MSDQI",
+    "dashboards": [
+      "LTxG4cBXA5z",
+      "XIr3W6qZ2rm",
+      "vKoaF1ObPE1",
+      "VweVuqTIC7X",
+      "iTrpiuF4ipk",
+      "BwfRHTu8rDc",
+      "jJjlmwGr0cG"
+    ]
+  }
+]

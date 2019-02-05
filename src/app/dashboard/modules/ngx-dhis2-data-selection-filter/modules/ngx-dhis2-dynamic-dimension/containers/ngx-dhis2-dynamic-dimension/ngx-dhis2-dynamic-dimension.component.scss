@@ -1,0 +1,162 @@
+.ngx-dhis2-dynamic-dimension-container {
+  display: flex;
+  width: 450px;
+}
+
+.ngx-dhis2-dynamic-dimension-list-block,
+.ngx-dhis2-dynamic-dimensions-loading {
+  padding: 5px;
+  height: 300px;
+  flex: 1;
+  overflow: hidden;
+}
+
+.ngx-dhis2-dynamic-dimensions-loading {
+  font-size: 12px;
+}
+
+.ngx-dhis2-dynamic-dimension-list {
+  height: 270px;
+  max-height: 270px;
+  overflow: hidden;
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.ngx-dhis2-dynamic-dimension-list:hover {
+  overflow-y: auto;
+}
+
+.ngx-dhis2-dynamic-dimension-items {
+  display: grid;
+  flex: 2;
+  grid-template-columns: repeat(2, 1fr);
+  padding-left: 2px;
+  height: 300px;
+}
+
+.ngx-dhis2-dynamic-dimension-list > li > a {
+  border-bottom: solid thin #eeeeee;
+  padding: 7px;
+  text-decoration: none;
+  color: #222222;
+  font-size: 12px;
+  display: flex;
+  width: 100%;
+  cursor: pointer;
+}
+.active-dimension {
+  background-color: #eeeeee;
+}
+
+.ngx-dhis2-dynamic-dimension-buttons {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  border-top: solid thin #fafafa;
+}
+
+.ngx-dhis2-dynamic-dimension__btn {
+  margin: 5px;
+  height: 25px;
+  font-size: 14px;
+  background-color: #ffffff;
+  outline: none;
+  color: #777777;
+  border: none;
+  cursor: pointer;
+}
+
+.ngx-dhis2-dynamic-dimension__btn:hover {
+  color: #222222;
+}
+
+.ngx-dhis2-dynamic-dimension-input {
+  width: 100%;
+  border: solid thin #eeeeee;
+  padding: 3px 7px 3px 7px;
+  height: 30px;
+  font-size: 14px;
+}
+
+.dynamic-dimension-list-search {
+  grid-column: span 2;
+  display: flex;
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
+.dynamic-dimension-available-header {
+  border: solid 1px #dddddd;
+  display: flex;
+  justify-content: space-between;
+  font-size: 13px;
+  padding: 5px 10px;
+}
+
+.dynamic-dimension-available-header > a {
+  cursor: pointer;
+}
+
+.dynamic-dimension-selected-header {
+  border-top: solid 1px #dddddd;
+  border-bottom: solid 1px #dddddd;
+  border-right: solid 1px #dddddd;
+  display: flex;
+  justify-content: space-between;
+  font-size: 13px;
+  padding: 5px 10px;
+}
+
+.dynamic-dimension-selected-header > a {
+  cursor: pointer;
+}
+
+.dynamic-dimension-available-body,
+.dynamic-dimension-selected-body {
+  padding: 0.2em;
+  height: 220px;
+  overflow: hidden;
+}
+
+.dynamic-dimension-available-body:hover,
+.dynamic-dimension-selected-body:hover {
+  overflow: auto;
+}
+
+.dynamic-dimension-selected-body {
+  border-right: solid 1px #dddddd;
+  border-bottom: solid 1px #dddddd;
+}
+
+.dynamic-dimension-available-body {
+  border-right: solid 1px #dddddd;
+  border-left: solid 1px #dddddd;
+  border-bottom: solid 1px #dddddd;
+}
+
+.dynamic-dimension-available-body > ul,
+.dynamic-dimension-selected-body > ul {
+  padding-left: 0;
+  padding-right: 0;
+  list-style: none;
+}
+
+.dynamic-dimension-available-body > ul > li > a,
+.dynamic-dimension-selected-body > ul > li > a {
+  cursor: pointer;
+  color: #000000;
+  display: block;
+  font-size: 12px;
+  padding: 2px 5px 2px 5px;
+}
+
+.dynamic-dimension-available-body > ul > li > a:hover,
+.dynamic-dimension-selected-body > ul > li > a:hover {
+  background-color: #dddddd;
+}
+
+.dimension-with-selected-items {
+  color: #ffa500 !important;
+}

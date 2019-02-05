@@ -1,0 +1,2977 @@
+[
+  {
+    "name": "Diagnosis by Type",
+    "id": "tFidynXMnDn",
+    "publicAccess": "--------",
+    "externalAccess": false,
+    "access": {
+      "read": true,
+      "update": true,
+      "externalize": true,
+      "delete": true,
+      "write": true,
+      "manage": true
+    },
+    "userGroupAccesses": [
+      {
+        "access": "r-------",
+        "userGroupUid": "jX1oulomeWr",
+        "displayName": "NMCP Malaria Dashboard",
+        "id": "jX1oulomeWr"
+      }
+    ],
+    "dashboardItems": [
+      {
+        "created": "2017-07-20T17:07:32.461",
+        "id": "jAWAVEj5akh",
+        "shape": "NORMAL",
+        "type": "CHART",
+        "chart": {
+          "id": "kSFqmlzuRVC",
+          "displayName": "Numbers of malaria cases disaggregated by type of diagnosis"
+        },
+        "reports": [],
+        "resources": [],
+        "users": []
+      },
+      {
+        "created": "2017-09-05T16:28:37.143",
+        "id": "vx5zwuWjrqy",
+        "shape": "NORMAL",
+        "type": "CHART",
+        "chart": {
+          "id": "BfI3AsqUfcp",
+          "displayName": "Proportion of malaria cases disaggregated by type of diagnosis"
+        },
+        "reports": [],
+        "resources": [],
+        "users": []
+      },
+      {
+        "created": "2017-08-23T17:04:56.549",
+        "id": "yZHCtaytQnW",
+        "shape": "NORMAL",
+        "type": "CHART",
+        "chart": {
+          "id": "nx85tckVZmH",
+          "displayName": "Total numbers of malaria cases disaggregated by type of diagnosis by sub units"
+        },
+        "reports": [],
+        "resources": [],
+        "users": []
+      },
+      {
+        "created": "2017-09-05T16:37:51.789",
+        "id": "Z13EUe6qpXF",
+        "shape": "NORMAL",
+        "type": "CHART",
+        "chart": {
+          "id": "ycusXVXeYyS",
+          "displayName": "Proportion of malaria cases disaggregated by type of diagnosis by sub units"
+        },
+        "reports": [],
+        "resources": [],
+        "users": []
+      }
+    ]
+  },
+  {
+    "name": "Total Diagnosis",
+    "id": "lUCZ9Rq344R",
+    "publicAccess": "--------",
+    "externalAccess": false,
+    "access": {
+      "read": true,
+      "update": true,
+      "externalize": true,
+      "delete": true,
+      "write": true,
+      "manage": true
+    },
+    "userGroupAccesses": [
+      {
+        "access": "r-------",
+        "userGroupUid": "jX1oulomeWr",
+        "displayName": "NMCP Malaria Dashboard",
+        "id": "jX1oulomeWr"
+      }
+    ],
+    "dashboardItems": [
+      {
+        "created": "2017-09-05T17:08:03.834",
+        "id": "l7Lf1UrwKVn",
+        "shape": "NORMAL",
+        "type": "CHART",
+        "chart": {
+          "id": "wr6u0OLHJ4P",
+          "displayName": "Number of malaria diagnosis by year"
+        },
+        "reports": [],
+        "resources": [],
+        "users": []
+      },
+      {
+        "created": "2017-09-05T17:17:13.919",
+        "id": "SchO7AtBARF",
+        "shape": "NORMAL",
+        "type": "CHART",
+        "chart": {
+          "id": "yVnVbUBmSCv",
+          "displayName": "Number of malaria Cases"
+        },
+        "reports": [],
+        "resources": [],
+        "users": []
+      },
+      {
+        "created": "2017-09-05T17:10:40.837",
+        "id": "y97KaKHzMDk",
+        "shape": "NORMAL",
+        "type": "CHART",
+        "chart": {
+          "id": "y3JeKyXgfvv",
+          "displayName": "Numbers of malaria cases disaggregated by age group "
+        },
+        "reports": [],
+        "resources": [],
+        "users": []
+      },
+      {
+        "created": "2017-09-05T17:13:07.497",
+        "id": "KrYq6Vx2cyU",
+        "shape": "NORMAL",
+        "type": "CHART",
+        "chart": {
+          "id": "uqaYh1fVXSL",
+          "displayName": "Proportion of malaria cases disaggregated by age group "
+        },
+        "reports": [],
+        "resources": [],
+        "users": []
+      },
+      {
+        "created": "2017-09-05T17:20:04.655",
+        "id": "nJ2c7p0QXy7",
+        "shape": "NORMAL",
+        "type": "CHART",
+        "chart": {
+          "id": "thiuqDNvY2A",
+          "displayName": "Numbers of malaria cases disaggregated by age group and by sub units"
+        },
+        "reports": [],
+        "resources": [],
+        "users": []
+      },
+      {
+        "created": "2017-09-05T17:22:14.456",
+        "id": "Smg4CTIlWEC",
+        "shape": "NORMAL",
+        "type": "CHART",
+        "chart": {
+          "id": "om6hPHzcoUx",
+          "displayName": "Proportion of malaria cases disaggregated by age group and by sub units"
+        },
+        "reports": [],
+        "resources": [],
+        "users": []
+      },
+      {
+        "created": "2017-09-05T17:23:47.082",
+        "id": "xLJuSJCGdQH",
+        "shape": "NORMAL",
+        "type": "CHART",
+        "chart": {
+          "id": "LDedEgQGsBt",
+          "displayName": "Numbers of malaria cases disaggregated by facility ownership"
+        },
+        "reports": [],
+        "resources": [],
+        "users": []
+      },
+      {
+        "created": "2017-09-12T10:46:29.519",
+        "id": "mX4eDDXDN0V",
+        "shape": "NORMAL",
+        "type": "CHART",
+        "chart": {
+          "id": "e18cqqjq1qx",
+          "displayName": "Proportion of malaria cases disaggregated by facility ownership"
+        },
+        "reports": [],
+        "resources": [],
+        "users": []
+      },
+      {
+        "created": "2017-09-05T17:53:42.139",
+        "id": "gHE8qtO3Hzu",
+        "shape": "NORMAL",
+        "type": "CHART",
+        "chart": {
+          "id": "eW8c7sJJPtw",
+          "displayName": "Numbers of malaria cases disaggregated by facility ownership"
+        },
+        "reports": [],
+        "resources": [],
+        "users": []
+      },
+      {
+        "created": "2017-09-05T17:43:59.014",
+        "id": "Pua1oAwHbjY",
+        "shape": "NORMAL",
+        "type": "CHART",
+        "chart": {
+          "id": "SzgxXOCatM6",
+          "displayName": "Proportion of malaria cases disaggregated by facility ownership"
+        },
+        "reports": [],
+        "resources": [],
+        "users": []
+      },
+      {
+        "created": "2017-09-05T18:06:42.514",
+        "id": "MYWPhwXF6cH",
+        "shape": "NORMAL",
+        "type": "CHART",
+        "chart": {
+          "id": "lR9NGFRISt7",
+          "displayName": "Numbers of malaria cases disaggregated by type of Health Facility"
+        },
+        "reports": [],
+        "resources": [],
+        "users": []
+      },
+      {
+        "created": "2017-09-05T17:43:59.014",
+        "id": "R3cR8wagcDj",
+        "shape": "NORMAL",
+        "type": "CHART",
+        "chart": {
+          "id": "nNLzu2FrYq1",
+          "displayName": "Proportion of malaria cases disaggregated by type of Health Facility"
+        },
+        "reports": [],
+        "resources": [],
+        "users": []
+      },
+      {
+        "created": "2017-09-05T18:12:24.681",
+        "id": "sCZGhAYAroH",
+        "shape": "NORMAL",
+        "type": "CHART",
+        "chart": {
+          "id": "gdRynuA6JrV",
+          "displayName": "Numbers of malaria cases disaggregated by type of Health Facility"
+        },
+        "reports": [],
+        "resources": [],
+        "users": []
+      },
+      {
+        "created": "2017-09-05T18:12:24.681",
+        "id": "KkceqpHW41d",
+        "shape": "NORMAL",
+        "type": "CHART",
+        "chart": {
+          "id": "zitbJwIwD84",
+          "displayName": "Proportion of malaria cases disaggregated by type of health facility"
+        },
+        "reports": [],
+        "resources": [],
+        "users": []
+      }
+    ]
+  },
+  {
+    "name": "Malaria burden",
+    "id": "OMJ5l5Ic0C1",
+    "publicAccess": "r-------",
+    "externalAccess": false,
+    "access": {
+      "read": true,
+      "update": true,
+      "externalize": true,
+      "delete": true,
+      "write": true,
+      "manage": true
+    },
+    "userGroupAccesses": [
+      {
+        "access": "r-------",
+        "userGroupUid": "jX1oulomeWr",
+        "displayName": "NMCP Malaria Dashboard",
+        "id": "jX1oulomeWr"
+      }
+    ],
+    "dashboardItems": [
+      {
+        "created": "2017-11-27T17:18:33.559",
+        "id": "HwPynkCH80t",
+        "shape": "NORMAL",
+        "type": "CHART",
+        "chart": {
+          "id": "PbuwnKwhtvP",
+          "displayName": "Proportion of confirmed and clinical malaria cases out of total OPD attendance"
+        },
+        "reports": [],
+        "resources": [],
+        "users": []
+      },
+      {
+        "created": "2017-11-27T17:18:11.536",
+        "id": "cFIH1dtPxnX",
+        "shape": "NORMAL",
+        "type": "CHART",
+        "chart": {
+          "id": "GgJJ3XWlVWL",
+          "displayName": "District comparison of the annual proportion of confirmed and clinical malaria cases out of total OPD attendance"
+        },
+        "reports": [],
+        "resources": [],
+        "users": []
+      }
+    ]
+  },
+  {
+    "name": "Reporting Rates",
+    "id": "gLUc5SJjoXS",
+    "dashboardItems": [
+      {
+        "created": "2017-09-05T16:51:57.398",
+        "id": "JHAxnuHP2sm",
+        "shape": "NORMAL",
+        "type": "CHART",
+        "chart": {
+          "id": "rT74bds9ROX",
+          "displayName": "OPD reporting rates "
+        },
+        "reports": [],
+        "resources": [],
+        "users": []
+      },
+      {
+        "created": "2017-09-05T16:51:57.398",
+        "id": "NEtHQTar4Fu",
+        "shape": "NORMAL",
+        "type": "CHART",
+        "chart": {
+          "id": "SqmygSOyWeR",
+          "displayName": "OPD reporting rates"
+        },
+        "reports": [],
+        "resources": [],
+        "users": []
+      }
+    ]
+  },
+  {
+    "name": "Testing by Type",
+    "id": "emcZaaBYQ4j",
+    "publicAccess": "r-------",
+    "externalAccess": false,
+    "access": {
+      "read": true,
+      "update": true,
+      "externalize": true,
+      "delete": true,
+      "write": true,
+      "manage": true
+    },
+    "userGroupAccesses": [
+      {
+        "access": "r-------",
+        "userGroupUid": "jX1oulomeWr",
+        "displayName": "NMCP Malaria Dashboard",
+        "id": "jX1oulomeWr"
+      }
+    ],
+    "dashboardItems": [
+      {
+        "lastUpdated": "2017-11-29T08:44:10.459",
+        "id": "sYkIZUNNyiO",
+        "created": "2017-11-29T08:44:10.459",
+        "type": "CHART",
+        "externalAccess": false,
+        "contentCount": 1,
+        "interpretationCount": 0,
+        "interpretationLikeCount": 0,
+        "chart": {
+          "id": "CBKmwMZyzMV",
+          "displayName": "Numbers of reported malaria tests by type"
+        },
+        "reports": [],
+        "translations": [],
+        "userGroupAccesses": [],
+        "attributeValues": [],
+        "resources": [],
+        "users": []
+      },
+      {
+        "lastUpdated": "2017-11-29T08:44:47.786",
+        "id": "QS2rp7RCuL5",
+        "created": "2017-11-29T08:44:47.786",
+        "type": "CHART",
+        "externalAccess": false,
+        "contentCount": 1,
+        "interpretationCount": 0,
+        "interpretationLikeCount": 0,
+        "chart": {
+          "id": "NXZy5nEU4J6",
+          "displayName": "Proportion of reported malaria tests by type"
+        },
+        "reports": [],
+        "translations": [],
+        "userGroupAccesses": [],
+        "attributeValues": [],
+        "resources": [],
+        "users": []
+      },
+      {
+        "lastUpdated": "2017-11-29T08:45:32.911",
+        "id": "bMfcmHsC6Kh",
+        "created": "2017-11-29T08:45:32.911",
+        "type": "CHART",
+        "externalAccess": false,
+        "contentCount": 1,
+        "interpretationCount": 0,
+        "interpretationLikeCount": 0,
+        "chart": {
+          "id": "CX1ZjhqBCNe",
+          "displayName": "Numbers of reported malaria tests by type"
+        },
+        "reports": [],
+        "translations": [],
+        "userGroupAccesses": [],
+        "attributeValues": [],
+        "resources": [],
+        "users": []
+      },
+      {
+        "lastUpdated": "2017-11-29T08:46:23.831",
+        "id": "UortB1TQ3bN",
+        "created": "2017-11-29T08:46:23.831",
+        "type": "CHART",
+        "externalAccess": false,
+        "contentCount": 1,
+        "interpretationCount": 0,
+        "interpretationLikeCount": 0,
+        "chart": {
+          "id": "sgfpVLPliU5",
+          "displayName": "Proportion of reported malaria tests by type"
+        },
+        "reports": [],
+        "translations": [],
+        "userGroupAccesses": [],
+        "attributeValues": [],
+        "resources": [],
+        "users": []
+      }
+    ]
+  },
+  {
+    "name": "Positivity Rate",
+    "id": "n0ff9qrTqH9",
+    "publicAccess": "--------",
+    "externalAccess": false,
+    "access": {
+      "read": true,
+      "update": true,
+      "externalize": true,
+      "delete": true,
+      "write": true,
+      "manage": true
+    },
+    "userGroupAccesses": [
+      {
+        "access": "rw------",
+        "userGroupUid": "jX1oulomeWr",
+        "displayName": "NMCP Malaria Dashboard",
+        "id": "jX1oulomeWr"
+      }
+    ],
+    "dashboardItems": [
+      {
+        "created": "2017-08-12T18:57:55.937",
+        "id": "Gbk4aRgyXC9",
+        "shape": "NORMAL",
+        "type": "CHART",
+        "chart": {
+          "id": "dB8y0aSbefQ",
+          "displayName": "Positivity rate by diagnostic method"
+        },
+        "reports": [],
+        "resources": [],
+        "users": []
+      },
+      {
+        "created": "2017-08-12T19:00:23.004",
+        "id": "tHoaGU4599E",
+        "shape": "NORMAL",
+        "type": "CHART",
+        "chart": {
+          "id": "YvpDPBhJKfO",
+          "displayName": "Positivity rate by diagnostic method"
+        },
+        "reports": [],
+        "resources": [],
+        "users": []
+      },
+      {
+        "created": "2017-08-06T14:04:26.832",
+        "id": "dpD1iVDk2Ke",
+        "type": "MAP",
+        "externalAccess": false,
+        "contentCount": 1,
+        "interpretationCount": 0,
+        "interpretationLikeCount": 0,
+        "map": {
+          "id": "fyOradNv7Z6",
+          "displayName": "Positivity rate by BS diagnostic method"
+        },
+        "reports": [],
+        "resources": [],
+        "users": []
+      },
+      {
+        "created": "2017-08-06T14:06:59.238",
+        "id": "ckaMpVWovFY",
+        "type": "MAP",
+        "externalAccess": false,
+        "contentCount": 1,
+        "interpretationCount": 0,
+        "interpretationLikeCount": 0,
+        "map": {
+          "id": "tPhiEA9tJUN",
+          "displayName": "Positivity rate by mRDT diagnostic method"
+        },
+        "reports": [],
+        "resources": [],
+        "users": []
+      }
+    ]
+  },
+  {
+    "name": "Malaria Testing Ratio",
+    "id": "kUMDv9RGdyq",
+    "publicAccess": "--------",
+    "externalAccess": false,
+    "access": {
+      "read": true,
+      "update": true,
+      "externalize": true,
+      "delete": true,
+      "write": true,
+      "manage": true
+    },
+    "userGroupAccesses": [
+      {
+        "access": "rw------",
+        "userGroupUid": "jX1oulomeWr",
+        "displayName": "NMCP Malaria Dashboard",
+        "id": "jX1oulomeWr"
+      }
+    ],
+    "dashboardItems": [
+      {
+        "created": "2017-08-26T12:00:01.160",
+        "id": "NLpn4mRria1",
+        "shape": "NORMAL",
+        "type": "CHART",
+        "chart": {
+          "id": "W8qpo9fOwc2",
+          "displayName": "Number of reported malaria tests and OPD visits and ratio"
+        },
+        "reports": [],
+        "resources": [],
+        "users": []
+      },
+      {
+        "created": "2017-08-26T12:00:01.160",
+        "id": "GmfUzsGq5Dx",
+        "shape": "NORMAL",
+        "type": "CHART",
+        "chart": {
+          "id": "Xg2tQuwmbnE",
+          "displayName": "Number of reported malaria tests (Laboratory) and OPD visits and the ratio of malaria tests:OPD visits*"
+        },
+        "reports": [],
+        "resources": [],
+        "users": []
+      },
+      {
+        "created": "2017-08-26T11:42:11.253",
+        "id": "tGjPxXrcjl1",
+        "shape": "NORMAL",
+        "type": "CHART",
+        "chart": {
+          "id": "GH4LXaHCRVe",
+          "displayName": "Number of reported mRDT positive and malaria mRDT positive diagnosis and ratio"
+        },
+        "reports": [],
+        "resources": [],
+        "users": []
+      },
+      {
+        "created": "2017-08-26T11:25:03.607",
+        "id": "dF4fhST5Z19",
+        "shape": "NORMAL",
+        "type": "CHART",
+        "chart": {
+          "id": "Mo2s7MsIgZt",
+          "displayName": "Number of mRDT positive tests (laboratory) and malaria mRDT positive diagnosis (OPD) and ratio of mRDT positive tests to mRDT positive diagnosis***"
+        },
+        "reports": [],
+        "resources": [],
+        "users": []
+      },
+      {
+        "created": "2017-08-26T11:25:03.607",
+        "id": "XWZs0qBcQGR",
+        "shape": "NORMAL",
+        "type": "CHART",
+        "chart": {
+          "id": "e6an6omHQE1",
+          "displayName": "Number of reported BS positive tests and Malaria BS positive diagnosis and ratio"
+        },
+        "reports": [],
+        "resources": [],
+        "users": []
+      },
+      {
+        "created": "2017-08-26T11:25:03.607",
+        "id": "XsPWgUYPS3R",
+        "shape": "NORMAL",
+        "type": "CHART",
+        "chart": {
+          "id": "eHREotEQ4U1",
+          "displayName": "Number of BS positive tests (laboratory) and malaria BS positive diagnosis (OPD) and ratio of BS positive tests to BS positive diagnosis**"
+        },
+        "reports": [],
+        "resources": [],
+        "users": []
+      }
+    ]
+  },
+  {
+    "name": "Reporting Rates",
+    "id": "jtK9L4yyaSL",
+    "dashboardItems": [
+      {
+        "lastUpdated": "2017-11-29T08:46:44.190",
+        "id": "HOt1tipHETs",
+        "created": "2017-11-29T08:46:44.190",
+        "type": "CHART",
+        "externalAccess": false,
+        "contentCount": 1,
+        "interpretationCount": 0,
+        "interpretationLikeCount": 0,
+        "chart": {
+          "id": "UHndd4n8SO9",
+          "displayName": "Laboratory reporting rates"
+        },
+        "reports": [],
+        "translations": [],
+        "userGroupAccesses": [],
+        "attributeValues": [],
+        "resources": [],
+        "users": []
+      },
+      {
+        "lastUpdated": "2017-11-29T08:46:48.850",
+        "id": "So65Fy7qnuO",
+        "created": "2017-11-29T08:46:48.850",
+        "type": "CHART",
+        "externalAccess": false,
+        "contentCount": 1,
+        "interpretationCount": 0,
+        "interpretationLikeCount": 0,
+        "chart": {
+          "id": "oIQSojTZCww",
+          "displayName": "Laboratory reporting rates"
+        },
+        "reports": [],
+        "translations": [],
+        "userGroupAccesses": [],
+        "attributeValues": [],
+        "resources": [],
+        "users": []
+      }
+    ]
+  },
+  {
+    "name": "Anti Malaria dispensing",
+    "id": "xfv6fKNeNuL",
+    "publicAccess": "--------",
+    "externalAccess": false,
+    "access": {
+      "read": true,
+      "update": true,
+      "externalize": true,
+      "delete": true,
+      "write": true,
+      "manage": true
+    },
+    "userGroupAccesses": [
+      {
+        "access": "r-------",
+        "userGroupUid": "jX1oulomeWr",
+        "displayName": "NMCP Malaria Dashboard",
+        "id": "jX1oulomeWr"
+      }
+    ],
+    "dashboardItems": [
+      {
+        "lastUpdated": "2017-11-29T10:21:28.961",
+        "id": "BdkmUPBpMZY",
+        "created": "2017-11-29T10:21:28.961",
+        "type": "CHART",
+        "externalAccess": false,
+        "contentCount": 1,
+        "interpretationCount": 0,
+        "interpretationLikeCount": 0,
+        "chart": {
+          "id": "hnoL8NmOUbU",
+          "displayName": "Reported number of ALU treatments dispensed monthly by product category"
+        },
+        "reports": [],
+        "translations": [],
+        "userGroupAccesses": [],
+        "attributeValues": [],
+        "resources": [],
+        "users": []
+      },
+      {
+        "lastUpdated": "2017-11-29T10:20:50.605",
+        "id": "H47hZ2F8tIX",
+        "created": "2017-11-29T10:20:50.605",
+        "type": "CHART",
+        "externalAccess": false,
+        "contentCount": 1,
+        "interpretationCount": 0,
+        "interpretationLikeCount": 0,
+        "chart": {
+          "id": "VUFTa4WxWIR",
+          "displayName": "Reported proportion of ALU treatments dispensed annually by product category"
+        },
+        "reports": [],
+        "translations": [],
+        "userGroupAccesses": [],
+        "attributeValues": [],
+        "resources": [],
+        "users": []
+      },
+      {
+        "lastUpdated": "2017-11-29T10:20:11.657",
+        "id": "rcMAQprGfB3",
+        "created": "2017-11-29T10:20:11.657",
+        "type": "CHART",
+        "externalAccess": false,
+        "contentCount": 1,
+        "interpretationCount": 0,
+        "interpretationLikeCount": 0,
+        "chart": {
+          "id": "OrBOkBClQVW",
+          "displayName": "Reported number of ALU treatments dispensed annually by product category"
+        },
+        "reports": [],
+        "translations": [],
+        "userGroupAccesses": [],
+        "attributeValues": [],
+        "resources": [],
+        "users": []
+      },
+      {
+        "lastUpdated": "2017-11-29T10:20:54.129",
+        "id": "JrGIluL85Lg",
+        "created": "2017-11-29T10:20:54.129",
+        "type": "CHART",
+        "externalAccess": false,
+        "contentCount": 1,
+        "interpretationCount": 0,
+        "interpretationLikeCount": 0,
+        "chart": {
+          "id": "lnasaGATKz6",
+          "displayName": "Reported proportion of ALU treatments dispensed annually by product category"
+        },
+        "reports": [],
+        "translations": [],
+        "userGroupAccesses": [],
+        "attributeValues": [],
+        "resources": [],
+        "users": []
+      }
+    ]
+  },
+  {
+    "name": "Tracer drug stock status",
+    "id": "ElPSNI3mFf0",
+    "publicAccess": "--------",
+    "externalAccess": false,
+    "access": {
+      "read": true,
+      "update": true,
+      "externalize": true,
+      "delete": true,
+      "write": true,
+      "manage": true
+    },
+    "userGroupAccesses": [
+      {
+        "access": "rw------",
+        "userGroupUid": "jX1oulomeWr",
+        "displayName": "NMCP Malaria Dashboard",
+        "id": "jX1oulomeWr"
+      }
+    ],
+    "dashboardItems": [
+      {
+        "created": "2017-08-28T11:27:03.102",
+        "id": "S534JjJOQvU",
+        "shape": "NORMAL",
+        "type": "CHART",
+        "chart": {
+          "id": "pMv8X2XN8sP",
+          "displayName": "Proportion of Health Facilities reporting NO stock of ALU (stock out rate) and proportion of Health Facility submitting tracer medicines reports (reporting rate)"
+        },
+        "reports": [],
+        "resources": [],
+        "users": []
+      },
+      {
+        "created": "2017-08-28T11:48:54.931",
+        "id": "xJhCcekAoUQ",
+        "shape": "NORMAL",
+        "type": "CHART",
+        "chart": {
+          "id": "zQ3tCjKclAK",
+          "displayName": "Proportion of Health Facilities reporting NO stock of ALU (stock out rate) and proportion of Health Facility submitting tracer medicines reports (reporting rate)"
+        },
+        "reports": [],
+        "resources": [],
+        "users": []
+      },
+      {
+        "created": "2017-08-28T11:57:22.925",
+        "id": "VdPgHSJxIeN",
+        "shape": "NORMAL",
+        "type": "CHART",
+        "chart": {
+          "id": "ZXRAGFFfwjg",
+          "displayName": "Proportion of Health Facilities reporting NO stock of SP (stock out rate) and proportion of Health Facility submitting tracer medicines reports (reporting rate)"
+        },
+        "reports": [],
+        "resources": [],
+        "users": []
+      },
+      {
+        "created": "2017-08-28T11:57:39.197",
+        "id": "VMhw2APANw8",
+        "shape": "NORMAL",
+        "type": "CHART",
+        "chart": {
+          "id": "KSOKJSTvwwC",
+          "displayName": "Proportion of Health Facilities reporting NO stock of SP (stock out rate) and proportion of Health Facility submitting tracer medicines reports (reporting rate)"
+        },
+        "reports": [],
+        "resources": [],
+        "users": []
+      },
+      {
+        "created": "2017-08-28T11:57:39.197",
+        "id": "CYQ8UBnu8Og",
+        "shape": "NORMAL",
+        "type": "CHART",
+        "chart": {
+          "id": "B896NjO7dbf",
+          "displayName": "Proportion of Health Facilities reporting NO stocks of mRDT (stock out rate) and proportion of Health Facilities submitting tracer medicines reports (reporting rate)"
+        },
+        "reports": [],
+        "resources": [],
+        "users": []
+      },
+      {
+        "created": "2017-08-28T11:57:39.197",
+        "id": "hFBYieSubPJ",
+        "shape": "NORMAL",
+        "type": "CHART",
+        "chart": {
+          "id": "LK40fZsaO45",
+          "displayName": "Proportion of Health Facilities reporting NO stocks of mRDT (stock out rate) and proportion of Health Facilities submitting tracer medicines reports (reporting rate)"
+        },
+        "reports": [],
+        "resources": [],
+        "users": []
+      }
+    ]
+  },
+  {
+    "name": "Antimalarial dispensing ratio",
+    "id": "uDbJGRmnoPQ",
+    "publicAccess": "--------",
+    "externalAccess": false,
+    "access": {
+      "read": true,
+      "update": true,
+      "externalize": true,
+      "delete": true,
+      "write": true,
+      "manage": true
+    },
+    "userGroupAccesses": [
+      {
+        "access": "rw------",
+        "userGroupUid": "jX1oulomeWr",
+        "displayName": "NMCP Malaria Dashboard",
+        "id": "jX1oulomeWr"
+      }
+    ],
+    "dashboardItems": [
+      {
+        "created": "2017-08-31T14:03:24.098",
+        "id": "AAJ5Qp5Ioar",
+        "shape": "NORMAL",
+        "type": "CHART",
+        "chart": {
+          "id": "EO96sMdLf81",
+          "displayName": "Reported number of antimalarial dispensed, malaria cases and ratio"
+        },
+        "reports": [],
+        "resources": [],
+        "users": []
+      },
+      {
+        "created": "2017-08-31T14:20:12.434",
+        "id": "jfymGCIaXFt",
+        "shape": "NORMAL",
+        "type": "CHART",
+        "chart": {
+          "id": "NMGk51JiM9P",
+          "displayName": "Number of antimalarial dispensed, malaria diagnosis and ratio"
+        },
+        "reports": [],
+        "resources": [],
+        "users": []
+      }
+    ]
+  },
+  {
+    "name": "Reporting Rates",
+    "id": "Jj2trBJvOeG",
+    "dashboardItems": [
+      {
+        "lastUpdated": "2017-11-29T10:21:53.602",
+        "id": "B4uyHulv3CV",
+        "created": "2017-11-29T10:21:53.602",
+        "type": "CHART",
+        "externalAccess": false,
+        "contentCount": 1,
+        "interpretationCount": 0,
+        "interpretationLikeCount": 0,
+        "chart": {
+          "id": "QNqd95fhWGw",
+          "displayName": "Dispensing Reporting rate"
+        },
+        "reports": [],
+        "translations": [],
+        "userGroupAccesses": [],
+        "attributeValues": [],
+        "resources": [],
+        "users": []
+      },
+      {
+        "lastUpdated": "2017-11-29T10:21:57.454",
+        "id": "OVD936u24ZQ",
+        "created": "2017-11-29T10:21:57.454",
+        "type": "CHART",
+        "externalAccess": false,
+        "contentCount": 1,
+        "interpretationCount": 0,
+        "interpretationLikeCount": 0,
+        "chart": {
+          "id": "Mvjhvj5OXmM",
+          "displayName": "Dispensing Reporting rate"
+        },
+        "reports": [],
+        "translations": [],
+        "userGroupAccesses": [],
+        "attributeValues": [],
+        "resources": [],
+        "users": []
+      }
+    ]
+  },
+  {
+    "name": "Severe Malaria Diagnosis & Burden",
+    "id": "UuyjEPGdeLK",
+    "publicAccess": "--------",
+    "externalAccess": false,
+    "access": {
+      "read": true,
+      "update": true,
+      "externalize": true,
+      "delete": true,
+      "write": true,
+      "manage": true
+    },
+    "userGroupAccesses": [
+      {
+        "access": "rw------",
+        "userGroupUid": "jX1oulomeWr",
+        "displayName": "NMCP Malaria Dashboard",
+        "id": "jX1oulomeWr"
+      }
+    ],
+    "dashboardItems": [
+      {
+        "created": "2017-08-13T12:29:17.478",
+        "id": "wsw8Rj2xOGp",
+        "shape": "NORMAL",
+        "type": "CHART",
+        "chart": {
+          "id": "i9ktamvuKXh",
+          "displayName": "Numbers of malaria admissions by type of diagnosis"
+        },
+        "reports": [],
+        "resources": [],
+        "users": []
+      },
+      {
+        "created": "2017-08-13T13:00:02.045",
+        "id": "jsoaQ6iFOql",
+        "shape": "NORMAL",
+        "type": "CHART",
+        "chart": {
+          "id": "VGbfcCBTi7t",
+          "displayName": "Proportion of malaria admissions by type of diagnosis"
+        },
+        "reports": [],
+        "resources": [],
+        "users": []
+      },
+      {
+        "created": "2017-08-13T13:00:02.045",
+        "id": "m1MqbjT4CNG",
+        "shape": "NORMAL",
+        "type": "CHART",
+        "chart": {
+          "id": "PUctcGgYvjX",
+          "displayName": "Numbers of malaria admissions by type of diagnosis"
+        },
+        "reports": [],
+        "resources": [],
+        "users": []
+      },
+      {
+        "created": "2017-08-13T13:00:02.045",
+        "id": "IdeQCxnbHR8",
+        "shape": "NORMAL",
+        "type": "CHART",
+        "chart": {
+          "id": "bQsoG9F4MOp",
+          "displayName": "Proportion of malaria admissions by type of diagnosis**"
+        },
+        "reports": [],
+        "resources": [],
+        "users": []
+      },
+      {
+        "created": "2017-09-05T14:43:33.724",
+        "id": "pKrgfXippU9",
+        "shape": "NORMAL",
+        "type": "CHART",
+        "chart": {
+          "id": "uOcOq9vgpdA",
+          "displayName": "Total number of malaria admissions by year"
+        },
+        "reports": [],
+        "resources": [],
+        "users": []
+      },
+      {
+        "created": "2017-09-05T14:49:08.442",
+        "id": "uGAxwYxGe2A",
+        "shape": "NORMAL",
+        "type": "CHART",
+        "chart": {
+          "id": "yJ4awHq7N6D",
+          "displayName": "Total number of malaria admissions"
+        },
+        "reports": [],
+        "resources": [],
+        "users": []
+      },
+      {
+        "created": "2017-08-13T13:24:34.953",
+        "id": "pqX7I4OJuoo",
+        "shape": "NORMAL",
+        "type": "CHART",
+        "chart": {
+          "id": "j8qyHx2V9pc",
+          "displayName": "Proportion of confirmed and clinical malaria admissions out of total IPD admissions"
+        },
+        "reports": [],
+        "resources": [],
+        "users": []
+      },
+      {
+        "created": "2017-09-05T14:54:16.296",
+        "id": "grtbzldxkZT",
+        "shape": "NORMAL",
+        "type": "CHART",
+        "chart": {
+          "id": "KVvWZ0JATft",
+          "displayName": "Proportion of confirmed and clinical malaria admissions out of total IPD admissions by sub units"
+        },
+        "reports": [],
+        "resources": [],
+        "users": []
+      },
+      {
+        "created": "2017-08-13T15:38:27.907",
+        "id": "SFcffFGLrLF",
+        "type": "MAP",
+        "externalAccess": false,
+        "contentCount": 1,
+        "interpretationCount": 0,
+        "interpretationLikeCount": 0,
+        "map": {
+          "id": "hDLyMcrVOy4",
+          "displayName": "Proportion of confirmed malaria admissions out of total admissions"
+        },
+        "reports": [],
+        "resources": [],
+        "users": []
+      },
+      {
+        "created": "2017-08-13T15:39:48.025",
+        "id": "JQ4PxhjcBNn",
+        "externalAccess": false,
+        "contentCount": 1,
+        "interpretationCount": 0,
+        "interpretationLikeCount": 0,
+        "type": "MAP",
+        "map": {
+          "id": "Nlk09qsw1JT",
+          "displayName": "Proportion of all Malaria Admissions (confirmed/Clinical Cases) out of total Admissions "
+        },
+        "reports": [],
+        "resources": [],
+        "users": []
+      }
+    ]
+  },
+  {
+    "name": "Malaria Death",
+    "id": "nc6YfIQ4SRZ",
+    "publicAccess": "--------",
+    "externalAccess": false,
+    "access": {
+      "read": true,
+      "update": true,
+      "externalize": true,
+      "delete": true,
+      "write": true,
+      "manage": true
+    },
+    "userGroupAccesses": [
+      {
+        "access": "rw------",
+        "userGroupUid": "jX1oulomeWr",
+        "displayName": "NMCP Malaria Dashboard",
+        "id": "jX1oulomeWr"
+      }
+    ],
+    "dashboardItems": [
+      {
+        "created": "2017-08-14T17:48:41.310",
+        "id": "s8dt3hVkEYB",
+        "shape": "NORMAL",
+        "type": "CHART",
+        "chart": {
+          "id": "sNmhRO2063u",
+          "displayName": "Numbers of malaria deaths by underlying cause and type"
+        },
+        "reports": [],
+        "resources": [],
+        "users": []
+      },
+      {
+        "created": "2017-08-26T15:58:21.513",
+        "id": "mJfcocmvXwd",
+        "shape": "NORMAL",
+        "type": "CHART",
+        "chart": {
+          "id": "kZ5E9L8HAMN",
+          "displayName": "Proportion of malaria deaths underlying cause and type"
+        },
+        "reports": [],
+        "resources": [],
+        "users": []
+      },
+      {
+        "created": "2017-09-05T14:26:17.265",
+        "id": "DpLAo1ku8Ki",
+        "shape": "NORMAL",
+        "type": "CHART",
+        "chart": {
+          "id": "hSNYbpFtaEB",
+          "displayName": "Numbers of malaria deaths by underlying cause and by sub units "
+        },
+        "reports": [],
+        "resources": [],
+        "users": []
+      },
+      {
+        "created": "2017-08-26T16:32:26.867",
+        "id": "mJlsJSRvehs",
+        "shape": "NORMAL",
+        "type": "CHART",
+        "chart": {
+          "id": "TmsLwEMuGo3",
+          "displayName": "Proportion of malaria deaths by underlying cause"
+        },
+        "reports": [],
+        "resources": [],
+        "users": []
+      },
+      {
+        "created": "2017-10-25T08:55:01.227",
+        "id": "QJUAzPSCVAC",
+        "shape": "NORMAL",
+        "type": "CHART",
+        "chart": {
+          "id": "cTZSDViQTOV",
+          "displayName": "Proportion of malaria deaths out of total deaths in IPD"
+        },
+        "reports": [],
+        "resources": [],
+        "users": []
+      },
+      {
+        "created": "2017-10-25T09:03:06.876",
+        "id": "CDUbYU3NdnA",
+        "shape": "NORMAL",
+        "type": "CHART",
+        "chart": {
+          "id": "lYwcbb3DpoH",
+          "displayName": "Proportion of malaria deaths out of total deaths in IPD*"
+        },
+        "reports": [],
+        "resources": [],
+        "users": []
+      },
+      {
+        "created": "2017-08-13T15:38:27.907",
+        "id": "e0DRCZI6JUr",
+        "type": "MAP",
+        "externalAccess": false,
+        "contentCount": 1,
+        "interpretationCount": 0,
+        "interpretationLikeCount": 0,
+        "map": {
+          "id": "e0DRCZI6JUr",
+          "displayName": "Proportion of Malaria deaths out of all deaths in IPD"
+        },
+        "reports": [],
+        "resources": [],
+        "users": []
+      }
+    ]
+  },
+  {
+    "name": "Case Fatality Rate",
+    "id": "nbDajKsJ2gG",
+    "publicAccess": "--------",
+    "externalAccess": false,
+    "access": {
+      "read": true,
+      "update": true,
+      "externalize": true,
+      "delete": true,
+      "write": true,
+      "manage": true
+    },
+    "userGroupAccesses": [
+      {
+        "access": "rw------",
+        "userGroupUid": "jX1oulomeWr",
+        "displayName": "NMCP Malaria Dashboard",
+        "id": "jX1oulomeWr"
+      }
+    ],
+    "dashboardItems": [
+      {
+        "lastUpdated": "2017-12-06T11:18:48.111",
+        "id": "Ep8O1038fwU",
+        "created": "2017-12-06T11:18:48.111",
+        "type": "CHART",
+        "externalAccess": false,
+        "contentCount": 1,
+        "interpretationCount": 0,
+        "interpretationLikeCount": 0,
+        "chart": {
+          "id": "isl7JovazHG",
+          "displayName": "Malaria case fatality rate"
+        },
+        "reports": [],
+        "translations": [],
+        "userGroupAccesses": [],
+        "attributeValues": [],
+        "resources": [],
+        "users": []
+      },
+      {
+        "lastUpdated": "2017-12-06T11:19:11.351",
+        "id": "HXc20Fjtmln",
+        "created": "2017-12-06T11:19:11.351",
+        "type": "CHART",
+        "externalAccess": false,
+        "contentCount": 1,
+        "interpretationCount": 0,
+        "interpretationLikeCount": 0,
+        "chart": {
+          "id": "SY7gSkVKYgJ",
+          "displayName": "Malaria case fatality rate by subunit"
+        },
+        "reports": [],
+        "translations": [],
+        "userGroupAccesses": [],
+        "attributeValues": [],
+        "resources": [],
+        "users": []
+      }
+    ]
+  },
+  {
+    "name": "Reporting Rates",
+    "id": "W17wZSERoeB",
+    "dashboardItems": [
+      {
+        "created": "2017-08-13T16:02:41.314",
+        "id": "sCF74eGTnYc",
+        "shape": "NORMAL",
+        "type": "CHART",
+        "chart": {
+          "id": "tnQhE0VxebH",
+          "displayName": "Overall IPD reporting rates"
+        },
+        "reports": [],
+        "resources": [],
+        "users": []
+      },
+      {
+        "lastUpdated": "2017-11-29T10:21:57.454",
+        "id": "edGaoMjL6PL",
+        "created": "2017-11-29T10:21:57.454",
+        "type": "CHART",
+        "externalAccess": false,
+        "contentCount": 1,
+        "interpretationCount": 0,
+        "interpretationLikeCount": 0,
+        "chart": {
+          "id": "pvnL1ci4wlo",
+          "displayName": "Overall IPD reporting rates by sub units"
+        },
+        "reports": [],
+        "translations": [],
+        "userGroupAccesses": [],
+        "attributeValues": [],
+        "resources": [],
+        "users": []
+      }
+    ]
+  },
+  {
+    "name": "IPTp",
+    "id": "skeLgxeb6HD",
+    "publicAccess": "--------",
+    "externalAccess": false,
+    "access": {
+      "read": true,
+      "update": true,
+      "externalize": true,
+      "delete": true,
+      "write": true,
+      "manage": true
+    },
+    "userGroupAccesses": [
+      {
+        "access": "rw------",
+        "userGroupUid": "jX1oulomeWr",
+        "displayName": "NMCP Malaria Dashboard",
+        "id": "jX1oulomeWr"
+      }
+    ],
+    "dashboardItems": [
+      {
+        "lastUpdated": "2017-11-29T12:13:45.113",
+        "id": "W6RGXtPethm",
+        "created": "2017-11-29T12:13:45.113",
+        "type": "CHART",
+        "externalAccess": false,
+        "contentCount": 1,
+        "interpretationCount": 0,
+        "interpretationLikeCount": 0,
+        "chart": {
+          "id": "X3Q3jTbwd3I",
+          "displayName": "Proportion of women receiving IPTp2 and IPTp3 during ANC attendances"
+        },
+        "reports": [],
+        "translations": [],
+        "userGroupAccesses": [],
+        "attributeValues": [],
+        "resources": [],
+        "users": []
+      },
+      {
+        "lastUpdated": "2017-11-29T12:13:53.191",
+        "id": "shTvbXSRKTd",
+        "created": "2017-11-29T12:13:53.191",
+        "type": "CHART",
+        "externalAccess": false,
+        "contentCount": 1,
+        "interpretationCount": 0,
+        "interpretationLikeCount": 0,
+        "chart": {
+          "id": "zqe3zY8d0ws",
+          "displayName": "Proportion of women receiving IPTp2 and IPTp3 during ANC attendances"
+        },
+        "reports": [],
+        "translations": [],
+        "userGroupAccesses": [],
+        "attributeValues": [],
+        "resources": [],
+        "users": []
+      },
+      {
+        "lastUpdated": "2017-11-29T12:14:19.328",
+        "id": "deLhkuaKEWH",
+        "created": "2017-11-29T12:14:19.328",
+        "type": "MAP",
+        "externalAccess": false,
+        "map": {
+          "id": "rRRnFi6HsQp",
+          "displayName": "IPTp2 coverage"
+        },
+        "reports": []
+      }
+    ]
+  },
+  {
+    "name": "LLIN",
+    "id": "k6x9Pvvpt9u",
+    "publicAccess": "--------",
+    "externalAccess": false,
+    "access": {
+      "read": true,
+      "update": true,
+      "externalize": true,
+      "delete": true,
+      "write": true,
+      "manage": true
+    },
+    "userGroupAccesses": [
+      {
+        "access": "rw------",
+        "userGroupUid": "jX1oulomeWr",
+        "displayName": "NMCP Malaria Dashboard",
+        "id": "jX1oulomeWr"
+      }
+    ],
+    "dashboardItems": [
+      {
+        "created": "2017-08-14T21:28:04.467",
+        "id": "NR1SHBGZTGt",
+        "shape": "NORMAL",
+        "type": "CHART",
+        "chart": {
+          "id": "ypIcw5DTAz2",
+          "displayName": "Number of pregnant women and infants receiving a LLIN during ANC and EPI attendances"
+        },
+        "reports": [],
+        "resources": [],
+        "users": []
+      },
+      {
+        "created": "2017-08-14T21:38:55.677",
+        "id": "w39aWufgr1D",
+        "shape": "NORMAL",
+        "type": "CHART",
+        "chart": {
+          "id": "Mi45Z1Lywyr",
+          "displayName": "Proportion of pregnant women and infants receiving a LLIN during ANC and EPI attendances"
+        },
+        "reports": [],
+        "resources": [],
+        "users": []
+      },
+      {
+        "created": "2017-08-14T21:31:49.724",
+        "id": "ETDP8l3Mkke",
+        "shape": "NORMAL",
+        "type": "CHART",
+        "chart": {
+          "id": "g0WxycIInVw",
+          "displayName": "Number of pregnant women and infants receiving a LLIN during ANC and EPI attendances"
+        },
+        "reports": [],
+        "resources": [],
+        "users": []
+      },
+      {
+        "created": "2017-08-14T21:40:56.940",
+        "id": "EA0YwXRx8fA",
+        "shape": "NORMAL",
+        "type": "CHART",
+        "chart": {
+          "id": "ufsY16BUSCH",
+          "displayName": "Proportion of pregnant women and infants receiving a LLIN during ANC and EPI attendances"
+        },
+        "reports": [],
+        "resources": [],
+        "users": []
+      },
+      {
+        "created": "2017-08-14T21:59:08.969",
+        "id": "PD51JeyUkLd",
+        "type": "MAP",
+        "externalAccess": false,
+        "contentCount": 1,
+        "interpretationCount": 0,
+        "interpretationLikeCount": 0,
+        "map": {
+          "id": "oIl9QPAc0WA",
+          "displayName": "Proportion of pregnant women receiving LLIN during ANC attendances"
+        },
+        "reports": [],
+        "resources": [],
+        "users": []
+      },
+      {
+        "created": "2017-08-14T21:50:54.035",
+        "id": "CMYKZG8u9Co",
+        "type": "MAP",
+        "externalAccess": false,
+        "contentCount": 1,
+        "interpretationCount": 0,
+        "interpretationLikeCount": 0,
+        "map": {
+          "id": "xFMzpkGjWX0",
+          "displayName": "Proportion of infants receiving LLIN during EPI attendances"
+        },
+        "reports": [],
+        "resources": [],
+        "users": []
+      }
+    ]
+  },
+  {
+    "name": "Overall test and positivity rate",
+    "id": "uyOGOweH1bX",
+    "publicAccess": "--------",
+    "externalAccess": false,
+    "access": {
+      "read": true,
+      "update": true,
+      "externalize": true,
+      "delete": true,
+      "write": true,
+      "manage": true
+    },
+    "userGroupAccesses": [
+      {
+        "access": "r-------",
+        "userGroupUid": "jX1oulomeWr",
+        "displayName": "NMCP Malaria Dashboard",
+        "id": "jX1oulomeWr"
+      }
+    ],
+    "dashboardItems": [
+      {
+        "created": "2017-10-30T10:17:10.960",
+        "id": "jgqZv9JE1PH",
+        "shape": "NORMAL",
+        "type": "CHART",
+        "chart": {
+          "id": "xCXJKJNABs2",
+          "displayName": "Trend of the overall test and positivity rate"
+        },
+        "reports": [],
+        "resources": [],
+        "users": []
+      },
+      {
+        "created": "2017-11-29T12:14:19.328",
+        "id": "HmY1WNDazww",
+        "type": "MAP",
+        "externalAccess": false,
+        "contentCount": 1,
+        "interpretationCount": 0,
+        "interpretationLikeCount": 0,
+        "map": {
+          "id": "SbYhskdaMgz",
+          "displayName": "Malaria Positivity Rate in ANC"
+        },
+        "reports": [],
+        "translations": [],
+        "userGroupAccesses": [],
+        "attributeValues": [],
+        "resources": [],
+        "users": []
+      },
+      {
+        "created": "2017-11-29T12:14:19.328",
+        "id": "QgXbKmF7YdT",
+        "type": "MAP",
+        "externalAccess": false,
+        "contentCount": 1,
+        "interpretationCount": 0,
+        "interpretationLikeCount": 0,
+        "map": {
+          "id": "ssFzoj2WR1O",
+          "displayName": "Malaria Testing Rate in ANC"
+        },
+        "reports": [],
+        "translations": [],
+        "userGroupAccesses": [],
+        "attributeValues": [],
+        "resources": [],
+        "users": []
+      }
+    ]
+  },
+  {
+    "name": "Reporting Rates",
+    "id": "KhfYVW3ye34",
+    "dashboardItems": [
+      {
+        "lastUpdated": "2017-11-29T12:14:45.262",
+        "id": "YOrWvR6CdSA",
+        "created": "2017-11-29T12:14:45.262",
+        "type": "CHART",
+        "externalAccess": false,
+        "contentCount": 1,
+        "interpretationCount": 0,
+        "interpretationLikeCount": 0,
+        "chart": {
+          "id": "lGaOYHbyqbP",
+          "displayName": "Overall ANC reporting rate"
+        },
+        "reports": [],
+        "translations": [],
+        "userGroupAccesses": [],
+        "attributeValues": [],
+        "resources": [],
+        "users": []
+      },
+      {
+        "lastUpdated": "2017-11-29T10:21:57.454",
+        "id": "oWJKpbqAufa",
+        "created": "2017-11-29T10:21:57.454",
+        "type": "CHART",
+        "externalAccess": false,
+        "contentCount": 1,
+        "interpretationCount": 0,
+        "interpretationLikeCount": 0,
+        "chart": {
+          "id": "jhF79ljWx5q",
+          "displayName": "Overall ANC reporting rate"
+        },
+        "reports": [],
+        "translations": [],
+        "userGroupAccesses": [],
+        "attributeValues": [],
+        "resources": [],
+        "users": []
+      }
+    ]
+  },
+  {
+    "name": "Chandarua Kiliniki",
+    "id": "azp3dWWf8dw",
+    "publicAccess": "--------",
+    "externalAccess": false,
+    "access": {
+      "read": true,
+      "update": true,
+      "externalize": true,
+      "delete": true,
+      "write": true,
+      "manage": true
+    },
+    "userGroupAccesses": [
+      {
+        "access": "rw------",
+        "userGroupUid": "jX1oulomeWr",
+        "displayName": "NMCP Malaria Dashboard",
+        "id": "jX1oulomeWr"
+      }
+    ],
+    "dashboardItems": [
+      {
+        "created": "2018-01-18T17:59:23.750",
+        "id": "IvRdQzCYzzX",
+        "shape": "DOUBLE_WIDTH",
+        "type": "CHART",
+        "chart": {
+          "id": "ikT8NsNtgss",
+          "displayName": "Number of ANC first visit Vs LLINs issued"
+        },
+        "reports": [],
+        "resources": [],
+        "users": []
+      },
+      {
+        "created": "2018-01-18T17:59:15.884",
+        "id": "FcFRRpnJ8uu",
+        "shape": "FULL_WIDTH",
+        "type": "REPORT_TABLE",
+        "reportTable": {
+          "id": "Xya2uePslYB",
+          "displayName": "Number of ANC first visit Vs LLINs issued"
+        },
+        "reports": [],
+        "resources": [],
+        "users": []
+      },
+      {
+        "created": "2018-01-18T17:59:24.855",
+        "id": "OAxODKT9ziM",
+        "shape": "FULL_WIDTH",
+        "type": "CHART",
+        "chart": {
+          "id": "gOtLTyVug5W",
+          "displayName": "LLIN Accountability Report-IVD"
+        },
+        "reports": [],
+        "resources": [],
+        "users": []
+      },
+      {
+        "created": "2018-01-18T17:50:21.890",
+        "id": "dl4hboi6kjX",
+        "shape": "NORMAL",
+        "type": "REPORTS",
+        "reports": [
+          {
+            "id": "AN5pbHjaX42",
+            "displayName": "Printable Chandarua Dashboard Charts "
+          }
+        ],
+        "resources": [],
+        "users": []
+      },
+      {
+        "created": "2018-01-18T17:59:14.270",
+        "id": "eWZ1tGo3Eh6",
+        "shape": "FULL_WIDTH",
+        "type": "REPORT_TABLE",
+        "reportTable": {
+          "id": "JCJNXu8MCQ5",
+          "displayName": "Number of measles 1 vaccinated children Vs LLINs issued"
+        },
+        "reports": [],
+        "resources": [],
+        "users": []
+      },
+      {
+        "created": "2018-01-18T17:58:54.649",
+        "id": "l2MBSDxJdoV",
+        "shape": "DOUBLE_WIDTH",
+        "type": "REPORT_TABLE",
+        "reportTable": {
+          "id": "sIRpyV8kWId",
+          "displayName": "LLIN Coverage by Health Facility"
+        },
+        "reports": [],
+        "resources": [],
+        "users": []
+      }
+    ]
+  },
+  {
+    "name": "Summary",
+    "id": "LTxG4cBXA5z",
+    "publicAccess": "r-------",
+    "externalAccess": false,
+    "access": {
+      "read": true,
+      "update": true,
+      "externalize": true,
+      "delete": true,
+      "write": true,
+      "manage": true
+    },
+    "userGroupAccesses": [],
+    "dashboardItems": [
+      {
+        "created": "2017-07-20T17:07:32.461",
+        "id": "RfVkWgWjK7F",
+        "shape": "NORMAL",
+        "type": "CHART",
+        "chart": {
+          "id": "wHcyj5KeRRc",
+          "displayName": "mRDT Overall  performance"
+        },
+        "reports": [],
+        "resources": [],
+        "users": []
+      },
+      {
+        "created": "2017-07-20T17:07:32.461",
+        "id": "CCrEg22Qgqd",
+        "shape": "NORMAL",
+        "type": "CHART",
+        "chart": {
+          "id": "f7swoweq7YP",
+          "displayName": "Proportions of mRDT Overall performance"
+        },
+        "reports": [],
+        "resources": [],
+        "users": []
+      },
+      {
+        "created": "2017-07-20T17:07:32.461",
+        "id": "yJUGdstp0m1",
+        "shape": "NORMAL",
+        "type": "CHART",
+        "chart": {
+          "id": "mw6KStkCoA6",
+          "displayName": "Logistic Supply core indicator performances"
+        },
+        "reports": [],
+        "resources": [],
+        "users": []
+      },
+      {
+        "created": "2017-07-20T17:07:32.461",
+        "id": "GWAqw7RXO3S",
+        "shape": "NORMAL",
+        "type": "CHART",
+        "chart": {
+          "id": "qMvEYDQ7DxZ",
+          "displayName": "Proportions of Logistic supply core indicator performances"
+        },
+        "reports": [],
+        "resources": [],
+        "users": []
+      },
+      {
+        "created": "2017-07-20T17:07:32.461",
+        "id": "pu1GrNjKU93",
+        "shape": "NORMAL",
+        "type": "CHART",
+        "chart": {
+          "id": "drtsitVsqJw",
+          "displayName": "Laboratory core indicator  performances"
+        },
+        "reports": [],
+        "resources": [],
+        "users": []
+      },
+      {
+        "created": "2017-07-20T17:07:32.461",
+        "id": "wZAGfMj1RPe",
+        "shape": "NORMAL",
+        "type": "CHART",
+        "chart": {
+          "id": "m3V9hv9pfrf",
+          "displayName": "Proportions of Laboratory core indicator  performances"
+        },
+        "reports": [],
+        "resources": [],
+        "users": []
+      },
+      {
+        "created": "2017-07-20T17:07:32.461",
+        "id": "oUiC2tQtEVb",
+        "shape": "NORMAL",
+        "type": "CHART",
+        "chart": {
+          "id": "zzLhiwUpiEN",
+          "displayName": "OPD core Indicator Performance"
+        },
+        "reports": [],
+        "resources": [],
+        "users": []
+      },
+      {
+        "created": "2017-07-20T17:07:32.461",
+        "id": "vqkjkegWqjR",
+        "shape": "NORMAL",
+        "type": "CHART",
+        "chart": {
+          "id": "tm5mR139mwJ",
+          "displayName": "Proportions of OPD core Indicator Performance"
+        },
+        "reports": [],
+        "resources": [],
+        "users": []
+      },
+      {
+        "created": "2017-07-20T17:07:32.461",
+        "id": "wPCSdvjxvsg",
+        "shape": "NORMAL",
+        "type": "CHART",
+        "chart": {
+          "id": "ka9znBhxyDI",
+          "displayName": "Severe malaria core indicator performances"
+        },
+        "reports": [],
+        "resources": [],
+        "users": []
+      },
+      {
+        "created": "2017-07-20T17:07:32.461",
+        "id": "RE99qQmeEyr",
+        "shape": "NORMAL",
+        "type": "CHART",
+        "chart": {
+          "id": "nZfHHvRVNcB",
+          "displayName": "Proportions of Severe malaria core indicator performances"
+        },
+        "reports": [],
+        "resources": [],
+        "users": []
+      }
+    ]
+  },
+  {
+    "name": "mRDT",
+    "id": "XIr3W6qZ2rm",
+    "publicAccess": "r-------",
+    "externalAccess": false,
+    "access": {
+      "read": true,
+      "update": true,
+      "externalize": true,
+      "delete": true,
+      "write": true,
+      "manage": true
+    },
+    "userGroupAccesses": [],
+    "dashboardItems": [
+      {
+        "created": "2017-07-20T17:07:32.461",
+        "id": "RfVkWgWjK7F",
+        "shape": "NORMAL",
+        "type": "CHART",
+        "chart": {
+          "id": "wHcyj5KeRRc",
+          "displayName": "Overall mRDT performance"
+        },
+        "reports": [],
+        "resources": [],
+        "users": []
+      },
+      {
+        "created": "2017-07-20T17:07:32.461",
+        "id": "CCrEg22Qgqd",
+        "shape": "NORMAL",
+        "type": "CHART",
+        "chart": {
+          "id": "f7swoweq7YP",
+          "displayName": "Proportions of Overall mRDT performance"
+        },
+        "reports": [],
+        "resources": [],
+        "users": []
+      },
+      {
+        "created": "2017-07-20T17:07:32.461",
+        "id": "M25pQGXJvLR",
+        "shape": "NORMAL",
+        "type": "CHART",
+        "chart": {
+          "id": "D9uU8r5qAFR",
+          "displayName": "mRDT Core Indicators Performance Trend"
+        },
+        "reports": [],
+        "resources": [],
+        "users": []
+      },
+      {
+        "created": "2017-07-20T17:07:32.461",
+        "id": "wsPYmTlvxbK",
+        "shape": "NORMAL",
+        "type": "CHART",
+        "chart": {
+          "id": "I6DcgKcdnWE",
+          "displayName": "Proportion of mRDT Core Indicators Performance Trend"
+        },
+        "reports": [],
+        "resources": [],
+        "users": []
+      },
+      {
+        "created": "2017-07-20T17:07:32.461",
+        "id": "Ohgrzggk1mD",
+        "shape": "NORMAL",
+        "type": "CHART",
+        "chart": {
+          "id": "wyXmWyGdAgz",
+          "displayName": "Axilliary indicator performances"
+        },
+        "reports": [],
+        "resources": [],
+        "users": []
+      },
+      {
+        "created": "2017-07-20T17:07:32.461",
+        "id": "KsoWI3c46S2",
+        "shape": "NORMAL",
+        "type": "CHART",
+        "chart": {
+          "id": "rYbFsRGkv7K",
+          "displayName": "Proportion of Axilliary indicator performances"
+        },
+        "reports": [],
+        "resources": [],
+        "users": []
+      },
+      {
+        "created": "2017-07-20T17:07:32.461",
+        "id": "hQGjimmYJQL",
+        "shape": "NORMAL",
+        "type": "CHART",
+        "chart": {
+          "id": "dUZHDz9rLjb",
+          "displayName": "mRDT DQA"
+        },
+        "reports": [],
+        "resources": [],
+        "users": []
+      },
+      {
+        "created": "2017-07-20T17:07:32.461",
+        "id": "GbteSeMpUsA",
+        "shape": "NORMAL",
+        "type": "CHART",
+        "chart": {
+          "id": "nCOi0MTMKEh",
+          "displayName": "Proportions of mRDT DQA"
+        },
+        "reports": [],
+        "resources": [],
+        "users": []
+      },
+      {
+        "created": "2017-12-11T14:13:14.683",
+        "id": "mvVZvoBNkO8",
+        "shape": "FULL_WIDTH",
+        "type": "EVENT_REPORT",
+        "eventReport": {
+          "id": "WoLGjUgvmiv",
+          "displayName": "mRDT: Primary Scores"
+        },
+        "reports": [],
+        "resources": [],
+        "users": []
+      },
+      {
+        "created": "2017-12-11T14:13:14.683",
+        "id": "xTtuzrbRiwk",
+        "shape": "DOUBLE_WIDTH",
+        "type": "EVENT_REPORT",
+        "eventReport": {
+          "id": "WmSLxAiiKdH",
+          "displayName": "MSDQI: Secondary Scores"
+        },
+        "reports": [],
+        "resources": [],
+        "users": []
+      }
+    ]
+  },
+  {
+    "name": "ANC",
+    "id": "vKoaF1ObPE1",
+    "publicAccess": "r-------",
+    "externalAccess": false,
+    "access": {
+      "read": true,
+      "update": true,
+      "externalize": true,
+      "delete": true,
+      "write": true,
+      "manage": true
+    },
+    "userGroupAccesses": [],
+    "dashboardItems": [
+      {
+        "created": "2017-07-20T17:07:32.461",
+        "id": "kzsxJ5GT0mW",
+        "shape": "NORMAL",
+        "type": "CHART",
+        "chart": {
+          "id": "JCrD8hl6gcw",
+          "displayName": "ANC Core indicator performances"
+        },
+        "reports": [],
+        "resources": [],
+        "users": []
+      },
+      {
+        "created": "2017-07-20T17:07:32.461",
+        "id": "MwzS2S6ieDA",
+        "shape": "NORMAL",
+        "type": "CHART",
+        "chart": {
+          "id": "mdKZBpHOIBy",
+          "displayName": "Proportions of ANC Core indicator performances"
+        },
+        "reports": [],
+        "resources": [],
+        "users": []
+      },
+      {
+        "created": "2017-07-20T17:07:32.461",
+        "id": "Q0M5aW4VBi4",
+        "shape": "NORMAL",
+        "type": "CHART",
+        "chart": {
+          "id": "wYREEndWZGz",
+          "displayName": "ANC Readness"
+        },
+        "reports": [],
+        "resources": [],
+        "users": []
+      },
+      {
+        "created": "2017-07-20T17:07:32.461",
+        "id": "M0BsNCIB8ny",
+        "shape": "NORMAL",
+        "type": "CHART",
+        "chart": {
+          "id": "ElNBQOsBg3q",
+          "displayName": "Proportions of ANC Readness"
+        },
+        "reports": [],
+        "resources": [],
+        "users": []
+      },
+      {
+        "created": "2017-07-20T17:07:32.461",
+        "id": "gBReqvLZYbZ",
+        "shape": "NORMAL",
+        "type": "CHART",
+        "chart": {
+          "id": "He1UG83aJPU",
+          "displayName": "ANC Competence in managing preganant women"
+        },
+        "reports": [],
+        "resources": [],
+        "users": []
+      },
+      {
+        "created": "2017-07-20T17:07:32.461",
+        "id": "qV9XAQpSixW",
+        "shape": "NORMAL",
+        "type": "CHART",
+        "chart": {
+          "id": "dxI9uvWDJn8",
+          "displayName": "Proportions of ANC Competence in managing preganant women"
+        },
+        "reports": [],
+        "resources": [],
+        "users": []
+      },
+      {
+        "created": "2017-07-20T17:07:32.461",
+        "id": "MdqZ7VfiFid",
+        "shape": "NORMAL",
+        "type": "CHART",
+        "chart": {
+          "id": "nXEDRLY86Qh",
+          "displayName": "ANC DQA"
+        },
+        "reports": [],
+        "resources": [],
+        "users": []
+      },
+      {
+        "created": "2017-07-20T17:07:32.461",
+        "id": "sZUZ1OUCTwk",
+        "shape": "NORMAL",
+        "type": "CHART",
+        "chart": {
+          "id": "SYahLCuzBfl",
+          "displayName": "Proportions of ANC DQA"
+        },
+        "reports": [],
+        "resources": [],
+        "users": []
+      },
+      {
+        "created": "2017-12-11T14:13:14.683",
+        "id": "kNpU5aDEX3p",
+        "shape": "FULL_WIDTH",
+        "type": "EVENT_REPORT",
+        "eventReport": {
+          "id": "sFZiwTBtNmn",
+          "displayName": "ANC: Primary Scores"
+        },
+        "reports": [],
+        "resources": [],
+        "users": []
+      },
+      {
+        "created": "2017-12-11T14:13:14.683",
+        "id": "Ye7UY1Uvq8Q",
+        "shape": "NORMAL",
+        "type": "EVENT_REPORT",
+        "eventReport": {
+          "id": "aEMOn9WlsdF",
+          "displayName": "ANC: Secondary Scores"
+        },
+        "reports": [],
+        "resources": [],
+        "users": []
+      },
+      {
+        "id": "HKrBKgXp9fT",
+        "created": "2018-03-19T01:23:06.729",
+        "type": "REPORTS",
+        "externalAccess": false,
+        "contentCount": 1,
+        "interpretationCount": 0,
+        "interpretationLikeCount": 0,
+        "reports": [
+          {
+            "id": "yGr9ED4kA1U",
+            "displayName": "ANC adherence to guidelines"
+          }
+        ],
+        "translations": [],
+        "userGroupAccesses": [],
+        "attributeValues": [],
+        "resources": [],
+        "users": []
+      }
+    ]
+  },
+  {
+    "name": "Logistics Supply",
+    "id": "VweVuqTIC7X",
+    "publicAccess": "r-------",
+    "externalAccess": false,
+    "access": {
+      "read": true,
+      "update": true,
+      "externalize": true,
+      "delete": true,
+      "write": true,
+      "manage": true
+    },
+    "userGroupAccesses": [],
+    "dashboardItems": [
+      {
+        "created": "2017-07-20T17:07:32.461",
+        "id": "GWAqw7RXO3S",
+        "shape": "NORMAL",
+        "type": "CHART",
+        "chart": {
+          "id": "mw6KStkCoA6",
+          "displayName": "Logistic supply core indicator  performances"
+        },
+        "reports": [],
+        "resources": [],
+        "users": []
+      },
+      {
+        "created": "2017-07-20T17:07:32.461",
+        "id": "yJUGdstp0m1",
+        "shape": "NORMAL",
+        "type": "CHART",
+        "chart": {
+          "id": "qMvEYDQ7DxZ",
+          "displayName": "Proportions of Logistic supply core indicator performances"
+        },
+        "reports": [],
+        "resources": [],
+        "users": []
+      },
+      {
+        "created": "2017-07-20T17:07:32.461",
+        "id": "xL7fEib4Wfr",
+        "shape": "NORMAL",
+        "type": "CHART",
+        "chart": {
+          "id": "wRHdCWTeM52",
+          "displayName": "Logistics Supply readness"
+        },
+        "reports": [],
+        "resources": [],
+        "users": []
+      },
+      {
+        "created": "2017-07-20T17:07:32.461",
+        "id": "aqTCiw25mX6",
+        "shape": "NORMAL",
+        "type": "CHART",
+        "chart": {
+          "id": "wA1EVJBBN7w",
+          "displayName": "Proportions of Logistics Supply readness"
+        },
+        "reports": [],
+        "resources": [],
+        "users": []
+      },
+      {
+        "created": "2017-07-20T17:07:32.461",
+        "id": "KpJqelOl76p",
+        "shape": "NORMAL",
+        "type": "CHART",
+        "chart": {
+          "id": "xCMnO3H3BuI",
+          "displayName": "Logistics DQA"
+        },
+        "reports": [],
+        "resources": [],
+        "users": []
+      },
+      {
+        "created": "2017-07-20T17:07:32.461",
+        "id": "ZjhXC2HI6pV",
+        "shape": "NORMAL",
+        "type": "CHART",
+        "chart": {
+          "id": "yxzfK465jII",
+          "displayName": "Proportions of Logistics DQA"
+        },
+        "reports": [],
+        "resources": [],
+        "users": []
+      },
+      {
+        "created": "2017-12-11T14:13:14.683",
+        "id": "ygrJ6qQ7Aqj",
+        "shape": "FULL_WIDTH",
+        "type": "EVENT_REPORT",
+        "eventReport": {
+          "id": "sjqCxwauPYF",
+          "displayName": "Logistics Supply: Primary Scores"
+        },
+        "reports": [],
+        "resources": [],
+        "users": []
+      },
+      {
+        "created": "2017-12-11T14:13:14.683",
+        "id": "vg3gX1jDYr2",
+        "shape": "NORMAL",
+        "type": "EVENT_REPORT",
+        "eventReport": {
+          "id": "W4QeryWm9QY",
+          "displayName": "Logistics Supply : Secondary Scores"
+        },
+        "reports": [],
+        "resources": [],
+        "users": []
+      }
+    ]
+  },
+  {
+    "name": "Microscopy",
+    "id": "iTrpiuF4ipk",
+    "publicAccess": "r-------",
+    "externalAccess": false,
+    "access": {
+      "read": true,
+      "update": true,
+      "externalize": true,
+      "delete": true,
+      "write": true,
+      "manage": true
+    },
+    "userGroupAccesses": [],
+    "dashboardItems": [
+      {
+        "created": "2017-07-20T17:07:32.461",
+        "id": "pu1GrNjKU93",
+        "shape": "NORMAL",
+        "type": "CHART",
+        "chart": {
+          "id": "drtsitVsqJw",
+          "displayName": "Laboratory CORE INDICATOR  performances"
+        },
+        "reports": [],
+        "resources": [],
+        "users": []
+      },
+      {
+        "created": "2017-07-20T17:07:32.461",
+        "id": "wZAGfMj1RPe",
+        "shape": "NORMAL",
+        "type": "CHART",
+        "chart": {
+          "id": "m3V9hv9pfrf",
+          "displayName": "Proportions of Laboratory CORE INDICATOR  performances"
+        },
+        "reports": [],
+        "resources": [],
+        "users": []
+      },
+      {
+        "created": "2017-07-20T17:07:32.461",
+        "id": "I0983gws0Bt",
+        "shape": "NORMAL",
+        "type": "CHART",
+        "chart": {
+          "id": "Ytp5kf2WrqS",
+          "displayName": "Microscopy readness"
+        },
+        "reports": [],
+        "resources": [],
+        "users": []
+      },
+      {
+        "created": "2017-07-20T17:07:32.461",
+        "id": "iyb62sAP0xQ",
+        "shape": "NORMAL",
+        "type": "CHART",
+        "chart": {
+          "id": "dC5DrTtHusr",
+          "displayName": "Proportions of Microscopy readness"
+        },
+        "reports": [],
+        "resources": [],
+        "users": []
+      },
+      {
+        "created": "2017-07-20T17:07:32.461",
+        "id": "ISBgxIntvIv",
+        "shape": "NORMAL",
+        "type": "CHART",
+        "chart": {
+          "id": "W1Nkjmxd42E",
+          "displayName": "Microscopy Observataion"
+        },
+        "reports": [],
+        "resources": [],
+        "users": []
+      },
+      {
+        "created": "2017-07-20T17:07:32.461",
+        "id": "WyAMTEkLr8p",
+        "shape": "NORMAL",
+        "type": "CHART",
+        "chart": {
+          "id": "g9iSs5foHMs",
+          "displayName": "Proportions of Microscopy Observataion"
+        },
+        "reports": [],
+        "resources": [],
+        "users": []
+      },
+      {
+        "created": "2017-07-20T17:07:32.461",
+        "id": "IVMhLDFZ5vi",
+        "shape": "NORMAL",
+        "type": "CHART",
+        "chart": {
+          "id": "LyJ5r1gPwkp",
+          "displayName": "Quality assurance and quality control"
+        },
+        "reports": [],
+        "resources": [],
+        "users": []
+      },
+      {
+        "created": "2017-07-20T17:07:32.461",
+        "id": "o6XWnena3yP",
+        "shape": "NORMAL",
+        "type": "CHART",
+        "chart": {
+          "id": "ae86mFctM9H",
+          "displayName": "Proportions of quality assurance and quality control "
+        },
+        "reports": [],
+        "resources": [],
+        "users": []
+      },
+      {
+        "created": "2017-07-20T17:07:32.461",
+        "id": "B9ALLlrL3Cv",
+        "shape": "NORMAL",
+        "type": "CHART",
+        "chart": {
+          "id": "n1YGArClrUP",
+          "displayName": "Microscopy Register Review"
+        },
+        "reports": [],
+        "resources": [],
+        "users": []
+      },
+      {
+        "created": "2017-07-20T17:07:32.461",
+        "id": "UHoIXwiT8tZ",
+        "shape": "NORMAL",
+        "type": "CHART",
+        "chart": {
+          "id": "b6XNrQCjYLj",
+          "displayName": "Proportions of Microscopy Register Review"
+        },
+        "reports": [],
+        "resources": [],
+        "users": []
+      },
+      {
+        "created": "2017-12-11T14:13:14.683",
+        "id": "uLD8QPjFhGS",
+        "shape": "FULL_WIDTH",
+        "type": "EVENT_REPORT",
+        "eventReport": {
+          "id": "QBDSRwA1vRc",
+          "displayName": "Microscopy: Primary Scores"
+        },
+        "reports": [],
+        "resources": [],
+        "users": []
+      },
+      {
+        "created": "2017-12-11T14:13:14.683",
+        "id": "MZtuJxCwq3y",
+        "shape": "NORMAL",
+        "type": "EVENT_REPORT",
+        "eventReport": {
+          "id": "IvmJF3TEcYx",
+          "displayName": "Microscopy: Secondary Scores"
+        },
+        "reports": [],
+        "resources": [],
+        "users": []
+      }
+    ]
+  },
+  {
+    "name": "OPD",
+    "id": "BwfRHTu8rDc",
+    "publicAccess": "r-------",
+    "externalAccess": false,
+    "access": {
+      "read": true,
+      "update": true,
+      "externalize": true,
+      "delete": true,
+      "write": true,
+      "manage": true
+    },
+    "userGroupAccesses": [],
+    "dashboardItems": [
+      {
+        "created": "2017-07-20T17:07:32.461",
+        "id": "oUiC2tQtEVb",
+        "shape": "NORMAL",
+        "type": "CHART",
+        "chart": {
+          "id": "zzLhiwUpiEN",
+          "displayName": "OPD: Core Indicator Performance"
+        },
+        "reports": [],
+        "resources": [],
+        "users": []
+      },
+      {
+        "created": "2017-07-20T17:07:32.461",
+        "id": "vqkjkegWqjR",
+        "shape": "NORMAL",
+        "type": "CHART",
+        "chart": {
+          "id": "tm5mR139mwJ",
+          "displayName": "Proportions of OPD: Core Indicator Performance"
+        },
+        "reports": [],
+        "resources": [],
+        "users": []
+      },
+      {
+        "created": "2017-07-20T17:07:32.461",
+        "id": "VCefbPE2S2f",
+        "shape": "NORMAL",
+        "type": "CHART",
+        "chart": {
+          "id": "hTq6ntxXUV4",
+          "displayName": "OPD Readness"
+        },
+        "reports": [],
+        "resources": [],
+        "users": []
+      },
+      {
+        "created": "2017-07-20T17:07:32.461",
+        "id": "c6uiUsyKv6C",
+        "shape": "NORMAL",
+        "type": "CHART",
+        "chart": {
+          "id": "ARX4uCACjUb",
+          "displayName": "Proportions of OPD Readness"
+        },
+        "reports": [],
+        "resources": [],
+        "users": []
+      },
+      {
+        "created": "2017-07-20T17:07:32.461",
+        "id": "dmS7y2JCtmP",
+        "shape": "NORMAL",
+        "type": "CHART",
+        "chart": {
+          "id": "wAex47kzQ9P",
+          "displayName": "OPD Clinical Management > 5yrs"
+        },
+        "reports": [],
+        "resources": [],
+        "users": []
+      },
+      {
+        "created": "2017-07-20T17:07:32.461",
+        "id": "POCxLo0nWAJ",
+        "shape": "NORMAL",
+        "type": "CHART",
+        "chart": {
+          "id": "nOw9wRi27NZ",
+          "displayName": "Proportions of OPD Clinical Management > 5yrs"
+        },
+        "reports": [],
+        "resources": [],
+        "users": []
+      },
+      {
+        "created": "2017-07-20T17:07:32.461",
+        "id": "rozZ1OOO6TE",
+        "shape": "NORMAL",
+        "type": "CHART",
+        "chart": {
+          "id": "jSpniHWpKES",
+          "displayName": "OPD Clinical Management <5yrs"
+        },
+        "reports": [],
+        "resources": [],
+        "users": []
+      },
+      {
+        "created": "2017-07-20T17:07:32.461",
+        "id": "ZOvOvH8I56o",
+        "shape": "NORMAL",
+        "type": "CHART",
+        "chart": {
+          "id": "GychqSAmOeG",
+          "displayName": "Proportions of OPD Clinical Management <5yrs"
+        },
+        "reports": [],
+        "resources": [],
+        "users": []
+      },
+      {
+        "created": "2017-07-20T17:07:32.461",
+        "id": "sGO1Hi4rq9B",
+        "shape": "NORMAL",
+        "type": "CHART",
+        "chart": {
+          "id": "FBp4E5TeNAJ",
+          "displayName": "Overall Clinical  Management"
+        },
+        "reports": [],
+        "resources": [],
+        "users": []
+      },
+      {
+        "created": "2017-07-20T17:07:32.461",
+        "id": "Sh3kHi1gMqi",
+        "shape": "NORMAL",
+        "type": "CHART",
+        "chart": {
+          "id": "ec0Ce7ceNIO",
+          "displayName": "Proportions of Overall Clinical  Management"
+        },
+        "reports": [],
+        "resources": [],
+        "users": []
+      },
+      {
+        "created": "2017-07-20T17:07:32.461",
+        "id": "duphSg0iCKJ",
+        "shape": "NORMAL",
+        "type": "CHART",
+        "chart": {
+          "id": "kjs68ZzrDOf",
+          "displayName": "OPD DQA"
+        },
+        "reports": [],
+        "resources": [],
+        "users": []
+      },
+      {
+        "created": "2017-07-20T17:07:32.461",
+        "id": "JllRvADM5ZS",
+        "shape": "NORMAL",
+        "type": "CHART",
+        "chart": {
+          "id": "VV4o5pGAG6o",
+          "displayName": "Proportions of OPD DQA"
+        },
+        "reports": [],
+        "resources": [],
+        "users": []
+      },
+      {
+        "created": "2017-07-20T17:07:32.461",
+        "id": "dmS7y2JCtmP",
+        "shape": "NORMAL",
+        "type": "CHART",
+        "chart": {
+          "id": "WxCe8dQLJH6",
+          "displayName": "OPD Clinical Management > 5yrs"
+        },
+        "reports": [],
+        "resources": [],
+        "users": []
+      },
+      {
+        "created": "2017-07-20T17:07:32.461",
+        "id": "yFkmG9oRza5",
+        "shape": "NORMAL",
+        "type": "CHART",
+        "chart": {
+          "id": "YsEvHM7JMv4",
+          "displayName": "OPD Adherence to guidelines 1"
+        },
+        "reports": [],
+        "resources": [],
+        "users": []
+      },
+      {
+        "created": "2017-07-20T17:07:32.461",
+        "id": "lwuj6wA85Km",
+        "shape": "NORMAL",
+        "type": "CHART",
+        "chart": {
+          "id": "F8uCYFtCltQ",
+          "displayName": "Proportions of OPD Adherence to guidelines 1"
+        },
+        "reports": [],
+        "resources": [],
+        "users": []
+      },
+      {
+        "created": "2017-12-11T14:13:14.683",
+        "id": "SRTRcEVfHYI",
+        "shape": "FULL_WIDTH",
+        "type": "EVENT_REPORT",
+        "eventReport": {
+          "id": "yGZYlwBd2FJ",
+          "displayName": "OPD : Primary Scores"
+        },
+        "reports": [],
+        "resources": [],
+        "users": []
+      },
+      {
+        "created": "2017-12-11T14:13:14.683",
+        "id": "sYlNg5ITbui",
+        "shape": "NORMAL",
+        "type": "EVENT_REPORT",
+        "eventReport": {
+          "id": "UlOJCK1fWmA",
+          "displayName": "OPD : Secondary Scores"
+        },
+        "reports": [],
+        "resources": [],
+        "users": []
+      },
+      {
+        "id": "HKrBKgXp9fT",
+        "created": "2018-03-19T01:23:06.729",
+        "type": "REPORTS",
+        "externalAccess": false,
+        "contentCount": 1,
+        "interpretationCount": 0,
+        "interpretationLikeCount": 0,
+        "reports": [
+          {
+            "id": "EpjZmOjOevg",
+            "displayName": "OPD adherence to guidelines"
+          }
+        ],
+        "translations": [],
+        "userGroupAccesses": [],
+        "attributeValues": [],
+        "resources": [],
+        "users": []
+      }
+    ]
+  },
+  {
+    "name": "Severe Malaria",
+    "id": "jJjlmwGr0cG",
+    "publicAccess": "r-------",
+    "externalAccess": false,
+    "access": {
+      "read": true,
+      "update": true,
+      "externalize": true,
+      "delete": true,
+      "write": true,
+      "manage": true
+    },
+    "userGroupAccesses": [],
+    "dashboardItems": [
+      {
+        "created": "2017-07-20T17:07:32.461",
+        "id": "wPCSdvjxvsg",
+        "shape": "NORMAL",
+        "type": "CHART",
+        "chart": {
+          "id": "ka9znBhxyDI",
+          "displayName": "Severe malaria CORE indicator performances"
+        },
+        "reports": [],
+        "resources": [],
+        "users": []
+      },
+      {
+        "created": "2017-07-20T17:07:32.461",
+        "id": "RE99qQmeEyr",
+        "shape": "NORMAL",
+        "type": "CHART",
+        "chart": {
+          "id": "nZfHHvRVNcB",
+          "displayName": "Proportions of Severe malaria CORE indicator performances"
+        },
+        "reports": [],
+        "resources": [],
+        "users": []
+      },
+      {
+        "created": "2017-07-20T17:07:32.461",
+        "id": "UDiQm8ZRTeo",
+        "shape": "NORMAL",
+        "type": "CHART",
+        "chart": {
+          "id": "jaK75uVDBae",
+          "displayName": "Severe Malaria Management of Malaria"
+        },
+        "reports": [],
+        "resources": [],
+        "users": []
+      },
+      {
+        "created": "2017-07-20T17:07:32.461",
+        "id": "piQRxWUQ5vO",
+        "shape": "NORMAL",
+        "type": "CHART",
+        "chart": {
+          "id": "BoUjGJFctSn",
+          "displayName": "Proportions of Management of Malaria"
+        },
+        "reports": [],
+        "resources": [],
+        "users": []
+      },
+      {
+        "created": "2017-07-20T17:07:32.461",
+        "id": "YWEj6ormgcl",
+        "shape": "NORMAL",
+        "type": "CHART",
+        "chart": {
+          "id": "HR1knW7JevG",
+          "displayName": "Severe Malaria IPD Readness"
+        },
+        "reports": [],
+        "resources": [],
+        "users": []
+      },
+      {
+        "created": "2017-07-20T17:07:32.461",
+        "id": "FMt2eb3GTuY",
+        "shape": "NORMAL",
+        "type": "CHART",
+        "chart": {
+          "id": "WEckPIaK4rD",
+          "displayName": "Proportions of Severe Malaria IPD Readness"
+        },
+        "reports": [],
+        "resources": [],
+        "users": []
+      },
+      {
+        "created": "2017-07-20T17:07:32.461",
+        "id": "ZrXxk8KnCa8",
+        "shape": "NORMAL",
+        "type": "CHART",
+        "chart": {
+          "id": "lcdNQgrLB5p",
+          "displayName": "Severe Malaria IPD DQA"
+        },
+        "reports": [],
+        "resources": [],
+        "users": []
+      },
+      {
+        "created": "2017-07-20T17:07:32.461",
+        "id": "tZL5WRUSc8a",
+        "shape": "NORMAL",
+        "type": "CHART",
+        "chart": {
+          "id": "Mx6M71RiUaN",
+          "displayName": "Proportions of Severe Malaria IPD DQA"
+        },
+        "reports": [],
+        "resources": [],
+        "users": []
+      },
+      {
+        "created": "2017-07-20T17:07:32.461",
+        "id": "O1LpS6zcEFO",
+        "shape": "NORMAL",
+        "type": "CHART",
+        "chart": {
+          "id": "pcPIhYVtcik",
+          "displayName": "Severe Malaria Adherence to guidelines"
+        },
+        "reports": [],
+        "resources": [],
+        "users": []
+      },
+      {
+        "created": "2017-07-20T17:07:32.461",
+        "id": "XujtpmAGYFM",
+        "shape": "NORMAL",
+        "type": "CHART",
+        "chart": {
+          "id": "U3mQOJPpojw",
+          "displayName": "Proportions of Severe Malaria  Adherence to guidelines"
+        },
+        "reports": [],
+        "resources": [],
+        "users": []
+      },
+      {
+        "created": "2017-12-11T14:13:14.683",
+        "id": "YDvccx0eUKK",
+        "shape": "FULL_WIDTH",
+        "type": "EVENT_REPORT",
+        "eventReport": {
+          "id": "bJaLBYXCWlU",
+          "displayName": "Severe Malaria: Primary Scores"
+        },
+        "reports": [],
+        "resources": [],
+        "users": []
+      },
+      {
+        "created": "2017-12-11T14:13:14.683",
+        "id": "tKyqNdLt2Rp",
+        "shape": "NORMAL",
+        "type": "EVENT_REPORT",
+        "eventReport": {
+          "id": "CLSIjkEq7OM",
+          "displayName": "Severe Malaria: Secondary Scores"
+        },
+        "reports": [],
+        "resources": [],
+        "users": []
+      }
+    ]
+  }
+]

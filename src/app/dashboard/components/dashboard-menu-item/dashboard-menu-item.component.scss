@@ -1,0 +1,31 @@
+.dashboard-menu-item {
+  text-decoration: none;
+  display: flex;
+  height: 34px;
+  border-radius: 17px;
+  border: solid thin #eeeeee;
+  justify-content: center;
+  align-items: center;
+  font-size: 14px;
+  padding: 10px;
+  cursor: pointer;
+  background-color: #eeeeee;
+  color: rgba(0, 0, 0, 0.87) !important;
+
+  .dashboard-menu-bookmark-btn {
+    display: flex;
+    background-color: transparent;
+    align-items: center;
+    justify-content: center;
+    padding-right: 5px;
+    cursor: pointer;
+    img {
+      height: 16px;
+    }
+  }
+}
+
+.current-dashboard {
+  background-color: #00796b;
+  color: #fff !important;
+}

@@ -1,0 +1,54 @@
+.dashboard-header-container {
+  display: flex;
+
+  .dashboard-title-block {
+    flex: 3;
+    display: flex;
+    align-items: center;
+
+    .dashboard-title {
+      display: flex;
+      align-items: center;
+    }
+  }
+}
+
+.dashboard-notification {
+  flex: 1;
+}
+.dashboard-search-block {
+  flex: 2;
+  display: flex;
+  justify-content: space-between;
+}
+
+.dashboard-options {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.dashboard-global-filter {
+  margin-left: 3px;
+}
+
+.dashboard-description {
+  margin-left: 4px;
+  text-align: justify;
+}
+
+.current-dashboard-share-button,
+.current-dashboard-bookmark-button,
+.current-dashboard-global-filter {
+  margin-left: 5px;
+}
+
+.current-dashboard-global-filter {
+  display: flex;
+  align-items: center;
+}
+
+@media (max-width: 999px) {
+  .dashboard-header-container {
+    display: block;
+  }
+}
