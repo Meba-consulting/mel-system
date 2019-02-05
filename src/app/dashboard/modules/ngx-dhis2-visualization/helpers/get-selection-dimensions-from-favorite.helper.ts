@@ -65,19 +65,19 @@ function getStandardizedDimensions(
               ? {
                   id: splitedItemId[1],
                   functionObject: { id: splitedItemId[0] },
-                  name: item.displayName,
+                  name: item.displayName || item.name,
                   type: dimensionItemType
                 }
               : {
                   id: item.dimensionItem || item.id,
-                  name: item.displayName,
+                  name: item.displayName || item.name,
                   type: dimensionItemType
                 };
 
           default:
             return {
               id: item.dimensionItem || item.id,
-              name: item.displayName,
+              name: item.displayName || item.name,
               type: getDimensionItemType(dimensionObject.dimension, item)
             };
         }
