@@ -1,26 +1,46 @@
-# Idashboard
+[![Build Status](https://travis-ci.org/hisptz/nmcp-dashboard-app.svg?branch=master)](https://travis-ci.org/hisptz/nmcp-dashboard-app)
+[![dependencies Status](https://david-dm.org/hisptz/nmcp-dashboard-app/status.svg)](https://david-dm.org/hisptz/nmcp-dashboard-app)
+[![devDependencies Status](https://david-dm.org/hisptz/nmcp-dashboard-app/dev-status.svg)](https://david-dm.org/hisptz/nmcp-dashboard-app?type=dev)
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 6.0.3.
+# NMCP Dashboard
+
+The NMCP dashboard is DHIS2 application aimed at facilitating the visualization, interpretation and use of all malaria related information in the DHIS2 platform.
+
+The dashboard is currently divided in 5 sections according to the HMIS collection tools and respective indicators: a) Uncomplicated malaria diagnosis (OPD), b) malaria testing (Laboratory/testing sites), c) Malaria commodities (pharmaceuticals), d) Severe malaria morbidity and mortality (IPD), and e) Preventive services (reproductive and child health)
+
+## Setup
+
+Run `npm install` to install all required dependencies for the app
 
 ## Development server
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+Run `npm start` for a dev server. Navigate to `http://localhost:4200/`.
 
-## Code scaffolding
+This command will require proxy-config.json file available in the root of your source code, usually this file has this format
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+```
+{
+  "/api": {
+    "target": "https://play.dhis2.org/2.29/",
+    "secure": "false",
+    "auth": "admin:district",
+    "changeOrigin": "true"
+  },
+  "/": {
+    "target": "https://play.dhis2.org/2.29/",
+    "secure": "false",
+    "auth": "admin:district",
+    "changeOrigin": "true"
+  }
+}
+
+```
+
+We have provided `proxy-config.example.json` file as an example, make a copy and rename to `proxy-config.json`
 
 ## Build
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
-
-## Running unit tests
-
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
+Run `npm run build` to build the project. The build artifacts will be stored in the `dist/`, this will included a zip file ready for deploying to any DHIS2 instance.
 
 ## Further help
 
