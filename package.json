@@ -79,6 +79,7 @@
     "commitizen": "^2.10.1",
     "cz-conventional-changelog": "^2.1.0",
     "d2-manifest": "^1.0.0",
+    "git-precommit-checks": "^2.0.1",
     "jasmine-core": "~2.99.1",
     "jasmine-spec-reporter": "~4.2.1",
     "karma": "^3.1.4",
@@ -122,6 +123,24 @@
       "MY_APP_ADD_NEW",
       "MY_APP_UPDATE",
       "MY_APP_DELETE"
+    ]
+  },
+  "git-precommit-checks": {
+    "rules": [
+      {
+        "filter": "\\.ts$",
+        "message": "You’ve got leftover `console.log`",
+        "regex": "console\\.log"
+      },
+      {
+        "message": "You’ve got leftover conflict markers",
+        "regex": "/^[<>|=]{4,}/m"
+      },
+      {
+        "message": "You have unfinished devs",
+        "nonBlocking": "true",
+        "regex": "(?:FIXME|TODO)"
+      }
     ]
   }
 }
