@@ -21,7 +21,8 @@ export class InitializeDashboardGroupsActionSuccess implements Action {
   readonly type = DashboardGroupsActionTypes.InitializeDashboardGroupSuccess;
   constructor(
     public dashboardGroups: DashboardGroups[],
-    public activeGroup: DashboardGroups
+    public activeGroup: DashboardGroups,
+    public currentDashboardId: string
   ) {}
 }
 
@@ -32,7 +33,10 @@ export class LoadDashboardGroupsAction implements Action {
 
 export class SetActiveDashboardGroupsAction implements Action {
   readonly type = DashboardGroupsActionTypes.SetActiveDashboardGroup;
-  constructor(public activeGroup: DashboardGroups) {}
+  constructor(
+    public activeGroup: DashboardGroups,
+    public currentDashboardId?: string
+  ) {}
 }
 
 export class SetActiveDashboardGroupsActionFail implements Action {
