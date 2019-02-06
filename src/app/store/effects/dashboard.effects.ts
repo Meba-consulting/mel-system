@@ -58,7 +58,7 @@ import {
 } from '../../dashboard/modules/ngx-dhis2-visualization/helpers';
 
 // helpers import
-import { getCurrentDashboardId } from '../../helpers';
+import { getActiveDashboardId } from '../../helpers';
 import {
   AddDashboardVisualizationItemAction,
   Go,
@@ -107,7 +107,7 @@ export class DashboardEffects {
   loadAllDashboardSuccess$: Observable<any> = this.actions$.pipe(
     ofType(DashboardActionTypes.LoadDashboardsSuccess),
     map((action: LoadDashboardsSuccessAction) => {
-      const currentDashboardId = getCurrentDashboardId(
+      const currentDashboardId = getActiveDashboardId(
         action.routeUrl,
         action.dashboards,
         action.currentUser
@@ -130,6 +130,7 @@ export class DashboardEffects {
       // Decide on the route to take
       const splitedRouteUrl = action.routeUrl ? action.routeUrl.split('/') : [];
       const currentVisualizationId = splitedRouteUrl[4];
+
       if (!currentVisualizationId) {
         this.store.dispatch(new Go({ path: [`/dashboards/${action.id}`] }));
       } else {
