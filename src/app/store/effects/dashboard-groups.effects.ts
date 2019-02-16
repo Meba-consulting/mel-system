@@ -1,13 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { Actions, Effect, ofType } from '@ngrx/effects';
-import {
-  filter as _filter,
-  flatten as _flatten,
-  map as _map,
-  some as _some,
-  sortBy as _sortBy
-} from 'lodash';
+import * as _ from 'lodash';
 import { Store } from '@ngrx/store';
 import { State } from '../reducers';
 import {
@@ -92,9 +86,9 @@ export class DashboardGroupsEffects {
           map(dashboardGroups => {
             const currentDashboardId = getActiveDashboardId(
               routeUrl,
-              _flatten(
-                _map(dashboardGroups || [], (dashboardGroup: any) => {
-                  return _map(dashboardGroup.dashboards || [], dashboardId => {
+              _.flatten(
+                _.map(dashboardGroups || [], (dashboardGroup: any) => {
+                  return _.map(dashboardGroup.dashboards || [], dashboardId => {
                     return { id: dashboardId };
                   });
                 })
@@ -102,23 +96,20 @@ export class DashboardGroupsEffects {
               currentUser
             );
 
-            const activeDashboardGroup =
-              _filter(dashboardGroups || [], (dashboardGroup: any) => {
-                return _some(
+            return new InitializeDashboardGroupsActionSuccess(
+              dashboardGroups || [],
+              _.filter(dashboardGroups || [], (dashboardGroup: any) => {
+                return _.some(
                   dashboardGroup.dashboards || [],
                   dashboardId => dashboardId === currentDashboardId
                 );
-              })[0] || _sortBy(dashboardGroups || [], 'sortOrder')[0];
-
-            return new InitializeDashboardGroupsActionSuccess(
-              dashboardGroups || [],
-              activeDashboardGroup,
+              })[0] || _.sortBy(dashboardGroups || [], 'sortOrder')[0],
               currentDashboardId
             );
-          })
+          }),
+          catchError(error => of(new SetActiveDashboardGroupsActionFail(error)))
         )
-    ),
-    catchError(error => of(new SetActiveDashboardGroupsActionFail(error)))
+    )
   );
 
   constructor(

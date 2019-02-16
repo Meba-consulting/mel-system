@@ -50,7 +50,7 @@ export class DashboardGroupService {
               `${this._dataStoreUrl}/${dashboardGroupId}`
             );
           })
-        );
+        ).pipe(catchError(() => of([])));
       })
     );
   }

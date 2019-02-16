@@ -79,6 +79,7 @@
     "commitizen": "^2.10.1",
     "cz-conventional-changelog": "^2.1.0",
     "d2-manifest": "^1.0.0",
+    "git-precommit-checks": "^2.0.1",
     "jasmine-core": "~2.99.1",
     "jasmine-spec-reporter": "~4.2.1",
     "karma": "^3.1.4",
@@ -96,32 +97,5 @@
     "commitizen": {
       "path": "./node_modules/cz-conventional-changelog"
     }
-  },
-  "manifest.webapp": {
-    "version": "2.2-alpha.9",
-    "name": "WHO Dashboard Mock up alpha 9",
-    "description": "WHO Dashboard Mock up alpha 9",
-    "launch_path": "index.html",
-    "appType": "APP",
-    "icons": {
-      "16": "assets/img/icon-16x16.png",
-      "48": "assets/img/icon-48x48.png",
-      "128": "assets/img/icon-128x128.png"
-    },
-    "developer": {
-      "name": "HISPTZ",
-      "url": "https://hisptanzania.org"
-    },
-    "default_locale": "en",
-    "activities": {
-      "dhis": {
-        "href": "../../../"
-      }
-    },
-    "authorities": [
-      "MY_APP_ADD_NEW",
-      "MY_APP_UPDATE",
-      "MY_APP_DELETE"
-    ]
   }
 }
