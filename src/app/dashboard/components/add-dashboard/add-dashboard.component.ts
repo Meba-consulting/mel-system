@@ -31,9 +31,7 @@ export class AddDashboardComponent implements OnInit {
       : true;
   }
 
-  ngOnInit() {
-    console.log('test');
-  }
+  ngOnInit() {}
 
   save(e) {
     e.stopPropagation();

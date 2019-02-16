@@ -83,7 +83,7 @@ export const getCurrentGlobalDataSelections = createSelector(
                 visualizationObjectEntities[dashboardVisualizationItem.id]
             )
           ),
-          visualization => visualization.layers
+          visualization => (visualization ? visualization.layers : [])
         )
       ),
       layerId => visualizationLayerEntities[layerId]
@@ -93,7 +93,7 @@ export const getCurrentGlobalDataSelections = createSelector(
       visualizationLayers,
       (visualizationLayer: VisualizationLayer) => {
         return getSelectionDimensionsFromAnalytics(
-          visualizationLayer.analytics
+          visualizationLayer ? visualizationLayer.analytics : null
         );
       }
     );
