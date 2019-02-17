@@ -1,6 +1,8 @@
 [![Build Status](https://travis-ci.org/hisptz/nmcp-dashboard-app.svg?branch=master)](https://travis-ci.org/hisptz/nmcp-dashboard-app)
 [![dependencies Status](https://david-dm.org/hisptz/nmcp-dashboard-app/status.svg)](https://david-dm.org/hisptz/nmcp-dashboard-app)
 [![devDependencies Status](https://david-dm.org/hisptz/nmcp-dashboard-app/dev-status.svg)](https://david-dm.org/hisptz/nmcp-dashboard-app?type=dev)
+[![Maintainability](https://api.codeclimate.com/v1/badges/bf3dad8dc98398730ba3/maintainability)](https://codeclimate.com/github/hisptz/nmcp-dashboard-app/maintainability)
+[![Test Coverage](https://api.codeclimate.com/v1/badges/bf3dad8dc98398730ba3/test_coverage)](https://codeclimate.com/github/hisptz/nmcp-dashboard-app/test_coverage)
 
 # NMCP Dashboard
 
