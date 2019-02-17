@@ -1,33 +1,17 @@
-import {
-  zip as observableZip,
-  combineLatest as observableCombineLatest,
-  of,
-  Observable
-} from 'rxjs';
 import { Injectable } from '@angular/core';
-import { Effect, Actions } from '@ngrx/effects';
+import { Actions, Effect } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
-import {
-  map,
-  switchMap,
-  catchError,
-  combineLatest,
-  flatMap,
-  mergeMap,
-  tap,
-  mergeAll
-} from 'rxjs/operators';
-import { GeoFeature } from '../../models/geo-feature.model';
-
-import * as visualizationObjectActions from '../actions/visualization-object.action';
-import * as legendSetActions from '../actions/legend-set.action';
-import * as layerActions from '../actions/layers.action';
-import * as fromServices from '../../services';
-import * as fromStore from '..';
-import * as fromUtils from '../../utils';
-import { Layer } from '../../models/layer.model';
-import { toGeoJson } from '../../utils/layers';
 import { timeFormat } from 'd3-time-format';
+import { combineLatest, of, zip } from 'rxjs';
+import { catchError, map, switchMap, tap } from 'rxjs/operators';
+
+import * as fromStore from '..';
+import { Layer } from '../../models/layer.model';
+import * as fromServices from '../../services';
+import { toGeoJson } from '../../utils/layers';
+import * as layerActions from '../actions/layers.action';
+import * as legendSetActions from '../actions/legend-set.action';
+import * as visualizationObjectActions from '../actions/visualization-object.action';
 
 @Injectable()
 export class VisualizationObjectEffects {
@@ -265,7 +249,7 @@ export class VisualizationObjectEffects {
 
           // This is a hack find a way not to subscribe please!
           // TODO: remove this hack;
-          observableCombineLatest(sources).subscribe(geofeature => {
+          combineLatest(sources).subscribe(geofeature => {
             if (geofeature) {
               const geofeatures = Object.keys(entities).reduce(
                 (arr = {}, key, index) => {
@@ -284,7 +268,7 @@ export class VisualizationObjectEffects {
               );
             }
           });
-          return observableZip(sources);
+          return zip(sources);
         }
       )
     );
