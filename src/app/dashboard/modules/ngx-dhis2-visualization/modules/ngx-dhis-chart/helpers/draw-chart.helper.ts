@@ -349,7 +349,11 @@ function updateSeriesWithAxisOptions(
       newSeriesObject.id
     ]);
     if (availableAxisOption) {
-      newSeriesObject.yAxis = availableAxisOption.axis === 'left' ? 0 : 1;
+      newSeriesObject.yAxis = availableAxisOption.axis
+        ? availableAxisOption.axis === 'left'
+          ? 0
+          : 1
+        : 0;
 
       newSeriesObject.type =
         availableAxisOption.type !== '' && !touched
