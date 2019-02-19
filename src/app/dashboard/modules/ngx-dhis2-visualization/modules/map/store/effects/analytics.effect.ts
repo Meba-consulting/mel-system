@@ -1,6 +1,6 @@
 import { combineLatest, of, Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
-import { Effect, Actions } from '@ngrx/effects';
+import { Effect, Actions, ofType } from '@ngrx/effects';
 import { map, switchMap, catchError } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
 
@@ -20,94 +20,117 @@ export class AnalyticsEffects {
   ) {}
 
   @Effect()
-  addAnalytics$ = this.actions$
-    .ofType(visualizationObjectActions.LOAD_ANALYTICS)
-    .pipe(
-      switchMap((action: visualizationObjectActions.LoadAnalyticsVizObj) => {
-        const layerIds = [];
-        const layersParams = action.payload.layers.map(layer => {
-          const requestParams = [
-            ...layer.dataSelections.rows,
-            ...layer.dataSelections.columns,
-            ...layer.dataSelections.filters
-          ];
-          const noAnalyticsLayers = [
-            'boundary',
-            'facility',
-            'external',
-            'event'
-          ];
-          const layerName = layer.type;
-          if (noAnalyticsLayers.indexOf(layerName) === -1) {
-            layerIds.push(layer.id);
-            return requestParams
-              .map((param, paramIndex) => {
-                return `dimension=${param.dimension}:${param.items
+  addAnalytics$ = this.actions$.pipe(
+    ofType(visualizationObjectActions.LOAD_ANALYTICS),
+    switchMap((action: visualizationObjectActions.LoadAnalyticsVizObj) => {
+      const layerIds = [];
+      const layersParams = action.payload.layers.map(layer => {
+        const requestParams = [
+          ...layer.dataSelections.rows,
+          ...layer.dataSelections.columns,
+          ...layer.dataSelections.filters
+        ];
+        const noAnalyticsLayers = ['boundary', 'facility', 'external', 'event'];
+        const layerName = layer.type;
+        if (noAnalyticsLayers.indexOf(layerName) === -1) {
+          layerIds.push(layer.id);
+          return requestParams
+            .map((param, paramIndex) => {
+              return `dimension=${param.dimension}:${param.items
+                .map(item => item.id)
+                .join(';')}`;
+            })
+            .join('&');
+        }
+
+        if (layerName === 'event') {
+          layerIds.push(layer.id);
+          const data = requestParams
+            .map((param, paramIndex) => {
+              const dimension = `dimension=${param.dimension}`;
+              if (param.items.length) {
+                return `${dimension}:${param.items
                   .map(item => item.id)
                   .join(';')}`;
-              })
-              .join('&');
+              }
+              return dimension;
+            })
+            .join('&');
+          let url = `/events/query/${
+            layer.dataSelections.program.id
+          }.json?stage=${layer.dataSelections.programStage.id}&${data}`;
+          if (layer.dataSelections.endDate) {
+            url += `&endDate=${layer.dataSelections.endDate.split('T')[0]}`;
           }
-
-          if (layerName === 'event') {
-            layerIds.push(layer.id);
-            const data = requestParams
-              .map((param, paramIndex) => {
-                const dimension = `dimension=${param.dimension}`;
-                if (param.items.length) {
-                  return `${dimension}:${param.items
-                    .map(item => item.id)
-                    .join(';')}`;
-                }
-                return dimension;
-              })
-              .join('&');
-            let url = `/events/query/${
-              layer.dataSelections.program.id
-            }.json?stage=${layer.dataSelections.programStage.id}&${data}`;
-            if (layer.dataSelections.endDate) {
-              url += `&endDate=${layer.dataSelections.endDate.split('T')[0]}`;
-            }
-            if (layer.dataSelections.startDate) {
-              url += `&startDate=${
-                layer.dataSelections.startDate.split('T')[0]
-              }`;
-            }
-            return url;
+          if (layer.dataSelections.startDate) {
+            url += `&startDate=${layer.dataSelections.startDate.split('T')[0]}`;
           }
-        });
-        const sources = [];
-        layersParams.map(param => {
-          if (param) {
-            if (param.startsWith('/events')) {
-              sources.push(this.analyticsService.getEventsAnalytics(param));
-            } else {
-              sources.push(this.analyticsService.getAnalytics(param));
-            }
+          return url;
+        }
+      });
+      const sources = [];
+      layersParams.map(param => {
+        if (param) {
+          if (param.startsWith('/events')) {
+            sources.push(this.analyticsService.getEventsAnalytics(param));
+          } else {
+            sources.push(this.analyticsService.getAnalytics(param));
           }
-        });
+        }
+      });
 
-        const newSources = sources.length ? sources : Observable.create([]);
+      const newSources = sources.length ? sources : Observable.create([]);
 
-        return combineLatest(newSources).pipe(
-          map((data, index) => {
-            let analytics = {};
-            if (data.length) {
-              const analyticObj = data.reduce((obj, cur, i) => {
-                obj[layerIds[i]] = cur;
-                return obj;
-              }, {});
-              analytics = {
-                ...action.payload.analytics,
-                ...analyticObj
-              };
-            }
-            const vizObject = {
-              ...action.payload,
-              analytics
+      return combineLatest(newSources).pipe(
+        map((data, index) => {
+          let analytics = {};
+          if (data.length) {
+            const analyticObj = data.reduce((obj, cur, i) => {
+              obj[layerIds[i]] = cur;
+              return obj;
+            }, {});
+            analytics = {
+              ...action.payload.analytics,
+              ...analyticObj
             };
-            return new visualizationObjectActions.UpdateVizAnalytics(vizObject);
-          }),
+          }
+          const vizObject = {
+            ...action.payload,
+            analytics
+          };
+          return new visualizationObjectActions.UpdateVizAnalytics(vizObject);
+        }),
+        catchError(error =>
+          of(
+            new visualizationObjectActions.UpdateVisualizationObjectFail(error)
+          )
+        )
+      );
+    })
+  );
+
+  @Effect({ dispatch: false })
+  updateOu$ = this.actions$.pipe(
+    ofType(
+      dataSelectionAction.UPDATE_OU_SELECTION,
+      dataSelectionAction.UPDATE_DX_SELECTION,
+      dataSelectionAction.UPDATE_PE_SELECTION
+    ),
+    map((action: dataSelectionAction.UpdateDXSelection) => action.payload),
+    switchMap(payload => {
+      const { componentId, layer, newdimension } = payload;
+      const { params, newLayer } = this.createParams(payload);
+      if (params.length) {
+        return this.analyticsService.getAnalytics(params.join('&')).pipe(
+          map(analytics =>
+            this.store.dispatch(
+              new visualizationObjectActions.UpdateFilterAnalytics({
+                analytics: { [layer.id]: analytics },
+                componentId,
+                layer: newLayer
+              })
+            )
+          ),
           catchError(error =>
             of(
               new visualizationObjectActions.UpdateVisualizationObjectFail(
@@ -116,46 +139,12 @@ export class AnalyticsEffects {
             )
           )
         );
-      })
-    );
-
-  @Effect({ dispatch: false })
-  updateOu$ = this.actions$
-    .ofType(
-      dataSelectionAction.UPDATE_OU_SELECTION,
-      dataSelectionAction.UPDATE_DX_SELECTION,
-      dataSelectionAction.UPDATE_PE_SELECTION
+      }
+    }),
+    catchError(error =>
+      of(new visualizationObjectActions.UpdateVisualizationObjectFail(error))
     )
-    .pipe(
-      map((action: dataSelectionAction.UpdateDXSelection) => action.payload),
-      switchMap(payload => {
-        const { componentId, layer, newdimension } = payload;
-        const { params, newLayer } = this.createParams(payload);
-        if (params.length) {
-          return this.analyticsService.getAnalytics(params.join('&')).pipe(
-            map(analytics =>
-              this.store.dispatch(
-                new visualizationObjectActions.UpdateFilterAnalytics({
-                  analytics: { [layer.id]: analytics },
-                  componentId,
-                  layer: newLayer
-                })
-              )
-            ),
-            catchError(error =>
-              of(
-                new visualizationObjectActions.UpdateVisualizationObjectFail(
-                  error
-                )
-              )
-            )
-          );
-        }
-      }),
-      catchError(error =>
-        of(new visualizationObjectActions.UpdateVisualizationObjectFail(error))
-      )
-    );
+  );
 
   createParams(payload) {
     const { componentId, layer, params, filterType, newdimension } = payload;

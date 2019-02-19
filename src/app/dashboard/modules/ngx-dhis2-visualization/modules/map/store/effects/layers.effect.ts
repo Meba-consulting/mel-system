@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
-import { Effect, Actions } from '@ngrx/effects';
-import { Observable, of } from 'rxjs';
-import { map, switchMap, catchError } from 'rxjs/operators';
+import { Actions, Effect, ofType } from '@ngrx/effects';
+import { of } from 'rxjs';
+import { catchError, map } from 'rxjs/operators';
 
-import * as layersActions from '../actions/layers.action';
 import * as fromServices from '../../services';
+import * as layersActions from '../actions/layers.action';
 
 @Injectable()
 export class LayersEffects {
@@ -14,7 +14,8 @@ export class LayersEffects {
   ) {}
 
   @Effect()
-  createLayers$ = this.actions$.ofType(layersActions.CREATE_LAYERS).pipe(
+  createLayers$ = this.actions$.pipe(
+    ofType(layersActions.CREATE_LAYERS),
     map(
       (action: layersActions.CreateLayers) =>
         new layersActions.LoadLayersSuccess(action.payload)
