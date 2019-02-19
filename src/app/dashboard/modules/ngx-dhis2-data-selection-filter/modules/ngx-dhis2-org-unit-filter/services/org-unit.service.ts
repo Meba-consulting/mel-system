@@ -61,7 +61,7 @@ export class OrgUnitService {
                           )
                         ),
                     null,
-                    5
+                    1
                   )
                 );
               })
