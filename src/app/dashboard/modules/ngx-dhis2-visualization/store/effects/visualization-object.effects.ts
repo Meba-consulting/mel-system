@@ -360,6 +360,7 @@ export class VisualizationObjectEffects {
                   config: {
                     ...favoriteLayer,
                     type: favoriteLayer.type ? favoriteLayer.type : 'COLUMN',
+                    displayNameProperty: 'SHORTNAME',
                     spatialSupport,
                     visualizationType: action.visualization.type
                   }
