@@ -17,6 +17,7 @@ import { effects } from './store/effects';
 import { FormsModule } from '@angular/forms';
 import { MapModule } from './modules/map/map.module';
 import { VisualizationWidgetComponent } from './components/visualization-widget/visualization-widget.component';
+import { ReportsModule } from './modules/reports/reports.module';
 
 // import { MapModule } from './modules/map/map.module';
 
@@ -31,9 +32,15 @@ import { VisualizationWidgetComponent } from './components/visualization-widget/
     NgxDhis2TableModule,
     NgxDhis2DictionaryModule,
     NgxDhis2SelectionFiltersModule,
-    MapModule
+    MapModule,
+    ReportsModule
   ],
-  declarations: [...pipes, ...components, ...containers, VisualizationWidgetComponent],
+  declarations: [
+    ...pipes,
+    ...components,
+    ...containers,
+    VisualizationWidgetComponent
+  ],
   exports: [...containers]
 })
 export class NgxDhis2VisualizationModule {}
