@@ -115,6 +115,30 @@ export class VisualizationObjectEffects {
                   action.systemInfo
                 )
               );
+            } else if (visualizationObject.layers.length > 0) {
+              // Add visualization Layers
+              _.each(
+                visualizationObject.layers,
+                (visualizationLayerId: string) => {
+                  this.store.dispatch(
+                    new AddVisualizationLayerAction({
+                      id: visualizationLayerId
+                    })
+                  );
+                }
+              );
+
+              // Load more details for non favorite visualization
+              this.store.dispatch(
+                new UpdateVisualizationObjectAction(visualizationObject.id, {
+                  progress: {
+                    statusCode: 200,
+                    statusText: 'OK',
+                    percent: 100,
+                    message: 'Analytics has been loaded'
+                  }
+                })
+              );
             }
           }
         } else {

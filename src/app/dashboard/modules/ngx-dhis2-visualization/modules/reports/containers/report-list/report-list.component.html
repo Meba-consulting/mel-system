@@ -1,0 +1,18 @@
+<div class="report-list-container">
+  <table class="table table-hover report-table">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Name</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let report of reports; let i = index">
+        <td>{{ i + 1 }}</td>
+        <td>
+          <a [href]="report.url" target="_blank">{{ report.name }}</a>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
