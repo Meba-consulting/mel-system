@@ -26,8 +26,13 @@ export class ReportService {
             const reportResults = reportResponse ? reportResponse.reports : [];
 
             const reportEntities = reportResults.reduce(
-              (reportEntity, item) => {
-                reportEntity[item.id] = item;
+              (reportEntity, report) => {
+                reportEntity[report.id] = {
+                  ...report,
+                  url: `../../../dhis-web-reporting/getReportParams.action?mode=report&uid=${
+                    report.id
+                  }`
+                };
                 return reportEntity;
               },
               {}

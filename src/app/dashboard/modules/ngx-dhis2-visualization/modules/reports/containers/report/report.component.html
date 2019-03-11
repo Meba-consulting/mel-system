@@ -1,4 +1,6 @@
 <div class="report-container">
-  <h4>Reports</h4>
-  <app-report-list [reports]="reports$ | async"></app-report-list>
+  <h6 class="report-title">Reports</h6>
+  <div class="report-list-container">
+    <app-report-list [reports]="reports$ | async"></app-report-list>
+  </div>
 </div>
