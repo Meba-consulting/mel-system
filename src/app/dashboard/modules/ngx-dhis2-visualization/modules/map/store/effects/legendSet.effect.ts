@@ -1,16 +1,23 @@
+import {
+  combineLatest as observableCombineLatest,
+  of,
+  Observable,
+  forkJoin
+} from 'rxjs';
 import { Injectable } from '@angular/core';
-import { Actions, Effect, ofType } from '@ngrx/effects';
-import { combineLatest, of } from 'rxjs';
-import { catchError, map, switchMap } from 'rxjs/operators';
-
-import * as fromServices from '../../services';
+import { Effect, Actions, ofType } from '@ngrx/effects';
+import { Store } from '@ngrx/store';
+import { map, switchMap, catchError } from 'rxjs/operators';
 import * as legendSetAction from '../actions/legend-set.action';
 import * as visualizationObjectActions from '../actions/visualization-object.action';
+import * as fromServices from '../../services';
+import * as fromStore from '../../store';
 
 @Injectable()
 export class LegendSetEffects {
   constructor(
     private actions$: Actions,
+    private store: Store<fromStore.MapState>,
     private legendSetService: fromServices.LegendSetService
   ) {}
 
@@ -33,7 +40,7 @@ export class LegendSetEffects {
         const sources = legendIds.map(id =>
           this.legendSetService.getMapLegendSet(id)
         );
-        return combineLatest(sources).pipe(
+        return forkJoin(sources).pipe(
           map(lgSets => {
             const entity = lgSets.reduce((entities, currentVal, index) => {
               entities[legendSetLayers[currentVal['id']]] = currentVal;

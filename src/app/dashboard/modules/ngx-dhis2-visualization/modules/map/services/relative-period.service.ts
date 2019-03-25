@@ -1,14 +1,14 @@
 import { Injectable } from '@angular/core';
 import * as _ from 'lodash';
 
-@Injectable({ providedIn: 'root' })
+@Injectable()
 export class RelativePeriodService {
   constructor() {}
 
   getISOFormatFromRelativePeriod(favourite): Array<string> {
-    const isoFormat = [];
-    let periodDimension;
-    const newPeriodDimension = { dimension: 'pe', items: [] };
+    let isoFormat = [];
+    let periodDimension: any = undefined;
+    let newPeriodDimension = { dimension: 'pe', items: [] };
     let periodIndex = null;
     let parentdimension = null;
 
@@ -31,9 +31,7 @@ export class RelativePeriodService {
     }
 
     if (periodDimension && favourite[parentdimension]) {
-      newPeriodDimension.items = this._generateCorrespondingFixedPeriodArray(
-        periodDimension.items
-      );
+      newPeriodDimension.items = this._generateCorrespondingFixedPeriodArray(periodDimension.items);
       favourite[parentdimension].splice(periodIndex, 1);
       favourite[parentdimension].push(newPeriodDimension);
     }
@@ -54,9 +52,7 @@ export class RelativePeriodService {
     let fixedPeriods = [];
     if (relativePeriodArray) {
       relativePeriodArray.forEach(relativePeriod => {
-        const newPeriods = this._getFixedPeriodArrayFromSingleRelativePeriod(
-          relativePeriod
-        );
+        const newPeriods = this._getFixedPeriodArrayFromSingleRelativePeriod(relativePeriod);
         fixedPeriods = [...fixedPeriods, ...newPeriods];
       });
     }
@@ -69,9 +65,7 @@ export class RelativePeriodService {
   /**
   This function return array of fixed periods from one relative period
   */
-  private _getFixedPeriodArrayFromSingleRelativePeriod(
-    relativePeriod
-  ): Array<Object> {
+  private _getFixedPeriodArrayFromSingleRelativePeriod(relativePeriod): Array<Object> {
     const periodCategory = [
       '_MONTH',
       '_BIMONTH',
@@ -121,12 +115,7 @@ export class RelativePeriodService {
     return {
       _MONTH: (template, counts, tense) => {
         const currentMonth = currentDate.getMonth();
-        const lastNMonths = this._getLastPeriods(
-          currentMonth,
-          counts,
-          12,
-          tense
-        );
+        const lastNMonths = this._getLastPeriods(currentMonth, counts, 12, tense);
         let currentYear = currentDate.getFullYear();
         const months = [];
         let endOfTheYear = false;
@@ -159,12 +148,7 @@ export class RelativePeriodService {
       },
       _QUARTER: (template, counts, tense) => {
         const currentQuarter = this._getThisQuarter();
-        const lastNQuarters = this._getPeriods(
-          currentQuarter,
-          tense,
-          counts,
-          4
-        );
+        const lastNQuarters = this._getPeriods(currentQuarter, tense, counts, 4);
         let currentYear = currentDate.getFullYear();
         const quarters = [];
         let endOfTheYear = false;
@@ -200,12 +184,7 @@ export class RelativePeriodService {
       },
       _BIMONTH: (template, counts, tense) => {
         const currentBimonth = this._getThisBimonth();
-        const lastNBimonths = this._getPeriods(
-          currentBimonth,
-          tense,
-          counts,
-          6
-        );
+        const lastNBimonths = this._getPeriods(currentBimonth, tense, counts, 6);
         let currentYear = currentDate.getFullYear();
         const bimonths = [];
         let endOfTheYear = false;
@@ -227,12 +206,7 @@ export class RelativePeriodService {
       },
       _SIXMONTHS: (template, counts, tense) => {
         const currentSixmonth = this._getThisSixmonth();
-        const lastSixmonths = this._getLastPeriods(
-          currentSixmonth,
-          counts,
-          2,
-          tense
-        );
+        const lastSixmonths = this._getLastPeriods(currentSixmonth, counts, 2, tense);
         let currentYear = currentDate.getFullYear();
         const sixmonths = [];
         let endOfTheYear = false;
@@ -253,12 +227,7 @@ export class RelativePeriodService {
       },
       _SIX_MONTH: (template, counts, tense) => {
         const currentSixmonth = this._getThisSixmonth();
-        const lastSixmonths = this._getLastPeriods(
-          currentSixmonth,
-          counts,
-          2,
-          tense
-        );
+        const lastSixmonths = this._getLastPeriods(currentSixmonth, counts, 2, tense);
         let currentYear = currentDate.getFullYear();
         const sixmonths = [];
         let endOfTheYear = false;
@@ -302,8 +271,8 @@ export class RelativePeriodService {
         const hypotheticalFinancialYearMonth = 10;
         const currentFinancialYear = this._getThisFinancialYear();
         let currentYear = currentDate.getFullYear();
-        const nthFinancialYears = [];
-        if (tense === 'LAST') {
+        let nthFinancialYears = [];
+        if (tense == 'LAST') {
           for (let counter = 0; counter < counts; counter++) {
             currentYear = currentYear - 1;
             nthFinancialYears.push({
@@ -483,17 +452,10 @@ export class RelativePeriodService {
     d = d || new Date();
     d.setHours(0, 0, 0, 0);
 
-    d.setDate(d.getDate() + 3 - ((d.getDay() + 6) % 7));
+    d.setDate(d.getDate() + 3 - (d.getDay() + 6) % 7);
 
     const week = new Date(d.getFullYear(), 0, 4);
-    const thisWeek =
-      1 +
-      Math.round(
-        ((d.getTime() - week.getTime()) / 86400000 -
-          3 +
-          ((week.getDay() + 6) % 7)) /
-          7
-      );
+    let thisWeek = 1 + Math.round(((d.getTime() - week.getTime()) / 86400000 - 3 + (week.getDay() + 6) % 7) / 7);
 
     return thisWeek;
   }
