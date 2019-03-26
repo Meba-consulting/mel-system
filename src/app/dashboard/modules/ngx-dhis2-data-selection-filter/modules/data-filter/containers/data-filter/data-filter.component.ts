@@ -240,7 +240,8 @@ export class DataFilterComponent implements OnInit, OnDestroy {
       groups: _.map(this.selectedGroups, (dataGroup: any) =>
         _.omit(dataGroup, ['current'])
       ),
-      dimension: 'dx'
+      dimension: 'dx',
+      changed: true
     };
   }
 
@@ -268,12 +269,12 @@ export class DataFilterComponent implements OnInit, OnDestroy {
                 ? false
                 : !dataFilterSelection.selected
               : toggledDataFilterSelection.prefix === dataFilterSelection.prefix
-                ? !dataFilterSelection.selected
-                : multipleSelection
-                  ? dataFilterSelection.prefix === 'all'
-                    ? false
-                    : dataFilterSelection.selected
-                  : false
+              ? !dataFilterSelection.selected
+              : multipleSelection
+              ? dataFilterSelection.prefix === 'all'
+                ? false
+                : dataFilterSelection.selected
+              : false
         };
       }
     );

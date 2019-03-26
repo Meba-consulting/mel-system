@@ -46,7 +46,7 @@ export function getMergedDataSelections(
       );
 
       return updateDataSelectionBasedOnPreferences(
-        matchingDataSelection
+        matchingDataSelection && matchingDataSelection.changed
           ? { ...dataSelection, ...matchingDataSelection }
           : dataSelection,
         visualizationType,
