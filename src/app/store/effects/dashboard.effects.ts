@@ -1,86 +1,78 @@
 import { Injectable } from '@angular/core';
-
-import { Observable, of, from } from 'rxjs';
+import { Actions, Effect, ofType } from '@ngrx/effects';
+import { Store } from '@ngrx/store';
+import * as _ from 'lodash';
+import { from, Observable, of } from 'rxjs';
 import {
-  switchMap,
-  map,
   catchError,
-  tap,
-  withLatestFrom,
+  map,
   mergeMap,
-  take
+  switchMap,
+  take,
+  tap,
+  withLatestFrom
 } from 'rxjs/operators';
 
-import * as _ from 'lodash';
-
-// ngrx store
-import { Store } from '@ngrx/store';
-import { Actions, Effect, ofType } from '@ngrx/effects';
-
-// Services import
-import { DashboardService } from '../../services';
-
-// store actions import
+import { DashboardVisualization } from '../../dashboard/models';
+import { DashboardSettings } from '../../dashboard/models/dashboard-settings.model';
 import {
-  DashboardActionTypes,
-  LoadDashboardsAction,
-  LoadDashboardsSuccessAction,
-  LoadDashboardsFailAction,
-  SetCurrentDashboardAction,
-  ToggleDashboardBookmarkAction,
-  ToggleDashboardBookmarkSuccessAction,
-  ToggleDashboardBookmarkFailAction,
-  ManageDashboardItemAction,
-  ManageDashboardItemSuccessAction,
-  ManageDashboardItemFailAction,
-  CreateDashboardAction,
-  AddDashboardAction,
-  UpdateDashboardAction,
-  AddNewUnsavedFavoriteAction,
-  SetCurrentVisualizationAction,
-  GlobalFilterChangeAction
-} from '../actions/dashboard.actions';
-
+  getStandardizedVisualizationObject,
+  getStandardizedVisualizationUiConfig
+} from '../../dashboard/modules/ngx-dhis2-visualization/helpers';
+import { VisualizationLayer } from '../../dashboard/modules/ngx-dhis2-visualization/models';
 import {
   AddVisualizationObjectAction,
   AddVisualizationUiConfigurationAction,
   LoadVisualizationAnalyticsAction,
-  RemoveVisualizationObjectAction,
   RemoveVisualizationFavoriteAction,
-  VisualizationObjectActionTypes,
-  SaveVisualizationFavoriteSuccessAction
+  RemoveVisualizationObjectAction,
+  SaveVisualizationFavoriteSuccessAction,
+  VisualizationObjectActionTypes
 } from '../../dashboard/modules/ngx-dhis2-visualization/store/actions';
-
-import {
-  getStandardizedVisualizationUiConfig,
-  getStandardizedVisualizationObject,
-  getMergedDataSelections
-} from '../../dashboard/modules/ngx-dhis2-visualization/helpers';
-
-// helpers import
+import { getCurrentVisualizationObjectLayers } from '../../dashboard/modules/ngx-dhis2-visualization/store/selectors';
 import { getActiveDashboardId } from '../../helpers';
+import { generateUid } from '../../helpers/generate-uid.helper';
+import { User } from '../../models';
+import { DashboardService } from '../../services';
 import {
+  AddDashboardVisualizationAction,
   AddDashboardVisualizationItemAction,
   Go,
-  RemoveDashboardVisualizationItemAction,
-  AddDashboardVisualizationAction,
-  LoadDashboardVisualizationsAction
+  LoadDashboardVisualizationsAction,
+  RemoveDashboardVisualizationItemAction
 } from '../actions';
-import { User } from '../../models';
-import { getDashboardSettings } from '../selectors/dashboard-settings.selectors';
-import { DashboardSettings } from '../../dashboard/models/dashboard-settings.model';
+import {
+  AddDashboardAction,
+  AddNewUnsavedFavoriteAction,
+  CreateDashboardAction,
+  DashboardActionTypes,
+  GlobalFilterChangeAction,
+  LoadDashboardsAction,
+  LoadDashboardsFailAction,
+  LoadDashboardsSuccessAction,
+  ManageDashboardItemAction,
+  ManageDashboardItemFailAction,
+  ManageDashboardItemSuccessAction,
+  SetCurrentDashboardAction,
+  SetCurrentVisualizationAction,
+  ToggleDashboardBookmarkAction,
+  ToggleDashboardBookmarkFailAction,
+  ToggleDashboardBookmarkSuccessAction,
+  UpdateDashboardAction
+} from '../actions/dashboard.actions';
 import { State } from '../reducers';
 import {
+  getCurrentDashboardVisualizationItems,
   getCurrentUser,
-  getRouteUrl,
   getDashboardVisualizationById,
-  getCurrentDashboardVisualizationItems
+  getRouteUrl
 } from '../selectors';
-import { VisualizationLayer } from '../../dashboard/modules/ngx-dhis2-visualization/models';
-import { getCurrentVisualizationObjectLayers } from '../../dashboard/modules/ngx-dhis2-visualization/store/selectors';
-import { generateUid } from '../../helpers/generate-uid.helper';
-import { DashboardVisualization } from '../../dashboard/models';
+import { getDashboardSettings } from '../selectors/dashboard-settings.selectors';
 
+// ngrx store
+// Services import
+// store actions import
+// helpers import
 @Injectable()
 export class DashboardEffects {
   @Effect()

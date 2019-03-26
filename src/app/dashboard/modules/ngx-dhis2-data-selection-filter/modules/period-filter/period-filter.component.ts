@@ -204,7 +204,8 @@ export class PeriodFilterComponent implements OnInit {
   getPeriodOutput() {
     this.periodFilterUpdate.emit({
       items: this.getSelectedPeriods(),
-      dimension: 'pe'
+      dimension: 'pe',
+      changed: true
     });
   }
 
