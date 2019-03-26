@@ -11,6 +11,8 @@
   cursor: pointer;
   background-color: #eeeeee;
   color: rgba(0, 0, 0, 0.87) !important;
+  width: 100%;
+  white-space: nowrap;
 
   .dashboard-menu-bookmark-btn {
     display: flex;
@@ -22,6 +24,12 @@
     img {
       height: 16px;
     }
+  }
+
+  .dashboard-menu-name {
+    display: inline-block;
+    white-space: nowrap;
+    width: 100%;
   }
 }
 

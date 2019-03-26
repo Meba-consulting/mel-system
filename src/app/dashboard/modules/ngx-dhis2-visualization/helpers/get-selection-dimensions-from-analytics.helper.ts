@@ -9,7 +9,7 @@ export function getSelectionDimensionsFromAnalytics(
   }
 
   const analyticsMetadataKeys = _.keys(
-    _.omit(analytics.metaData || {}, 'names')
+    _.omit(analytics.metaData || {}, ['names', 'items'])
   );
 
   return _.filter(

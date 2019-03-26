@@ -1,8 +1,8 @@
 .dashboard-header-container {
   display: flex;
+  justify-content: space-between;
 
   .dashboard-title-block {
-    flex: 3;
     display: flex;
     align-items: center;
 
@@ -11,15 +11,20 @@
       align-items: center;
     }
   }
-}
 
-.dashboard-notification {
-  flex: 1;
-}
-.dashboard-search-block {
-  flex: 2;
-  display: flex;
-  justify-content: space-between;
+  .dashboard-search-block {
+    display: flex;
+    justify-content: space-between;
+
+    .dashboard-print-btn {
+      display: flex;
+      align-items: center;
+      border-radius: 5px;
+      img {
+        height: 15px;
+      }
+    }
+  }
 }
 
 .dashboard-options {
@@ -45,10 +50,4 @@
 .current-dashboard-global-filter {
   display: flex;
   align-items: center;
-}
-
-@media (max-width: 999px) {
-  .dashboard-header-container {
-    display: block;
-  }
 }

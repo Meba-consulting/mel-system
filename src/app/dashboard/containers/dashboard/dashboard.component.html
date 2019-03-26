@@ -1,9 +1,6 @@
 <div class="container-fluid dashboard-container">
   <!-- dashboard menu -->
-  <div
-    class="dashboard-menu-container no-print"
-    [style.height]="menuContainerHeight + 'px'"
-  >
+  <div class="dashboard-menu-container no-print" id="dashboard_menu_container">
     <div
       *ngIf="(dashboardLoading$ | async) || (dashboardGroupsLoading$ | async)"
       style="display: flex; padding: 10px;"
@@ -38,11 +35,7 @@
   <!-- end of dashboard menu -->
 
   <!-- dashboard content -->
-  <div
-    class="dashboard-content"
-    id="dashboard_content"
-    [style.margin-top]="dashboardContentMarginTop + 'px'"
-  >
+  <div class="dashboard-content" id="dashboard_content">
     <router-outlet></router-outlet>
   </div>
   <!-- end of dashboard content -->

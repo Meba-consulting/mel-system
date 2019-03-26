@@ -92,8 +92,12 @@ export const getCurrentGlobalDataSelections = createSelector(
     const globalDataSelectionsArray = _.map(
       visualizationLayers,
       (visualizationLayer: VisualizationLayer) => {
-        return getSelectionDimensionsFromAnalytics(
+        const selectionDimensions = getSelectionDimensionsFromAnalytics(
           visualizationLayer ? visualizationLayer.analytics : null
+        );
+
+        return selectionDimensions.filter(
+          (selectionDimension: any) => selectionDimension.dimension !== 'dx'
         );
       }
     );
@@ -104,21 +108,21 @@ export const getCurrentGlobalDataSelections = createSelector(
       globalDataSelectionsArray,
       (dataSelections: VisualizationDataSelection[]) => {
         _.each(dataSelections, (dataSelection: VisualizationDataSelection) => {
-          const avaialableDataSelection = _.find(mergedDataSelections, [
+          const availableDataSelection = _.find(mergedDataSelections, [
             'dimension',
             dataSelection.dimension
           ]);
-          if (avaialableDataSelection) {
+          if (availableDataSelection) {
             const avaialableDataSelectionIndex = mergedDataSelections.indexOf(
-              avaialableDataSelection
+              availableDataSelection
             );
             mergedDataSelections = [
               ..._.slice(mergedDataSelections, 0, avaialableDataSelectionIndex),
               {
-                ...avaialableDataSelection,
+                ...availableDataSelection,
                 ...dataSelection,
                 items: _.uniqBy(
-                  [...avaialableDataSelection.items, ...dataSelection.items],
+                  [...availableDataSelection.items, ...dataSelection.items],
                   'id'
                 )
               },
