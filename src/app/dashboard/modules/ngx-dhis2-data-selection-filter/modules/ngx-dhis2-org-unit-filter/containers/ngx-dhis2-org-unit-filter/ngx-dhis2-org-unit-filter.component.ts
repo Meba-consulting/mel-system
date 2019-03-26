@@ -100,7 +100,12 @@ export class NgxDhis2OrgUnitFilterComponent implements OnInit, OnDestroy {
   get selectedOrgUnits(): any[] {
     return _.filter(
       this.selectedOrgUnitItems,
-      selectedOrgUnit => selectedOrgUnit.type === 'ORGANISATION_UNIT'
+      selectedOrgUnit =>
+        (!selectedOrgUnit.type &&
+          selectedOrgUnit.id &&
+          selectedOrgUnit.id.indexOf('LEVEL') === -1 &&
+          selectedOrgUnit.id.indexOf('LEVEL') === -1) ||
+        selectedOrgUnit.type === 'ORGANISATION_UNIT'
     );
   }
 
@@ -187,11 +192,11 @@ export class NgxDhis2OrgUnitFilterComponent implements OnInit, OnDestroy {
             ]
           : orgUnit.type === 'ORGANISATION_UNIT_LEVEL' ||
             orgUnit.type === 'ORGANISATION_UNIT_GROUP'
-            ? [
-                ..._.slice(this.selectedOrgUnitItems, 0, orgUnitIndex),
-                ..._.slice(this.selectedOrgUnitItems, orgUnitIndex + 1)
-              ]
-            : []
+          ? [
+              ..._.slice(this.selectedOrgUnitItems, 0, orgUnitIndex),
+              ..._.slice(this.selectedOrgUnitItems, orgUnitIndex + 1)
+            ]
+          : []
         : this.selectedOrgUnitItems;
 
     if (this.orgUnitFilterConfig.updateOnSelect) {
