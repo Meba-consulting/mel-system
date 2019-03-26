@@ -80,11 +80,11 @@
     <div *ngIf="!showFavoriteFilter">&nbsp;</div>
     <button
       title="Print this dashboard"
-      class="btn btn-sm"
+      class="btn btn-sm custom-btn dashboard-print-btn"
       (click)="onPrintDashboard($event)"
       [disabled]="dashboardLoading || dashboardGroupsLoading"
     >
-      Print
+      <img src="assets/icons/print.png" alt="" />&nbsp;Print
     </button>
     <div
       style="height: 40px; width: 100%;"
