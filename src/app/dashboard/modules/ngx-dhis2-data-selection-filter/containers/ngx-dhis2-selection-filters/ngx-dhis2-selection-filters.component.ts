@@ -246,10 +246,11 @@ export class NgxDhis2SelectionFiltersComponent implements OnInit {
           return availableDataSelectionLayout
             ? {
                 ...dataSelection,
+                changed: true,
                 layout: availableDataSelectionLayout.layout,
                 layoutOrder: availableDataSelectionLayout.layoutOrder
               }
-            : dataSelection;
+            : { ...dataSelection, changed: true };
         }),
         'layoutOrder'
       );
