@@ -60,6 +60,8 @@ export function getSplitedAnalytics(analytics: any, splitCriteria: any[]) {
     });
   }
 
+  console.log(analyticsArray);
+
   return analyticsArray;
 }
 

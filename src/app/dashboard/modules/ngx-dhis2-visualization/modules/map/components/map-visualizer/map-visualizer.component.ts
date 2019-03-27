@@ -274,7 +274,7 @@ export class MapVisualizerComponent implements OnChanges, AfterViewInit {
   }
 
   createLayers(overLayLayers: any[], currentLayersVisibility) {
-    overLayLayers.forEach((optionsLayer, index) => {
+    (overLayLayers || []).forEach((optionsLayer, index) => {
       if (optionsLayer) {
         const { id, geoJsonLayer, displaySettings, areaRadius } = optionsLayer;
         this.createPane(displaySettings.labels, id, index, areaRadius);
