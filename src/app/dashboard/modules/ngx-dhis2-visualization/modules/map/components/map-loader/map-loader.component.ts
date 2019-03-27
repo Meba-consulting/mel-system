@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 
 @Component({
   selector: 'app-map-loader',
@@ -14,6 +14,8 @@ import { Component, OnInit } from '@angular/core';
   ]
 })
 export class MapLoaderComponent implements OnInit {
+  @Input()
+  height: string;
   constructor() {}
 
   ngOnInit() {}
