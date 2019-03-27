@@ -2,49 +2,34 @@ import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import * as _ from 'lodash';
-import {
-  tap,
-  withLatestFrom,
-  take,
-  first,
-  switchMap,
-  filter
-} from 'rxjs/operators';
 import { forkJoin, Observable } from 'rxjs';
+import { filter, switchMap, take, tap } from 'rxjs/operators';
 
-// reducers
-import { VisualizationState } from '../reducers';
-
-// actions
 import {
-  VisualizationLayerActionTypes,
+  getFunctionLoadedStatus,
+  getFunctions
+} from '../../../ngx-dhis2-data-selection-filter/modules/data-filter/store/selectors/function.selectors';
+import {
+  getMergedDataSelections,
+  getSanitizedAnalytics,
+  getStandardizedAnalyticsObject
+} from '../../helpers';
+import { VisualizationDataSelection, VisualizationLayer } from '../../models';
+import { AnalyticsService } from '../../services/analytics.service';
+import {
   LoadVisualizationAnalyticsAction,
   LoadVisualizationAnalyticsSuccessAction,
-  UpdateVisualizationLayerAction
+  UpdateVisualizationLayerAction,
+  VisualizationLayerActionTypes
 } from '../actions/visualization-layer.actions';
-
 import { UpdateVisualizationObjectAction } from '../actions/visualization-object.actions';
-
-// services
-import { AnalyticsService } from '../../services/analytics.service';
-
-// helpers
-import {
-  getStandardizedAnalyticsObject,
-  getSanitizedAnalytics,
-  getMergedDataSelections
-} from '../../helpers';
-import {
-  Visualization,
-  VisualizationLayer,
-  VisualizationDataSelection
-} from '../../models';
+import { VisualizationState } from '../reducers';
 import { getCombinedVisualizationObjectById } from '../selectors';
-import {
-  getFunctions,
-  getFunctionLoadedStatus
-} from '../../../ngx-dhis2-data-selection-filter/modules/data-filter/store/selectors/function.selectors';
 
+// reducers
+// actions
+// services
+// helpers
 @Injectable()
 export class VisualizationLayerEffects {
   @Effect({ dispatch: false })

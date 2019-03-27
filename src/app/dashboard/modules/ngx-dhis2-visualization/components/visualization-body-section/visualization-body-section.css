@@ -5,3 +5,8 @@
 .message-visualization-block {
   overflow: hidden;
 }
+
+.dictionary-visualization-block {
+  padding-top: 50px;
+  padding-bottom: 50px;
+}
