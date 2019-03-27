@@ -194,7 +194,9 @@ let L = window.L;
       dom.setAttribute('patternContentUnits', options.patternContentUnits);
 
       if (options.patternTransform || options.angle) {
-        var transform = options.patternTransform ? options.patternTransform + ' ' : '';
+        var transform = options.patternTransform
+          ? options.patternTransform + ' '
+          : '';
         transform += options.angle ? 'rotate(' + options.angle + ') ' : '';
         dom.setAttribute('patternTransform', transform);
       } else {
@@ -233,7 +235,10 @@ let L = window.L;
         this._superUpdateStyle(layer);
 
         if (layer.options.fill && layer.options.fillPattern) {
-          layer._path.setAttribute('fill', 'url(#' + getId(layer.options.fillPattern) + ')');
+          layer._path.setAttribute(
+            'fill',
+            'url(#' + getId(layer.options.fillPattern) + ')'
+          );
         }
       }
     });
@@ -245,7 +250,10 @@ let L = window.L;
         this._superUpdateStyle();
 
         if (this.options.fill && this.options.fillPattern) {
-          this._path.setAttribute('fill', 'url(#' + getId(this.options.fillPattern) + ')');
+          this._path.setAttribute(
+            'fill',
+            'url(#' + getId(this.options.fillPattern) + ')'
+          );
         }
       }
     });
@@ -287,9 +295,13 @@ let L = window.L;
     },
 
     _update: function() {
-      this._stripe.options.d = 'M0 ' + this._stripe.options.weight / 2 + ' H ' + this.options.width;
+      this._stripe.options.d =
+        'M0 ' + this._stripe.options.weight / 2 + ' H ' + this.options.width;
       this._space.options.d =
-        'M0 ' + (this._stripe.options.weight + this._space.options.weight / 2) + ' H ' + this.options.width;
+        'M0 ' +
+        (this._stripe.options.weight + this._space.options.weight / 2) +
+        ' H ' +
+        this.options.width;
     },
 
     setStyle: L.Pattern.prototype.setStyle
@@ -437,7 +449,11 @@ let L = window.L;
         dom.setAttribute('fill', 'none');
       }
 
-      dom.setAttribute('pointer-events', options.pointerEvents || (options.interactive ? 'visiblePainted' : 'none'));
+      dom.setAttribute(
+        'pointer-events',
+        options.pointerEvents ||
+          (options.interactive ? 'visiblePainted' : 'none')
+      );
     }
   });
 

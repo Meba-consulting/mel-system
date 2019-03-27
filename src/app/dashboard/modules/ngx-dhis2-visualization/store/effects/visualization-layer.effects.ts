@@ -26,10 +26,6 @@ import { UpdateVisualizationObjectAction } from '../actions/visualization-object
 import { VisualizationState } from '../reducers';
 import { getCombinedVisualizationObjectById } from '../selectors';
 
-// reducers
-// actions
-// services
-// helpers
 @Injectable()
 export class VisualizationLayerEffects {
   @Effect({ dispatch: false })
@@ -41,6 +37,9 @@ export class VisualizationLayerEffects {
         .pipe(take(1))
         .subscribe((visualizationObject: any) => {
           if (visualizationObject) {
+            const visualizationType = visualizationObject.config
+              ? visualizationObject.config.currentType
+              : visualizationObject.type;
             if (!visualizationObject.isNonVisualizable) {
               this.store.dispatch(
                 new UpdateVisualizationObjectAction(action.visualizationId, {
@@ -62,7 +61,7 @@ export class VisualizationLayerEffects {
                         dataSelections: getMergedDataSelections(
                           visualizationLayer.dataSelections,
                           action.globalSelections,
-                          visualizationObject.type
+                          visualizationType
                         )
                       };
                     }
@@ -124,7 +123,7 @@ export class VisualizationLayerEffects {
                         return this.analyticsService.getAnalytics(
                           visualizationLayer.dataSelections,
                           visualizationLayer.layerType,
-                          visualizationLayer.config
+                          { ...visualizationLayer.config, visualizationType }
                         );
                       }
                     )

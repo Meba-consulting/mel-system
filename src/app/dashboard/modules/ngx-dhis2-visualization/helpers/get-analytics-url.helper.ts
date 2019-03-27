@@ -14,6 +14,7 @@ export function getAnalyticsUrl(
 
 function flattenDimensions(
   dataSelections: VisualizationDataSelection[],
+  visualizationType: string,
   isAggregate?: boolean
 ): string {
   const isEligibleForAnalytics = isAggregate
@@ -36,14 +37,16 @@ function flattenDimensions(
         : _.map(dataSelection.items, item => item.id).join(';');
 
       const dimensionSection =
-        dataSelection.layout === 'filters' ? 'filter=' : 'dimension=';
+        dataSelection.layout === 'filters' && visualizationType !== 'MAP'
+          ? 'filter='
+          : 'dimension=';
       return selectionValues !== ''
         ? dimensionSection + dataSelection.dimension + ':' + selectionValues
         : ['dx', 'ou', 'pe'].indexOf(dataSelection.dimension) === -1
-          ? dimensionSection +
-            dataSelection.dimension +
-            (dataSelection.legendSet ? '-' + dataSelection.legendSet : '')
-          : '';
+        ? dimensionSection +
+          dataSelection.dimension +
+          (dataSelection.legendSet ? '-' + dataSelection.legendSet : '')
+        : '';
     }),
     dimension => dimension !== ''
   );
@@ -56,7 +59,11 @@ function getAggregateAnalyticsUrl(
   layerType: string,
   config?: any
 ): string {
-  const flattenedDimensionString = flattenDimensions(dataSelections, true);
+  const flattenedDimensionString = flattenDimensions(
+    dataSelections,
+    config ? config.visualizationType : undefined,
+    true
+  );
   return flattenedDimensionString !== ''
     ? 'analytics.json?' +
         flattenedDimensionString +
@@ -95,7 +102,10 @@ function getEventAnalyticsUrl(
   layerType: string,
   config: any
 ) {
-  const flattenedDimensionString = flattenDimensions(dataSelections);
+  const flattenedDimensionString = flattenDimensions(
+    dataSelections,
+    config ? config.visualizationType : undefined
+  );
   const analyticsUrlFields =
     flattenedDimensionString !== ''
       ? getEventAnalyticsUrlSection(config) +
