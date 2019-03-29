@@ -31,7 +31,7 @@ export const thematic = options => {
   const name = options.name || dataItem.name;
   const { method, classes, colorScale } = legendProperties;
   const period = getPeriodFromFilters(selectionItems);
-  const legendName = `${dataItem && dataItem.name}-${getPeriodNameFromId(period)}`;
+  const legendName = `${dataItem && (dataItem.name || dataItem.displayName)}-${getPeriodNameFromId(period)}`;
   const legend = legendSet
     ? createLegendFromLegendSet(legendSet, legendName, options.type)
     : getAutomaticLegendItems(orderedValues, method, classes, colorScale, legendName, options.type);
