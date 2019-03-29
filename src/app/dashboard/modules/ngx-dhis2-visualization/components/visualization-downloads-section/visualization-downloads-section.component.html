@@ -2,6 +2,7 @@
   <button
     class="visualization-download-btn"
     title="View download options"
+    *ngIf="visualizationType !== 'MAP' && visualizationType !== 'INFO'"
     (click)="toggleDownloadOptions($event)"
   >
     <img src="assets/icons/download.png" alt="" />
