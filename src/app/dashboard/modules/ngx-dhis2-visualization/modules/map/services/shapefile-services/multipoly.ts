@@ -4,7 +4,7 @@
 import { Injectable } from '@angular/core';
 import { types } from './constants';
 import { Extent } from './extent';
-@Injectable({ providedIn: 'root' })
+@Injectable()
 export class MultiPoly {
   constructor(private ext: Extent) {}
 

@@ -1,10 +1,6 @@
 import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 import { Store } from '@ngrx/store';
-import {
-  Observable,
-  BehaviorSubject,
-  SubscriptionLike as ISubscription
-} from 'rxjs';
+import { Observable, SubscriptionLike as ISubscription } from 'rxjs';
 import * as _ from 'lodash';
 
 import { TILE_LAYERS } from '../../constants/tile-layer.constant';
@@ -18,9 +14,10 @@ import { LegendSet } from '../../models/Legend-set.model';
 })
 export class VisualizationLegendComponent implements OnInit, OnDestroy {
   @Input() mapVisualizationObject: any;
+  @Input() currentLayersVisibility: any;
   public LegendsTileLayer: any;
-  public showButtonIncons: boolean = false;
-  public activeLayer: number = -1;
+  public showButtonIncons = false;
+  public activeLayer: string;
   public visualizationLegends: any = [];
   public legendSetEntities: { [id: string]: LegendSet };
   public sticky$: Observable<boolean>;
@@ -28,21 +25,22 @@ export class VisualizationLegendComponent implements OnInit, OnDestroy {
   public visualizationLegends$: ISubscription;
   public baseLayerLegend$: ISubscription;
   public baseLayerLegend;
-  public showFilterContainer: boolean = false;
+  public showFilterContainer = false;
   public buttonTop: string;
   public buttonHeight: string;
   public tileLayers: any;
-  openTileLegend: boolean = false;
-  isRemovable: boolean = false;
-  toggleBoundary: boolean = true;
+  openTileLegend = false;
+  isRemovable = false;
+  toggleBoundary = true;
   boundaryLegend: Array<any> = [];
-  showDownload: boolean = false;
-  showUpload: boolean = false;
-  layerSelectionForm: boolean = false;
+  showDownload = false;
+  showUpload = false;
+  layerSelectionForm = false;
   showTransparent: boolean;
   displayNone: boolean;
-  p: number = 1;
-  mapHeight: string;
+  currentPage = 1;
+  itemsPerPage = 3;
+  absoluteIndex: number;
 
   constructor(private store: Store<fromStore.MapState>) {
     this.displayNone = false;
@@ -54,35 +52,25 @@ export class VisualizationLegendComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.sticky$ = this.store.select(
-      fromStore.isVisualizationLegendPinned(
-        this.mapVisualizationObject.componentId
-      )
-    );
+    this.sticky$ = this.store.select(fromStore.isVisualizationLegendPinned(this.mapVisualizationObject.componentId));
+
     this.isFilterSectionOpen$ = this.store.select(
-      fromStore.isVisualizationLegendFilterSectionOpen(
-        this.mapVisualizationObject.componentId
-      )
+      fromStore.isVisualizationLegendFilterSectionOpen(this.mapVisualizationObject.componentId)
     );
-    const layers = this.mapVisualizationObject.layers;
 
     this.visualizationLegends$ = this.store
-      .select(
-        fromStore.getCurrentLegendSets(this.mapVisualizationObject.componentId)
-      )
+      .select(fromStore.getCurrentLegendSets(this.mapVisualizationObject.componentId))
       .subscribe(visualizationLengends => {
         if (visualizationLengends) {
-          this.visualizationLegends = Object.keys(visualizationLengends).map(
-            key => visualizationLengends[key]
-          );
-          this.activeLayer = this.activeLayer >= 0 ? this.activeLayer : 0;
+          this.visualizationLegends = Object.keys(visualizationLengends)
+            .map(key => visualizationLengends[key])
+            .reverse();
+          this.activeLayer = this.activeLayer || this.visualizationLegends[0].layer;
         }
       });
 
     this.baseLayerLegend$ = this.store
-      .select(
-        fromStore.getCurrentBaseLayer(this.mapVisualizationObject.componentId)
-      )
+      .select(fromStore.getCurrentBaseLayer(this.mapVisualizationObject.componentId))
       .subscribe(baselayerLegend => {
         if (baselayerLegend) {
           this.baseLayerLegend = { ...baselayerLegend };
@@ -98,12 +86,10 @@ export class VisualizationLegendComponent implements OnInit, OnDestroy {
     this.showButtonIncons = false;
   }
 
-  setActiveItem(index, e) {
+  setActiveItem(activeLayer, e) {
     e.stopPropagation();
-    if (index === -1) {
-      this.LegendsTileLayer = Object.keys(TILE_LAYERS).map(
-        layerKey => TILE_LAYERS[layerKey]
-      );
+    if (activeLayer === 'baseMap') {
+      this.LegendsTileLayer = Object.keys(TILE_LAYERS).map(layerKey => TILE_LAYERS[layerKey]);
     }
 
     if (this.showFilterContainer) {
@@ -113,7 +99,7 @@ export class VisualizationLegendComponent implements OnInit, OnDestroy {
     this.buttonTop = e.currentTarget.offsetTop;
     this.buttonHeight = e.currentTarget.offsetHeight;
 
-    this.activeLayer = this.activeLayer === index ? -2 : index;
+    this.activeLayer = activeLayer;
   }
 
   mapDownload(e, fileType, mapLegends) {
@@ -166,50 +152,29 @@ export class VisualizationLegendComponent implements OnInit, OnDestroy {
 
   stickLegendContainer(e) {
     e.stopPropagation();
-    this.store.dispatch(
-      new fromStore.TogglePinVisualizationLegend(
-        this.mapVisualizationObject.componentId
-      )
-    );
+    this.store.dispatch(new fromStore.TogglePinVisualizationLegend(this.mapVisualizationObject.componentId));
   }
 
   closeLegendContainer(e) {
     e.stopPropagation();
-    this.store.dispatch(
-      new fromStore.CloseVisualizationLegend(
-        this.mapVisualizationObject.componentId
-      )
-    );
+    this.store.dispatch(new fromStore.CloseVisualizationLegend(this.mapVisualizationObject.componentId));
   }
 
   openFilters(e) {
     e.stopPropagation();
     this.showFilterContainer = true;
-    this.store.dispatch(
-      new fromStore.ToggleVisualizationLegendFilterSection(
-        this.mapVisualizationObject.componentId
-      )
-    );
+    this.store.dispatch(new fromStore.ToggleVisualizationLegendFilterSection(this.mapVisualizationObject.componentId));
   }
 
   closeFilters() {
     this.showFilterContainer = false;
-    this.store.dispatch(
-      new fromStore.CloseVisualizationLegendFilterSection(
-        this.mapVisualizationObject.componentId
-      )
-    );
+    this.store.dispatch(new fromStore.CloseVisualizationLegendFilterSection(this.mapVisualizationObject.componentId));
   }
 
-  toggleLayerView(index, e) {
+  hideAndShowLayer(layer, e) {
     e.stopPropagation();
-    const _legend = this.visualizationLegends[index];
     const { componentId } = this.mapVisualizationObject;
-    const hidden = !_legend.hidden;
-    const newLegend = { ..._legend, hidden };
-    const legend = { [newLegend.layer]: { ...newLegend } };
-
-    this.store.dispatch(new fromStore.UpdateLegendSet({ componentId, legend }));
+    this.store.dispatch(new fromStore.ToggleLayerVisibilitySettings({ componentId, layer }));
   }
 
   toggleBaseLayer(event) {
@@ -245,11 +210,7 @@ export class VisualizationLegendComponent implements OnInit, OnDestroy {
     const { name } = tileLayer;
     const changedBaseLayer = true;
     const payload = {
-      [this.mapVisualizationObject.componentId]: {
-        ...this.baseLayerLegend,
-        name,
-        changedBaseLayer
-      }
+      [this.mapVisualizationObject.componentId]: { ...this.baseLayerLegend, name, changedBaseLayer }
     };
     this.store.dispatch(new fromStore.UpdateBaseLayer(payload));
   }
@@ -269,7 +230,10 @@ export class VisualizationLegendComponent implements OnInit, OnDestroy {
   }
 
   handlePageChange(event) {
-    this.p = event;
+    this.currentPage = event;
+    const absoluteIndex = this.itemsPerPage * (this.currentPage - 1);
+    this.activeLayer = this.visualizationLegends[absoluteIndex].layer;
+    this.closeFilters();
   }
 
   toggleDownload(event) {
@@ -279,9 +243,15 @@ export class VisualizationLegendComponent implements OnInit, OnDestroy {
 
   toggleDataTableView(event) {
     event.stopPropagation();
-    this.store.dispatch(
-      new fromStore.ToggleDataTable(this.mapVisualizationObject.componentId)
-    );
+    this.store.dispatch(new fromStore.ToggleDataTable(this.mapVisualizationObject.componentId));
+  }
+
+  dropped(event) {
+    const orderedLayers = this.visualizationLegends.map(({ layer }) => layer);
+    const { layers } = this.mapVisualizationObject;
+    const newLayers = orderedLayers.map(layerId => layers.filter(layer => layer.id === layerId)[0]);
+    const vizObject = { ...this.mapVisualizationObject, layers: newLayers };
+    this.store.dispatch(new fromStore.UpdateVisualizationObjectSuccess(vizObject));
   }
 
   ngOnDestroy() {
