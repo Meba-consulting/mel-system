@@ -1,16 +1,13 @@
 import { Injectable } from '@angular/core';
-import { Actions, Effect, ofType } from '@ngrx/effects';
+import { Effect, Actions, ofType } from '@ngrx/effects';
 import { tap } from 'rxjs/operators';
 
-import * as fromServices from '../../services';
 import * as systemInfoActions from '../actions/system-info.action';
+import * as fromServices from '../../services';
 
 @Injectable()
 export class SystemInfoEffects {
-  constructor(
-    private actions$: Actions,
-    private systemInfoService: fromServices.SystemService
-  ) {}
+  constructor(private actions$: Actions, private systemInfoService: fromServices.SystemService) {}
 
   @Effect({ dispatch: false })
   addContextPath$ = this.actions$.pipe(
@@ -19,10 +16,7 @@ export class SystemInfoEffects {
       this.systemInfoService.getSystemInfo().subscribe(info => {
         localStorage.setItem('contextPath', info['contextPath']);
         localStorage.setItem('version', info['version']);
-        localStorage.setItem(
-          'spatialSupport',
-          info['databaseInfo']['spatialSupport']
-        );
+        localStorage.setItem('spatialSupport', info['databaseInfo']['spatialSupport']);
       });
     })
   );

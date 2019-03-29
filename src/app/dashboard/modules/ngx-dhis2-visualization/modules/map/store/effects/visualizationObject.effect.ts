@@ -1,17 +1,17 @@
+import { of, forkJoin } from 'rxjs';
 import { Injectable } from '@angular/core';
-import { Actions, Effect, ofType } from '@ngrx/effects';
+import { Effect, Actions, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
-import { timeFormat } from 'd3-time-format';
-import { combineLatest, of, zip } from 'rxjs';
-import { catchError, map, switchMap, tap } from 'rxjs/operators';
+import { map, switchMap, catchError, tap } from 'rxjs/operators';
 
-import * as fromStore from '..';
-import { Layer } from '../../models/layer.model';
-import * as fromServices from '../../services';
-import { toGeoJson } from '../../utils/layers';
-import * as layerActions from '../actions/layers.action';
-import * as legendSetActions from '../actions/legend-set.action';
 import * as visualizationObjectActions from '../actions/visualization-object.action';
+import * as legendSetActions from '../actions/legend-set.action';
+import * as layerActions from '../actions/layers.action';
+import * as fromServices from '../../services';
+import * as fromStore from '../../store';
+import { Layer } from '../../models/layer.model';
+import { toGeoJson, getPeriodFromFilters } from '../../utils';
+import { timeFormat } from 'd3-time-format';
 
 @Injectable()
 export class VisualizationObjectEffects {
@@ -121,7 +121,7 @@ export class VisualizationObjectEffects {
         const values = Object.keys(entities).map(key => entities[key]);
         this.geofeatureService
           .getGeoFeaturesArray(values)
-          .pipe(map(geofeature => console.log(geofeature)));
+          .pipe(map(geofeature => {}));
       }
     )
   );
@@ -161,7 +161,7 @@ export class VisualizationObjectEffects {
     })
   );
 
-  @Effect({ dispatch: false })
+  @Effect()
   dispatchAddGeoFeaturescomplete$ = this.actions$.pipe(
     ofType(visualizationObjectActions.ADD_VISUALIZATION_OBJECT_COMPLETE),
     switchMap(
@@ -214,43 +214,35 @@ export class VisualizationObjectEffects {
 
         const entities = this.getParameterEntities(layers);
         const parameters = Object.keys(entities).map(key => entities[key]);
-        const sources = parameters.map(param => {
-          return this.geofeatureService.getGeoFeatures(param);
-        });
-
-        if (sources.length === 0) {
-          this.store.dispatch(
-            new visualizationObjectActions.AddVisualizationObjectCompleteSuccess(
-              {
-                ...vizObject,
-                layers: _layers
-              }
-            )
-          );
-        }
-
-        // This is a hack find a way not to subscribe please!
-        // TODO: remove this hack;
-        combineLatest(sources).subscribe(geofeature => {
-          if (geofeature) {
+        const sources = parameters.length
+          ? parameters.map(param => {
+              return this.geofeatureService.getGeoFeatures(param);
+            })
+          : of([]);
+        return forkJoin(sources).pipe(
+          map(geofeature => {
             const geofeatures = Object.keys(entities).reduce(
               (arr = {}, key, index) => {
                 return { ...arr, [key]: geofeature[index] };
               },
               {}
             );
-            this.store.dispatch(
-              new visualizationObjectActions.AddVisualizationObjectCompleteSuccess(
-                {
-                  ...vizObject,
-                  layers: _layers,
-                  geofeatures
-                }
-              )
+            return new visualizationObjectActions.AddVisualizationObjectCompleteSuccess(
+              {
+                ...vizObject,
+                layers: _layers,
+                geofeatures
+              }
             );
-          }
-        });
-        return zip(sources);
+          }),
+          catchError(error =>
+            of(
+              new visualizationObjectActions.UpdateVisualizationObjectFail(
+                error
+              )
+            )
+          )
+        );
       }
     )
   );
@@ -267,6 +259,7 @@ export class VisualizationObjectEffects {
       const data = requestParams.filter(
         dimension => dimension.dimension === 'ou'
       );
+
       const parameter = data
         .map((param, paramIndex) => {
           return `ou=${param.dimension}:${param.items
@@ -321,13 +314,14 @@ export class VisualizationObjectEffects {
       ...layer.dataSelections.filters
     ];
     const dimensions = [];
+    const period = getPeriodFromFilters(requestParams);
 
     requestParams.map(param => {
       const dimension = `dimension=${param.dimension}`;
       if (param.items.length) {
         dimensions.push(
           `${dimension}:${param.items
-            .map(item => item.dimensionItem || item.id)
+            .map(item => item.dimensionItem)
             .join(';')}`
         );
       } else {
@@ -336,14 +330,13 @@ export class VisualizationObjectEffects {
         }
       }
     });
-    console.log(dimensions);
     let url = `${layer.dataSelections.program.id}.json?stage=${
       layer.dataSelections.programStage.id
     }&${dimensions.join('&')}`;
-    if (layer.dataSelections.endDate) {
+    if (layer.dataSelections.endDate && !period) {
       url += `&endDate=${layer.dataSelections.endDate.split('T')[0]}`;
     }
-    if (layer.dataSelections.startDate) {
+    if (layer.dataSelections.startDate && !period) {
       url += `&startDate=${layer.dataSelections.startDate.split('T')[0]}`;
     }
     return url;

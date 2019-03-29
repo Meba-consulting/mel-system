@@ -11,5 +11,9 @@ export function getVisualizationMetadataIdentifiers(
     return [];
   }
 
-  return _.map(dxDimension.items, item => item.id.split('.')[0]);
+  return _.map(dxDimension.items, item =>
+    item.type === 'FUNCTION_RULE'
+      ? `${item.functionObject ? item.functionObject.id + '.' : ''}${item.id}`
+      : item.id.split('.')[0]
+  );
 }

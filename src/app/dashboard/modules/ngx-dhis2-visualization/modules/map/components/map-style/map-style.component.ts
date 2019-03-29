@@ -10,8 +10,10 @@ import { colorBrewer } from '../../utils/colorBrewer';
 export class MapStyleComponent implements OnInit {
   @Input() selectedLayer;
   @Input() legendSets;
-  @Output() onStyleUpdate: EventEmitter<any> = new EventEmitter<any>();
-  @Output() onStyleFilterClose: EventEmitter<boolean> = new EventEmitter<boolean>();
+  @Input() isloading = false;
+  @Input() justUpdated = false;
+  @Output() styleUpdate: EventEmitter<any> = new EventEmitter<any>();
+  @Output() styleFilterClose: EventEmitter<boolean> = new EventEmitter<boolean>();
   classifications = [{ method: 2, name: 'Equal interval' }, { method: 3, name: 'Equal counts' }];
   classes = [3, 4, 5, 6, 7, 8, 9];
   default_color = 'YlOrBr';
@@ -22,14 +24,16 @@ export class MapStyleComponent implements OnInit {
   isAutomatic: boolean;
   legendProperties;
   displaySettings;
+  layerOptions;
 
   colors = Object.keys(colorBrewer);
   constructor() {}
 
   ngOnInit() {
-    const { displaySettings, legendProperties, legendSet } = this.selectedLayer;
+    const { displaySettings, legendProperties, legendSet, layerOptions } = this.selectedLayer;
     this.displaySettings = { ...displaySettings };
     this.legendProperties = { ...legendProperties };
+    this.layerOptions = { ...layerOptions };
     this.isAutomatic = legendSet ? false : true;
     this.currentLegendSet = legendSet;
     this.fontStyleActive = !(this.displaySettings.labelFontStyle === 'normal');
@@ -75,12 +79,35 @@ export class MapStyleComponent implements OnInit {
     this.displaySettings = { ...this.displaySettings, labels };
   }
 
+  toggleShowValues(event) {
+    event.stopPropagation();
+    const values = event.target.checked;
+    this.displaySettings = { ...this.displaySettings, values };
+  }
+
   onFontSizeChange(labelFontSize) {
     this.displaySettings = { ...this.displaySettings, labelFontSize: `${labelFontSize}px` };
   }
 
   getNumberFromFontSize(fontSize) {
     return fontSize ? fontSize.split('px')[0] : fontSize;
+  }
+
+  toggleFontWeight(FontWeight) {
+    const labelFontWeight = FontWeight === 'bold' ? undefined : 'bold';
+    this.displaySettings = { ...this.displaySettings, labelFontWeight };
+  }
+
+  toggleFontStyle(FontStyle) {
+    const labelFontStyle = FontStyle === 'normal' ? 'italic' : 'normal';
+    this.displaySettings = { ...this.displaySettings, labelFontStyle };
+  }
+
+  onRadiusLowChange(radiusLow) {
+    this.layerOptions = { ...this.layerOptions, radiusLow: Number(radiusLow) };
+  }
+  onRadiusHighChange(radiusHigh) {
+    this.layerOptions = { ...this.layerOptions, radiusHigh: Number(radiusHigh) };
   }
 
   onSubmit(e) {
@@ -93,6 +120,7 @@ export class MapStyleComponent implements OnInit {
     this.legendProperties = { ...this.legendProperties, colorScale, colorLow, colorHigh };
     const layer = {
       ...this.selectedLayer,
+      layerOptions: this.layerOptions,
       legendSet: this.currentLegendSet,
       legendProperties: this.legendProperties,
       displaySettings: this.displaySettings
@@ -100,12 +128,12 @@ export class MapStyleComponent implements OnInit {
     if (this.isAutomatic) {
       delete layer.legendSet;
     }
-    this.onStyleUpdate.emit({ layer });
+    this.styleUpdate.emit({ layer });
   }
 
   onCanceling(e) {
     e.stopPropagation();
-    this.onStyleFilterClose.emit(true);
+    this.styleFilterClose.emit(true);
   }
 
   toggleAtomatic(isAutomatic) {
