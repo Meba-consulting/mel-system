@@ -1,1 +1,4 @@
 version: '2'
+exclude_patterns:
+  - 'e2e'
+  - '/\.spec.ts$/'
