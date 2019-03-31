@@ -150,6 +150,7 @@
     <ngx-dhis2-org-unit-filter
       *ngIf="selectedFilter === 'ORG_UNIT'"
       [selectedOrgUnitItems]="selectedOrgUnits"
+      [orgUnitFilterConfig]="{ singleSelection: false }"
       (orgUnitClose)="onFilterClose($event, 'ORG_UNIT')"
       (orgUnitUpdate)="onFilterUpdate($event, 'ORG_UNIT')"
     ></ngx-dhis2-org-unit-filter>

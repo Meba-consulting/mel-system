@@ -1,5 +1,5 @@
 import * as _ from 'lodash';
-import { USER_ORG_UNITS } from '../../ngx-dhis2-data-selection-filter/modules/ngx-dhis2-org-unit-filter/constants/user-org-units.constants';
+import { USER_ORG_UNITS } from '@hisptz/ngx-dhis2-org-unit-filter';
 import { VisualizationDataSelection } from '../models';
 
 // TODO: Refactor this implementation to be flexible for increased preferences
