@@ -15,6 +15,18 @@ export class FavoriteService {
     private http: HttpClient
   ) {}
 
+  getAll() {
+    return this.httpClient.get('dataStore/favorites').pipe(
+      switchMap(favoriteIds =>
+        forkJoin(
+          _.map(favoriteIds, favoriteId => {
+            return this.httpClient.get(`dataStore/favorites/${favoriteId}`);
+          })
+        )
+      )
+    );
+  }
+
   getFavorite(
     favorite: { id: string; type: string },
     configurations: FavoriteConfiguration = {
@@ -27,40 +39,40 @@ export class FavoriteService {
     return configurations.useDataStoreAsSource
       ? this.getFromDataStore(namespace, favorite.id)
       : configurations.useBothSources
-        ? forkJoin(
-            this.getFromApi(favorite),
-            this.getFromDataStore(namespace, favorite.id).pipe(
-              catchError((error: any) => {
-                if (error.status !== 404) {
-                  return throwError(error);
-                }
+      ? forkJoin(
+          this.getFromApi(favorite),
+          this.getFromDataStore(namespace, favorite.id).pipe(
+            catchError((error: any) => {
+              if (error.status !== 404) {
+                return throwError(error);
+              }
 
-                return this.http.get('config/favorites.json').pipe(
-                  switchMap((favorites: any[]) => {
-                    const availableFavorite = _.find(favorites, [
-                      'id',
-                      favorite.id
-                    ]);
+              return this.http.get('config/favorites.json').pipe(
+                switchMap((favorites: any[]) => {
+                  const availableFavorite = _.find(favorites, [
+                    'id',
+                    favorite.id
+                  ]);
 
-                    return availableFavorite
-                      ? this.create(
-                          '',
-                          availableFavorite,
-                          configurations,
-                          namespace
-                        )
-                      : of({});
-                  }),
-                  catchError(() => of({}))
-                );
-              })
-            )
-          ).pipe(
-            map((favoriteResults: any[]) => {
-              return { ...favoriteResults[0], ...favoriteResults[1] };
+                  return availableFavorite
+                    ? this.create(
+                        '',
+                        availableFavorite,
+                        configurations,
+                        namespace
+                      )
+                    : of({});
+                }),
+                catchError(() => of({}))
+              );
             })
           )
-        : this.getFromApi(favorite);
+        ).pipe(
+          map((favoriteResults: any[]) => {
+            return { ...favoriteResults[0], ...favoriteResults[1] };
+          })
+        )
+      : this.getFromApi(favorite);
   }
 
   getFromDataStore(namespace: string, favoriteId: string) {
