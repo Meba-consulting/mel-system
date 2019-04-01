@@ -138,7 +138,10 @@ export class MapFilterSectionComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   onFilterClose(event) {
-    this.store.dispatch(new fromStore.CloseVisualizationLegendFilterSection(this.mapVisualizationObject.componentId));
+    // this is to bypass onDestroy by orgUnitTree
+    if (event === true) {
+      this.store.dispatch(new fromStore.CloseVisualizationLegendFilterSection(this.mapVisualizationObject.componentId));
+    }
   }
 
   getSelectedFilters(dataSelections) {
