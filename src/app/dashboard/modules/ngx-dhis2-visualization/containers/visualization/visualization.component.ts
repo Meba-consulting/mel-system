@@ -154,11 +154,34 @@ export class VisualizationComponent implements OnInit, OnChanges {
   }
 
   onVisualizationTypeChange(visualizationTypeObject) {
-    this.store.dispatch(
-      new UpdateVisualizationConfigurationAction(visualizationTypeObject.id, {
-        currentType: visualizationTypeObject.type
-      })
-    );
+    this.visualizationConfig$
+      .pipe(take(1))
+      .subscribe((visualizationConfig: VisualizationConfig) => {
+        this.store.dispatch(
+          new UpdateVisualizationConfigurationAction(
+            visualizationTypeObject.id,
+            {
+              currentType: visualizationTypeObject.type
+            }
+          )
+        );
+
+        if (
+          visualizationConfig.currentType === 'MAP' ||
+          visualizationTypeObject.type === 'MAP'
+        ) {
+          this.visualizationLayers$
+            .pipe(take(1))
+            .subscribe((visualizationLayers: VisualizationLayer[]) => {
+              this.store.dispatch(
+                new LoadVisualizationAnalyticsAction(
+                  this.id,
+                  visualizationLayers
+                )
+              );
+            });
+        }
+      });
   }
 
   onFullScreenAction(event: {

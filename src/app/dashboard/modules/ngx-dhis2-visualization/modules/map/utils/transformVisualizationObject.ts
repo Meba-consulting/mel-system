@@ -1,11 +1,14 @@
 import * as _ from 'lodash';
-import { getOrgUnitsFromRows, getDataItemsFromColumns, getPeriodFromFilters } from './analytics';
 import { MapConfiguration } from '../models/map-configuration.model';
 import { Layer } from '../models/layer.model';
 import { getBboxBounds } from './layers';
-import { colorBrewer, getColorScale } from './colorBrewer';
+import { getColorScale } from './colorBrewer';
+import { config } from 'rxjs';
 
 export function transformVisualizationObject(visualizationConfig, visualizationLayers, vizId) {
+  if (!visualizationConfig || !visualizationLayers || !vizId) {
+    return { visObject: {} };
+  }
   let visObject = {};
   let geofeatures = {};
   let analytics = {};
@@ -39,20 +42,25 @@ export function transformVisualizationObject(visualizationConfig, visualizationL
       type: settings.layer ? settings.layer.replace(/\d$/, '') : 'thematic' // Replace number in thematic layers
     };
 
-    const _layerOptions = _.pick(settings, [
-      'eventClustering',
-      'eventPointRadius',
-      'eventPointColor',
-      'radiusHigh',
-      'radiusLow'
-    ]);
+    const radiusHigh = settings.radiusHigh || 15;
+    const radiusLow = settings.radiusLow || 5;
+
+    const _layerOptions = {
+      ..._.pick(settings, ['eventClustering', 'eventPointRadius', 'eventPointColor']),
+      radiusHigh,
+      radiusLow
+    };
 
     const serverClustering = mapview.analytics && mapview.analytics.hasOwnProperty('count');
     if (serverClustering) {
       const bounds = getBboxBounds(mapview.analytics['extent']);
       serverSideConfig = { ...serverSideConfig, bounds };
     }
-    const layerOptions = { ..._layerOptions, serverClustering, serverSideConfig };
+    const layerOptions = {
+      ..._layerOptions,
+      serverClustering,
+      serverSideConfig
+    };
 
     const legendProperties = {
       colorLow: settings.colorLow,
@@ -62,19 +70,23 @@ export function transformVisualizationObject(visualizationConfig, visualizationL
       method: settings.method || 2
     };
 
-    const displaySettings = _.pick(settings, [
-      'labelFontColor',
-      'labelFontSize',
-      'labelFontStyle',
-      'labelFontWeight',
-      'labels',
-      'hideTitle',
-      'hideSubtitle'
-    ]);
+    const labelFontColor = settings.labelFontColor || '#000000';
+    const labelFontSize = settings.labelFontSize || '12';
+    const labelFontStyle = settings.labelFontStyle || 'normal';
 
-    const rows = (mapview.dataSelections || []).filter(dt => dt.dimension == 'ou');
-    const columns = (mapview.dataSelections || []).filter(dt => dt.dimension == 'dx');
-    const filters = (mapview.dataSelections || []).filter(dt => dt.dimension == 'pe');
+    const displaySettings = {
+      ..._.pick(settings, ['labelFontWeight', 'labels', 'hideTitle', 'hideSubtitle']),
+      labelFontColor,
+      labelFontSize,
+      labelFontStyle
+    };
+
+    // const rows = (mapview.dataSelections || []).filter(dt => dt.dimension === 'ou');
+    // const columns = (mapview.dataSelections || []).filter(dt => dt.dimension === 'dx');
+    // const filters = (mapview.dataSelections || []).filter(dt => dt.dimension === 'pe');
+
+    const { rows, columns, filters } = settings;
+
     const dataSelections = Object.assign(
       {},
       _.pick(settings, [
@@ -130,7 +142,7 @@ export function transformVisualizationObject(visualizationConfig, visualizationL
   };
 }
 
-const defaultScaleKey = 'YlOrBr';
-const defaultClasses = 5;
+export const defaultScaleKey = 'YlOrBr';
+export const defaultClasses = 5;
 const isVersionGreater = Number(localStorage.getItem('version')) >= 2.28;
-const defaultColorScale = getColorScale(defaultScaleKey, defaultClasses);
+export const defaultColorScale = getColorScale(defaultScaleKey, defaultClasses);

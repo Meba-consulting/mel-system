@@ -41,6 +41,7 @@ export class DashboardComponent implements OnInit {
   dashboardGroups$: Observable<DashboardGroups[]>;
   dashboardGroupsLoading$: Observable<boolean>;
   dashboardGroupsLoaded$: Observable<boolean>;
+  dashboardContentMarginTop = 157;
 
   @HostListener('window:beforeprint', ['$event'])
   onBeforePrint(event) {
@@ -51,7 +52,7 @@ export class DashboardComponent implements OnInit {
   @HostListener('window:afterprint', ['$event'])
   onAfterPrint(event) {
     event.stopPropagation();
-    document.getElementById('dashboard_content').style.marginTop = '151px';
+    document.getElementById('dashboard_content').style.marginTop = '157px';
   }
 
   constructor(private store: Store<State>) {
@@ -67,14 +68,6 @@ export class DashboardComponent implements OnInit {
     this.currentDashboardGroupId$ = store.select(getActiveDashboardGroup);
     this.dashboardGroupsLoading$ = store.select(getDashboardGroupsLoading);
     this.dashboardGroupsLoaded$ = store.select(getDashboardGroupsLoaded);
-
-    // menu container height in pixels
-    this.menuContainerHeight = 91;
-  }
-
-  // Get dashboard content margin top by adding additional height from menu container height
-  get dashboardContentMarginTop(): number {
-    return this.menuContainerHeight + 60;
   }
 
   ngOnInit() {}

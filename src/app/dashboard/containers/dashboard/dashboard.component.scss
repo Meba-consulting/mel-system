@@ -10,3 +10,13 @@
     background-color: #ffffff;
   }
 }
+
+.dashboard-content {
+  margin-top: 157px;
+}
+
+@media screen and (max-width: 1000px) {
+  .dashboard-content {
+    margin-top: 180px;
+  }
+}

@@ -87,6 +87,7 @@ img[title] {
   align-items: center;
   width: 100%;
   z-index: 650;
+  height: 100%;
 }
 
 .warning-map h4 {
@@ -96,7 +97,7 @@ img[title] {
   background: transparent;
   top: 3%;
   position: absolute;
-  z-index: 800;
+  z-index: 401;
   align-items: center;
   width: 100%;
   font-weight: 500;
