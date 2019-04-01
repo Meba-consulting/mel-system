@@ -96,6 +96,8 @@ export function dashboardObjectReducer(
         action.systemInfo
       );
 
+      console.log(JSON.stringify(action.dashboards));
+
       return dashboards
         ? dashboardObjectAdapter.addMany(dashboards, {
             ...state,
