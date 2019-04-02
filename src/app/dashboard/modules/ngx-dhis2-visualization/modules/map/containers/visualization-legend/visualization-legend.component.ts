@@ -62,9 +62,7 @@ export class VisualizationLegendComponent implements OnInit, OnDestroy {
       .select(fromStore.getCurrentLegendSets(this.mapVisualizationObject.componentId))
       .subscribe(visualizationLengends => {
         if (visualizationLengends) {
-          this.visualizationLegends = Object.keys(visualizationLengends)
-            .map(key => visualizationLengends[key])
-            .reverse();
+          this.visualizationLegends = Object.keys(visualizationLengends).map(key => visualizationLengends[key]);
           this.activeLayer = this.activeLayer || this.visualizationLegends[0].layer;
         }
       });
