@@ -138,7 +138,10 @@ export class MapFilterSectionComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   onFilterClose(event) {
-    this.store.dispatch(new fromStore.CloseVisualizationLegendFilterSection(this.mapVisualizationObject.componentId));
+    // this is to bypass onDestroy by orgUnitTree
+    if (event === true) {
+      this.store.dispatch(new fromStore.CloseVisualizationLegendFilterSection(this.mapVisualizationObject.componentId));
+    }
   }
 
   getSelectedFilters(dataSelections) {
@@ -152,7 +155,14 @@ export class MapFilterSectionComponent implements OnInit, OnDestroy, OnChanges {
       type: periodItem.dimensionItemType || periodItem.type
     }));
 
-    this.selectedOrgUnitItems = getDimensionItems('ou', data);
+    this.selectedOrgUnitItems = getDimensionItems('ou', data).map(ouItem => ({
+      id: ouItem.dimensionItem || ouItem.id,
+      name: ouItem.displayName || ouItem.name,
+      type:
+        ouItem.dimensionItemType || ouItem.type || (ouItem.dimensionItem || ouItem.id || '').includes('LEVEL')
+          ? 'ORGANISATION_UNIT'
+          : ''
+    }));
   }
 
   ngOnDestroy() {

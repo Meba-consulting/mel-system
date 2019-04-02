@@ -1,12 +1,4 @@
-import {
-  Component,
-  ChangeDetectionStrategy,
-  OnInit,
-  OnChanges,
-  SimpleChanges,
-  SimpleChange,
-  Input
-} from '@angular/core';
+import { Component, ChangeDetectionStrategy, OnChanges, SimpleChanges, Input } from '@angular/core';
 import { VisualizationObject } from '../../models/visualization-object.model';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
@@ -49,11 +41,11 @@ export class ContainerMapComponent implements OnChanges {
     if (displayConfigurations) {
       this._displayConfigurations = displayConfigurations.currentValue;
     }
-    this.initialize(this._visualizationObject);
+    this.initialize();
   }
 
-  initialize(visualizationObject: VisualizationObject) {
-    const { componentId } = visualizationObject;
+  initialize() {
+    const { componentId } = this.visualizationObject;
 
     // Detect if visualizationLegend is Open;
     this.visualizationLegendIsOpen$ = this.store.select(fromStore.isVisualizationLegendOpen(componentId));
