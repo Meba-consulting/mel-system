@@ -41,9 +41,11 @@
     </style>
     <script src="https://raw.githack.com/hisptz/function-analytics/master/lib/function-analytics.min.js"></script>
     <script>
-      Fn.init({
-        baseUrl: '../../../api/'
-      });
+      if (Fn) {
+        Fn.init({
+          baseUrl: '../../../api/'
+        });
+      }
     </script>
   </head>
 
