@@ -46,7 +46,7 @@ export class NgxDhis2DynamicDimensionComponent implements OnInit, OnDestroy {
     return _.flatten(
       _.map(
         this.selectedDimensions || [],
-        (selectedDimension: any) => selectedDimension.items
+        (selectedDimension: any) => selectedDimension.items || []
       )
     );
   }
@@ -82,16 +82,12 @@ export class NgxDhis2DynamicDimensionComponent implements OnInit, OnDestroy {
       return this.dynamicDimensions$.pipe(
         map((dynamicDimensions: DynamicDimension[]) => {
           const activeDimension: DynamicDimension =
-            _.find(
-              dynamicDimensions,
-              [
-                'id',
-                firstSelectedDimension
-                  ? firstSelectedDimension.id ||
-                    firstSelectedDimension.dimension
-                  : ''
-              ]
-            ) || dynamicDimensions[0];
+            _.find(dynamicDimensions, [
+              'id',
+              firstSelectedDimension
+                ? firstSelectedDimension.id || firstSelectedDimension.dimension
+                : ''
+            ]) || dynamicDimensions[0];
           const newActiveDimension = activeDimension
             ? {
                 ...activeDimension,
@@ -109,13 +105,24 @@ export class NgxDhis2DynamicDimensionComponent implements OnInit, OnDestroy {
       );
     }
 
-    return of({
-      ...this._activeDimension,
-      items: _.filter(
-        this._activeDimension.items || [],
-        (item: any) => !_.find(this.selectedDimensionItems, ['id', item.id])
-      )
-    });
+    return this.dynamicDimensions$.pipe(
+      map((dynamicDimensions: DynamicDimension[]) => {
+        const updatedActivedDimension =
+          _.find(dynamicDimensions, ['id', this._activeDimension.id]) ||
+          dynamicDimensions[0];
+
+        return updatedActivedDimension
+          ? {
+              ...updatedActivedDimension,
+              items: _.filter(
+                updatedActivedDimension.items || [],
+                (item: any) =>
+                  !_.find(this.selectedDimensionItems, ['id', item.id])
+              )
+            }
+          : null;
+      })
+    );
   }
 
   constructor(
@@ -135,7 +142,15 @@ export class NgxDhis2DynamicDimensionComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.selectedDimensions = [...this.selectedDynamicDimensions];
+    this.selectedDimensions = _.map(
+      this.selectedDynamicDimensions || [],
+      (selectedDynamicDimension: any) => {
+        return {
+          ...selectedDynamicDimension,
+          id: selectedDynamicDimension.id || selectedDynamicDimension.dimension
+        };
+      }
+    );
   }
 
   onSetActiveDynamicDimension(dynamicDimension: DynamicDimension) {
@@ -191,10 +206,14 @@ export class NgxDhis2DynamicDimensionComponent implements OnInit, OnDestroy {
       (selectedDimensionObject: any) =>
         _.find(selectedDimensionObject.items, ['id', dimensionItem.id])
     )[0];
-    const availableDimensionObject = _.find(this.selectedDimensions, [
-      'id',
-      dimensionObject.id || dimensionObject.dimension
-    ]);
+
+    const availableDimensionObject = dimensionObject
+      ? _.find(this.selectedDimensions, ['id', dimensionObject.id]) ||
+        _.find(this.selectedDimensions, [
+          'dimension',
+          dimensionObject.dimension
+        ])
+      : null;
 
     if (availableDimensionObject) {
       const availableDimensionIndex = this.selectedDimensions.indexOf(
