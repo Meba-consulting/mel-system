@@ -55,5 +55,7 @@ export function getMergedDataSelections(
     }
   );
 
+  console.log([...unAvailableDataSelections, ...mergedDataSelections]);
+
   return [...unAvailableDataSelections, ...mergedDataSelections];
 }
