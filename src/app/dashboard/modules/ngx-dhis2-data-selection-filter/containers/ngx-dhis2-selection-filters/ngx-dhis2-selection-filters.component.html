@@ -127,6 +127,9 @@
   <div
     class="selection-filter-body"
     *ngIf="selectedFilter !== '' && showFilterBody"
+    [@open]
+    appClickOutside
+    (clickOutside)="onFilterClickOutside()"
   >
     <!--data filter-->
     <app-data-filter
