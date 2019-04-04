@@ -37,8 +37,6 @@ export function getMergedDataSelections(
       !_.find(existingDataSelections, ['dimension', dataSelection.dimension])
   );
 
-  console.log(newDataSelections);
-
   const mergedDataSelections = _.map(
     existingDataSelections,
     (dataSelection: VisualizationDataSelection) => {
