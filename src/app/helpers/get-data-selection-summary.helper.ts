@@ -17,7 +17,10 @@ export function getDataSelectionSummary(
     ouItems.length > 3 ? ` and ${ouItems.length - 3} more ` : '';
 
   const peDimension = _.find(dataSelections, ['dimension', 'pe']);
-  const peItems: any[] = peDimension ? peDimension.items : [];
+  const peItems: any[] = peDimension
+    ? _.sortBy(peDimension.items || [], 'id')
+    : [];
+
   const peSection = _.uniq(
     _.filter(
       [
