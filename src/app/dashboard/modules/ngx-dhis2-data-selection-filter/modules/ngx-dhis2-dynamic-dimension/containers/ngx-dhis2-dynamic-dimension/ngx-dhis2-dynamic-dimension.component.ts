@@ -185,6 +185,7 @@ export class NgxDhis2DynamicDimensionComponent implements OnInit, OnDestroy {
               ..._.slice(this.selectedDimensions, 0, availableDimensionIndex),
               {
                 ...availableDimensionObject,
+                changed: true,
                 items: _.uniqBy(
                   [...availableDimensionObject.items, dimensionItem],
                   'id'
@@ -226,29 +227,25 @@ export class NgxDhis2DynamicDimensionComponent implements OnInit, OnDestroy {
 
       this.selectedDimensions =
         availableDimensionIndex !== -1
-          ? availableDimensionObject.items.length > 1
-            ? [
-                ..._.slice(this.selectedDimensions, 0, availableDimensionIndex),
-                {
-                  ...availableDimensionObject,
-                  items: [
-                    ..._.slice(
-                      availableDimensionObject.items,
-                      0,
-                      dimensionItemIndex
-                    ),
-                    ..._.slice(
-                      availableDimensionObject.items,
-                      dimensionItemIndex + 1
-                    )
-                  ]
-                },
-                ..._.slice(this.selectedDimensions, availableDimensionIndex + 1)
-              ]
-            : [
-                ..._.slice(this.selectedDimensions, 0, availableDimensionIndex),
-                ..._.slice(this.selectedDimensions, availableDimensionIndex + 1)
-              ]
+          ? [
+              ..._.slice(this.selectedDimensions, 0, availableDimensionIndex),
+              {
+                ...availableDimensionObject,
+                changed: true,
+                items: [
+                  ..._.slice(
+                    availableDimensionObject.items,
+                    0,
+                    dimensionItemIndex
+                  ),
+                  ..._.slice(
+                    availableDimensionObject.items,
+                    dimensionItemIndex + 1
+                  )
+                ]
+              },
+              ..._.slice(this.selectedDimensions, availableDimensionIndex + 1)
+            ]
           : this.selectedDimensions;
     }
   }

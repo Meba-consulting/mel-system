@@ -37,6 +37,8 @@ export function getMergedDataSelections(
       !_.find(existingDataSelections, ['dimension', dataSelection.dimension])
   );
 
+  console.log(newDataSelections);
+
   const mergedDataSelections = _.map(
     existingDataSelections,
     (dataSelection: VisualizationDataSelection) => {
@@ -55,7 +57,9 @@ export function getMergedDataSelections(
     }
   );
 
-  console.log([...unAvailableDataSelections, ...mergedDataSelections]);
-
-  return [...unAvailableDataSelections, ...mergedDataSelections];
+  return _.filter(
+    [...unAvailableDataSelections, ...mergedDataSelections],
+    (dataSelection: any) =>
+      dataSelection ? dataSelection.items.length > 0 : false
+  );
 }
