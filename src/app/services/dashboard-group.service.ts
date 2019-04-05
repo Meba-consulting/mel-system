@@ -26,7 +26,7 @@ export class DashboardGroupService {
           (dashboardGroupId: string) => {
             const splitedDashboardGroupId = dashboardGroupId.split('_');
             const dashboardGroupNamespace = splitedDashboardGroupId[0] || '';
-            return dashboardGroupNamespace === dashboardSettings.id;
+            return dashboardGroupNamespace === dashboardSettings.namespace;
           }
         );
 

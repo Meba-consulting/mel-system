@@ -60,7 +60,7 @@ export class DashboardSettingsService {
     }
     return this.httpClient.post(
       `${this._dataStoreUrl}/${dashboardPreferences.namespace}`,
-      dashboardPreferences
+      { ...dashboardPreferences, id: dashboardPreferences.namespace }
     );
   }
 }

@@ -47,7 +47,7 @@ export class DashboardService {
           (dashboardId: string) => {
             const splitedDashboardId = dashboardId.split('_');
             const dashboardNamespace = splitedDashboardId[0] || '';
-            return dashboardNamespace === dashboardSettings.id;
+            return dashboardNamespace === dashboardSettings.namespace;
           }
         );
 
@@ -81,7 +81,7 @@ export class DashboardService {
   ): Observable<Dashboard[]> {
     const dashboardUrl =
       dashboardSettings && dashboardSettings.useDataStoreAsSource
-        ? `dataStore/dashboards/${dashboardSettings.id}_${id}`
+        ? `dataStore/dashboards/${dashboardSettings.namespace}_${id}`
         : `dashboards/${id}.json${customFields || this.dashboardUrlFields}`;
     return this.httpClient.get(dashboardUrl);
   }
@@ -93,7 +93,9 @@ export class DashboardService {
     return dashboardSettings && dashboardSettings.useDataStoreAsSource
       ? this.httpClient
           .post(
-            `dataStore/dashboards/${dashboardSettings.id}_${dashboard.id}`,
+            `dataStore/dashboards/${dashboardSettings.namespace}_${
+              dashboard.id
+            }`,
             sanitizedDashboard
           )
           .pipe(map(() => sanitizedDashboard))
