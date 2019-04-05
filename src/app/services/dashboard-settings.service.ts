@@ -1,52 +1,42 @@
-import { Injectable } from '@angular/core';
-import * as _ from 'lodash';
-import {
-  NgxDhis2HttpClientService,
-  ManifestService,
-  Manifest
-} from '@hisptz/ngx-dhis2-http-client';
-import { mergeMap, map, catchError, switchMap } from 'rxjs/operators';
-import { forkJoin, of, throwError } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { NgxDhis2HttpClientService } from '@hisptz/ngx-dhis2-http-client';
+import { of, throwError } from 'rxjs';
+import { catchError, mergeMap } from 'rxjs/operators';
 
 @Injectable({ providedIn: 'root' })
 export class DashboardSettingsService {
   private _dataStoreUrl: string;
   constructor(
     private httpClient: NgxDhis2HttpClientService,
-    private http: HttpClient,
-    private manifestService: ManifestService
+    private http: HttpClient
   ) {
     this._dataStoreUrl = 'dataStore/dashboard-preferences';
   }
 
   loadAll() {
-    return this.manifestService.getManifest().pipe(
-      mergeMap((manifestObject: any) => {
-        // const namespace =
-        //   manifestObject &&
-        //   manifestObject.activities &&
-        //   manifestObject.activities.dhis
-        //     ? manifestObject.activities.dhis.namespace
-        //     : 'default';
-
-        const namespace = 'nmcp-malaria';
+    return this._getPreferences().pipe(
+      mergeMap((dashboardPreferences: any) => {
+        if (!dashboardPreferences) {
+          return of(null);
+        }
 
         return this.httpClient.get(this._dataStoreUrl).pipe(
-          mergeMap((dashboardSettingsList: Array<string>) => {
-            return dashboardSettingsList.indexOf(namespace) !== -1
-              ? this.httpClient.get(`${this._dataStoreUrl}/${namespace}`).pipe(
-                  map((dashboardSettings: any) => dashboardSettings),
-                  catchError((error: any) => of(null))
+          mergeMap((dashboarPreferencesList: Array<string>) => {
+            return (dashboarPreferencesList || []).indexOf(
+              dashboardPreferences.namespace
+            ) !== -1
+              ? this.httpClient.get(
+                  `${this._dataStoreUrl}/${dashboardPreferences.namespace}`
                 )
-              : this.create(namespace);
+              : this.create(dashboardPreferences);
           }),
           catchError((error: any) => {
             if (error.status !== 404) {
               return throwError(error);
             }
 
-            return this.create(namespace);
+            return this.create(dashboardPreferences);
           })
         );
       }),
@@ -54,21 +44,23 @@ export class DashboardSettingsService {
     );
   }
 
-  create(namespace: string) {
-    return this.http.get('config/dashboard-preferences.json').pipe(
-      catchError(() => of(null)),
-      switchMap((dashboardPreferences: any) => {
-        const sanitizedDashboardPreferences = dashboardPreferences
-          ? { ...dashboardPreferences, id: namespace }
-          : { id: namespace };
+  private _getPreferences() {
+    return this.http
+      .get('config/dashboard-preferences.json')
+      .pipe(catchError(() => of(null)));
+  }
 
-        return this.httpClient
-          .post(
-            `${this._dataStoreUrl}/${namespace}`,
-            sanitizedDashboardPreferences
-          )
-          .pipe(map(() => sanitizedDashboardPreferences));
-      })
+  create(dashboardPreferences: any) {
+    if (!dashboardPreferences) {
+      return throwError({
+        status: '400',
+        statusText: 'ERROR',
+        message: 'Dashboard preferences object is not defined'
+      });
+    }
+    return this.httpClient.post(
+      `${this._dataStoreUrl}/${dashboardPreferences.namespace}`,
+      dashboardPreferences
     );
   }
 }
