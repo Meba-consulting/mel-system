@@ -55,22 +55,22 @@ export class DashboardComponent implements OnInit {
     document.getElementById('dashboard_content').style.marginTop = '157px';
   }
 
-  constructor(private store: Store<State>) {
+  constructor(private store: Store<State>) {}
+
+  ngOnInit() {
     // initialize dashboads settings
-    store.dispatch(new InitializeDashboardSettingsAction());
-    store.dispatch(new LoadFunctions());
+    this.store.dispatch(new InitializeDashboardSettingsAction());
+    this.store.dispatch(new LoadFunctions());
 
-    this.dashboards$ = store.select(getAllGroupDashboards);
-    this.currentDashboardId$ = store.select(getCurrentDashboardId);
-    this.dashboardLoading$ = store.select(getDashboardObjectLoading);
-    this.dashboardLoaded$ = store.select(getDashboardObjectLoaded);
-    this.dashboardGroups$ = store.select(getAllDashboardGroups);
-    this.currentDashboardGroupId$ = store.select(getActiveDashboardGroup);
-    this.dashboardGroupsLoading$ = store.select(getDashboardGroupsLoading);
-    this.dashboardGroupsLoaded$ = store.select(getDashboardGroupsLoaded);
+    this.dashboards$ = this.store.select(getAllGroupDashboards);
+    this.currentDashboardId$ = this.store.select(getCurrentDashboardId);
+    this.dashboardLoading$ = this.store.select(getDashboardObjectLoading);
+    this.dashboardLoaded$ = this.store.select(getDashboardObjectLoaded);
+    this.dashboardGroups$ = this.store.select(getAllDashboardGroups);
+    this.currentDashboardGroupId$ = this.store.select(getActiveDashboardGroup);
+    this.dashboardGroupsLoading$ = this.store.select(getDashboardGroupsLoading);
+    this.dashboardGroupsLoaded$ = this.store.select(getDashboardGroupsLoaded);
   }
-
-  ngOnInit() {}
 
   onSetCurrenDashboardAction(dashboardId: string) {
     this.store.dispatch(new SetCurrentDashboardAction(dashboardId));

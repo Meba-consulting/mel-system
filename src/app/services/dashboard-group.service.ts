@@ -30,32 +30,51 @@ export class DashboardGroupService {
           }
         );
 
+        // Create dashboard groups if not found
         if (filteredDashboardGroupIds.length === 0) {
-          // Create dashboards if not found
-          return this.http.get('config/dashboard-groups.json').pipe(
+          return this._getDashboardGroupFromConfig().pipe(
             switchMap((dashboardGroups: any[]) => {
-              return forkJoin(
-                _.map(dashboardGroups, (dashboardGroup: any) =>
-                  this.create(dashboardGroup, dashboardSettings)
-                )
-              );
+              if (dashboardGroups.length === 0) {
+                return of([]);
+              }
+              return this._createAll(dashboardGroups, dashboardSettings);
             }),
             catchError(() => of([]))
           );
         }
 
-        return forkJoin(
-          _.map(filteredDashboardGroupIds, dashboardGroupId => {
-            return this.httpClient.get(
-              `${this._dataStoreUrl}/${dashboardGroupId}`
-            );
-          })
-        ).pipe(catchError(() => of([])));
+        return this._loadAllFromDataStore(filteredDashboardGroupIds);
       })
     );
   }
 
-  create(
+  private _loadAllFromDataStore(dashboardGroupIds: string[]) {
+    return forkJoin(
+      _.map(dashboardGroupIds, dashboardGroupId => {
+        return this.httpClient.get(`${this._dataStoreUrl}/${dashboardGroupId}`);
+      })
+    ).pipe(catchError(() => of([])));
+  }
+
+  private _getDashboardGroupFromConfig() {
+    return this.http.get('config/dashboard-groups.json').pipe(
+      map((dashboardGroups: any[]) => dashboardGroups || []),
+      catchError(() => of([]))
+    );
+  }
+
+  private _createAll(
+    dashboardGroups: DashboardGroups[],
+    dashboardSettings: DashboardSettings
+  ) {
+    return forkJoin(
+      _.map(dashboardGroups, (dashboardGroup: any) =>
+        this._create(dashboardGroup, dashboardSettings)
+      )
+    ).pipe(catchError(() => of([])));
+  }
+
+  private _create(
     dashboardGroup: DashboardGroups,
     dashboardSettings: DashboardSettings
   ) {
