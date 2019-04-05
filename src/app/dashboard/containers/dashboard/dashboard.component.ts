@@ -41,7 +41,7 @@ export class DashboardComponent implements OnInit {
   dashboardGroups$: Observable<DashboardGroups[]>;
   dashboardGroupsLoading$: Observable<boolean>;
   dashboardGroupsLoaded$: Observable<boolean>;
-  dashboardContentMarginTop = 157;
+  dashboardContentMarginTop = '110px';
 
   @HostListener('window:beforeprint', ['$event'])
   onBeforePrint(event) {
@@ -52,7 +52,9 @@ export class DashboardComponent implements OnInit {
   @HostListener('window:afterprint', ['$event'])
   onAfterPrint(event) {
     event.stopPropagation();
-    document.getElementById('dashboard_content').style.marginTop = '157px';
+    document.getElementById(
+      'dashboard_content'
+    ).style.marginTop = this.dashboardContentMarginTop;
   }
 
   constructor(private store: Store<State>) {}
@@ -70,6 +72,15 @@ export class DashboardComponent implements OnInit {
     this.currentDashboardGroupId$ = this.store.select(getActiveDashboardGroup);
     this.dashboardGroupsLoading$ = this.store.select(getDashboardGroupsLoading);
     this.dashboardGroupsLoaded$ = this.store.select(getDashboardGroupsLoaded);
+
+    // Set margin top based on whether there are groups or not
+    this.dashboardGroups$.subscribe((dashboardGroups: any[]) => {
+      if (dashboardGroups.length === 0) {
+        this.dashboardContentMarginTop = '110px';
+      } else {
+        this.dashboardContentMarginTop = '157px';
+      }
+    });
   }
 
   onSetCurrenDashboardAction(dashboardId: string) {
