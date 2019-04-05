@@ -1,5 +1,8 @@
 <div class="current-dashboard-title-container">
   <div class="current-dashboard-title">
-    {{currentDashboardGroupName}} - {{ currentDashboardTitle }}
+    {{
+      (currentDashboardGroupName ? currentDashboardGroupName + ' - ' : '') +
+        currentDashboardTitle
+    }}
   </div>
 </div>
