@@ -6,6 +6,7 @@ import { HttpClient } from '@angular/common/http';
 import { forkJoin, of } from 'rxjs';
 import { DashboardGroups } from '../dashboard/models';
 import { DashboardSettings } from '../dashboard/models/dashboard-settings.model';
+import { filterStringListBasedOnMatch } from '../helpers';
 
 @Injectable({ providedIn: 'root' })
 export class DashboardGroupService {
@@ -21,13 +22,9 @@ export class DashboardGroupService {
     return this.httpClient.get(this._dataStoreUrl).pipe(
       catchError(() => of([])),
       mergeMap((dashboardGroupIds: Array<string>) => {
-        const filteredDashboardGroupIds = _.filter(
+        const filteredDashboardGroupIds = filterStringListBasedOnMatch(
           dashboardGroupIds,
-          (dashboardGroupId: string) => {
-            const splitedDashboardGroupId = dashboardGroupId.split('_');
-            const dashboardGroupNamespace = splitedDashboardGroupId[0] || '';
-            return dashboardGroupNamespace === dashboardSettings.namespace;
-          }
+          dashboardSettings.namespace
         );
 
         // Create dashboard groups if not found

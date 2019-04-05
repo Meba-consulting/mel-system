@@ -8,6 +8,7 @@ import { map, switchMap, catchError, mergeMap } from 'rxjs/operators';
 import { DashboardSettings } from '../dashboard/models/dashboard-settings.model';
 import { generateUid } from '../helpers/generate-uid.helper';
 import { HttpClient } from '@angular/common/http';
+import { filterStringListBasedOnMatch } from '../helpers';
 @Injectable({ providedIn: 'root' })
 export class DashboardService {
   dashboardUrlFields: string;
@@ -42,13 +43,9 @@ export class DashboardService {
     return this.httpClient.get('dataStore/dashboards').pipe(
       catchError(() => of([])),
       mergeMap((dashboardIds: Array<string>) => {
-        const filteredDashboardIds = _.filter(
+        const filteredDashboardIds = filterStringListBasedOnMatch(
           dashboardIds,
-          (dashboardId: string) => {
-            const splitedDashboardId = dashboardId.split('_');
-            const dashboardNamespace = splitedDashboardId[0] || '';
-            return dashboardNamespace === dashboardSettings.namespace;
-          }
+          dashboardSettings.namespace
         );
 
         if (filteredDashboardIds.length === 0) {
