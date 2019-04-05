@@ -8,6 +8,7 @@ import { map, switchMap, catchError, mergeMap } from 'rxjs/operators';
 import { DashboardSettings } from '../dashboard/models/dashboard-settings.model';
 import { generateUid } from '../helpers/generate-uid.helper';
 import { HttpClient } from '@angular/common/http';
+import { filterStringListBasedOnMatch } from '../helpers';
 @Injectable({ providedIn: 'root' })
 export class DashboardService {
   dashboardUrlFields: string;
@@ -42,13 +43,9 @@ export class DashboardService {
     return this.httpClient.get('dataStore/dashboards').pipe(
       catchError(() => of([])),
       mergeMap((dashboardIds: Array<string>) => {
-        const filteredDashboardIds = _.filter(
+        const filteredDashboardIds = filterStringListBasedOnMatch(
           dashboardIds,
-          (dashboardId: string) => {
-            const splitedDashboardId = dashboardId.split('_');
-            const dashboardNamespace = splitedDashboardId[0] || '';
-            return dashboardNamespace === dashboardSettings.id;
-          }
+          dashboardSettings.namespace
         );
 
         if (filteredDashboardIds.length === 0) {
@@ -81,7 +78,7 @@ export class DashboardService {
   ): Observable<Dashboard[]> {
     const dashboardUrl =
       dashboardSettings && dashboardSettings.useDataStoreAsSource
-        ? `dataStore/dashboards/${dashboardSettings.id}_${id}`
+        ? `dataStore/dashboards/${dashboardSettings.namespace}_${id}`
         : `dashboards/${id}.json${customFields || this.dashboardUrlFields}`;
     return this.httpClient.get(dashboardUrl);
   }
@@ -93,7 +90,9 @@ export class DashboardService {
     return dashboardSettings && dashboardSettings.useDataStoreAsSource
       ? this.httpClient
           .post(
-            `dataStore/dashboards/${dashboardSettings.id}_${dashboard.id}`,
+            `dataStore/dashboards/${dashboardSettings.namespace}_${
+              dashboard.id
+            }`,
             sanitizedDashboard
           )
           .pipe(map(() => sanitizedDashboard))

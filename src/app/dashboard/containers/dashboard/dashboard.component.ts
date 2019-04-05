@@ -41,7 +41,7 @@ export class DashboardComponent implements OnInit {
   dashboardGroups$: Observable<DashboardGroups[]>;
   dashboardGroupsLoading$: Observable<boolean>;
   dashboardGroupsLoaded$: Observable<boolean>;
-  dashboardContentMarginTop = 157;
+  dashboardContentMarginTop = '110px';
 
   @HostListener('window:beforeprint', ['$event'])
   onBeforePrint(event) {
@@ -52,25 +52,36 @@ export class DashboardComponent implements OnInit {
   @HostListener('window:afterprint', ['$event'])
   onAfterPrint(event) {
     event.stopPropagation();
-    document.getElementById('dashboard_content').style.marginTop = '157px';
+    document.getElementById(
+      'dashboard_content'
+    ).style.marginTop = this.dashboardContentMarginTop;
   }
 
-  constructor(private store: Store<State>) {
+  constructor(private store: Store<State>) {}
+
+  ngOnInit() {
     // initialize dashboads settings
-    store.dispatch(new InitializeDashboardSettingsAction());
-    store.dispatch(new LoadFunctions());
+    this.store.dispatch(new InitializeDashboardSettingsAction());
+    this.store.dispatch(new LoadFunctions());
 
-    this.dashboards$ = store.select(getAllGroupDashboards);
-    this.currentDashboardId$ = store.select(getCurrentDashboardId);
-    this.dashboardLoading$ = store.select(getDashboardObjectLoading);
-    this.dashboardLoaded$ = store.select(getDashboardObjectLoaded);
-    this.dashboardGroups$ = store.select(getAllDashboardGroups);
-    this.currentDashboardGroupId$ = store.select(getActiveDashboardGroup);
-    this.dashboardGroupsLoading$ = store.select(getDashboardGroupsLoading);
-    this.dashboardGroupsLoaded$ = store.select(getDashboardGroupsLoaded);
+    this.dashboards$ = this.store.select(getAllGroupDashboards);
+    this.currentDashboardId$ = this.store.select(getCurrentDashboardId);
+    this.dashboardLoading$ = this.store.select(getDashboardObjectLoading);
+    this.dashboardLoaded$ = this.store.select(getDashboardObjectLoaded);
+    this.dashboardGroups$ = this.store.select(getAllDashboardGroups);
+    this.currentDashboardGroupId$ = this.store.select(getActiveDashboardGroup);
+    this.dashboardGroupsLoading$ = this.store.select(getDashboardGroupsLoading);
+    this.dashboardGroupsLoaded$ = this.store.select(getDashboardGroupsLoaded);
+
+    // Set margin top based on whether there are groups or not
+    this.dashboardGroups$.subscribe((dashboardGroups: any[]) => {
+      if (dashboardGroups.length === 0) {
+        this.dashboardContentMarginTop = '110px';
+      } else {
+        this.dashboardContentMarginTop = '157px';
+      }
+    });
   }
-
-  ngOnInit() {}
 
   onSetCurrenDashboardAction(dashboardId: string) {
     this.store.dispatch(new SetCurrentDashboardAction(dashboardId));

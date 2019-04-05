@@ -70,7 +70,10 @@ export function dashboardGroupReducer(
     }
 
     case DashboardGroupsActionTypes.SetActiveDashboardGroup: {
-      return { ...state, activeGroup: action.activeGroup.id };
+      return {
+        ...state,
+        activeGroup: action.activeGroup ? action.activeGroup.id : ''
+      };
     }
 
     default: {

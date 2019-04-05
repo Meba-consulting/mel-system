@@ -1,5 +1,5 @@
 {
-  "id": "nmcp-malaria",
+  "namespace": "nacp-dashboard",
   "useDataStoreAsSource": true,
   "allowAdditionalAttributes": true,
   "additionalAttributes": ["globalSelections"]
