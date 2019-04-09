@@ -1,9 +1,20 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnChanges,
+  OnInit,
+  Output,
+  SimpleChanges
+} from '@angular/core';
+
+import {
+  addPeriodToList,
+  getAvailablePeriods,
+  getSelectedPeriodsType,
+  removePeriodFromList
+} from './helpers ';
 import * as fromPeriodFilterModel from './period-filter.model';
-import * as _ from 'lodash';
-import { PeriodService } from './period.service';
-import { BehaviorSubject, Observable, of } from 'rxjs';
-import { SlicePipe } from '@angular/common';
 
 @Component({
   // tslint:disable-next-line:component-selector
@@ -11,10 +22,9 @@ import { SlicePipe } from '@angular/common';
   templateUrl: './period-filter.component.html',
   styleUrls: ['./period-filter.component.css']
 })
-export class PeriodFilterComponent implements OnInit {
-  periodTypes: any[];
-  @Input() selectedPeriodType = '';
-  @Input() selectedPeriods: any[] = [];
+export class PeriodFilterComponent implements OnInit, OnChanges {
+  @Input() selectedPeriodType;
+  @Input() selectedPeriods: any[];
   @Input()
   periodConfig: any = {
     resetOnPeriodTypeChange: false,
@@ -23,173 +33,129 @@ export class PeriodFilterComponent implements OnInit {
   };
   @Output() periodFilterUpdate = new EventEmitter();
   @Output() periodFilterClose = new EventEmitter();
+
   availablePeriods: any[];
-  periods$: BehaviorSubject<any[]> = new BehaviorSubject<any[]>([]);
-  selectedPeriods$: Observable<any>;
-  private _periods: any[];
   selectedYear: number;
   currentYear: number;
+  periodTypes: any[];
 
-  constructor(private periodService: PeriodService) {
+  constructor() {
     const date = new Date();
     this.selectedYear = date.getFullYear();
     this.currentYear = date.getFullYear();
     this.periodTypes = fromPeriodFilterModel.PERIOD_TYPES;
-    this._periods = [];
-    this.periods$.asObservable().subscribe((periods: any) => {
-      this.selectedPeriods = periods.filter((period: any) => period.selected);
-      this.selectedPeriods$ = of(this.selectedPeriods);
-      this.availablePeriods = periods.filter((period: any) => !period.selected);
-    });
   }
 
-  ngOnInit() {
-    if (!this.selectedPeriodType || this.selectedPeriodType === '') {
-      this.selectedPeriodType = this.periodService.deduceSelectedPeriodType(
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes.selectedPeriods && !changes.selectedPeriods.firstChange) {
+      this.selectedPeriodType = getSelectedPeriodsType(this.selectedPeriods);
+
+      this.availablePeriods = getAvailablePeriods(
+        this.selectedPeriodType,
+        this.selectedYear,
         this.selectedPeriods
       );
     }
+  }
 
-    this._periods = this.getPeriods(
+  ngOnInit() {
+    if (!this.selectedPeriodType) {
+      this.selectedPeriodType = getSelectedPeriodsType(this.selectedPeriods);
+    }
+
+    this.availablePeriods = getAvailablePeriods(
       this.selectedPeriodType,
       this.selectedYear,
       this.selectedPeriods
     );
-    this.periods$.next(this._periods);
   }
 
-  getPeriods(selectedPeriodType: string, year: number, selectedPeriods: any[]) {
-    return this.updatePeriodsWithSelected(
-      this.periodService.getPeriodsBasedOnType(selectedPeriodType, year),
-      selectedPeriods
-    );
-  }
-
-  updatePeriodsWithSelected(periods: any[], selectedPeriods: any[]) {
-    let newPeriods = [...periods];
-    selectedPeriods.forEach((selectedPeriod: any) => {
-      const availablePeriod = _.find(newPeriods, ['id', selectedPeriod.id]);
-      if (availablePeriod) {
-        const periodIndex = _.findIndex(newPeriods, availablePeriod);
-
-        newPeriods = [
-          ..._.slice(newPeriods, 0, periodIndex),
-          { ...availablePeriod, selected: true },
-          ..._.slice(newPeriods, periodIndex + 1)
-        ];
-      } else {
-        newPeriods = [...newPeriods, { ...selectedPeriod, selected: true }];
-      }
-    });
-
-    return newPeriods;
-  }
-
-  togglePeriod(period, e) {
-    if (this.periodConfig.singleSelection) {
-      this.deselectAllPeriods(e);
-    }
+  onSelectPeriod(period, e) {
     e.stopPropagation();
-    const periodIndex = _.findIndex(
-      this._periods,
-      _.find(this._periods, ['id', period.id])
-    );
 
-    if (periodIndex !== -1) {
-      if (period.selected) {
-        if (period.type === this.selectedPeriodType) {
-          /**
-           * Check if corresponding period is in the list of selected period type
-           */
-          period.selected = !period.selected;
-          this._periods = [
-            ...this._periods.slice(0, periodIndex),
-            period,
-            ...this._periods.slice(periodIndex + 1)
-          ];
-        } else {
-          this._periods = [
-            ...this._periods.slice(0, periodIndex),
-            ...this._periods.slice(periodIndex + 1)
-          ];
-        }
-      } else {
-        period.selected = !period.selected;
-        this._periods = [
-          ...this._periods.slice(0, periodIndex),
-          period,
-          ...this._periods.slice(periodIndex + 1)
-        ];
-      }
-
-      this.periods$.next(this._periods);
-
-      if (this.periodConfig.emitOnSelection) {
-        this.getPeriodOutput();
-      }
+    if (this.periodConfig.singleSelection) {
+      this.selectedPeriods = [];
     }
+
+    // Add selected period to selection bucket
+    this.selectedPeriods = [...this.selectedPeriods, period];
+
+    // Remove selected period to available bucket
+    this.availablePeriods = removePeriodFromList(this.availablePeriods, period);
+  }
+
+  onDeselectPeriod(period: any, e) {
+    e.stopPropagation();
+
+    // Remove period from selection list
+    this.selectedPeriods = removePeriodFromList(this.selectedPeriods, period);
+
+    // Add back the removed period to the available period if applicable
+    this.availablePeriods = addPeriodToList(this.availablePeriods, {
+      ...period,
+      type: period.type || getSelectedPeriodsType([period])
+    });
   }
 
   updatePeriodType(periodType: string, e) {
     e.stopPropagation();
-    const selectedPeriods = this.periodConfig.resetOnPeriodTypeChange
-      ? []
-      : this._periods.filter(period => period.selected);
 
-    this._periods = this.getPeriods(
+    if (this.periodConfig.resetOnPeriodTypeChange) {
+      this.selectedPeriods = [];
+    }
+
+    this.availablePeriods = getAvailablePeriods(
       periodType,
       this.selectedYear,
-      selectedPeriods
+      this.selectedPeriods
     );
-    this.periods$.next(this._periods);
   }
 
   pushPeriodBackward(e) {
     e.stopPropagation();
     this.selectedYear--;
-    this._periods = this.getPeriods(
+    this.availablePeriods = getAvailablePeriods(
       this.selectedPeriodType,
       this.selectedYear,
-      this._periods.filter(period => period.selected)
+      this.selectedPeriods
     );
-    this.periods$.next(this._periods);
   }
 
   pushPeriodForward(e) {
     e.stopPropagation();
     this.selectedYear++;
-    this._periods = this.getPeriods(
+    this.availablePeriods = getAvailablePeriods(
       this.selectedPeriodType,
       this.selectedYear,
-      this._periods.filter(period => period.selected)
+      this.selectedPeriods
     );
-    this.periods$.next(this._periods);
   }
 
-  selectAllPeriods(e) {
+  onSelectAllPeriods(e) {
     e.stopPropagation();
-    this._periods = this._periods.map((period: any) => {
-      const newPeriod = { ...period };
-      newPeriod.selected = true;
-      return newPeriod;
-    });
-    this.periods$.next(this._periods);
+
+    // Add all period to selected bucket
+    this.selectedPeriods = this.availablePeriods;
+
+    // remove all periods from available
+    this.availablePeriods = [];
 
     if (this.periodConfig.emitOnSelection) {
       this.getPeriodOutput();
     }
   }
 
-  deselectAllPeriods(e) {
+  onDeselectAllPeriods(e) {
     e.stopPropagation();
-    this._periods = this._periods
-      .map((period: any) => {
-        const newPeriod = { ...period };
-        newPeriod.selected = false;
-        return newPeriod;
-      })
-      .filter((period: any) => period.type === this.selectedPeriodType);
-    this.periods$.next(this._periods);
+    // remove all items from selected bucket
+    this.selectedPeriods = [];
+
+    // add to available period bucket
+    this.availablePeriods = getAvailablePeriods(
+      this.selectedPeriodType,
+      this.selectedYear,
+      []
+    );
 
     if (this.periodConfig.emitOnSelection) {
       this.getPeriodOutput();
@@ -203,21 +169,18 @@ export class PeriodFilterComponent implements OnInit {
 
   getPeriodOutput() {
     this.periodFilterUpdate.emit({
-      items: this.getSelectedPeriods(),
+      items: this.selectedPeriods,
       dimension: 'pe',
       changed: true
     });
   }
 
-  getSelectedPeriods() {
-    return this._periods.filter((period: any) => period.selected);
-  }
-
   closePeriodFilter(e) {
     e.stopPropagation();
     this.periodFilterClose.emit({
-      items: this.getSelectedPeriods(),
-      dimension: 'pe'
+      items: this.selectedPeriods,
+      dimension: 'pe',
+      changed: true
     });
   }
 }

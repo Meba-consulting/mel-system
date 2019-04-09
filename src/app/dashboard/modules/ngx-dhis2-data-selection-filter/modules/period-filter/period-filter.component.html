@@ -5,7 +5,7 @@
       <select
         [(ngModel)]="selectedPeriodType"
         (change)="updatePeriodType(selectedPeriodType, $event)"
-        class="form-control input-sm pull-left"
+        class="form-control form-control-sm pull-left"
       >
         <option [value]="''" disabled>Select period type</option>
         <option
@@ -20,14 +20,14 @@
       <div class="btn-group btn-group-sm">
         <button
           type="button"
-          class="btn btn-outline-secondary"
+          class="btn btn-sm btn-outline-secondary"
           (click)="pushPeriodBackward($event)"
         >
           Prev Year
         </button>
         <button
           type="button"
-          class="btn btn-outline-secondary"
+          class="btn btn-sm btn-outline-secondary"
           (click)="pushPeriodForward($event)"
           [disabled]="selectedYear === currentYear"
         >
@@ -42,10 +42,10 @@
   <div class="period-header">
     <div class="period-available-header">
       <span>Available ({{ availablePeriods.length }})</span>
-      <a (click)="selectAllPeriods($event)">&raquo;</a>
+      <a (click)="onSelectAllPeriods($event)">&raquo;</a>
     </div>
     <div class="period-selected-header">
-      <a (click)="deselectAllPeriods($event)">&laquo;</a>
+      <a (click)="onDeselectAllPeriods($event)">&laquo;</a>
       <span>Selected ({{ selectedPeriods.length }})</span>
     </div>
   </div>
@@ -56,7 +56,7 @@
     <div class="period-available-body">
       <ul class="period-list">
         <li *ngFor="let availablePeriod of availablePeriods">
-          <a (click)="togglePeriod(availablePeriod, $event)">
+          <a (click)="onSelectPeriod(availablePeriod, $event)">
             {{ availablePeriod.name }}
           </a>
         </li>
@@ -64,8 +64,8 @@
     </div>
     <div class="period-selected-body">
       <ul class="period-list">
-        <li *ngFor="let selectedPeriod of (selectedPeriods$ | async)">
-          <a (click)="togglePeriod(selectedPeriod, $event)">
+        <li *ngFor="let selectedPeriod of selectedPeriods">
+          <a (click)="onDeselectPeriod(selectedPeriod, $event)">
             {{ selectedPeriod.name }}
           </a>
         </li>
@@ -82,7 +82,7 @@
       </button>
       <button
         class="ngx-dhis2-period__btn"
-        [disabled]="(selectedPeriods$ | async).length === 0"
+        [disabled]="selectedPeriods.length === 0"
         (click)="updatePeriod($event)"
       >
         UPDATE
