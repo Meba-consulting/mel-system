@@ -4,7 +4,7 @@ import { Observable, of } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import { catchError } from 'rxjs/operators';
 
-import { SystemInfoService } from '@hisptz/ngx-dhis2-http-client';
+import { SystemInfoService } from '@iapps/ngx-dhis2-http-client';
 
 import {
   AddSystemInfo,

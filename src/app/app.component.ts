@@ -4,7 +4,7 @@ import { TranslateService } from '@ngx-translate/core';
 
 import { State, LoadSystemInfo } from './store';
 import { Title } from '@angular/platform-browser';
-import { ManifestService, Manifest } from '@hisptz/ngx-dhis2-http-client';
+import { ManifestService, Manifest } from '@iapps/ngx-dhis2-http-client';
 import { of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
