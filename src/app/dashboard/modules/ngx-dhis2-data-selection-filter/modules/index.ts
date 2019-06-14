@@ -1,12 +1,13 @@
+import { NgxDhis2OrgUnitFilterModule } from '@iapps/ngx-dhis2-org-unit-filter';
+import { NgxDhis2PeriodFilterModule } from '@iapps/ngx-dhis2-period-filter';
+
 import { DataFilterModule } from './data-filter/data-filter.module';
-import { PeriodFilterModule } from './period-filter/period-filter.module';
-import { NgxDhis2OrgUnitFilterModule } from '@hisptz/ngx-dhis2-org-unit-filter';
 import { LayoutModule } from './layout/layout.module';
 import { NgxDhis2DynamicDimensionModule } from './ngx-dhis2-dynamic-dimension/ngx-dhis2-dynamic-dimension.module';
 
 export const filterModules: any[] = [
   DataFilterModule,
-  PeriodFilterModule,
+  NgxDhis2PeriodFilterModule,
   NgxDhis2OrgUnitFilterModule,
   LayoutModule,
   NgxDhis2DynamicDimensionModule

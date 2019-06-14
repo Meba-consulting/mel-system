@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { NgxDhis2HttpClientService } from '@hisptz/ngx-dhis2-http-client';
+import { NgxDhis2HttpClientService } from '@iapps/ngx-dhis2-http-client';
 import { map } from 'rxjs/operators';
 import { Observable, forkJoin } from 'rxjs';
 import * as _ from 'lodash';
@@ -13,9 +13,8 @@ export class SharingFilterService {
     return this.httpClient
       .get(`sharing?type=${itemType}&id=${id}`)
       .pipe(
-        map(
-          (sharingResponse: any) =>
-            sharingResponse ? sharingResponse.object : null
+        map((sharingResponse: any) =>
+          sharingResponse ? sharingResponse.object : null
         )
       );
   }

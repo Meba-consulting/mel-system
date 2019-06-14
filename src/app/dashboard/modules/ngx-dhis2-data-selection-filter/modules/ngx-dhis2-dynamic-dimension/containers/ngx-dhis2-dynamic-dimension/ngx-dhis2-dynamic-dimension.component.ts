@@ -153,7 +153,8 @@ export class NgxDhis2DynamicDimensionComponent implements OnInit, OnDestroy {
     );
   }
 
-  onSetActiveDynamicDimension(dynamicDimension: DynamicDimension) {
+  onSetActiveDynamicDimension(dynamicDimension: DynamicDimension, e) {
+    e.stopPropagation();
     this._activeDimension = dynamicDimension;
   }
 

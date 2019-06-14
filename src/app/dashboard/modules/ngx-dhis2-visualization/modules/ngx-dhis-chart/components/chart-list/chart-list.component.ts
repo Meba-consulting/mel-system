@@ -23,6 +23,10 @@ export class ChartListComponent implements OnInit {
   visualizationId: string;
   @Input()
   chartHeight: string;
+
+  @Input()
+  hideChartOptions: boolean;
+
   chartLayers: Array<{ chartConfiguration: any; analyticsObject: any }> = [];
 
   @Output()
@@ -52,7 +56,7 @@ export class ChartListComponent implements OnInit {
 
   onParentEvent(parentEvent) {
     if (this.chartItem) {
-      this.chartItem.onFocus(parentEvent);
+      // this.chartItem.onFocus(parentEvent);
     }
   }
 

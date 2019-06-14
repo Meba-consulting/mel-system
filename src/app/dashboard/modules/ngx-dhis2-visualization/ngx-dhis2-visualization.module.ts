@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { NgxDhis2DictionaryModule } from '@hisptz/ngx-dhis2-dictionary';
+import { NgxDhis2DictionaryModule } from '@iapps/ngx-dhis2-dictionary';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 import { TranslateModule } from '@ngx-translate/core';
