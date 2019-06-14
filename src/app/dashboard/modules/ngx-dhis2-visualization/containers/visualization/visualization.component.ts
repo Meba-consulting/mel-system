@@ -230,7 +230,8 @@ export class VisualizationComponent implements OnInit, OnChanges {
           this.store.dispatch(
             new ToggleVisualizationFocusAction(visualizationUiConfig.id, {
               hideFooter: !focused,
-              hideResizeButtons: !focused
+              hideResizeButtons: !focused,
+              hideOptions: !focused
             })
           );
           this.cardFocused = focused;
