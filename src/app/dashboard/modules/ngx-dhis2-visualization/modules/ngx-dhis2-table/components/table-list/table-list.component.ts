@@ -17,7 +17,7 @@ export class TableListComponent implements OnInit {
   @Input()
   legendSets: LegendSet[];
 
-  @ViewChild(TableItemComponent)
+  @ViewChild(TableItemComponent, { static: false })
   tableItem: TableItemComponent;
 
   tableLayers: Array<{

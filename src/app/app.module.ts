@@ -61,7 +61,7 @@ import { NgxDhis2MenuModule } from '@hisptz/ngx-dhis2-menu';
     /**
      * @ngrx/router-store keeps router state up-to-date in the store
      */
-    StoreRouterConnectingModule,
+    StoreRouterConnectingModule.forRoot(),
 
     /**
      * Module for registering ngrx store side effects
