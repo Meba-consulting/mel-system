@@ -67,7 +67,7 @@
     "ngx-color-picker": "^7.3.1",
     "ngx-pagination": "^3.2.1",
     "polylabel": "^1.0.2",
-    "rxjs": "^6.4.0",
+    "rxjs": "^6.5.2",
     "shp-write": "^0.3.2",
     "zone.js": "^0.8.29"
   },
