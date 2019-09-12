@@ -17,7 +17,7 @@ import {
 
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
-import { NgxDhis2HttpClientModule} from '@iapps/ngx-dhis2-http-client';
+import { NgxDhis2HttpClientModule } from '@iapps/ngx-dhis2-http-client';
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {
@@ -35,15 +35,10 @@ import { NgxDhis2MenuModule } from '@hisptz/ngx-dhis2-menu';
     BrowserModule,
     HttpClientModule,
     BrowserAnimationsModule,
-
     NgxDhis2HttpClientModule.forRoot({
-      namespace: 'iapps',
+      namespace: 'hisptz',
       version: 1,
-      models: {
-        users: 'id',
-        dataElements: 'id',
-        .......
-      }
+      models: {}
     }),
     /**
      * Translation module

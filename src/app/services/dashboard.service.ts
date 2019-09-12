@@ -1,10 +1,17 @@
 import { Injectable } from '@angular/core';
-import { Observable, forkJoin, of } from 'rxjs';
+import { Observable, forkJoin, of, zip, from } from 'rxjs';
 import { NgxDhis2HttpClientService } from '@iapps/ngx-dhis2-http-client';
 import * as _ from 'lodash';
 
 import { Dashboard } from '../dashboard/models';
-import { map, switchMap, catchError, mergeMap } from 'rxjs/operators';
+import {
+  map,
+  switchMap,
+  catchError,
+  mergeMap,
+  tap,
+  zipAll
+} from 'rxjs/operators';
 import { DashboardSettings } from '../dashboard/models/dashboard-settings.model';
 import { generateUid } from '../helpers/generate-uid.helper';
 import { HttpClient } from '@angular/common/http';
@@ -62,11 +69,33 @@ export class DashboardService {
           );
         }
 
-        return forkJoin(
-          _.map(filteredDashboardIds, dashboardId => {
-            return this.httpClient.get(`dataStore/dashboards/${dashboardId}`);
-          })
-        );
+        let loadedDashboards = [];
+        let counter = 0;
+
+        return new Observable(observer => {
+          from(filteredDashboardIds)
+            .pipe(
+              mergeMap(dashboardId =>
+                this.httpClient.get(`dataStore/dashboards/${dashboardId}`)
+              )
+            )
+            .subscribe(
+              res => {
+                counter++;
+                console.log(counter, filteredDashboardIds.length);
+                loadedDashboards = [...loadedDashboards, res];
+
+                if (counter === filteredDashboardIds.length) {
+                  observer.next(loadedDashboards);
+                  observer.complete();
+                }
+              },
+              error => {
+                counter++;
+                observer.error(error);
+              }
+            );
+        });
       })
     );
   }

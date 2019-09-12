@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { SystemInfoService } from '@iapps/ngx-dhis2-http-client';
+import { NgxDhis2HttpClientService } from '@iapps/ngx-dhis2-http-client';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import * as _ from 'lodash';
@@ -334,7 +334,7 @@ export class VisualizationObjectEffects {
   @Effect({ dispatch: false })
   loadFavoriteSuccess$: Observable<any> = this.actions$.pipe(
     ofType(VisualizationObjectActionTypes.LOAD_VISUALIZATION_FAVORITE_SUCCESS),
-    withLatestFrom(this.systemInfoService.getSystemInfo()),
+    withLatestFrom(this.httpClient.systemInfo()),
     tap(
       ([action, systemInfo]: [LoadVisualizationFavoriteSuccessAction, any]) => {
         const spatialSupport =
@@ -594,6 +594,6 @@ export class VisualizationObjectEffects {
     private actions$: Actions,
     private store: Store<VisualizationState>,
     private favoriteService: FavoriteService,
-    private systemInfoService: SystemInfoService
+    private httpClient: NgxDhis2HttpClientService
   ) {}
 }

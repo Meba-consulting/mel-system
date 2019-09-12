@@ -81,15 +81,14 @@ export class DashboardEffects {
     withLatestFrom(this.store.select(getRouteUrl)),
     switchMap(([action, routeUrl]: [LoadDashboardsAction, string]) =>
       this.dashboardService.loadAll(action.dashboardSettings).pipe(
-        map(
-          (dashboards: any[]) =>
-            new LoadDashboardsSuccessAction(
-              dashboards,
-              action.currentUser,
-              routeUrl,
-              action.systemInfo
-            )
-        ),
+        map((dashboards: any[]) => {
+          return new LoadDashboardsSuccessAction(
+            dashboards,
+            action.currentUser,
+            routeUrl,
+            action.systemInfo
+          );
+        }),
         catchError((error: any) => of(new LoadDashboardsFailAction(error)))
       )
     )
