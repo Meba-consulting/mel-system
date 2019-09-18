@@ -154,9 +154,7 @@ export class DashboardEffects {
       (action: SetCurrentVisualizationAction) =>
         new Go({
           path: [
-            `/dashboards/${action.dashboardId}/fullScreen/${
-              action.visualizationId
-            }`
+            `/dashboards/${action.dashboardId}/fullScreen/${action.visualizationId}`
           ]
         })
     )

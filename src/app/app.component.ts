@@ -8,6 +8,7 @@ import { Store } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
 import { of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
+import { Fn } from '@iapps/function-analytics';
 
 import { LoadSystemInfo, State } from './store';
 
@@ -25,6 +26,14 @@ export class AppComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    // initialize function analytics
+    if (Fn) {
+      Fn.init({
+        baseUrl: '../../../api/'
+      });
+
+      console.log(Fn);
+    }
     // Load system information
     this.store.dispatch(new LoadSystemInfo());
 
@@ -42,7 +51,7 @@ export class AppComponent implements OnInit {
         if (manifest) {
           this.titleService.setTitle(manifest.name);
         } else {
-          this.titleService.setTitle('Interactive Dashboard');
+          this.titleService.setTitle('Loading Dashboard...');
         }
       });
   }

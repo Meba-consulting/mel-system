@@ -1,12 +1,12 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import * as _ from 'lodash';
-import { Observable, of, forkJoin, throwError } from 'rxjs';
 import { NgxDhis2HttpClientService } from '@iapps/ngx-dhis2-http-client';
+import * as _ from 'lodash';
+import { Observable, of, throwError, zip } from 'rxjs';
+import { catchError, map, switchMap } from 'rxjs/operators';
 
 import { getFavoriteUrl } from '../helpers';
-import { map, catchError, switchMap } from 'rxjs/operators';
 import { FavoriteConfiguration } from '../models/favorite-configurations.model';
-import { HttpClient } from '@angular/common/http';
 
 @Injectable({ providedIn: 'root' })
 export class FavoriteService {
@@ -18,8 +18,8 @@ export class FavoriteService {
   getAll() {
     return this.httpClient.get('dataStore/favorites').pipe(
       switchMap(favoriteIds =>
-        forkJoin(
-          _.map(favoriteIds, favoriteId => {
+        zip(
+          ..._.map(favoriteIds, favoriteId => {
             return this.httpClient.get(`dataStore/favorites/${favoriteId}`);
           })
         )
@@ -39,7 +39,7 @@ export class FavoriteService {
     return configurations.useDataStoreAsSource
       ? this.getFromDataStore(namespace, favorite.id)
       : configurations.useBothSources
-      ? forkJoin(
+      ? zip(
           this.getFromApi(favorite),
           this.getFromDataStore(namespace, favorite.id).pipe(
             catchError((error: any) => {
