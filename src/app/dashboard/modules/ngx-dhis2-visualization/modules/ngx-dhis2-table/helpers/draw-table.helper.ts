@@ -28,19 +28,7 @@ export function drawTable(
   }
 
   // Subtitle
-  table['subtitle'] = _.map(tableConfiguration.filters, (filter: string) =>
-    _.map(
-      analyticsObject && analyticsObject.metaData
-        ? analyticsObject.metaData[filter] || []
-        : [],
-      (itemId: string) =>
-        analyticsObject &&
-        analyticsObject.metaData &&
-        analyticsObject.metaData.names
-          ? analyticsObject.metaData.names[itemId] || []
-          : []
-    ).join(', ')
-  ).join(' - ');
+  table['subtitle'] = tableConfiguration.subtitle;
 
   if (tableConfiguration.displayList) {
     table.headers[0] = {
