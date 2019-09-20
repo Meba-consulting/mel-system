@@ -23,7 +23,7 @@
     "@angular/material": "^8.2.0",
     "@angular/platform-browser": "^9.0.0-next.2",
     "@angular/platform-browser-dynamic": "^9.0.0-next.2",
-    "@angular/pwa": "^0.803.4",
+    "@angular/pwa": "^0.803.5",
     "@angular/router": "^9.0.0-next.2",
     "@angular/service-worker": "^9.0.0-next.2",
     "@hisptz/ngx-dhis2-dictionary": "^1.0.17",
@@ -76,8 +76,8 @@
     "zone.js": "^0.10.2"
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "~0.803.4",
-    "@angular/cli": "^8.3.4",
+    "@angular-devkit/build-angular": "~0.803.5",
+    "@angular/cli": "^8.3.5",
     "@angular/compiler-cli": "^9.0.0-next.2",
     "@angular/language-service": "^9.0.0-next.2",
     "@compodoc/compodoc": "^1.1.10",
@@ -86,7 +86,7 @@
     "@types/jasmine": "^3.4.0",
     "@types/jasminewd2": "^2.0.6",
     "@types/node": "~12.7.5",
-    "codelyzer": "~5.1.0",
+    "codelyzer": "~5.1.1",
     "commitizen": "^4.0.3",
     "cz-conventional-changelog": "^3.0.2",
     "d2-manifest": "^1.0.0",
@@ -101,7 +101,7 @@
     "protractor": "^6.0.0",
     "ts-node": "~8.4.1",
     "tslint": "~5.20.0",
-    "typescript": "^3.5.3"
+    "typescript": "^3.6.3"
   },
   "config": {
     "commitizen": {
