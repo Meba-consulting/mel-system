@@ -38,6 +38,9 @@ import {
   getOrgUnitGroups,
   OrgUnitGroup
 } from '@iapps/ngx-dhis2-org-unit-filter';
+import { updateDataSelectionsWithSummaryNames } from '../../helpers/update-data-selections-with-summary-name.helper';
+import { NgxDhis2HttpClientService, User } from '@iapps/ngx-dhis2-http-client';
+import { getVisualizationLayerSubtitle } from '../../helpers/get-visualization-layer-subtitle.helper';
 
 @Injectable()
 export class VisualizationLayerEffects {
@@ -48,15 +51,17 @@ export class VisualizationLayerEffects {
       of(action).pipe(
         withLatestFrom(
           this.store.pipe(select(getOrgUnitLevels)),
-          this.store.pipe(select(getOrgUnitGroups))
+          this.store.pipe(select(getOrgUnitGroups)),
+          this.httpClient.me()
         )
       )
     ),
     tap(
-      ([action, orgUnitLevels, orgUnitGroups]: [
+      ([action, orgUnitLevels, orgUnitGroups, currentUser]: [
         LoadVisualizationAnalyticsAction,
         OrgUnitLevel[],
-        OrgUnitGroup[]
+        OrgUnitGroup[],
+        User
       ]) => {
         this.store
           .select(getCombinedVisualizationObjectById(action.visualizationId))
@@ -159,26 +164,33 @@ export class VisualizationLayerEffects {
                         _.each(
                           analyticsResponse,
                           (analytics, analyticsIndex) => {
-                            console.log(
-                              analytics,
+                            const visualizationLayer: VisualizationLayer =
+                              visualizationLayers[analyticsIndex];
+
+                            const dataSelections = updateDataSelectionsWithSummaryNames(
+                              visualizationLayer.dataSelections,
+                              orgUnitGroups,
                               orgUnitLevels,
-                              orgUnitGroups
+                              currentUser
                             );
                             this.store.dispatch(
                               new LoadVisualizationAnalyticsSuccessAction(
-                                visualizationLayers[analyticsIndex].id,
+                                visualizationLayer.id,
                                 {
                                   analytics: getSanitizedAnalytics(
                                     getStandardizedAnalyticsObject(
                                       analytics,
                                       true
                                     ),
-                                    visualizationLayers[analyticsIndex]
-                                      .dataSelections
+                                    dataSelections
                                   ),
-                                  dataSelections:
-                                    visualizationLayers[analyticsIndex]
-                                      .dataSelections
+                                  dataSelections,
+                                  config: {
+                                    ...visualizationLayer.config,
+                                    subtitle: getVisualizationLayerSubtitle(
+                                      dataSelections
+                                    )
+                                  }
                                 }
                               )
                             );
@@ -259,6 +271,7 @@ export class VisualizationLayerEffects {
   constructor(
     private actions$: Actions,
     private store: Store<VisualizationState>,
-    private analyticsService: AnalyticsService
+    private analyticsService: AnalyticsService,
+    private httpClient: NgxDhis2HttpClientService
   ) {}
 }

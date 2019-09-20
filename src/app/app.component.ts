@@ -31,8 +31,6 @@ export class AppComponent implements OnInit {
       Fn.init({
         baseUrl: '../../../api/'
       });
-
-      console.log(Fn);
     }
     // Load system information
     this.store.dispatch(new LoadSystemInfo());

@@ -24,6 +24,10 @@ import {
 } from '../../../store';
 import { Dashboard, DashboardGroups } from '../../models';
 import { LoadFunctions } from '../../modules/ngx-dhis2-data-selection-filter/modules/data-filter/store/actions/function.actions';
+import {
+  loadOrgUnitLevels,
+  loadOrgUnitGroups
+} from '@iapps/ngx-dhis2-org-unit-filter';
 
 @Component({
   selector: 'app-dashboard',
@@ -63,6 +67,8 @@ export class DashboardComponent implements OnInit {
     // initialize dashboads settings
     this.store.dispatch(new InitializeDashboardSettingsAction());
     this.store.dispatch(new LoadFunctions());
+    this.store.dispatch(loadOrgUnitLevels());
+    this.store.dispatch(loadOrgUnitGroups());
 
     this.dashboards$ = this.store.select(getAllGroupDashboards);
     this.currentDashboardId$ = this.store.select(getCurrentDashboardId);
