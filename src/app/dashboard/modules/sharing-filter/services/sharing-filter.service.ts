@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
-import { NgxDhis2HttpClientService } from '@hisptz/ngx-dhis2-http-client';
-import { map } from 'rxjs/operators';
-import { Observable, forkJoin } from 'rxjs';
+import { NgxDhis2HttpClientService } from '@iapps/ngx-dhis2-http-client';
 import * as _ from 'lodash';
+import { Observable, zip } from 'rxjs';
+import { map } from 'rxjs/operators';
+
 import { SharingSearchList } from '../models/sharing-search-list.model';
 
 @Injectable({ providedIn: 'root' })
@@ -13,9 +14,8 @@ export class SharingFilterService {
     return this.httpClient
       .get(`sharing?type=${itemType}&id=${id}`)
       .pipe(
-        map(
-          (sharingResponse: any) =>
-            sharingResponse ? sharingResponse.object : null
+        map((sharingResponse: any) =>
+          sharingResponse ? sharingResponse.object : null
         )
       );
   }
@@ -27,7 +27,7 @@ export class SharingFilterService {
   }
 
   loadSharingListForSearch(): Observable<SharingSearchList[]> {
-    return forkJoin(this._getUserList(), this._getUserGroupList()).pipe(
+    return zip(this._getUserList(), this._getUserGroupList()).pipe(
       map((results: any[]) => _.flatten(results))
     );
   }

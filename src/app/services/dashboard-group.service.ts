@@ -1,9 +1,10 @@
-import { Injectable } from '@angular/core';
-import * as _ from 'lodash';
-import { NgxDhis2HttpClientService } from '@hisptz/ngx-dhis2-http-client';
-import { mergeMap, switchMap, catchError, map } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
-import { forkJoin, of } from 'rxjs';
+import { Injectable } from '@angular/core';
+import { NgxDhis2HttpClientService } from '@iapps/ngx-dhis2-http-client';
+import * as _ from 'lodash';
+import { of, zip } from 'rxjs';
+import { catchError, map, mergeMap, switchMap } from 'rxjs/operators';
+
 import { DashboardGroups } from '../dashboard/models';
 import { DashboardSettings } from '../dashboard/models/dashboard-settings.model';
 import { filterStringListBasedOnMatch } from '../helpers';
@@ -46,8 +47,8 @@ export class DashboardGroupService {
   }
 
   private _loadAllFromDataStore(dashboardGroupIds: string[]) {
-    return forkJoin(
-      _.map(dashboardGroupIds, dashboardGroupId => {
+    return zip(
+      ..._.map(dashboardGroupIds, dashboardGroupId => {
         return this.httpClient.get(`${this._dataStoreUrl}/${dashboardGroupId}`);
       })
     ).pipe(catchError(() => of([])));
@@ -64,8 +65,8 @@ export class DashboardGroupService {
     dashboardGroups: DashboardGroups[],
     dashboardSettings: DashboardSettings
   ) {
-    return forkJoin(
-      _.map(dashboardGroups, (dashboardGroup: any) =>
+    return zip(
+      ..._.map(dashboardGroups, (dashboardGroup: any) =>
         this._create(dashboardGroup, dashboardSettings)
       )
     ).pipe(catchError(() => of([])));

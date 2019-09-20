@@ -17,9 +17,7 @@ export function getChartConfiguration(
     title: visualizationSettings.hasOwnProperty('displayName')
       ? visualizationSettings.displayName
       : '',
-    subtitle: visualizationSettings.hasOwnProperty('subtitle')
-      ? visualizationSettings.subtitle
-      : '',
+    subtitle: visualizationSettings.subtitle || '',
     hideTitle: visualizationSettings.hasOwnProperty('hideTitle')
       ? visualizationSettings.hideTitle
       : true,

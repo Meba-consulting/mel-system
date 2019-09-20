@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
+import { NgxDhis2HttpClientService } from '@iapps/ngx-dhis2-http-client';
 import * as _ from 'lodash';
-import { NgxDhis2HttpClientService } from '@hisptz/ngx-dhis2-http-client';
-import { mergeMap, catchError } from 'rxjs/operators';
-import { forkJoin, of } from 'rxjs';
+import { of, zip } from 'rxjs';
+import { catchError, mergeMap } from 'rxjs/operators';
 
 @Injectable({ providedIn: 'root' })
 export class FunctionService {
@@ -14,8 +14,8 @@ export class FunctionService {
   loadAll() {
     return this.http.get(this._dataStoreUrl).pipe(
       mergeMap((functionIds: Array<string>) =>
-        forkJoin(
-          _.map(functionIds, (functionId: string) => this.load(functionId))
+        zip(
+          ..._.map(functionIds, (functionId: string) => this.load(functionId))
         ).pipe(catchError(() => of([])))
       ),
       catchError(() => of([]))

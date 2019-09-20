@@ -141,12 +141,12 @@
     <!--end of data filter-->
 
     <!--period filter-->
-    <app-period-filter
+    <ngx-dhis2-period-filter
       *ngIf="selectedFilter === 'PERIOD'"
       [selectedPeriods]="selectedPeriods"
-      (periodFilterClose)="onFilterClose($event, 'PERIOD')"
-      (periodFilterUpdate)="onFilterUpdate($event, 'PERIOD')"
-    ></app-period-filter>
+      (close)="onFilterClose($event, 'PERIOD')"
+      (update)="onFilterUpdate($event, 'PERIOD')"
+    ></ngx-dhis2-period-filter>
     <!--end of period filter-->
 
     <!--org unit filter-->

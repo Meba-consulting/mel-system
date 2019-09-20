@@ -1,14 +1,15 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, forkJoin, of } from 'rxjs';
-import { NgxDhis2HttpClientService } from '@hisptz/ngx-dhis2-http-client';
+import { NgxDhis2HttpClientService } from '@iapps/ngx-dhis2-http-client';
 import * as _ from 'lodash';
+import { from, Observable, of, zip } from 'rxjs';
+import { catchError, map, mergeMap, switchMap } from 'rxjs/operators';
 
 import { Dashboard } from '../dashboard/models';
-import { map, switchMap, catchError, mergeMap } from 'rxjs/operators';
 import { DashboardSettings } from '../dashboard/models/dashboard-settings.model';
-import { generateUid } from '../helpers/generate-uid.helper';
-import { HttpClient } from '@angular/common/http';
 import { filterStringListBasedOnMatch } from '../helpers';
+import { generateUid } from '../helpers/generate-uid.helper';
+
 @Injectable({ providedIn: 'root' })
 export class DashboardService {
   dashboardUrlFields: string;
@@ -52,8 +53,8 @@ export class DashboardService {
           // Create dashboards if not found
           return this.http.get('config/dashboards.json').pipe(
             switchMap((dashboards: any) => {
-              return forkJoin(
-                _.map(dashboards, (dashboard: any) =>
+              return zip(
+                ..._.map(dashboards, (dashboard: any) =>
                   this.create(dashboard, dashboardSettings)
                 )
               );
@@ -62,11 +63,32 @@ export class DashboardService {
           );
         }
 
-        return forkJoin(
-          _.map(filteredDashboardIds, dashboardId => {
-            return this.httpClient.get(`dataStore/dashboards/${dashboardId}`);
-          })
-        );
+        let loadedDashboards = [];
+        let counter = 0;
+
+        return new Observable(observer => {
+          from(filteredDashboardIds)
+            .pipe(
+              mergeMap(dashboardId =>
+                this.httpClient.get(`dataStore/dashboards/${dashboardId}`)
+              )
+            )
+            .subscribe(
+              res => {
+                counter++;
+                loadedDashboards = [...loadedDashboards, res];
+
+                if (counter === filteredDashboardIds.length) {
+                  observer.next(loadedDashboards);
+                  observer.complete();
+                }
+              },
+              error => {
+                counter++;
+                observer.error(error);
+              }
+            );
+        });
       })
     );
   }
@@ -90,9 +112,7 @@ export class DashboardService {
     return dashboardSettings && dashboardSettings.useDataStoreAsSource
       ? this.httpClient
           .post(
-            `dataStore/dashboards/${dashboardSettings.namespace}_${
-              dashboard.id
-            }`,
+            `dataStore/dashboards/${dashboardSettings.namespace}_${dashboard.id}`,
             sanitizedDashboard
           )
           .pipe(map(() => sanitizedDashboard))

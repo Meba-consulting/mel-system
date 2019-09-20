@@ -82,7 +82,7 @@ export class VisualizationComponent implements OnInit, OnChanges {
   @Output()
   deleteVisualization: EventEmitter<any> = new EventEmitter<any>();
 
-  @ViewChild(VisualizationBodySectionComponent)
+  @ViewChild(VisualizationBodySectionComponent, { static: false })
   visualizationBody: VisualizationBodySectionComponent;
 
   private _visualizationInputs$: Subject<VisualizationInputs> = new Subject();
@@ -230,7 +230,8 @@ export class VisualizationComponent implements OnInit, OnChanges {
           this.store.dispatch(
             new ToggleVisualizationFocusAction(visualizationUiConfig.id, {
               hideFooter: !focused,
-              hideResizeButtons: !focused
+              hideResizeButtons: !focused,
+              hideOptions: !focused
             })
           );
           this.cardFocused = focused;

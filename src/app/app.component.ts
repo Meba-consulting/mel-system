@@ -1,12 +1,16 @@
 import { Component, OnInit } from '@angular/core';
+import { Title } from '@angular/platform-browser';
+import {
+  Manifest,
+  NgxDhis2HttpClientService
+} from '@iapps/ngx-dhis2-http-client';
 import { Store } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
-
-import { State, LoadSystemInfo } from './store';
-import { Title } from '@angular/platform-browser';
-import { ManifestService, Manifest } from '@hisptz/ngx-dhis2-http-client';
 import { of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
+import { Fn } from '@iapps/function-analytics';
+
+import { LoadSystemInfo, State } from './store';
 
 @Component({
   selector: 'app-root',
@@ -18,10 +22,16 @@ export class AppComponent implements OnInit {
     private store: Store<State>,
     private translate: TranslateService,
     private titleService: Title,
-    private manifestService: ManifestService
+    private httpClient: NgxDhis2HttpClientService
   ) {}
 
   ngOnInit() {
+    // initialize function analytics
+    if (Fn) {
+      Fn.init({
+        baseUrl: '../../../api/'
+      });
+    }
     // Load system information
     this.store.dispatch(new LoadSystemInfo());
 
@@ -32,14 +42,14 @@ export class AppComponent implements OnInit {
     this.translate.use('en');
 
     // set title after loading it from manifest file
-    this.manifestService
-      .getManifest()
+    this.httpClient
+      .manifest()
       .pipe(catchError(() => of(null)))
       .subscribe((manifest: Manifest) => {
         if (manifest) {
           this.titleService.setTitle(manifest.name);
         } else {
-          this.titleService.setTitle('Interactive Dashboard');
+          this.titleService.setTitle('Loading Dashboard...');
         }
       });
   }
