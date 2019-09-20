@@ -55,5 +55,9 @@ export function getMergedDataSelections(
     }
   );
 
-  return [...unAvailableDataSelections, ...mergedDataSelections];
+  return _.filter(
+    [...unAvailableDataSelections, ...mergedDataSelections],
+    (dataSelection: any) =>
+      dataSelection ? dataSelection.items.length > 0 : false
+  );
 }

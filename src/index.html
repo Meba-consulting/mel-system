@@ -1,13 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
+
   <head>
     <meta charset="utf-8" />
-    <title>Malaria Dashboard</title>
+    <title>Interactive Dashboard</title>
     <base href="" />
 
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="icon" type="image/x-icon" href="assets/img/icons-26x26.png" />
-    <link rel="manifest" href="/manifest.json" />
+    <link rel="manifest" href="manifest.json" />
     <meta name="theme-color" content="#1976d2" />
     <meta name="Description" content="WHO Dashboard App for DHIS2" />
     <style>
@@ -38,15 +39,10 @@
           background-color: #ffffff;
         }
       }
+
     </style>
-    <script src="https://raw.githack.com/hisptz/function-analytics/master/lib/function-analytics.min.js"></script>
-    <script>
-      if (Fn) {
-        Fn.init({
-          baseUrl: '../../../api/'
-        });
-      }
-    </script>
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   </head>
 
   <body class="body-wrapper">
@@ -54,9 +50,10 @@
       <div style="padding-top: 15%; text-align: center;">
         <img src="assets/icons/balls-5.svg" alt="" />
         <h4 style="margin-top: 50px;">
-          Discovering Malaria Dashboard Awesomeness
+          Discovering Dashboard Awesomeness
         </h4>
       </div>
     </app-root>
   </body>
+
 </html>

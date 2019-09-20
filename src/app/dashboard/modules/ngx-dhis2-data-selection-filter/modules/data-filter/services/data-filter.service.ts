@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable, forkJoin, of } from 'rxjs';
 import * as _ from 'lodash';
 import { catchError, map, switchMap } from 'rxjs/operators';
-import { NgxDhis2HttpClientService } from '@hisptz/ngx-dhis2-http-client';
+import { NgxDhis2HttpClientService } from '@iapps/ngx-dhis2-http-client';
 
 import { DataSet } from '../model/dataset';
 import { DataelementGroup } from '../model/dataelement-group';

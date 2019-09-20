@@ -8,7 +8,12 @@
       (click)="toggleFilters($event)"
     >
       <img src="assets/icons/filter.png" alt="" />
-      <img src="assets/icons/{{ showFilters ? 'arrow-left.png' : 'arrow-right.png' }}" alt="" />
+      <img
+        src="assets/icons/{{
+          showFilters ? 'arrow-left.png' : 'arrow-right.png'
+        }}"
+        alt=""
+      />
     </button>
     &nbsp;
     <div class="visualization-filter-list" *ngIf="showFilters">
@@ -22,7 +27,11 @@
         <img src="assets/icons/tree.png" alt="" />
         &nbsp;
         <span>Org Unit</span>
-        <img [ngClass]="{ 'arrow-up': selectedFilter === 'ORG_UNIT' }" src="assets/icons/arrow-down.png" alt="" />
+        <img
+          [ngClass]="{ 'arrow-up': selectedFilter === 'ORG_UNIT' }"
+          src="assets/icons/arrow-down.png"
+          alt=""
+        />
       </button>
       <button
         type="button"
@@ -34,7 +43,11 @@
         <img src="assets/icons/period.png" alt="" />
         &nbsp;
         <span>Period</span>
-        <img [ngClass]="{ 'arrow-up': selectedFilter === 'PERIOD' }" src="assets/icons/arrow-down.png" alt="" />
+        <img
+          [ngClass]="{ 'arrow-up': selectedFilter === 'PERIOD' }"
+          src="assets/icons/arrow-down.png"
+          alt=""
+        />
       </button>
       <button
         type="button"
@@ -46,11 +59,18 @@
         <img src="assets/icons/period.png" alt="" />
         &nbsp;
         <span>Style</span>
-        <img [ngClass]="{ 'arrow-up': selectedFilter === 'STYLE' }" src="assets/icons/arrow-down.png" alt="" />
+        <img
+          [ngClass]="{ 'arrow-up': selectedFilter === 'STYLE' }"
+          src="assets/icons/arrow-down.png"
+          alt=""
+        />
       </button>
     </div>
   </div>
-  <div class="visualization-filter-body dashboard-border" *ngIf="selectedFilter">
+  <div
+    class="visualization-filter-body dashboard-border"
+    *ngIf="selectedFilter"
+  >
     <!--org unit filter-->
     <ngx-dhis2-org-unit-filter
       *ngIf="selectedFilter === 'ORG_UNIT'"
@@ -62,13 +82,13 @@
     <!--end of org unit filter-->
 
     <!--period filter-->
-    <app-period-filter
+    <ngx-dhis2-period-filter
       *ngIf="selectedFilter === 'PERIOD'"
       [selectedPeriods]="selectedPeriods"
-      [periodConfig]="periodConfig"
-      (periodFilterClose)="onFilterClose($event)"
-      (periodFilterUpdate)="onFilterUpdateAction($event, 'PERIOD')"
-    ></app-period-filter>
+      [periodFilterConfig]="periodConfig"
+      (close)="onFilterClose($event)"
+      (update)="onFilterUpdateAction($event, 'PERIOD')"
+    ></ngx-dhis2-period-filter>
     <!--end of period filter-->
 
     <!-- style filter -->

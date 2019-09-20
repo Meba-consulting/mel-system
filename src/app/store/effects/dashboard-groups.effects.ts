@@ -38,13 +38,17 @@ export class DashboardGroupsEffects {
     ),
     withLatestFrom(this.store.select(getCurrentDashboardId)),
     tap(([action, dashboardId]: [SetActiveDashboardGroupsAction, string]) => {
-      const currentDashboardId =
-        action.currentDashboardId ||
-        (action.activeGroup.dashboards.includes(dashboardId)
-          ? dashboardId
-          : action.activeGroup.dashboards[0]);
-      if (currentDashboardId) {
-        this.store.dispatch(new SetCurrentDashboardAction(currentDashboardId));
+      if (action.activeGroup) {
+        const currentDashboardId =
+          action.currentDashboardId ||
+          (action.activeGroup.dashboards.includes(dashboardId)
+            ? dashboardId
+            : action.activeGroup.dashboards[0]);
+        if (currentDashboardId) {
+          this.store.dispatch(
+            new SetCurrentDashboardAction(currentDashboardId)
+          );
+        }
       }
     })
   );

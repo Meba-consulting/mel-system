@@ -25,6 +25,7 @@ export function getStandardizedVisualizationUiConfig(
     hideTypeButtons: false,
     showInterpretionBlock: !isNonVisualizable,
     hideResizeButtons: true,
-    showTitleBlock: false
+    showTitleBlock: false,
+    hideOptions: true
   };
 }

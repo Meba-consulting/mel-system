@@ -1,4 +1,5 @@
 {
+  "namespace": "nmcp-malaria",
   "id": "nmcp-malaria",
   "useDataStoreAsSource": true,
   "allowAdditionalAttributes": true,

@@ -12,9 +12,7 @@ export function getTableConfiguration(
       : favoriteObject.hasOwnProperty('name')
       ? favoriteObject.name
       : '',
-    subtitle: favoriteObject.hasOwnProperty('subtitle')
-      ? favoriteObject.subtitle
-      : '',
+    subtitle: favoriteObject.subtitle || '',
     showColumnTotal: favoriteObject.hasOwnProperty('colTotal')
       ? favoriteObject.colTotal
       : true,

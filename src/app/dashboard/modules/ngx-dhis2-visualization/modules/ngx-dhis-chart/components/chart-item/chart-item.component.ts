@@ -33,10 +33,11 @@ export class ChartItemComponent implements OnInit {
   analyticsObject: any;
   @Input()
   chartHeight: string;
+  @Input()
+  hideChartOptions: boolean;
 
   @Output()
   chartUpdate: EventEmitter<any> = new EventEmitter<any>();
-  showOptions: boolean;
   chartTypes: ChartType[];
   chart: any;
   currentChartType: string;
@@ -44,7 +45,6 @@ export class ChartItemComponent implements OnInit {
 
   constructor(private visualizationExportService: VisualizationExportService) {
     this.chartTypes = CHART_TYPES;
-    this.showOptions = true;
   }
 
   ngOnInit() {
@@ -76,14 +76,6 @@ export class ChartItemComponent implements OnInit {
       id: this.renderId,
       type: chartType.toUpperCase()
     });
-  }
-
-  onFocus(parentEvent) {
-    if (parentEvent.focused) {
-      this.showOptions = true;
-    } else {
-      this.showOptions = false;
-    }
   }
 
   downloadChart(downloadFormat) {

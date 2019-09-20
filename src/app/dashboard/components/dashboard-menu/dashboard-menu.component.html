@@ -1,5 +1,8 @@
 <div class="dashboard-menu-container no-print">
-  <ul class="dashboard-groups">
+  <ul
+    class="dashboard-groups"
+    *ngIf="dashboardGroups && dashboardGroups.length > 0"
+  >
     <li
       *ngFor="let dashboardGroup of dashboardGroups"
       [ngClass]="{ current: dashboardGroup.id === activeDashboardGroupId }"
