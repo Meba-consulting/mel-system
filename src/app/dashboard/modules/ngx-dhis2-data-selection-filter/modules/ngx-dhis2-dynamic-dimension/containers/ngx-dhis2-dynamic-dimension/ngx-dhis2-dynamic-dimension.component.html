@@ -1,46 +1,31 @@
 <div class="ngx-dhis2-dynamic-dimension-container">
   <!-- dynamic dimensions loading -->
-  <div
-    class="ngx-dhis2-dynamic-dimensions-loading"
-    *ngIf="(dynamicDimensionLoading$ | async)"
-  >
+  <div class="ngx-dhis2-dynamic-dimensions-loading" *ngIf="(dynamicDimensionLoading$ | async)">
     Loading...
   </div>
   <!-- end of dynamic dimensions loading -->
   <!-- dynamic dimension list block-->
-  <div
-    class="ngx-dhis2-dynamic-dimension-list-block"
-    *ngIf="!(dynamicDimensionLoading$ | async)"
-  >
+  <div class="ngx-dhis2-dynamic-dimension-list-block" *ngIf="!(dynamicDimensionLoading$ | async)">
     <!-- dimension search -->
     <div class="dynamic-dimension-search">
-      <input
-        type="text"
-        class="form-control form-control-sm"
-        [(ngModel)]="dimensionSearchQuery"
-        placeholder="Search dimension"
-      />
+      <input type="text" class="form-control form-control-sm" [(ngModel)]="dimensionSearchQuery"
+        placeholder="Search dimension" />
     </div>
     <!-- end of dimension search -->
 
     <!-- dynamic dimension list -->
     <ul class="ngx-dhis2-dynamic-dimension-list">
-      <li
-        *ngFor="
+      <li *ngFor="
           let dynamicDimension of (dynamicDimensionList$
             | async
             | filterByName: dimensionSearchQuery)
-        "
-      >
-        <a
-          [ngClass]="{
+        ">
+        <a [ngClass]="{
             'active-dimension':
               (activeDimension$ | async) &&
               (activeDimension$ | async).id === dynamicDimension.id,
             'dimension-with-selected-items': dynamicDimension.selectedCount > 0
-          }"
-          (click)="onSetActiveDynamicDimension(dynamicDimension, $event)"
-        >
+          }" (click)="onSetActiveDynamicDimension(dynamicDimension, $event)">
           {{ dynamicDimension.name
           }}{{
             dynamicDimension.selectedCount > 0
@@ -57,23 +42,13 @@
   <!-- dynamic dimension items -->
   <div class="ngx-dhis2-dynamic-dimension-items">
     <div class="dynamic-dimension-list-search">
-      <input
-        type="text"
-        class="form-control form-control-sm"
-        (focus)="showBody = true"
-        placeholder="Search dimension items"
-        [(ngModel)]="dimensionItemSearchQuery"
-      />
+      <input type="text" class="form-control form-control-sm" (focus)="showBody = true"
+        placeholder="Search dimension items" [(ngModel)]="dimensionItemSearchQuery" />
     </div>
     <div class="dynamic-dimension-available-header">
-      <span
-        >Available ({{ (activeDimension$ | async)?.items.length || 0 }})</span
-      >
-      <a
-        *ngIf="(activeDimension$ | async) as activeDimension"
-        (click)="onAddAllItems(activeDimension, $event)"
-        >&raquo;</a
-      >
+      <span>Available ({{ (activeDimension$ | async)?.items.length || 0 }})</span>
+      <a *ngIf="(activeDimension$ | async) as activeDimension"
+        (click)="onAddAllItems(activeDimension, $event)">&raquo;</a>
     </div>
     <div class="dynamic-dimension-selected-header">
       <a (click)="onRemoveAllItems($event)">&laquo;</a>
@@ -86,26 +61,18 @@
         <li *ngIf="(dynamicDimensionLoading$ | async)">
           <small>Loading...</small>
         </li>
-        <li
-          *ngIf="
+        <li *ngIf="
             !(dynamicDimensionLoading$ | async) &&
             (activeDimension$ | async)?.items.length === 0
-          "
-        >
+          ">
           <a>No items</a>
         </li>
-        <li
-          *ngFor="
+        <li *ngFor="
             let item of ((activeDimension$ | async)?.items
               | filterByName: dimensionItemSearchQuery)
-          "
-          title="Click to select item"
-        >
-          <a
-            *ngIf="(activeDimension$ | async) as activeDimension"
-            (click)="onAddDimensionItem(activeDimension, item, $event)"
-            >{{ item.name }}</a
-          >
+          " title="Click to select item">
+          <a *ngIf="(activeDimension$ | async) as activeDimension"
+            (click)="onAddDimensionItem(activeDimension, item, $event)">{{ item.name }}</a>
         </li>
 
         <li *ngIf="true">
@@ -119,11 +86,7 @@
 
     <div class="dynamic-dimension-selected-body">
       <ul>
-        <li
-          *ngFor="let item of selectedDimensionItems"
-          style="cursor: move"
-          title="click to unselect item"
-        >
+        <li *ngFor="let item of selectedDimensionItems" style="cursor: move" title="click to unselect item">
           <a (click)="onRemoveDimensionItem(item, $event)"> {{ item.name }} </a>
         </li>
         <li *ngIf="true">
@@ -136,13 +99,13 @@
   <!-- end of dynamic dimension items -->
 </div>
 
-<!--organisation unit buttons-->
+<!--dynamic dimension buttons-->
 <div class="ngx-dhis2-dynamic-dimension-buttons">
-  <button class="ngx-dhis2-dynamic-dimension__btn" (click)="onClose($event)">
-    CLOSE
+  <button class="mr-1" mat-stroked-button (click)="onClose($event)">
+    Close
   </button>
-  <button class="ngx-dhis2-dynamic-dimension__btn" (click)="onUpdate($event)">
-    UPDATE
+  <button mat-stroked-button color="primary" (click)="onUpdate($event)">
+    Update
   </button>
 </div>
-<!--end of organisation unit buttons-->
+<!--end of dynamic dimension buttons-->

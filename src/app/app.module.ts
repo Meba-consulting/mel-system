@@ -38,7 +38,7 @@ import { NgxDhis2MenuModule } from '@hisptz/ngx-dhis2-menu';
     NgxDhis2HttpClientModule.forRoot({
       namespace: 'hisptz',
       version: 1,
-      models: {}
+      models: { dimensions: 'id' }
     }),
     /**
      * Translation module

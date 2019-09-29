@@ -10,10 +10,13 @@ import * as fromReducer from './store/reducers/dynamic-dimension.reducer';
 import { DynamicDimensionEffects } from './store/effects/dynamic-dimension.effects';
 import { pipes } from './pipes';
 
+import { MatButtonModule } from '@angular/material/button';
+
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
+    MatButtonModule,
     StoreModule.forFeature('dynamicDimension', fromReducer.reducer),
     EffectsModule.forFeature([DynamicDimensionEffects])
   ],
