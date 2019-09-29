@@ -34,7 +34,7 @@
     "@iapps/function-analytics": "^1.0.0-beta.21",
     "@iapps/ngx-dhis2-dictionary": "^1.1.5",
     "@iapps/ngx-dhis2-http-client": "^2.0.8-beta.3",
-    "@iapps/ngx-dhis2-org-unit-filter": "file:../../../../innovations/web/ngx-dhis2-org-unit-filter/dist/ngx-dhis2-org-unit-filter/iapps-ngx-dhis2-org-unit-filter-1.1.21-beta.2.tgz",
+    "@iapps/ngx-dhis2-org-unit-filter": "^1.1.21-beta.3",
     "@iapps/ngx-dhis2-period-filter": "^1.0.0-beta.16",
     "@mapbox/geojson-area": "^0.2.2",
     "@ngrx/effects": "^8.3.0",

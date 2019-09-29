@@ -8,6 +8,10 @@ const routes: Routes = [
     pathMatch: 'full'
   },
   {
+    path: '**',
+    redirectTo: 'dashboards'
+  },
+  {
     path: 'dashboards',
     loadChildren: './dashboard/dashboard.module#DashboardModule'
   }
