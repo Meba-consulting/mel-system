@@ -3,6 +3,10 @@ import { Routes, RouterModule, PreloadAllModules } from '@angular/router';
 
 const routes: Routes = [
   {
+    path: 'dashboards',
+    loadChildren: './dashboard/dashboard.module#DashboardModule'
+  },
+  {
     path: '',
     redirectTo: 'dashboards',
     pathMatch: 'full'
@@ -10,10 +14,6 @@ const routes: Routes = [
   {
     path: '**',
     redirectTo: 'dashboards'
-  },
-  {
-    path: 'dashboards',
-    loadChildren: './dashboard/dashboard.module#DashboardModule'
   }
 ];
 

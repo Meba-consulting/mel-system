@@ -85,7 +85,6 @@
     <!--end of data filter-->
 
     <!--period filter-->
-    {{selectedPeriods | json}}
     <ngx-dhis2-period-filter *ngIf="selectedFilter === 'PERIOD'" [selectedPeriods]="selectedPeriods"
       (close)="onFilterClose($event, 'PERIOD')" (update)="onFilterUpdate($event, 'PERIOD')"></ngx-dhis2-period-filter>
     <!--end of period filter-->
