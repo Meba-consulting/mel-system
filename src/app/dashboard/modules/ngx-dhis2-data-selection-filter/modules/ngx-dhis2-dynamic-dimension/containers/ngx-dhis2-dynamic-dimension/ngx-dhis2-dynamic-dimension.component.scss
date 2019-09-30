@@ -41,13 +41,13 @@
   padding: 7px;
   text-decoration: none;
   color: #222222;
-  font-size: 12px;
+  font-size: 14px;
   display: flex;
   width: 100%;
   cursor: pointer;
 }
 .active-dimension {
-  background-color: #eeeeee;
+  background-color: #f5f5f5;
 }
 
 .ngx-dhis2-dynamic-dimension-buttons {
@@ -148,13 +148,13 @@
   cursor: pointer;
   color: #000000;
   display: block;
-  font-size: 12px;
-  padding: 2px 5px 2px 5px;
+  font-size: 14px;
+  padding: 7px;
 }
 
 .dynamic-dimension-available-body > ul > li > a:hover,
 .dynamic-dimension-selected-body > ul > li > a:hover {
-  background-color: #dddddd;
+  background-color: #f5f5f5;
 }
 
 .dimension-with-selected-items {

@@ -1,6 +1,6 @@
 .visualization-card {
-  border: solid thin #eeeeee;
   background-color: #ffffff;
+  padding: 5px;
   width: 100%;
   position: relative;
 }
@@ -14,6 +14,7 @@
   left: 0;
   z-index: 1500;
   background-color: #ffffff;
+  border-radius: 0;
 }
 .visualization-title-block {
   padding: 5px;

@@ -45,10 +45,14 @@ export class MapFilterSectionComponent implements OnInit, OnDestroy, OnChanges {
   ngOnInit() {
     this.legendSets$ = this.store.select(fromStore.getAllLegendSets);
     this.isFilterSectionLoading$ = this.store.select(
-      fromStore.isVisualizationLegendFilterSectionLoding(this.mapVisualizationObject.componentId)
+      fromStore.isVisualizationLegendFilterSectionLoding(
+        this.mapVisualizationObject.componentId
+      )
     );
     this.isFilterSectionUpdated$ = this.store.select(
-      fromStore.isVisualizationLegendFilterSectionJustUpdated(this.mapVisualizationObject.componentId)
+      fromStore.isVisualizationLegendFilterSectionJustUpdated(
+        this.mapVisualizationObject.componentId
+      )
     );
   }
 
@@ -62,7 +66,11 @@ export class MapFilterSectionComponent implements OnInit, OnDestroy, OnChanges {
   toggleFilters(e) {
     e.stopPropagation();
     this.showFilters = !this.showFilters;
-    this.store.dispatch(new fromStore.ToggleVisualizationLegendFilterSection(this.mapVisualizationObject.componentId));
+    this.store.dispatch(
+      new fromStore.ToggleVisualizationLegendFilterSection(
+        this.mapVisualizationObject.componentId
+      )
+    );
   }
 
   toggleCurrentFilter(e, selectedFilter) {
@@ -88,7 +96,8 @@ export class MapFilterSectionComponent implements OnInit, OnDestroy, OnChanges {
           filterType: 'ou',
           layer,
           newdimension,
-          params: value || items.map(item => item.id || item.dimensionItem).join(';')
+          params:
+            value || items.map(item => item.id || item.dimensionItem).join(';')
         };
         this.store.dispatch(new fromStore.UpdateOUSelection(payload));
         break;
@@ -133,14 +142,25 @@ export class MapFilterSectionComponent implements OnInit, OnDestroy, OnChanges {
 
   onStyleFilterUpdate({ layer }) {
     const { layers } = this.mapVisualizationObject;
-    const updatedLayers = layers.map(_layer => (_layer.id === this.activeLayer ? layer : _layer));
-    this.store.dispatch(new fromStore.UpdateLayerStyle({ ...this.mapVisualizationObject, layers: updatedLayers }));
+    const updatedLayers = layers.map(_layer =>
+      _layer.id === this.activeLayer ? layer : _layer
+    );
+    this.store.dispatch(
+      new fromStore.UpdateLayerStyle({
+        ...this.mapVisualizationObject,
+        layers: updatedLayers
+      })
+    );
   }
 
   onFilterClose(event) {
     // this is to bypass onDestroy by orgUnitTree
     if (event === true) {
-      this.store.dispatch(new fromStore.CloseVisualizationLegendFilterSection(this.mapVisualizationObject.componentId));
+      this.store.dispatch(
+        new fromStore.CloseVisualizationLegendFilterSection(
+          this.mapVisualizationObject.componentId
+        )
+      );
     }
   }
 
@@ -152,20 +172,26 @@ export class MapFilterSectionComponent implements OnInit, OnDestroy, OnChanges {
     this.selectedPeriods = selectedPeriods.map(periodItem => ({
       id: periodItem.dimensionItem || periodItem.id,
       name: periodItem.displayName || periodItem.name,
-      type: periodItem.dimensionItemType || periodItem.type
+      type: periodItem.type
     }));
 
     this.selectedOrgUnitItems = getDimensionItems('ou', data).map(ouItem => ({
       id: ouItem.dimensionItem || ouItem.id,
       name: ouItem.displayName || ouItem.name,
       type:
-        ouItem.dimensionItemType || ouItem.type || (ouItem.dimensionItem || ouItem.id || '').includes('LEVEL')
+        ouItem.dimensionItemType ||
+        ouItem.type ||
+        (ouItem.dimensionItem || ouItem.id || '').includes('LEVEL')
           ? 'ORGANISATION_UNIT'
           : ''
     }));
   }
 
   ngOnDestroy() {
-    this.store.dispatch(new fromStore.CloseVisualizationLegendFilterSection(this.mapVisualizationObject.componentId));
+    this.store.dispatch(
+      new fromStore.CloseVisualizationLegendFilterSection(
+        this.mapVisualizationObject.componentId
+      )
+    );
   }
 }

@@ -171,7 +171,8 @@ export class VisualizationLayerEffects {
                               visualizationLayer.dataSelections,
                               orgUnitGroups,
                               orgUnitLevels,
-                              currentUser
+                              currentUser,
+                              analytics
                             );
                             this.store.dispatch(
                               new LoadVisualizationAnalyticsSuccessAction(

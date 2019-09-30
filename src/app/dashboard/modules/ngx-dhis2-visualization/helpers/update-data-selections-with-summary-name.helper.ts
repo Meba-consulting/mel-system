@@ -7,7 +7,8 @@ export function updateDataSelectionsWithSummaryNames(
   dataSelections: VisualizationDataSelection[],
   orgUnitGroups: OrgUnitGroup[],
   orgUnitLevels: OrgUnitLevel[],
-  currentUser: User
+  currentUser: User,
+  analytics: any
 ): VisualizationDataSelection[] {
   const userOrgUnits = currentUser
     ? currentUser.dataViewOrganisationUnits || []
@@ -34,6 +35,26 @@ export function updateDataSelectionsWithSummaryNames(
               ? `${startingTitle} in ${endingTitle}`
               : endingTitle
           };
+
+        case 'pe': {
+          const peItems =
+            analytics && analytics.metaData && analytics.metaData.pe
+              ? analytics.metaData.pe
+              : [];
+
+          const metaDataNames =
+            analytics && analytics.metaData && analytics.metaData.names
+              ? analytics.metaData.names
+              : {};
+
+          return {
+            ...dataSelection,
+            title: peItems
+              .map((peId: string) => metaDataNames[peId])
+              .filter((peName: string) => peName)
+              .join(', ')
+          };
+        }
 
         default:
           return {

@@ -1,0 +1,19 @@
+.options-content {
+  height: 295px;
+}
+.options-btns {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.options-list {
+  list-style-type: none;
+  margin: 0;
+  padding: 5px;
+}
+
+.options-list > li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}

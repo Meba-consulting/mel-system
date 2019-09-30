@@ -1,0 +1,18 @@
+<div class="visualization-options-container">
+    <div class="options-content">
+        <ul class="options-list" *ngIf="visualizationConfig && visualizationType === 'CHART'">
+            <li>
+                <div>SortOrder</div>
+                <select class="form-control w-25" [(ngModel)]="visualizationConfig.sortOrder">
+                    <option [ngValue]="0">None</option>
+                    <option [ngValue]="-1">Low to High</option>
+                    <option [ngValue]="1">High to Low</option>
+                </select>
+            </li>
+        </ul>
+    </div>
+    <div class="options-btns">
+        <button mat-stroked-button class="mr-1" (click)="onClose($event)">Close</button>
+        <button mat-stroked-button color="primary" (click)="onUpdate($event)">Update</button>
+    </div>
+</div>

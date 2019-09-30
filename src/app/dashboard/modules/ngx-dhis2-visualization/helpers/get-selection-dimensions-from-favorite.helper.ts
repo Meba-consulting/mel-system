@@ -73,6 +73,13 @@ function getStandardizedDimensions(
                   name: item.displayName || item.name,
                   type: dimensionItemType
                 };
+          case 'pe': {
+            return {
+              id: item.dimensionItem || item.id,
+              name: item.displayName || item.name,
+              type: item.type
+            };
+          }
 
           default:
             return {

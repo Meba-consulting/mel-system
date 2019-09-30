@@ -27,8 +27,16 @@ export class NgxDhis2SelectionFiltersComponent implements OnInit {
   layout: any;
   @Input()
   selectionFilterConfig: SelectionFilterConfig;
+  @Input()
+  visualizationConfig: any;
+  @Input()
+  visualizationType: string;
   @Output()
   filterUpdate: EventEmitter<any[]> = new EventEmitter<any[]>();
+
+  @Output()
+  optionsUpdate: EventEmitter<any> = new EventEmitter<any>();
+
   showFilters: boolean;
   showFilterBody: boolean;
 
@@ -217,7 +225,6 @@ export class NgxDhis2SelectionFiltersComponent implements OnInit {
   }
 
   onFilterUpdate(selectedItems, selectedFilter) {
-    console.log(selectedItems);
     if (selectedFilter === 'LAYOUT') {
       const layouts = _.flatten(
         _.map(_.keys(selectedItems), (selectedItemKey: string) => {
@@ -318,5 +325,14 @@ export class NgxDhis2SelectionFiltersComponent implements OnInit {
 
   onFilterClickOutside() {
     this.selectedFilter = '';
+  }
+
+  onOptionClose() {
+    this.selectedFilter = '';
+  }
+
+  onOptionsUpdate(visualizationConfig: any) {
+    this.selectedFilter = '';
+    this.optionsUpdate.emit(visualizationConfig)
   }
 }
