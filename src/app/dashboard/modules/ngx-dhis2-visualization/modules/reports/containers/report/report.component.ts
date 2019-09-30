@@ -21,7 +21,6 @@ export class ReportComponent implements OnInit {
         .filter(reportId => reportId);
 
       this.reports$ = this.reportService.getReportsByIds(reportIds);
-      this.reportService.loadReportsByIds(reportIds);
     }
   }
 }
