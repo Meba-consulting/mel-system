@@ -17,14 +17,13 @@ import { ReportsModule } from './modules/reports/reports.module';
 import { pipes } from './pipes';
 import { effects } from './store/effects';
 import { reducers } from './store/reducers';
-
-// store
-// import { MapModule } from './modules/map/map.module';
+import { MatCardModule } from '@angular/material/card';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
+    MatCardModule,
     TranslateModule.forRoot(),
     StoreModule.forFeature('visualization', reducers),
     EffectsModule.forFeature(effects),

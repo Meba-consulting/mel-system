@@ -1,4 +1,4 @@
-<div [@open] [ngClass]="{
+<mat-card [@open] [ngClass]="{
     'visualization-card': true,
     'visualization-card-full-screen': (visualizationUiConfig$ | async)
       ?.fullScreen
@@ -110,11 +110,4 @@
     <!-- end of visualization body footer block-->
   </div>
   <!--end of visualization body block-->
-
-  <!--visualization chating block-->
-  <!--<div class="visualization-chat-block" *ngIf="!(visualizationUiConfig$ | async)?.showInterpretionBlock &&-->
-  <!--(visualizationUiConfig$ | async)?.showBody">-->
-  <!--Chating-->
-  <!--</div>-->
-  <!--end of visualization chating block-->
-</div>
+</mat-card>
