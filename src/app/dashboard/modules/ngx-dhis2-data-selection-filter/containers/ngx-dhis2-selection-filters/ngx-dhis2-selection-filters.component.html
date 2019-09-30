@@ -63,6 +63,18 @@
       </button>
       <!-- end of dynamic dimension filter button -->
 
+      <!-- visualization options button -->
+      <button *ngIf="filterConfig?.showOptions" [ngClass]="{
+          'selection-filter-btn': true,
+          'active-filter': selectedFilter === 'OPTIONS'
+        }" [title]="'Layout' | translate" (click)="toggleCurrentFilter($event, 'OPTIONS')">
+        <img [src]="dataIcon" alt="" />&nbsp;{{
+          'Options' | translate
+        }}&nbsp;
+        <img [ngClass]="{ 'arrow-up': selectedFilter === 'OPTIONS' }" [src]="arrowDownIcon" alt="" />
+      </button>
+      <!-- end of visualization options filter button -->
+
       <!--selections update button-->
       <!--<button-->
       <!--class="selection-filter-btn"-->
@@ -101,6 +113,10 @@
     <ngx-dhis2-dynamic-dimension [selectedDynamicDimensions]="selectedDynamicDimensions"
       *ngIf="selectedFilter === 'DYNAMIC'" (dynamicDimensionClose)="onFilterClose($event, 'DYNAMIC')"
       (dynamicDimensionUpdate)="onFilterUpdate($event, 'DYNAMIC')"></ngx-dhis2-dynamic-dimension>
+
+    <app-visualization-options *ngIf="selectedFilter === 'OPTIONS'" [visualizationConfig]="visualizationConfig"
+      [visualizationType]="visualizationType" (close)="onOptionClose()" (update)="onOptionsUpdate($event)">
+    </app-visualization-options>
   </div>
   <!--end of selection filter body-->
 </div>

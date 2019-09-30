@@ -4,4 +4,5 @@ export interface SelectionFilterConfig {
   showOrgUnitFilter?: boolean;
   showLayout?: boolean;
   showDynamicDimension?: boolean;
+  showOptions?: boolean;
 }

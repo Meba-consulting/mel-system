@@ -20,6 +20,8 @@ export class VisualizationHeaderSectionComponent {
   @Input()
   name: string;
   @Input()
+  visualizationType: string;
+  @Input()
   isNew: string;
   @Input()
   uiConfigId: string;
@@ -43,6 +45,11 @@ export class VisualizationHeaderSectionComponent {
   >();
 
   @Output()
+  visualizationOptionUpdate: EventEmitter<
+    VisualizationLayer
+  > = new EventEmitter<VisualizationLayer>();
+
+  @Output()
   fullScreenAction: EventEmitter<any> = new EventEmitter<any>();
 
   @Output()
@@ -55,7 +62,8 @@ export class VisualizationHeaderSectionComponent {
       showPeriodFilter: true,
       showOrgUnitFilter: true,
       showLayout: true,
-      showDataFilter: false
+      showDataFilter: false,
+      showOptions: true
     };
   }
 
@@ -91,5 +99,9 @@ export class VisualizationHeaderSectionComponent {
       this.savefavorite.emit({ name: this.name, isNew: this.isNew });
       this.showNameInput = false;
     }
+  }
+
+  onVisualizationOptionUpdate(config: any) {
+    this.visualizationLayerUpdate.emit({ ...this.visualizationLayer, config });
   }
 }
