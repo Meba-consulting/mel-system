@@ -46,7 +46,7 @@
           'selection-filter-btn': true,
           'active-filter': selectedFilter === 'LAYOUT'
         }" [title]="'Layout' | translate" (click)="toggleCurrentFilter($event, 'LAYOUT')">
-        <img [src]="orgUnitcon" alt="" />&nbsp;{{ 'Layout' | translate }}&nbsp;
+        <img [src]="orgUnitIcon" alt="" />&nbsp;{{ 'Layout' | translate }}&nbsp;
         <i class="fa fa-caret-{{selectedFilter === 'LAYOUT' ? 'up' : 'down'}}"></i>
       </button>
       <!--end of layout button-->

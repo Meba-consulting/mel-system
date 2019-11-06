@@ -13,7 +13,7 @@ import { Store } from '@ngrx/store';
 import { LoadDynamicDimensionsAction } from '../../store/actions/dynamic-dimension.actions';
 import { Observable, of } from 'rxjs';
 import { DynamicDimension } from '../../store/models/dynamic-dimension.model';
-import { map } from 'rxjs/operators';
+import { map, take } from 'rxjs/operators';
 
 @Component({
   selector: 'ngx-dhis2-dynamic-dimension',
@@ -36,6 +36,7 @@ export class NgxDhis2DynamicDimensionComponent implements OnInit, OnDestroy {
   dynamicDimensionLoading$: Observable<boolean>;
   dynamicDimensionList$: Observable<DynamicDimension[]>;
   activeDimension$: Observable<DynamicDimension>;
+  selectedDimensionItems: any[];
 
   @Output()
   dynamicDimensionUpdate: EventEmitter<any> = new EventEmitter<any>();
@@ -43,15 +44,6 @@ export class NgxDhis2DynamicDimensionComponent implements OnInit, OnDestroy {
   @Output()
   dynamicDimensionClose: EventEmitter<any> = new EventEmitter<any>();
   showBody: boolean;
-
-  get selectedDimensionItems(): any[] {
-    return _.flatten(
-      _.map(
-        this.selectedDimensions || [],
-        (selectedDimension: any) => selectedDimension.items || []
-      )
-    );
-  }
 
   constructor(
     private dynamicDimensionStore: Store<fromDynamicDimension.State>
@@ -68,10 +60,19 @@ export class NgxDhis2DynamicDimensionComponent implements OnInit, OnDestroy {
       }
     );
 
-    this.selectedDimensions = [];
     this.dynamicDimensionStore.dispatch(new LoadDynamicDimensionsAction());
 
     // select dynamic dimension properties
+    this._setOrUpdateParameters();
+  }
+
+  private _setOrUpdateParameters() {
+    this.selectedDimensionItems = _.flatten(
+      _.map(
+        this.selectedDimensions || [],
+        (selectedDimension: any) => selectedDimension.items || []
+      )
+    );
 
     this.dynamicDimensionList$ = this.dynamicDimensionStore.select(
       fromDynamicDimensionSelectors.getDynamicDimensionsWithSelected(
@@ -88,6 +89,10 @@ export class NgxDhis2DynamicDimensionComponent implements OnInit, OnDestroy {
       )
     );
 
+    this.activeDimension$.pipe(take(1)).subscribe(activeDimension => {
+      this._activeDimension = activeDimension;
+    });
+
     this.dynamicDimensionLoading$ = this.dynamicDimensionStore.select(
       fromDynamicDimensionSelectors.getDynamicDimensionLoadingStatus
     );
@@ -96,12 +101,14 @@ export class NgxDhis2DynamicDimensionComponent implements OnInit, OnDestroy {
   onSetActiveDynamicDimension(dynamicDimension: DynamicDimension, e) {
     e.stopPropagation();
     this._activeDimension = dynamicDimension;
+    this._setOrUpdateParameters();
   }
 
   onAddDimensionItem(dimensionObject, dimensionItem: any, e?) {
     if (e) {
       e.stopPropagation();
     }
+
     const availableDimensionObject = _.find(this.selectedDimensions, [
       'dimension',
       dimensionObject.dimension || dimensionObject.id
@@ -136,6 +143,8 @@ export class NgxDhis2DynamicDimensionComponent implements OnInit, OnDestroy {
             ]
           : this.selectedDimensions;
     }
+
+    this._setOrUpdateParameters();
   }
 
   onRemoveDimensionItem(dimensionItem: any, e?) {
@@ -189,6 +198,8 @@ export class NgxDhis2DynamicDimensionComponent implements OnInit, OnDestroy {
             ]
           : this.selectedDimensions;
     }
+
+    this._setOrUpdateParameters();
   }
 
   onAddAllItems(dimensionObject: DynamicDimension, e) {
@@ -196,11 +207,15 @@ export class NgxDhis2DynamicDimensionComponent implements OnInit, OnDestroy {
     _.each(dimensionObject.items || [], (dimensionItem: any) => {
       this.onAddDimensionItem(dimensionObject, dimensionItem);
     });
+
+    this._setOrUpdateParameters();
   }
 
   onRemoveAllItems(e) {
     e.stopPropagation();
     this.selectedDimensions = [];
+
+    this._setOrUpdateParameters();
   }
 
   onClose(e) {

@@ -28,13 +28,7 @@ export const initialState: State = adapter.getInitialState({
   loadInitiated: false,
   hasError: false,
   error: null,
-  allowedDimensions: [
-    'l2RYQfC9SfV',
-    'VG4aAdXA4JI',
-    'IymWT9V0HZI',
-    'EaSVpHl8C4J',
-    'X4NKFlvMewI'
-  ]
+  allowedDimensions: ['l2RYQfC9SfV', 'VG4aAdXA4JI', 'IymWT9V0HZI']
 });
 
 export function reducer(
