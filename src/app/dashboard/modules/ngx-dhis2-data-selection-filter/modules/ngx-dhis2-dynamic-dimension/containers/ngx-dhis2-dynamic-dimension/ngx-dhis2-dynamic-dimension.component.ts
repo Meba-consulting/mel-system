@@ -34,6 +34,8 @@ export class NgxDhis2DynamicDimensionComponent implements OnInit, OnDestroy {
   dimensionItemSearchQuery: string;
 
   dynamicDimensionLoading$: Observable<boolean>;
+  dynamicDimensionList$: Observable<DynamicDimension[]>;
+  activeDimension$: Observable<DynamicDimension>;
 
   @Output()
   dynamicDimensionUpdate: EventEmitter<any> = new EventEmitter<any>();
@@ -51,95 +53,9 @@ export class NgxDhis2DynamicDimensionComponent implements OnInit, OnDestroy {
     );
   }
 
-  get dynamicDimensionList$(): Observable<DynamicDimension[]> {
-    return this.dynamicDimensions$.pipe(
-      map((dynamicDimensions: DynamicDimension[]) => {
-        return _.map(
-          dynamicDimensions,
-          (dynamicDimension: DynamicDimension) => {
-            const selectedDimension: DynamicDimension = _.find(
-              this.selectedDimensions,
-              ['id', dynamicDimension.id || dynamicDimension.dimension]
-            );
-            return {
-              ...dynamicDimension,
-              selectedCount: selectedDimension
-                ? selectedDimension.items.length
-                : 0
-            };
-          }
-        );
-      })
-    );
-  }
-  get activeDimension$(): Observable<DynamicDimension> {
-    if (!this._activeDimension) {
-      const firstSelectedDimension =
-        this.selectedDimensions || this.selectedDynamicDimensions
-          ? (this.selectedDimensions || this.selectedDynamicDimensions)[0]
-          : null;
-
-      return this.dynamicDimensions$.pipe(
-        map((dynamicDimensions: DynamicDimension[]) => {
-          const activeDimension: DynamicDimension =
-            _.find(dynamicDimensions, [
-              'id',
-              firstSelectedDimension
-                ? firstSelectedDimension.id || firstSelectedDimension.dimension
-                : ''
-            ]) || dynamicDimensions[0];
-          const newActiveDimension = activeDimension
-            ? {
-                ...activeDimension,
-                items: _.filter(
-                  activeDimension.items || [],
-                  (item: any) =>
-                    !_.find(this.selectedDimensionItems, ['id', item.id])
-                )
-              }
-            : null;
-          // Also set active dimension in private property for later uses
-          this._activeDimension = newActiveDimension;
-          return newActiveDimension;
-        })
-      );
-    }
-
-    return this.dynamicDimensions$.pipe(
-      map((dynamicDimensions: DynamicDimension[]) => {
-        const updatedActivedDimension =
-          _.find(dynamicDimensions, ['id', this._activeDimension.id]) ||
-          dynamicDimensions[0];
-
-        return updatedActivedDimension
-          ? {
-              ...updatedActivedDimension,
-              items: _.filter(
-                updatedActivedDimension.items || [],
-                (item: any) =>
-                  !_.find(this.selectedDimensionItems, ['id', item.id])
-              )
-            }
-          : null;
-      })
-    );
-  }
-
   constructor(
     private dynamicDimensionStore: Store<fromDynamicDimension.State>
-  ) {
-    this.selectedDimensions = [];
-    this.dynamicDimensionStore.dispatch(new LoadDynamicDimensionsAction());
-
-    // select dynamic dimension prorperties
-    this.dynamicDimensions$ = this.dynamicDimensionStore.select(
-      fromDynamicDimensionSelectors.getDynamicDimensions
-    );
-
-    this.dynamicDimensionLoading$ = this.dynamicDimensionStore.select(
-      fromDynamicDimensionSelectors.getDynamicDimensionLoadingStatus
-    );
-  }
+  ) {}
 
   ngOnInit() {
     this.selectedDimensions = _.map(
@@ -150,6 +66,30 @@ export class NgxDhis2DynamicDimensionComponent implements OnInit, OnDestroy {
           id: selectedDynamicDimension.id || selectedDynamicDimension.dimension
         };
       }
+    );
+
+    this.selectedDimensions = [];
+    this.dynamicDimensionStore.dispatch(new LoadDynamicDimensionsAction());
+
+    // select dynamic dimension properties
+
+    this.dynamicDimensionList$ = this.dynamicDimensionStore.select(
+      fromDynamicDimensionSelectors.getDynamicDimensionsWithSelected(
+        this.selectedDimensions
+      )
+    );
+
+    this.activeDimension$ = this.dynamicDimensionStore.select(
+      fromDynamicDimensionSelectors.getActiveDimension(
+        this.selectedDimensions,
+        this.selectedDynamicDimensions,
+        this.selectedDimensionItems,
+        this._activeDimension
+      )
+    );
+
+    this.dynamicDimensionLoading$ = this.dynamicDimensionStore.select(
+      fromDynamicDimensionSelectors.getDynamicDimensionLoadingStatus
     );
   }
 
