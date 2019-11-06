@@ -36,7 +36,7 @@ import { NgxDhis2MenuModule } from '@hisptz/ngx-dhis2-menu';
     HttpClientModule,
     BrowserAnimationsModule,
     NgxDhis2HttpClientModule.forRoot({
-      namespace: 'hisptz',
+      namespace: 'nmcp',
       version: 1,
       models: { dimensions: 'id' }
     }),
