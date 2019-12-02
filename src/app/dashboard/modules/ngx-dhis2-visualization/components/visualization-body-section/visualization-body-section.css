@@ -1,4 +1,5 @@
-.chart-visualization-block {
+.chart-visualization-block,
+.table-visualization-block {
   overflow: auto;
 }
 
@@ -9,4 +10,5 @@
 .dictionary-visualization-block {
   padding-top: 50px;
   padding-bottom: 50px;
+  overflow: auto;
 }

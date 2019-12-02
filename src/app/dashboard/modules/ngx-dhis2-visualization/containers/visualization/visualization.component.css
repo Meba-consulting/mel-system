@@ -35,10 +35,8 @@
 }
 
 .visualization-body-header-block {
-  position: absolute;
-  top: 0;
+  margin-bottom: 5px;
   width: 100%;
-  z-index: 1300;
 }
 
 .visualization-body-content-block {

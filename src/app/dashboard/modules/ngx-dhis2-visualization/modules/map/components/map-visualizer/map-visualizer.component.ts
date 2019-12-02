@@ -4,25 +4,25 @@ import {
   SimpleChanges,
   Input,
   AfterViewInit
-} from '@angular/core';
-import { VisualizationObject } from '../../models/visualization-object.model';
-import { LayerVisibility } from '../../models/layer.model';
-import { Store } from '@ngrx/store';
-import { getTileLayer } from '../../constants/tile-layer.constant';
-import { MapConfiguration } from '../../models/map-configuration.model';
-import { interval } from 'rxjs';
-import { take } from 'rxjs/operators';
-import * as fromStore from '../../store';
-import * as fromLib from '../../lib';
-import * as fromUtils from '../../utils';
-import * as L from 'leaflet';
-import * as _ from 'lodash';
+} from "@angular/core";
+import { VisualizationObject } from "../../models/visualization-object.model";
+import { LayerVisibility } from "../../models/layer.model";
+import { Store } from "@ngrx/store";
+import { getTileLayer } from "../../constants/tile-layer.constant";
+import { MapConfiguration } from "../../models/map-configuration.model";
+import { interval } from "rxjs";
+import { take } from "rxjs/operators";
+import * as fromStore from "../../store";
+import * as fromLib from "../../lib";
+import * as fromUtils from "../../utils";
+import * as L from "leaflet";
+import * as _ from "lodash";
 
 @Component({
   // tslint:disable-next-line:component-selector
-  selector: 'hisptz-map-visualizer',
-  templateUrl: './map-visualizer.component.html',
-  styleUrls: ['./map-visualizer.component.css']
+  selector: "hisptz-map-visualizer",
+  templateUrl: "./map-visualizer.component.html",
+  styleUrls: ["./map-visualizer.component.css"]
 })
 export class MapVisualizerComponent implements OnChanges, AfterViewInit {
   @Input() visualizationObject: VisualizationObject;
@@ -149,24 +149,24 @@ export class MapVisualizerComponent implements OnChanges, AfterViewInit {
     }
 
     layers.map(layer => {
-      if (layer.type === 'event') {
+      if (layer.type === "event") {
         const headers = analytics[layer.id] && analytics[layer.id].headers;
-        if (_.find(headers, { name: 'latitude' })) {
+        if (_.find(headers, { name: "latitude" })) {
           this.mapHasGeofeatures = true;
         }
         if (layer.layerOptions.serverClustering) {
           this.mapHasGeofeatures = true;
         }
-      } else if (layer.type === 'facility') {
+      } else if (layer.type === "facility") {
         const { dataSelections } = layer;
         const { organisationUnitGroupSet } = dataSelections;
         if (Object.keys(organisationUnitGroupSet)) {
           this.mapHasDataAnalytics = true;
         }
-      } else if (layer.type === 'earthEngine') {
+      } else if (layer.type === "earthEngine") {
         this.mapHasDataAnalytics = true;
         // Boundary layer do not have data.
-      } else if (layer.type === 'boundary') {
+      } else if (layer.type === "boundary") {
         this.mapHasDataAnalytics = true;
       }
     });
@@ -178,14 +178,16 @@ export class MapVisualizerComponent implements OnChanges, AfterViewInit {
       width: mapWidth,
       fullScreen: displayFullScreen
     } = this.displayConfigurations;
+
     const { mapConfiguration, componentId } = this.visualizationObject;
     const fullScreen =
       (mapConfiguration && displayFullScreen) ||
-      itemHeight === '100vh' ||
-      itemHeight === '100%';
+      itemHeight === "100vh" ||
+      itemHeight === "100%";
+
     const container = fromUtils.prepareMapContainer(
       componentId,
-      itemHeight,
+      displayFullScreen ? itemHeight : "510px",
       mapWidth,
       false
     );
@@ -197,7 +199,7 @@ export class MapVisualizerComponent implements OnChanges, AfterViewInit {
     };
     const mymap = L.map(container, otherOptions);
     L.control
-      .scale({ position: 'bottomleft', metric: true, updateWhenIdle: true })
+      .scale({ position: "bottomleft", metric: true, updateWhenIdle: true })
       .addTo(mymap);
     this.map = mymap;
     if (fullScreen) {
@@ -305,7 +307,7 @@ export class MapVisualizerComponent implements OnChanges, AfterViewInit {
 
     this.basemap = this.createBaseLayer(mapConfiguration.basemap);
 
-    const name = mapConfiguration.basemap || 'osmLight';
+    const name = mapConfiguration.basemap || "osmLight";
     const opacity = 1;
     const changedBaseLayer = false;
     const hidden = false;
@@ -370,9 +372,9 @@ export class MapVisualizerComponent implements OnChanges, AfterViewInit {
         const legendSet = this._currentLegendSets[key];
         const { opacity, layer, hidden, legend, cluster } = legendSet;
         const tileLayer =
-          legend.type === 'external' ||
+          legend.type === "external" ||
           cluster ||
-          legend.type === 'earthEngine';
+          legend.type === "earthEngine";
         const leafletlayer = this.leafletLayers[layer];
         // Check if there is that layer otherwise errors when resizing;
         if (leafletlayer && !tileLayer) {
@@ -406,8 +408,8 @@ export class MapVisualizerComponent implements OnChanges, AfterViewInit {
 
     const fullScreen =
       (mapConfiguration && mapConfiguration.fullScreen) ||
-      itemHeight === '100vh' ||
-      itemHeight === '100%';
+      itemHeight === "100vh" ||
+      itemHeight === "100%";
 
     if (fullScreen) {
       this.store.dispatch(

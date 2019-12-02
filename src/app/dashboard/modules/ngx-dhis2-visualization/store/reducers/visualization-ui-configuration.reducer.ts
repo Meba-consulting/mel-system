@@ -1,26 +1,26 @@
-import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
+import { createEntityAdapter, EntityAdapter, EntityState } from "@ngrx/entity";
 
 // models
-import { VisualizationUiConfig } from '../../models';
+import { VisualizationUiConfig } from "../../models";
 
 // actions
 import {
   VisualizationUiConfigurationAction,
   VisualizationUiConfigurationActionTypes
-} from '../actions';
+} from "../actions";
 
 export interface VisualizationUiConfigurationState
   extends EntityState<VisualizationUiConfig> {
   focusedVisualization: string;
 }
 
-export const visualizationUiConfigurationAdapter: EntityAdapter<
+export const visualizationUiConfigurationAdapter: EntityAdapter<VisualizationUiConfig> = createEntityAdapter<
   VisualizationUiConfig
-> = createEntityAdapter<VisualizationUiConfig>();
+>();
 
 const initialState: VisualizationUiConfigurationState = visualizationUiConfigurationAdapter.getInitialState(
   {
-    focusedVisualization: ''
+    focusedVisualization: ""
   }
 );
 
@@ -43,7 +43,7 @@ export function visualizationUiConfigurationReducer(
     case VisualizationUiConfigurationActionTypes.TOGGLE_VISUALIZATION_FOCUS:
       return visualizationUiConfigurationAdapter.updateOne(
         { id: action.id, changes: action.changes },
-        { ...state, focusedVisualization: action.id.split('_')[0] }
+        { ...state, focusedVisualization: action.id.split("_")[0] }
       );
     case VisualizationUiConfigurationActionTypes.TOGGLE_FULL_SCREEN:
       const visualizationUiConfig = state.entities[action.id];
@@ -53,7 +53,7 @@ export function visualizationUiConfigurationReducer(
               id: action.id,
               changes: {
                 fullScreen: !visualizationUiConfig.fullScreen,
-                height: visualizationUiConfig.fullScreen ? '450px' : '99vh'
+                height: visualizationUiConfig.fullScreen ? "560px" : "95vh"
               }
             },
             state

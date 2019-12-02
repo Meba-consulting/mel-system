@@ -7,11 +7,11 @@
   margin: 0;
   padding: 0;
   position: absolute;
-  top: 30px;
+  /* top: 30px; */
   bottom: 0;
   right: 0;
   width: 30px;
-  height: 95%;
+  height: 97%;
   border-style: none;
   background-color: transparent;
   z-index: 500;

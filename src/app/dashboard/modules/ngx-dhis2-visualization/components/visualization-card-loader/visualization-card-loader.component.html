@@ -1,6 +1,6 @@
-<div class="visualization-card-loader-container" [style.height]="'calc(' + height + ' - 15px)'">
+<div class="visualization-card-loader-container" [style.height]="'calc(' + height + ' - 70px)'">
   <div class="loader-block">
-    <div class="chart-loader" *ngIf="visualizationType === 'CHART'" [style.height]="'calc(' + height + ' - 70px)'">
+    <div class="chart-loader" *ngIf="visualizationType === 'CHART'" [style.height]="'calc(' + height + ' - 90px)'">
       <div style="margin-top: 30%;">
         <div class="animated-background">&nbsp;</div>
       </div>
@@ -20,7 +20,7 @@
         <div class="animated-background">&nbsp;</div>
       </div>
     </div>
-    <table class="table-loader" *ngIf="visualizationType === 'TABLE'" [style.height]="'calc(' + height + ' - 50px)'">
+    <table class="table-loader" *ngIf="visualizationType === 'TABLE'" [style.height]="'calc(' + height + ' - 90px)'">
       <tr *ngFor="let tableCell of tableCellCounts">
         <td>
           <div class="animated-background">&nbsp;</div>
