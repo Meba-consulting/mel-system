@@ -1046,17 +1046,17 @@ function getXAxisOptions(
         {
           categories: xAxisCategories,
           labels: {
+            y: xAxisCategories.length <= 5 ? 20 : 50,
             rotation:
               xAxisCategories.length <= 5
                 ? 0
                 : xAxisCategories.length >= 10
-                ? -45
+                ? 90
                 : -45,
             style: {
               color: '#000000',
               fontWeight: 'normal',
-              fontSize: '12px',
-              textOverflow: 'none'
+              fontSize: '12px'
             }
           }
         }
