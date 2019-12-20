@@ -31,12 +31,9 @@
         [showFilters]="(visualizationUiConfig$ | async)?.showFilters" [hideResizeButtons]="
           (visualizationUiConfig$ | async)?.hideResizeButtons
         " [fullScreen]="(visualizationUiConfig$ | async)?.fullScreen" [isNew]="(visualizationObject$ | async)?.isNew"
-        [visualizationLayer]="
-          (visualizationLayers$ | async)
-            ? (visualizationLayers$ | async)[0]
-            : null
-        " [favoriteType]="(visualizationObject$ | async)?.type" (fullScreenAction)="onFullScreenAction($event)"
-        (visualizationLayerUpdate)="onLoadVisualizationAnalytics($event)"
+        [visualizationLayers]="(visualizationLayers$ | async)" [favoriteType]="(visualizationObject$ | async)?.type"
+        (fullScreenAction)="onFullScreenAction($event)"
+        (visualizationLayersUpdate)="onLoadVisualizationAnalytics($event)"
         (visualizationOptionUpdate)="onVisualizationLayerConfigUpdate($event)" (savefavorite)="onSaveFavorite($event)">
       </visualization-header-section>
     </div>

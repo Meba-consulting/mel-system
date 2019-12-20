@@ -4,20 +4,20 @@ import {
   Input,
   OnInit,
   SimpleChanges
-} from "@angular/core";
-import { Store } from "@ngrx/store";
-import { Observable, BehaviorSubject } from "rxjs";
-import * as fromStore from "../../store";
-import * as _ from "lodash";
-import * as fromUtils from "../../utils";
-import { VisualizationObject } from "../../models/visualization-object.model";
-import { getSplitedVisualizationLayers } from "../../../../helpers";
+} from '@angular/core';
+import { Store } from '@ngrx/store';
+import { Observable, BehaviorSubject } from 'rxjs';
+import * as fromStore from '../../store';
+import * as _ from 'lodash';
+import * as fromUtils from '../../utils';
+import { VisualizationObject } from '../../models/visualization-object.model';
+import { getSplitedVisualizationLayers } from '../../../../helpers';
 
 @Component({
-  selector: "app-map",
+  selector: 'app-map',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  styleUrls: ["./map.component.css"],
-  templateUrl: "./map.component.html"
+  styleUrls: ['./map.component.css'],
+  templateUrl: './map.component.html'
 })
 export class MapComponent implements OnInit {
   @Input() id;
@@ -33,6 +33,7 @@ export class MapComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.store.dispatch(new fromStore.ClearVisualizationObject(this.id));
     this.store.dispatch(new fromStore.InitiealizeVisualizationLegend(this.id));
 
     this.transformVisualizationObject(

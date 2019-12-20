@@ -32,7 +32,7 @@ export class VisualizationHeaderSectionComponent {
   @Input()
   fullScreen: boolean;
   @Input()
-  visualizationLayer: VisualizationLayer;
+  visualizationLayers: VisualizationLayer[];
 
   @Input()
   favoriteType: string;
@@ -40,9 +40,9 @@ export class VisualizationHeaderSectionComponent {
   showNameInput: boolean;
 
   @Output()
-  visualizationLayerUpdate: EventEmitter<VisualizationLayer> = new EventEmitter<
-    VisualizationLayer
-  >();
+  visualizationLayersUpdate: EventEmitter<
+    VisualizationLayer[]
+  > = new EventEmitter<VisualizationLayer[]>();
 
   @Output()
   visualizationOptionUpdate: EventEmitter<
@@ -76,16 +76,79 @@ export class VisualizationHeaderSectionComponent {
   }
 
   onFilterUpdateAction(dataSelections: VisualizationDataSelection[]) {
-    this.visualizationLayerUpdate.emit({
-      ...this.visualizationLayer,
-      dataSelections: _.sortBy(
-        getMergedDataSelections(
-          this.visualizationLayer.dataSelections,
-          dataSelections,
-          this.favoriteType
-        ),
-        'layoutOrder'
-      )
+    const visualizationLayer = this.visualizationLayers[0];
+    const newDataSelections = _.sortBy(
+      getMergedDataSelections(
+        visualizationLayer.dataSelections,
+        dataSelections,
+        this.favoriteType
+      ),
+      'layoutOrder'
+    );
+
+    const groupedDataSelections = _.groupBy(newDataSelections, 'layout');
+
+    const columns = this.getSanitizedSelections(
+      groupedDataSelections['columns']
+    );
+
+    const rows = this.getSanitizedSelections(groupedDataSelections['rows']);
+    const filters = this.getSanitizedSelections(
+      groupedDataSelections['filters']
+    );
+
+    const visualizationLayers = this.visualizationLayers.map(
+      (vizLayer: VisualizationLayer) => {
+        return {
+          ...vizLayer,
+          dataSelections: newDataSelections,
+          config: {
+            ...vizLayer.config,
+            columns: vizLayer.config.columns.map((vizColumn: any) => {
+              if (vizColumn.dimension === 'dx') {
+                return vizColumn;
+              }
+
+              return (
+                _.find(columns, ['dimension', vizColumn.dimension]) || vizColumn
+              );
+            }),
+            rows: vizLayer.config.rows.map((vizRow: any) => {
+              if (vizRow.dimension === 'dx') {
+                return vizRow;
+              }
+
+              return _.find(rows, ['dimension', vizRow.dimension]) || vizRow;
+            }),
+            filters: vizLayer.config.filters.map((vizFilter: any) => {
+              if (vizFilter.dimension === 'dx') {
+                return vizFilter;
+              }
+
+              return (
+                _.find(filters, ['dimension', vizFilter.dimension]) || vizFilter
+              );
+            })
+          }
+        };
+      }
+    );
+
+    this.visualizationLayersUpdate.emit(visualizationLayers);
+  }
+
+  getSanitizedSelections(dataSelections: any[]) {
+    return dataSelections.map((dataSelection: any) => {
+      return {
+        ...dataSelection,
+        items: dataSelection.items.map((item: any) => {
+          return {
+            ...item,
+            dimensionItem: item.id,
+            dimensionItemType: item.type
+          };
+        })
+      };
     });
   }
 
@@ -102,6 +165,16 @@ export class VisualizationHeaderSectionComponent {
   }
 
   onVisualizationOptionUpdate(config: any) {
-    this.visualizationLayerUpdate.emit({ ...this.visualizationLayer, config });
+    this.visualizationLayersUpdate.emit(
+      this.visualizationLayers.map((visualizationLayer: VisualizationLayer) => {
+        return {
+          ...visualizationLayer,
+          config: {
+            ...visualizationLayer.config,
+            ..._.omit(config, ['columns', 'rows', 'filters'])
+          }
+        };
+      })
+    );
   }
 }
