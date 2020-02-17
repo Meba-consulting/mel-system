@@ -46,7 +46,7 @@ export class DashboardService {
       mergeMap((dashboardIds: Array<string>) => {
         const filteredDashboardIds = filterStringListBasedOnMatch(
           dashboardIds,
-          dashboardSettings.namespace
+          dashboardSettings.namespace || dashboardSettings.id
         );
 
         if (filteredDashboardIds.length === 0) {
@@ -100,7 +100,8 @@ export class DashboardService {
   ): Observable<Dashboard[]> {
     const dashboardUrl =
       dashboardSettings && dashboardSettings.useDataStoreAsSource
-        ? `dataStore/dashboards/${dashboardSettings.namespace}_${id}`
+        ? `dataStore/dashboards/${dashboardSettings.namespace ||
+            dashboardSettings.id}_${id}`
         : `dashboards/${id}.json${customFields || this.dashboardUrlFields}`;
     return this.httpClient.get(dashboardUrl);
   }
