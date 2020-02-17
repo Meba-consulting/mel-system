@@ -25,7 +25,7 @@ export class DashboardGroupService {
       mergeMap((dashboardGroupIds: Array<string>) => {
         const filteredDashboardGroupIds = filterStringListBasedOnMatch(
           dashboardGroupIds,
-          dashboardSettings.namespace
+          dashboardSettings.id
         );
 
         // Create dashboard groups if not found
