@@ -50,6 +50,15 @@ export function drawChart(
         newChartConfiguration
       );
       break;
+    case 'speedometer':
+      const speedometerChartConfiguration = _.clone(chartConfiguration);
+      newChartConfiguration.type = 'gauge';
+      chartObject = extendSpeedometerChartOptions(
+        chartObject,
+        analyticsObject,
+        speedometerChartConfiguration
+      );
+      break;
     case 'pie':
       chartObject = extendPieChartOptions(
         chartObject,
@@ -90,7 +99,10 @@ function extendSpiderWebChartOptions(
   /**
    * Get y axis options
    */
-  newChartObject.yAxis = _.assign([], getYAxisOptions(chartConfiguration));
+  newChartObject.yAxis = _.assign(
+    [],
+    getYAxisOptions(chartConfiguration, chartConfiguration.plotBandsByLegend)
+  );
 
   /**
    * Sort the corresponding series
@@ -245,6 +257,47 @@ function deduceDrilldownParentDataFromChildrenSeries(
   return parentData;
 }
 
+function extendSpeedometerChartOptions(
+  initialChartObject: any,
+  analyticsObject: any,
+  chartConfiguration: any
+) {
+  // todo make gauge chart more understanble in analyisis
+  const newChartObject = _.clone(initialChartObject);
+  const yAxisSeriesItems: any[] = getAxisItems(
+    analyticsObject,
+    chartConfiguration.yAxisType
+  );
+
+  /**
+   * Get pane options
+   */
+  newChartObject.pane = getPaneOptions(chartConfiguration.type);
+
+  /**
+   * Get y axis options
+   */
+  newChartObject.yAxis = _.assign(
+    [],
+    getYAxisOptions(chartConfiguration, chartConfiguration.plotBandsByLegend)
+  );
+
+  /**
+   * Sort the corresponding series
+   */
+  const sortedSeries = getSortableSeries(
+    getChartSeries(
+      analyticsObject,
+      getAxisItemsNew(analyticsObject, chartConfiguration.xAxisType, true),
+      yAxisSeriesItems,
+      chartConfiguration
+    ),
+    chartConfiguration.cumulativeValues ? -1 : chartConfiguration.sortOrder
+  );
+
+  return { ...newChartObject, series: sortedSeries };
+}
+
 function extendSolidGaugeChartOptions(
   initialChartObject: any,
   analyticsObject: any,
@@ -265,7 +318,10 @@ function extendSolidGaugeChartOptions(
   /**
    * Get y axis options
    */
-  newChartObject.yAxis = _.assign([], getYAxisOptions(chartConfiguration));
+  newChartObject.yAxis = _.assign(
+    [],
+    getYAxisOptions(chartConfiguration, chartConfiguration.plotBandsByLegend)
+  );
 
   /**
    * Sort the corresponding series
@@ -327,7 +383,10 @@ function extendOtherChartOptions(
 
   return {
     ...initialChartObject,
-    yAxis: getYAxisOptions(chartConfiguration),
+    yAxis: getYAxisOptions(
+      chartConfiguration,
+      chartConfiguration.plotBandsByLegend
+    ),
     xAxis: getXAxisOptions(
       getRefinedXAxisCategories(seriesWithAxisOptions),
       chartConfiguration.type
@@ -984,6 +1043,49 @@ function getPaneOptions(chartType: string) {
         }
       );
       break;
+
+    case 'speedometer':
+      paneOptions = _.assign(
+        {},
+        {
+          startAngle: -150,
+          endAngle: 150,
+          background: [
+            {
+              backgroundColor: {
+                linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1 },
+                stops: [
+                  [0, '#FFF'],
+                  [1, '#333']
+                ]
+              },
+              borderWidth: 0,
+              outerRadius: '109%'
+            },
+            {
+              backgroundColor: {
+                linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1 },
+                stops: [
+                  [0, '#333'],
+                  [1, '#FFF']
+                ]
+              },
+              borderWidth: 2,
+              outerRadius: '109%'
+            },
+            {
+              // default background
+            },
+            {
+              backgroundColor: '#DDD',
+              borderWidth: 0,
+              outerRadius: '107%',
+              innerRadius: '103%'
+            }
+          ]
+        }
+      );
+      break;
     default:
       paneOptions = _.assign(
         {},
@@ -1067,7 +1169,8 @@ function getXAxisOptions(
   return xAxisOptions;
 }
 
-function getYAxisOptions(chartConfiguration: any) {
+function getYAxisOptions(chartConfiguration: any, plotBandsByLegend: any[]) {
+  console.log('plotBandsByLegend ', plotBandsByLegend);
   const yAxes: any[] = chartConfiguration.axes;
   let newYAxes: any[] = [];
 
@@ -1084,7 +1187,24 @@ function getYAxisOptions(chartConfiguration: any) {
               color: '#000000',
               fontWeight: 'normal',
               fontSize: '14px'
-            }
+            },
+            plotBands: [
+              {
+                from: 0.1,
+                to: 50,
+                color: '#DF5353' // red
+              },
+              {
+                from: 50,
+                to: 80,
+                color: '#DDDF0D' // yellow
+              },
+              {
+                from: 80,
+                to: 100,
+                color: '#55BF3B' //  green
+              }
+            ]
           }
         }
       ]
