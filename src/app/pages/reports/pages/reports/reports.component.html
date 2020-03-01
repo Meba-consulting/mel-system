@@ -1,0 +1,53 @@
+<div class="row" style="margin-top: 18px;">
+  <div class="col-12" *ngIf="!(reportsList$ | async)">
+    <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+  </div>
+  <div
+    class="col-md-3"
+    *ngIf="reportsList$ | async"
+    style="padding-left: 0px !important"
+  >
+    <h3>Reports</h3>
+    <ul class="list-group" *ngIf="reportsList$ | async">
+      <li
+        class="list-group-item"
+        routerLinkActive="active-report"
+        routerLink="/reports/{{ report.id }}"
+        *ngFor="let report of reportsList$ | async"
+        (click)="getReportConfigs(report.id)"
+      >
+        {{ report.name }}
+      </li>
+    </ul>
+    <hr />
+    <h3>Analysis tools</h3>
+    <ul>
+      <li routerLinkActive="active-class">
+        <a href="../../../dhis-web-visualizer/index.html" target="_blank"
+          >Visualizer</a
+        >
+      </li>
+      <li routerLinkActive="active-class">
+        <a href="../../../dhis-web-pivot/" target="_blank">Pivot table</a>
+      </li>
+    </ul>
+  </div>
+  <div class="col-md-9" *ngIf="reportsList$ | async">
+    <div style="width: 50%" *ngIf="reportConfigs$ | async">
+      <ngx-dhis2-selection-filters
+        [selectionFilterConfig]="selectionFilterConfig"
+        (filterUpdate)="onFilterUpdate($event)"
+      >
+      </ngx-dhis2-selection-filters>
+    </div>
+
+    {{ indicatorLoadedState$ | async | json }}
+    <div *ngIf="indicatorLoadedState$ | async">
+      <app-render-report
+        [reportEntities]="reportEntities$ | async"
+        [reportDimensions]="reportDimensions"
+        [selectedOus]="selectedOus"
+      ></app-render-report>
+    </div>
+  </div>
+</div>

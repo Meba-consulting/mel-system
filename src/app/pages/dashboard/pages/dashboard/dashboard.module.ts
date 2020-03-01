@@ -1,0 +1,36 @@
+import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+
+import { TranslateModule } from '@ngx-translate/core';
+
+import { DashboardRoutingModule } from './dashboard-routing.module';
+
+import { containers } from './containers';
+import { components } from './components';
+import { pipes } from './pipes';
+import { SharingFilterModule } from './modules/sharing-filter/sharing-filter.module';
+import { FavoriteFilterModule } from './modules/favorite-filter/favorite-filter.module';
+import { NgxDhis2VisualizationModule } from './modules/ngx-dhis2-visualization/ngx-dhis2-visualization.module';
+import { NgxDhis2SelectionFiltersModule } from './modules/ngx-dhis2-data-selection-filter/ngx-dhis2-selection-filters.module';
+import { MatButtonModule } from '@angular/material/button';
+import { dashboardReducers, effects } from '../store';
+import { EffectsModule } from '@ngrx/effects';
+
+@NgModule({
+  imports: [
+    CommonModule,
+    FormsModule,
+    MatButtonModule,
+    DashboardRoutingModule,
+    NgxDhis2VisualizationModule,
+    NgxDhis2SelectionFiltersModule,
+    TranslateModule.forChild(),
+    SharingFilterModule,
+    FavoriteFilterModule,
+    ...dashboardReducers,
+    EffectsModule.forFeature(effects)
+  ],
+  declarations: [...containers, ...components, ...pipes]
+})
+export class DashboardModule {}

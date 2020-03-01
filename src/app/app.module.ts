@@ -25,9 +25,9 @@ export function HttpLoaderFactory(http: HttpClient) {
 }
 
 import { reducers, metaReducers, effects } from './store';
-import { RouteSerializer } from './utils';
 
 import { NgxDhis2MenuModule } from '@hisptz/ngx-dhis2-menu';
+import { RouteSerializer } from './pages/dashboard/pages/utils';
 
 @NgModule({
   declarations: [AppComponent],
@@ -36,7 +36,7 @@ import { NgxDhis2MenuModule } from '@hisptz/ngx-dhis2-menu';
     HttpClientModule,
     BrowserAnimationsModule,
     NgxDhis2HttpClientModule.forRoot({
-      namespace: 'nmcp',
+      namespace: 'ssb',
       version: 1,
       models: { dimensions: 'id' }
     }),

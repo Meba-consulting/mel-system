@@ -10,11 +10,14 @@ import {
   LegendSetActions
 } from '../actions/legend-set.action';
 import { map, catchError, mergeMap } from 'rxjs/operators';
-import { LegendSetService } from '../../services';
+import { LegendSetService } from 'src/app/pages/dashboard/pages/services';
 
 @Injectable()
 export class LegendSetEffects {
-  constructor(private actions$: Actions, private legendSetService: LegendSetService) {}
+  constructor(
+    private actions$: Actions,
+    private legendSetService: LegendSetService
+  ) {}
 
   @Effect()
   loadLegendSets$: Observable<Action> = this.actions$.pipe(

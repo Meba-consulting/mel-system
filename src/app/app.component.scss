@@ -1,3 +1,99 @@
 .application-content {
-  margin-top: 50px;
+  margin-top: 5px;
+}
+
+.active-class {
+  color: #fff;
+  font-weight: 600 !important;
+  background-color: #4e9052;
+}
+
+.footer {
+  position: fixed;
+  left: 0;
+  bottom: -20;
+  width: 100%;
+  margin-top: 20px;
+  background-color: transparent;
+  color: white;
+  height: 70px;
+  text-align: center;
+}
+
+a:hover {
+  color: #ffffff;
+  text-decoration: none;
+}
+a {
+  color: #000;
+  text-decoration: none;
+}
+
+// .row {
+//   display: flex;
+//   flex-wrap: wrap;
+//   margin-right: 0 !important;
+//   margin-left: 0 !important;
+// }
+
+.tutorial {
+  width: 100%;
+  /* margin: 5% auto 0 auto; */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  /* max-width: 800px; */
+}
+.tutorial ul {
+  font-size: 0;
+  list-style-type: none;
+}
+.tutorial ul li {
+  font-family: Scorecard-Averta, sans-serif, appleLogo;
+  font-size: 1rem;
+  font-weight: 400;
+  display: inline-block;
+  padding: 15px;
+  position: relative;
+}
+.tutorial ul li ul {
+  display: none;
+}
+.tutorial ul li:hover {
+  cursor: pointer;
+  background-color: #4e9052;
+}
+.tutorial ul li:hover ul {
+  display: block;
+  margin-top: 15px;
+  width: 200px;
+  left: 0;
+  position: absolute;
+}
+.tutorial ul li:hover ul li {
+  display: block;
+}
+.tutorial ul li:hover ul li:hover {
+  outline: none;
+  background-color: #4e9052;
+  color: #fff;
+}
+
+.tutorial ul li:hover ul {
+  display: block;
+  margin-top: 15px;
+  width: 200px;
+  left: 0;
+  position: absolute;
+}
+
+.tutorial ul li:hover ul li {
+  display: block;
+  color: #000;
+  background-color: #4e9052;
+}
+
+.header-banner {
+  background-color: #457b49;
+  height: 60px;
+  padding: 10px;
+  font-weight: 600;
 }

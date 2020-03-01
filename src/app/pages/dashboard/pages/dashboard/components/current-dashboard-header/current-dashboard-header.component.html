@@ -1,0 +1,124 @@
+<div class="dashboard-header-container">
+  <div class="dashboard-title-block" style="margin-top: 70px;">
+    <div class="dashboard-title">
+      <div
+        *ngIf="dashboardLoading || dashboardGroupsLoading"
+        style="height: 34px; width: 200px;"
+      >
+        <app-dashboard-progress [borderRadius]="'3px'"></app-dashboard-progress>
+      </div>
+      <app-current-dashboard-title
+        *ngIf="dashboardLoaded && dashboardGroupsLoaded"
+        [currentDashboardTitle]="currentDashboard?.name"
+        [currentDashboardGroupName]="currentDashboardGroup?.name"
+      >
+      </app-current-dashboard-title>
+    </div>
+    <div class="dashboard-options">
+      <div
+        *ngIf="dashboardLoading || dashboardGroupsLoading"
+        style="display: flex;"
+      >
+        <div
+          *ngIf="showSharing"
+          style="height: 34px; width: 34px; margin-left: 7px;"
+        >
+          <app-dashboard-progress
+            [borderRadius]="'17px'"
+          ></app-dashboard-progress>
+        </div>
+        <div
+          *ngIf="showBookmark"
+          style="height: 34px; width: 34px; margin-left: 7px;"
+        >
+          <app-dashboard-progress
+            [borderRadius]="'17px'"
+          ></app-dashboard-progress>
+        </div>
+        <div style="height: 34px; width: 50px; margin-left: 7px;">
+          <app-dashboard-progress
+            [borderRadius]="'17px'"
+          ></app-dashboard-progress>
+        </div>
+      </div>
+      <div
+        class="current-dashboard-share-button"
+        *ngIf="
+          showSharing && (dashboardLoaded || currentDashboard?.access?.manage)
+        "
+      >
+        <app-current-dashboard-sharing
+          [id]="currentDashboard?.id"
+        ></app-current-dashboard-sharing>
+      </div>
+
+      <div
+        class="current-dashboard-bookmark-button"
+        *ngIf="showBookmark && dashboardLoaded"
+      >
+        <app-current-dashboard-bookmark
+          [dashboardBookmarked]="currentDashboard?.bookmarked"
+          [dashboardBookmarkPending]="currentDashboard?.bookmarkPending"
+          (toggleDashboardBookmark)="onToggleDashboardBookmarkAction($event)"
+        ></app-current-dashboard-bookmark>
+      </div>
+      <div
+        class="current-dashboard-global-filter  no-print"
+        *ngIf="dashboardLoaded && dashboardGroupsLoaded"
+      >
+        <ngx-dhis2-selection-filters
+          (filterUpdate)="onFilterUpdateAction($event)"
+          [dataSelections]="globalDataSelections"
+          [selectionFilterConfig]="selectionFilterConfig"
+        >
+        </ngx-dhis2-selection-filters>
+      </div>
+    </div>
+  </div>
+
+  <!-- hide search and add dashboard item. to revert remove ngif=false -->
+  <div class="dashboard-search-block no-print" style="margin-top: 60px;">
+    <div *ngIf="!showFavoriteFilter">&nbsp;</div>
+    <div
+      style="height: 40px; width: 100%;"
+      *ngIf="showFavoriteFilter && (dashboardLoading || dashboardGroupsLoading)"
+    >
+      <app-dashboard-progress [borderRadius]="'5px'"></app-dashboard-progress>
+    </div>
+    <div *ngIf="showFavoriteFilter">
+      <app-favorite-filter
+        *ngIf="dashboardLoaded && dashboardGroupsLoaded"
+        [currentUser]="currentUser"
+        [dashboardAccess]="currentDashboard?.access"
+        (addFavorite)="onAddFavoriteAction($event)"
+        (createFavorite)="onCreateFavoriteAction()"
+      ></app-favorite-filter>
+    </div>
+    <button
+      style="border: none"
+      title="Print this dashboard"
+      class="dashboard-print-btn"
+      mat-stroked-button
+      (click)="onPrintDashboard($event)"
+      [disabled]="dashboardLoading || dashboardGroupsLoading"
+    >
+      <img src="assets/icons/print.png" alt="" />
+    </button>
+  </div>
+</div>
+
+<!-- current dashboard description -->
+<div
+  class="current-dashboard-description"
+  *ngIf="
+    dashboardLoaded &&
+    dashboardGroupsLoaded &&
+    visualizationLoadingPercent == 100
+  "
+>
+  <app-current-dashboard-description
+    [dashboardDescription]="currentDashboard?.description"
+    [globalSelections]="globalDataSelections"
+  ></app-current-dashboard-description>
+</div>
+<!-- end of current dashboard description -->

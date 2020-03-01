@@ -1,10 +1,17 @@
-import { Action } from '@ngrx/store';
-import { User, ErrorMessage, SystemInfo } from '../../models';
+import { Action, createAction, props } from '@ngrx/store';
+import {
+  SystemInfo,
+  User,
+  ErrorMessage
+} from 'src/app/pages/dashboard/pages/models';
 
 export enum UserActionTypes {
   LoadCurrentUser = '[User] Load current User',
   AddCurrentUser = '[User] Add Current User',
-  LoadCurrentUserFail = '[User] Load Current User fail'
+  LoadCurrentUserFail = '[User] Load Current User fail',
+  LoadSystemUsers = '[User] load system users',
+  AddSystemUsers = '[User] add system users',
+  LoadingSystemUsersFail = '[User] loading system users fail'
 }
 
 export class LoadCurrentUser implements Action {
@@ -24,7 +31,24 @@ export class LoadCurrentUserFail implements Action {
   constructor(public error: ErrorMessage) {}
 }
 
+export class LoadSystemUsers implements Action {
+  readonly type = UserActionTypes.LoadSystemUsers;
+}
+
+export class AddSystemUsers implements Action {
+  readonly type = UserActionTypes.AddSystemUsers;
+  constructor(public users: any) {}
+}
+
+export class LoadingSystemUsersFail implements Action {
+  readonly type = UserActionTypes.LoadingSystemUsersFail;
+  constructor(public error: ErrorMessage) {}
+}
+
 export type UserActions =
   | LoadCurrentUser
   | AddCurrentUser
-  | LoadCurrentUserFail;
+  | LoadCurrentUserFail
+  | LoadSystemUsers
+  | AddSystemUsers
+  | LoadingSystemUsersFail;

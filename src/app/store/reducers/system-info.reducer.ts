@@ -1,6 +1,7 @@
 import { EntityState, EntityAdapter, createEntityAdapter } from '@ngrx/entity';
-import { SystemInfo, ErrorMessage } from '../../models';
+
 import { SystemInfoActions, SystemInfoActionTypes } from '../actions';
+import { ErrorMessage, SystemInfo } from 'src/app/pages/dashboard/pages/models';
 
 export interface SystemInfoState extends EntityState<SystemInfo> {
   // additional entities state properties

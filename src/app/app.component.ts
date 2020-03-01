@@ -6,11 +6,18 @@ import {
 } from '@iapps/ngx-dhis2-http-client';
 import { Store } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
-import { of } from 'rxjs';
+import { of, Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { Fn } from '@iapps/function-analytics';
 
-import { LoadSystemInfo, State } from './store';
+import {
+  LoadSystemInfo,
+  State,
+  getCurrentUser,
+  getAllSystemUsers,
+  LoadSystemUsers
+} from './store';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -18,15 +25,20 @@ import { LoadSystemInfo, State } from './store';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit {
+  currentUser$: Observable<any>;
+  users$: Observable<any>;
   constructor(
     private store: Store<State>,
     private translate: TranslateService,
     private titleService: Title,
-    private httpClient: NgxDhis2HttpClientService
+    private httpClient: NgxDhis2HttpClientService,
+    private route: ActivatedRoute
   ) {}
 
   ngOnInit() {
     // initialize function analytics
+
+    console.log(this.route.snapshot.params);
     if (Fn) {
       Fn.init({
         baseUrl: '../../../api/'
@@ -34,6 +46,19 @@ export class AppComponent implements OnInit {
     }
     // Load system information
     this.store.dispatch(new LoadSystemInfo());
+    this.store.dispatch(new LoadSystemUsers());
+
+    this.currentUser$ = this.store.select(getCurrentUser);
+    this.currentUser$.subscribe(currentUserInfo => {
+      if (currentUserInfo) {
+        let currentDashboard = localStorage.getItem(
+          'dhis2.dashboard.current.' + currentUserInfo.userCredentials.username
+        );
+        console.log('currentDashboard', currentDashboard);
+      }
+    });
+
+    this.users$ = this.store.select(getAllSystemUsers);
 
     // this language will be used as a fallback when a translation isn't found in the current language
     this.translate.setDefaultLang('en');

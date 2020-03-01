@@ -1,5 +1,5 @@
 import { Action } from '@ngrx/store';
-import { LegendSet } from '../../models/legend-set.model';
+import { LegendSet } from 'src/app/pages/dashboard/pages/models';
 
 /**
  * For each action type in an action group, make a simple
@@ -34,4 +34,7 @@ export class LoadLegendSetFail implements Action {
  * Export a type alias of all actions in this action group
  * so that reducers can easily compose action types
  */
-export type LegendSetActions = LoadLegendSets | LoadLegendSetSuccess | LoadLegendSetFail;
+export type LegendSetActions =
+  | LoadLegendSets
+  | LoadLegendSetSuccess
+  | LoadLegendSetFail;

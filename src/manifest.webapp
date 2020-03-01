@@ -1,8 +1,8 @@
 
 {
-    "version": "2.0.0-rc.3",
-    "name": "Malaria Dashboard 2",
-    "description": "Malaria Dashboard",
+    "version": "2.0.0",
+    "name": "SSB IMS",
+    "description": "SSM IMS",
     "appType": "APP",
     "launch_path": "index.html",
     "icons": {
@@ -11,8 +11,8 @@
         "128": "assets/img/icon-128x128.png"
     },
     "developer": {
-        "name": "HISPTZ",
-        "url": "https://hisptanzania.org"
+        "name": "Josephat Julius",
+        "email": "josephatjulius24@gmail.com"
     },
     "default_locale": "en",
     "activities": {

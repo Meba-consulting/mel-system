@@ -1,0 +1,154 @@
+<div style="margin-top: 15px;">
+  <div class="row" style="background-color: #f3f3f363">
+    <div
+      class="col-md-12"
+      style="padding: 0 !important; margin-top: 15px"
+      *ngIf="currentUserGroups && currentUserGroups.length > 0"
+    >
+      <div style="width: 20%; float: left;">
+        <!-- <ngx-dhis2-org-unit-filter
+          [orgUnitFilterConfig]="orgUnitFilterConfig"
+          [selectedOrgUnitItems]="selectedOrgUnitItems"
+          (orgUnitUpdate)="onOrgUnitUpdate($event, 'UPDATE')"
+          (orgUnitClose)="onOrgUnitUpdate($event, 'CLOSE')"
+        >
+        </ngx-dhis2-org-unit-filter> -->
+        <ngx-dhis2-selection-filters
+          [selectionFilterConfig]="selectionFilterConfig"
+          (filterUpdate)="onFilterUpdate($event)"
+        >
+        </ngx-dhis2-selection-filters>
+      </div>
+      <div style="width: 20%; float: left;">
+        <div *ngIf="!(dataEntryFormsByOu$ | async) && selectedOu">
+          <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+        </div>
+        <select
+          (change)="getEntryForm($event.target.value)"
+          *ngIf="dataEntryFormsByOu$ | async"
+          class="form-control"
+          style="background-color: transparent;"
+        >
+          <option value="">Select form</option>
+          <option [value]="form.id" *ngFor="let form of dataEntryForms">{{
+            form.name
+          }}</option>
+        </select>
+      </div>
+      <div
+        style="width: 20%; float: left; margin-left: 2%;"
+        *ngIf="hasParentData && trackedEntityInstances.length > 0"
+      >
+        <select
+          class="form-control"
+          (change)="createDataObject($event.target.value)"
+          [(ngModel)]="dataEntrySelections.batchNo"
+          style="background-color: transparent;"
+        >
+          <option value="">Select batch</option>
+          <option
+            [value]="trackedEntityInstance['trackedEntityInstance']"
+            *ngFor="let trackedEntityInstance of trackedEntityInstances"
+            >{{ trackedEntityInstance['created'] | date }} - ({{
+              getItemName(trackedEntityInstance)
+            }})</option
+          >
+        </select>
+      </div>
+      <div
+        style="width: 15%; float: left; margin-left: 2%;"
+        *ngIf="
+          (selectedDataEntryForm && dataEntrySelections.batchNo != '') ||
+          (selectedDataEntryForm && !hasParentData)
+        "
+      >
+        <input
+          type="date"
+          class="form-control"
+          [(ngModel)]="dataEntrySelections.selectedDate"
+        />
+      </div>
+      <div>
+        <a
+          [ngClass]="{ 'toggle-btn-active': isReportSet == false }"
+          (click)="unSetReport()"
+          style="float: right; cursor: pointer;"
+          >DataEntry</a
+        >
+        <a
+          [ngClass]="{ 'toggle-btn-active': isReportSet == true }"
+          (click)="setReport()"
+          style="float: right; margin-right: 6px; cursor: pointer;"
+          >List Report</a
+        >
+      </div>
+    </div>
+    <div
+      class="col-md-12"
+      style="padding: 0 !important;margin-top: 15px;"
+      *ngIf="!isReportSet"
+    >
+      <div
+        *ngIf="
+          (dataElements$ | async) &&
+          (dataElements$ | async)['trackedEntityAttributes'] &&
+          dataEntrySelections.selectedDate
+        "
+      >
+        <app-data-entry
+          [dataEntryForm]="selectedDataEntryForm"
+          [formName]="selectedProgram['name']"
+          [formId]="selectedProgram['id']"
+          [dataElements]="(dataElements$ | async)['trackedEntityAttributes']"
+          [formType]="formType"
+          [elementsDataValues]="elementsDataValues"
+          (entryInfo)="entryInfo($event)"
+        ></app-data-entry>
+      </div>
+      <div
+        *ngIf="
+          hasParentData && dataEntrySelections.selectedDate && isDefaultDataSet
+        "
+      >
+        <app-data-entry
+          [dataEntryForm]="selectedDataEntryForm"
+          [formName]="selectedProgram['name']"
+          [formId]="selectedProgram['id']"
+          [dataElements]="dataElements"
+          [formType]="formType"
+          [elementsDataValues]="elementsDataValues"
+          (entryInfo)="entryInfo($event)"
+        ></app-data-entry>
+      </div>
+    </div>
+    <div class="col-md-12" *ngIf="atLeastOneDataEntered">
+      <button
+        class="btn btn-success"
+        style="float: right; margin-top: 15px;"
+        (click)="saveData()"
+      >
+        Save
+      </button>
+    </div>
+    <div class="col-md-12" *ngIf="isReportSet" style="margin-top: 15px;">
+      <table class="table table-bordered table-responsive">
+        <thead>
+          <tr class="header-table">
+            <th *ngFor="let header of entityAttributeHeaders">
+              {{ header.name }}
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <ng-template ngFor let-data [ngForOf]="eventValues" let-i="index">
+            <tr [ngClass]="{ 'grey-row': i % 2 != 0 }">
+              <td *ngFor="let header of entityAttributeHeaders">
+                {{ data[header.id] }}
+              </td>
+            </tr>
+          </ng-template>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

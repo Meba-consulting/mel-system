@@ -1,0 +1,12 @@
+<div style="overflow: auto" *ngIf="dataElements">
+  <ngx-dhis2-custom-forms-entry
+    [htmlCustomForm]="dataEntryForm['htmlCode']"
+    [dataElements]="dataElements"
+    [formType]="formType"
+    [formId]="formId"
+    [elementsDataValues]="elementsDataValues"
+    (onCustomFormInputChange)="detailsOfTheChangedValue($event)"
+    [statusUpdateOnDomElement]="statusArr"
+  >
+  </ngx-dhis2-custom-forms-entry>
+</div>

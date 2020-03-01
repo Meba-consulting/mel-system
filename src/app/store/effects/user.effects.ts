@@ -2,15 +2,15 @@ import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/internal/operators';
-import { UserService } from '../../services';
-import { User } from '../../models';
 import {
   AddCurrentUser,
   LoadCurrentUserFail,
   UserActionTypes,
   LoadCurrentUser
 } from '../actions/user.actions';
-import { LoadDashboardSettingsAction } from '../actions';
+import { UserService } from 'src/app/pages/dashboard/pages/services';
+import { User } from 'src/app/pages/dashboard/pages/models';
+import { LoadDashboardSettingsAction } from 'src/app/pages/dashboard/pages/store';
 
 @Injectable()
 export class UserEffects {

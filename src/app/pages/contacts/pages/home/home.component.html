@@ -1,0 +1,12 @@
+<div *ngIf="contactsPageDesign$ | async">
+  <app-render-html
+    [htmlCodes]="
+      (contactsPageDesign$ | async)
+        ? (contactsPageDesign$ | async)['pageHtmlCodes']
+        : ''
+    "
+    [id]="
+      (contactsPageDesign$ | async) ? (contactsPageDesign$ | async)['id'] : 'id'
+    "
+  ></app-render-html>
+</div>

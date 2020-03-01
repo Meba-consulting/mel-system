@@ -1,7 +1,7 @@
 {
   "namespace": "nmcp-malaria",
   "id": "nmcp-malaria",
-  "useDataStoreAsSource": true,
+  "useDataStoreAsSource": false,
   "allowAdditionalAttributes": true,
   "additionalAttributes": ["globalSelections"]
 }

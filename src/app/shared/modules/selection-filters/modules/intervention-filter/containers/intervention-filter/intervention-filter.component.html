@@ -1,0 +1,93 @@
+<div class="intervention-filter-container">
+  <!--intervention available and selected section-->
+  <div class="intervention-header">
+    <div class="intervention-available-header">
+      <span
+        [matTooltip]="
+          (availableInterventions$ | async)?.length + ' Available for selection'
+        "
+        class="badge badge-secondary intervention-badge"
+        >{{ (availableInterventions$ | async)?.length }} Available</span
+      >
+      <button
+        matTooltip="Select all interventions"
+        *ngIf="availableInterventions$ | async as availableInterventions"
+        mat-icon-button
+        (click)="onSelectAllInterventions($event, availableInterventions)"
+      >
+        <i class="fa fa-arrow-right"></i>
+      </button>
+    </div>
+    <div class="intervention-selected-header">
+      <button
+        matTooltip="Unselect all interventions"
+        mat-icon-button
+        (click)="onDeselectAllInterventions($event)"
+      >
+        <i class="fa fa-arrow-left"></i>
+      </button>
+      <span class="badge badge-primary intervention-badge">
+        {{ selectedInterventions.length }} Selected</span
+      >
+    </div>
+  </div>
+  <!--end of intervention available and selected section-->
+
+  <!--intervention body-->
+  <div class="intervention-body">
+    <div class="intervention-available-body">
+      <ul class="intervention-list">
+        <li
+          class="intervention-loading-block"
+          *ngIf="loadingInterventions$ | async"
+        >
+          <div>
+            <img src="assets/icons/balls-3.svg" alt="" />
+            <div>Discovering interventions...</div>
+          </div>
+        </li>
+        <li
+          *ngFor="let availableIntervention of availableInterventions$ | async"
+          matTooltip="Select {{ availableIntervention.name }}"
+        >
+          <a (click)="onSelectIntervention(availableIntervention, $event)">
+            {{ availableIntervention.name }}
+          </a>
+        </li>
+      </ul>
+    </div>
+    <div class="intervention-selected-body">
+      <ul class="intervention-list">
+        <li
+          *ngFor="let selectedIntervention of selectedInterventions"
+          matTooltip="Remove {{ selectedIntervention.name }}"
+        >
+          <a (click)="onDeselectIntervention(selectedIntervention, $event)">
+            <span class="badge badge-info">{{ selectedIntervention.type }}</span
+            >&nbsp;
+            <span>{{ selectedIntervention.name }}</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <!--end of intervention body-->
+
+  <!--intervention footer-->
+  <div class="ngx-dhis2-intervention__intervention-buttons">
+    <div>
+      <button mat-stroked-button (click)="onClose($event)">
+        Close</button
+      >&nbsp;
+      <button
+        mat-stroked-button
+        color="primary"
+        [disabled]="selectedInterventions?.length === 0"
+        (click)="onUpdate($event)"
+      >
+        Update
+      </button>
+    </div>
+  </div>
+  <!--end of intervention footer-->
+</div>

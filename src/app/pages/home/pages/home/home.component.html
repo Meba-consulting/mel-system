@@ -1,0 +1,6 @@
+<app-render-html
+  [htmlCodes]="
+    (homePageDesign$ | async) ? (homePageDesign$ | async)['pageHtmlCodes'] : ''
+  "
+  [id]="(homePageDesign$ | async) ? (homePageDesign$ | async)['id'] : 'id'"
+></app-render-html>

@@ -1,0 +1,70 @@
+<div class="row" style="margin-top: 18px;">
+  <div class="col-md-3" style="padding-left: 0px !important">
+    <ul class="list-group" *ngIf="resourcesList$ | async">
+      <li
+        class="list-group-item"
+        routerLinkActive="active-department"
+        routerLink="/procedures/{{ procedure.id }}"
+        *ngFor="let procedure of resourcesList$ | async"
+      >
+        {{ procedure.name }}
+      </li>
+    </ul>
+  </div>
+  <div class="col-md-9" style="padding-right: 0px !important">
+    <div *ngIf="documentEntities$ | async">
+      <div *ngIf="!isPreviewSet">
+        <table
+          mat-table
+          [dataSource]="
+            (documentEntities$ | async)[departmentId]
+              ? (documentEntities$ | async)[departmentId]['documents']
+              : []
+          "
+          class="mat-elevation-z8"
+        >
+          <ng-container matColumnDef="id">
+            <th mat-header-cell *matHeaderCellDef>ID.</th>
+            <td mat-cell *matCellDef="let element">{{ element.id }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="name">
+            <th mat-header-cell *matHeaderCellDef>Name</th>
+            <td mat-cell *matCellDef="let element">{{ element.name }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="url">
+            <th mat-header-cell *matHeaderCellDef>File Name</th>
+            <td mat-cell *matCellDef="let element">{{ element.url }}</td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr
+            mat-row
+            title="Preview document"
+            *matRowDef="let row; columns: displayedColumns"
+            (click)="selectRow(row)"
+            style="cursor: pointer"
+          ></tr>
+        </table>
+      </div>
+    </div>
+    <div *ngIf="isPreviewSet" class="row">
+      <div class="col-md-12">
+        <button mat-flat-button (click)="togglePreview()" style="float: right">
+          Back
+        </button>
+        <button mat-flat-button (click)="download()" style="float: right">
+          Download
+        </button>
+      </div>
+      <div class="col-md-12">
+        <pdf-viewer
+          [src]="pdfSrc"
+          [render-text]="true"
+          style="display: block;"
+        ></pdf-viewer>
+      </div>
+    </div>
+  </div>
+</div>
