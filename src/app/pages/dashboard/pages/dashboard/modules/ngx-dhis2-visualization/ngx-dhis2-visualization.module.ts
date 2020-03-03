@@ -10,7 +10,6 @@ import { NgxDhis2SelectionFiltersModule } from '../ngx-dhis2-data-selection-filt
 import { components } from './components';
 import { VisualizationWidgetComponent } from './components/visualization-widget/visualization-widget.component';
 import { containers } from './containers';
-import { MapModule } from './modules/map/map.module';
 import { NgxDhis2ChartModule } from './modules/ngx-dhis-chart/ngx-dhis2-chart.module';
 import { NgxDhis2TableModule } from './modules/ngx-dhis2-table/ngx-dhis2-table.module';
 import { ReportsModule } from './modules/reports/reports.module';
@@ -31,7 +30,6 @@ import { MatCardModule } from '@angular/material/card';
     NgxDhis2TableModule,
     NgxDhis2DictionaryModule,
     NgxDhis2SelectionFiltersModule,
-    MapModule,
     ReportsModule
   ],
   declarations: [

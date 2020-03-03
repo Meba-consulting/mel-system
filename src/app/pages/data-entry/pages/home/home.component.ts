@@ -109,9 +109,10 @@ export class HomeComponent implements OnInit {
                       );
                     }
                   });
-                  this.dataEntryForms = _.orderBy(this.dataEntryForms, [
-                    'priority'
-                  ]);
+                  this.dataEntryForms = _.uniqBy(
+                    _.orderBy(this.dataEntryForms, ['priority']),
+                    'id'
+                  );
                 }
               });
             }
@@ -138,102 +139,107 @@ export class HomeComponent implements OnInit {
     this.eventsDimensions = [];
     this.dataEntrySelections.batchNo = '';
     this.dataEntryFormsByOu$.subscribe(ouInfo => {
-      this.dataEntryFlowConfigs$.subscribe(dataEntryFlowConfigs => {
-        if (
-          dataEntryFlowConfigs &&
-          dataEntryFlowConfigs['programsStagesUserGroupAccesses']
-        ) {
-          this.dataEntryFlowConfigs = dataEntryFlowConfigs;
-          this.trackerProgramId = _.filter(this.dataEntryForms, {
-            id: id
-          })[0]['program'];
-          const dimension = {
-            ou: this.selectedOu.id,
-            program: this.trackerProgramId
-          };
-          this.dataEntryService
-            .getTrackedEntityInstancesList(dimension)
-            .subscribe(trackedEntityInstancesLoaded => {
-              if (trackedEntityInstancesLoaded) {
-                this.trackedEntityInstances =
-                  trackedEntityInstancesLoaded['trackedEntityInstances'];
-
-                this.eventValues = formatAttributesValues(
-                  trackedEntityInstancesLoaded['trackedEntityInstances']
-                );
-                console.log('eventValues', this.eventValues);
-              }
-            });
-          if (id == 'default') {
-            this.hasParentData = false;
-            this.formType = 'tracker';
-            this.selectedDataEntryForm = _.filter(ouInfo['programs'], {
-              id: _.filter(this.dataEntryForms, { id: id })[0]['program']
-            })[0]['dataEntryForm'];
-            this.selectedProgram = {
-              id: id,
-              name: _.filter(this.dataEntryForms, { id: id })[0]['name']
+      if (ouInfo) {
+        this.dataEntryFlowConfigs$.subscribe(dataEntryFlowConfigs => {
+          if (
+            dataEntryFlowConfigs &&
+            dataEntryFlowConfigs['programsStagesUserGroupAccesses']
+          ) {
+            this.dataEntryFlowConfigs = dataEntryFlowConfigs;
+            this.trackerProgramId = _.filter(this.dataEntryForms, {
+              id: id
+            })[0]['program'];
+            console.log('tracked id', this.trackerProgramId);
+            const dimension = {
+              ou: this.selectedOu.id,
+              program: this.trackerProgramId
             };
-            this.dataElements = _.filter(ouInfo['programs'], {
-              id: _.filter(this.dataEntryForms, { id: id })[0]['program']
-            })[0]['programTrackedEntityAttributes'];
-            this.dataElements$ = this.dataEntryService.getTrackedEntityAttributes();
+            this.dataEntryService
+              .getTrackedEntityInstancesList(dimension)
+              .subscribe(trackedEntityInstancesLoaded => {
+                if (trackedEntityInstancesLoaded) {
+                  this.trackedEntityInstances =
+                    trackedEntityInstancesLoaded['trackedEntityInstances'];
 
-            this.dataElements$.subscribe(elements => {
-              if (elements) {
-                this.entityAttributeHeaders.push({
-                  id: 'created',
-                  name: 'Created'
-                });
-                this.entityAttributeHeaders.push({
-                  id: 'updated',
-                  name: 'Updated'
-                });
-                console.log('elements', elements);
-                this.entityAttributeHeaders = _.union(
-                  this.entityAttributeHeaders,
-                  elements['trackedEntityAttributes']
-                );
-              }
-            });
+                  this.eventValues = formatAttributesValues(
+                    trackedEntityInstancesLoaded['trackedEntityInstances']
+                  );
+                  console.log('eventValues', this.eventValues);
+                }
+              });
+            if (id == 'default') {
+              this.hasParentData = false;
+              this.formType = 'tracker';
+              this.selectedDataEntryForm = _.filter(ouInfo['programs'], {
+                id: _.filter(this.dataEntryForms, { id: id })[0]['program']
+              })[0]['dataEntryForm'];
+              this.selectedProgram = {
+                id: id,
+                name: _.filter(this.dataEntryForms, { id: id })[0]['name']
+              };
+              this.dataElements = _.filter(ouInfo['programs'], {
+                id: _.filter(this.dataEntryForms, { id: id })[0]['program']
+              })[0]['programTrackedEntityAttributes'];
+              this.dataElements$ = this.dataEntryService.getTrackedEntityAttributes();
 
-            // this.store.dispatch(
-            //   loadEvents({ dataDimenions: this.eventsDimensions })
-            // );
-            // this.events$ = this.store.select(getEventsById, {
-            //   id: this.selectedOu.id + '-' + stages[stages.length - 1]
-            // });
-          } else {
-            this.formType = 'event';
-            this.hasParentData = true;
-            this.selectedDataEntryForm = _.filter(
-              _.filter(ouInfo['programs'], {
-                id: this.trackerProgramId
-              })[0]['programStages'],
-              { id: id }
-            )[0]['dataEntryForm'];
+              this.dataElements$.subscribe(elements => {
+                if (elements) {
+                  this.entityAttributeHeaders.push({
+                    id: 'created',
+                    name: 'Created'
+                  });
+                  this.entityAttributeHeaders.push({
+                    id: 'updated',
+                    name: 'Updated'
+                  });
+                  console.log('elements', elements);
+                  this.entityAttributeHeaders = _.union(
+                    this.entityAttributeHeaders,
+                    elements['trackedEntityAttributes']
+                  );
+                }
+              });
 
-            this.selectedProgram = {
-              id: id,
-              name: _.filter(
+              // this.store.dispatch(
+              //   loadEvents({ dataDimenions: this.eventsDimensions })
+              // );
+              // this.events$ = this.store.select(getEventsById, {
+              //   id: this.selectedOu.id + '-' + stages[stages.length - 1]
+              // });
+            } else {
+              this.formType = 'event';
+              this.hasParentData = true;
+              console.log('hereeeeeeeeeeeeeeeeeeeee', ouInfo);
+              console.log('form', this.selectedDataEntryForm);
+              this.selectedDataEntryForm = _.filter(
                 _.filter(ouInfo['programs'], {
                   id: this.trackerProgramId
                 })[0]['programStages'],
                 { id: id }
-              )[0]['name']
-            };
+              )[0]['dataEntryForm'];
 
-            this.dataElements = this.getDataElements(
-              _.filter(
-                _.filter(ouInfo['programs'], {
-                  id: this.trackerProgramId
-                })[0]['programStages'],
-                { id: id }
-              )[0]['programStageDataElements']
-            );
+              this.selectedProgram = {
+                id: id,
+                name: _.filter(
+                  _.filter(ouInfo['programs'], {
+                    id: this.trackerProgramId
+                  })[0]['programStages'],
+                  { id: id }
+                )[0]['name']
+              };
+
+              this.dataElements = this.getDataElements(
+                _.filter(
+                  _.filter(ouInfo['programs'], {
+                    id: this.trackerProgramId
+                  })[0]['programStages'],
+                  { id: id }
+                )[0]['programStageDataElements']
+              );
+            }
           }
-        }
-      });
+        });
+      }
       // this.selectedProgram = _.filter(ouInfo['programs'], { id: id })[0];
     });
   }

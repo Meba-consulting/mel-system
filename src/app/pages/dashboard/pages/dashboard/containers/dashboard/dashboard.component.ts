@@ -9,18 +9,13 @@ import { Observable } from 'rxjs';
 import {
   getAllGroupDashboards,
   getCurrentDashboardId,
-  SetCurrentDashboardAction,
-  SetActiveDashboardGroupsAction,
   getAllDashboardGroups,
   getActiveDashboardGroup,
-  ToggleDashboardBookmarkAction,
-  CreateDashboardAction,
-  InitializeDashboardSettingsAction,
   getDashboardObjectLoading,
   getDashboardObjectLoaded,
   getDashboardGroupsLoading,
   getDashboardGroupsLoaded
-} from '../../../store';
+} from '../../../store/selectors';
 import { Dashboard, DashboardGroups } from '../../models';
 import { LoadFunctions } from '../../modules/ngx-dhis2-data-selection-filter/modules/data-filter/store/actions/function.actions';
 import {
@@ -29,6 +24,13 @@ import {
 } from '@iapps/ngx-dhis2-org-unit-filter';
 import { State } from 'src/app/store';
 import { Router, ActivatedRoute } from '@angular/router';
+import {
+  InitializeDashboardSettingsAction,
+  SetCurrentDashboardAction,
+  SetActiveDashboardGroupsAction,
+  CreateDashboardAction,
+  ToggleDashboardBookmarkAction
+} from '../../../store/actions';
 
 @Component({
   selector: 'app-dashboard',

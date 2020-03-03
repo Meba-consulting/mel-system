@@ -10,7 +10,7 @@ import {
 } from '../actions/user.actions';
 import { UserService } from 'src/app/pages/dashboard/pages/services';
 import { User } from 'src/app/pages/dashboard/pages/models';
-import { LoadDashboardSettingsAction } from 'src/app/pages/dashboard/pages/store';
+import { LoadDashboardSettingsAction } from 'src/app/pages/dashboard/pages/store/actions';
 
 @Injectable()
 export class UserEffects {

@@ -14,8 +14,9 @@ import { FavoriteFilterModule } from './modules/favorite-filter/favorite-filter.
 import { NgxDhis2VisualizationModule } from './modules/ngx-dhis2-visualization/ngx-dhis2-visualization.module';
 import { NgxDhis2SelectionFiltersModule } from './modules/ngx-dhis2-data-selection-filter/ngx-dhis2-selection-filters.module';
 import { MatButtonModule } from '@angular/material/button';
-import { dashboardReducers, effects } from '../store';
 import { EffectsModule } from '@ngrx/effects';
+import { dashboardReducers } from '../store/reducers';
+import { effects } from '../store/effects';
 
 @NgModule({
   imports: [

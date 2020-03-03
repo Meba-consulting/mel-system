@@ -5,11 +5,6 @@ import { Store } from '@ngrx/store';
 import { Dashboard, DashboardGroups } from '../../models';
 import {
   getCurrentDashboard,
-  ToggleDashboardBookmarkAction,
-  ManageDashboardItemAction,
-  AddNewUnsavedFavoriteAction,
-  SetCurrentVisualizationAction,
-  GlobalFilterChangeAction,
   getDashboardObjectLoading,
   getDashboardObjectLoaded,
   getVisualizationReady,
@@ -21,7 +16,7 @@ import {
   getDashboardGroupsLoading,
   getCurrentGlobalDataSelections,
   getCurrentDashboardVisualizationLoadingProgress
-} from '../../../store';
+} from '../../../store/selectors';
 import { User, SystemInfo, LegendSet } from '../../../models';
 import { take } from 'rxjs/operators';
 
@@ -31,6 +26,13 @@ import {
 } from '../../constants/welcoming-messages.constants';
 import { State, getCurrentUser, getAllLegendSets } from 'src/app/store';
 import { getSystemInfo } from 'src/app/store/selectors/system-info.selectors';
+import {
+  ToggleDashboardBookmarkAction,
+  ManageDashboardItemAction,
+  AddNewUnsavedFavoriteAction,
+  SetCurrentVisualizationAction,
+  GlobalFilterChangeAction
+} from '../../../store/actions';
 
 @Component({
   selector: 'app-current-dashboard',

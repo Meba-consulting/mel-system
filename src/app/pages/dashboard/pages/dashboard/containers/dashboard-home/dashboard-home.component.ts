@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {
   getDashboardObjectLoading,
   getDashboardObjectLoaded
-} from '../../../store';
+} from '../../../store/selectors';
 import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { State } from 'src/app/store';

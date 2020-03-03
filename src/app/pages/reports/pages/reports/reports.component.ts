@@ -35,7 +35,7 @@ export class ReportsComponent implements OnInit {
     showLayout: false,
     showFilterButton: false,
     orgUnitFilterConfig: {
-      singleSelection: false,
+      singleSelection: true,
       showOrgUnitLevelGroupSection: false,
       showUserOrgUnitSection: false
     }
