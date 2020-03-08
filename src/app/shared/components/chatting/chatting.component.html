@@ -1,0 +1,48 @@
+<div style="width: 100%">
+  <div class="chat-area">
+    <div *ngFor="let chat of messages$ | async">
+      <ng-template
+        [ngIf]="
+          chat.sender == currentUserUsername && chat.receiver == usernamePartner
+        "
+      >
+        <div class="message-body" class="b-color-sender">
+          <div class="text-muted">{{ chat.sender }}</div>
+          <div>
+            <p>{{ chat.message }}</p>
+          </div>
+        </div>
+      </ng-template>
+      <ng-template
+        [ngIf]="
+          chat.sender == usernamePartner && chat.receiver == currentUserUsername
+        "
+      >
+        <div class="message-body" class="b-color-receiver">
+          <div class="text-muted">{{ chat.sender }}</div>
+          <div>
+            <p>{{ chat.message }}</p>
+          </div>
+        </div>
+      </ng-template>
+    </div>
+    <div class="text-area">
+      <textarea
+        class="form-control"
+        style="width: 100%;"
+        rows="2"
+        cols="5"
+        [(ngModel)]="textMessage"
+      ></textarea>
+    </div>
+    <div style="margin-top: 20px;" *ngIf="textMessage != ''">
+      <button
+        class="btn btn-success"
+        style="float: right;"
+        (click)="send(textMessage)"
+      >
+        Send
+      </button>
+    </div>
+  </div>
+</div>

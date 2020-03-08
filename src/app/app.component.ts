@@ -18,6 +18,7 @@ import {
   LoadSystemUsers
 } from './store';
 import { ActivatedRoute } from '@angular/router';
+import * as _ from 'lodash';
 
 @Component({
   selector: 'app-root',
@@ -27,13 +28,21 @@ import { ActivatedRoute } from '@angular/router';
 export class AppComponent implements OnInit {
   currentUser$: Observable<any>;
   users$: Observable<any>;
+
+  isViewAllContentsSet: boolean = false;
+  searchInput: string;
+  isChatSet: boolean = false;
+  selectedUsername: string = '';
+  currentUserUsername: string;
   constructor(
     private store: Store<State>,
     private translate: TranslateService,
     private titleService: Title,
     private httpClient: NgxDhis2HttpClientService,
     private route: ActivatedRoute
-  ) {}
+  ) {
+    this.searchInput = '';
+  }
 
   ngOnInit() {
     // initialize function analytics
@@ -74,8 +83,28 @@ export class AppComponent implements OnInit {
         if (manifest) {
           this.titleService.setTitle(manifest.name);
         } else {
-          this.titleService.setTitle('Loading Dashboard...');
+          this.titleService.setTitle('Loading .......');
         }
       });
+  }
+
+  public setTitle(newTitle: string) {
+    this.titleService.setTitle(newTitle);
+  }
+
+  sliceContents(arr, start, end, viewAll) {
+    if (!viewAll) {
+      return _.slice(arr, start, end);
+    } else {
+      return arr;
+    }
+  }
+
+  setViewAll() {
+    this.isViewAllContentsSet = !this.isViewAllContentsSet;
+  }
+
+  showChat() {
+    this.isChatSet = !this.isChatSet;
   }
 }

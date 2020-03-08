@@ -26,14 +26,25 @@ export function HttpLoaderFactory(http: HttpClient) {
 
 import { reducers, metaReducers, effects } from './store';
 
+import { AngularFireModule } from '@angular/fire';
+
+import { AngularFirestoreModule } from '@angular/fire/firestore';
+import { AngularFireStorageModule } from '@angular/fire/storage';
+import { AngularFireAuthModule } from '@angular/fire/auth';
+import { AngularFireDatabaseModule } from '@angular/fire/database';
+
 import { NgxDhis2MenuModule } from '@hisptz/ngx-dhis2-menu';
 import { RouteSerializer } from './pages/dashboard/pages/utils';
+import { FilterItemsPipe } from './core/pipes/filter-items.pipe';
+import { ChattingComponent } from './shared/components/chatting/chatting.component';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
-  declarations: [AppComponent],
+  declarations: [AppComponent, FilterItemsPipe, ChattingComponent],
   imports: [
     BrowserModule,
     HttpClientModule,
+    FormsModule,
     BrowserAnimationsModule,
     NgxDhis2HttpClientModule.forRoot({
       namespace: 'ssb',
@@ -77,7 +88,12 @@ import { RouteSerializer } from './pages/dashboard/pages/utils';
     /**
      * Development tool for debugging ngrx store operations
      */
-    !environment.production ? StoreDevtoolsModule.instrument() : []
+    !environment.production ? StoreDevtoolsModule.instrument() : [],
+    AngularFireModule.initializeApp(environment.firebase, 'fcc-book-trading'), // imports firebase/app needed for everything
+    AngularFirestoreModule, // imports firebase/firestore, only needed for database features
+    AngularFireAuthModule, // imports firebase/auth, only needed for auth features,
+    AngularFireStorageModule, // imports firebase/storage only needed for storage features
+    AngularFireDatabaseModule
   ],
   providers: [{ provide: RouterStateSerializer, useClass: RouteSerializer }],
   bootstrap: [AppComponent]

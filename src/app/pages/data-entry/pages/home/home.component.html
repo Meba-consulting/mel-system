@@ -1,4 +1,4 @@
-<div style="margin-top: 15px;">
+<div>
   <div class="row" style="background-color: #f3f3f363">
     <div
       class="col-md-12"
@@ -78,7 +78,7 @@
         <a
           [ngClass]="{ 'toggle-btn-active': isReportSet == true }"
           (click)="setReport()"
-          style="float: right; margin-right: 6px; cursor: pointer;"
+          style="float: right; margin-right: 8px; cursor: pointer;"
           >List Report</a
         >
       </div>
@@ -130,7 +130,11 @@
         Save
       </button>
     </div>
-    <div class="col-md-12" *ngIf="isReportSet" style="margin-top: 15px;">
+    <div
+      class="col-md-12"
+      *ngIf="isReportSet && entityAttributeHeaders.length > 0"
+      style="margin-top: 15px;"
+    >
       <table class="table table-bordered table-responsive">
         <thead>
           <tr class="header-table">

@@ -63,13 +63,4 @@ export class SystemInfoEffects {
         )
     )
   );
-
-  navigateTo() {
-    this.store.dispatch(new LoadSystemUsers());
-    if (this.router.url != '/') {
-      this.router.navigate([this.router.url]);
-    } else {
-      this.router.navigate(['/dashboards']);
-    }
-  }
 }
