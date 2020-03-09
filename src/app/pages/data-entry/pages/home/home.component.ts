@@ -111,7 +111,7 @@ export class HomeComponent implements OnInit {
                   });
                   this.dataEntryForms = _.uniqBy(
                     _.orderBy(this.dataEntryForms, ['priority']),
-                    'id'
+                    'name'
                   );
                 }
               });

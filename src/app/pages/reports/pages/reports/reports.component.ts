@@ -69,59 +69,60 @@ export class ReportsComponent implements OnInit {
     this.reportConfigs$ = this.store.select(getReportConfigsById, {
       id: id
     });
-    this.reportConfigs$.subscribe(reportConfigs => {
-      if (reportConfigs && this.filtersSelected.length > 1) {
-        this.reportDimensions = [];
-        this.store.dispatch(resetIndicatorDataLoadedState());
-        this.selectedOus = _.filter(this.filtersSelected, {
-          dimension: 'ou'
-        })[0].items;
-        _.map(
-          _.filter(this.filtersSelected, { dimension: 'ou' })[0].items,
-          ouInfo => {
-            this.reportDimensions.push({
-              ou: ouInfo.id,
-              pe: getItems(
-                _.filter(this.filtersSelected, { dimension: 'pe' })[0].items
-              ),
-              dx: getIndicatorIds(reportConfigs['configs']['indicators']),
-              reportId: this.selectedReportId
-            });
-          }
-        );
-        this.store.dispatch(
-          loadIndicatorsData({ dimensions: this.reportDimensions })
-        );
-        this.reportEntities$ = this.store.select(getIndicatorAnalyticsEntities);
-        this.indicatorLoadedState$ = this.store.select(
-          getIndicatorAnalyticsLoadedState
-        );
-      }
-    });
+    // this.reportConfigs$.subscribe(reportConfigs => {
+    //   if (reportConfigs && this.filtersSelected.length > 1) {
+    //     this.reportDimensions = [];
+    //     this.store.dispatch(resetIndicatorDataLoadedState());
+    //     this.selectedOus = _.filter(this.filtersSelected, {
+    //       dimension: 'ou'
+    //     })[0].items;
+    //     _.map(
+    //       _.filter(this.filtersSelected, { dimension: 'ou' })[0].items,
+    //       ouInfo => {
+    //         this.reportDimensions.push({
+    //           ou: ouInfo.id,
+    //           pe: getItems(
+    //             _.filter(this.filtersSelected, { dimension: 'pe' })[0].items
+    //           ),
+    //           dx: getIndicatorIds(reportConfigs['configs']['indicators']),
+    //           reportId: this.selectedReportId
+    //         });
+    //       }
+    //     );
+    //     this.store.dispatch(
+    //       loadIndicatorsData({ dimensions: this.reportDimensions })
+    //     );
+    //     this.reportEntities$ = this.store.select(getIndicatorAnalyticsEntities);
+    //     this.indicatorLoadedState$ = this.store.select(
+    //       getIndicatorAnalyticsLoadedState
+    //     );
+    //   }
+    // });
   }
+
   onFilterUpdate(filters) {
     this.filtersSelected = filters;
     this.reportConfigs$.subscribe(reportConfigs => {
-      if (reportConfigs && filters.length > 1) {
-        this.reportDimensions = [];
-        this.store.dispatch(resetIndicatorDataLoadedState());
-        this.selectedOus = _.filter(filters, { dimension: 'ou' })[0].items;
-        _.map(_.filter(filters, { dimension: 'ou' })[0].items, ouInfo => {
-          this.reportDimensions.push({
-            ou: ouInfo.id,
-            pe: getItems(_.filter(filters, { dimension: 'pe' })[0].items),
-            dx: getIndicatorIds(reportConfigs['configs']['indicators']),
-            reportId: this.selectedReportId
-          });
-        });
-        this.store.dispatch(
-          loadIndicatorsData({ dimensions: this.reportDimensions })
-        );
-        this.reportEntities$ = this.store.select(getIndicatorAnalyticsEntities);
-        this.indicatorLoadedState$ = this.store.select(
-          getIndicatorAnalyticsLoadedState
-        );
-      }
+      // if (reportConfigs && filters.length > 1) {
+      //   this.reportDimensions = [];
+      //   this.store.dispatch(resetIndicatorDataLoadedState());
+      //   this.selectedOus = _.filter(filters, { dimension: 'ou' })[0].items;
+      //   _.map(_.filter(filters, { dimension: 'ou' })[0].items, ouInfo => {
+      //     this.reportDimensions.push({
+      //       ou: ouInfo.id,
+      //       pe: getItems(_.filter(filters, { dimension: 'pe' })[0].items),
+      //       dx: getIndicatorIds(reportConfigs['configs']['indicators']),
+      //       reportId: this.selectedReportId
+      //     });
+      //   });
+      //   this.store.dispatch(
+      //     loadIndicatorsData({ dimensions: this.reportDimensions })
+      //   );
+      //   this.reportEntities$ = this.store.select(getIndicatorAnalyticsEntities);
+      //   this.indicatorLoadedState$ = this.store.select(
+      //     getIndicatorAnalyticsLoadedState
+      //   );
+      // }
     });
   }
 }

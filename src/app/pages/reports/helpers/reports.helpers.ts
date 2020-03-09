@@ -199,3 +199,10 @@ export function processAnalyticsData(analyticsData, dimensions, selectedOus) {
   console.log(data);
   return data;
 }
+
+export function extractAnalyticsElements(): Array<any> {
+  let analyticsElements = [];
+  let elements: any = document.getElementsByClassName('elements-of-concern');
+  console.log('elements', elements);
+  return analyticsElements;
+}

@@ -40,13 +40,23 @@
       >
       </ngx-dhis2-selection-filters>
     </div>
-
-    {{ indicatorLoadedState$ | async | json }}
-    <div *ngIf="indicatorLoadedState$ | async">
+    <div
+      style="margin-top: 20px;"
+      *ngIf="
+        (reportConfigs$ | async) &&
+        (reportConfigs$ | async)['configs'] &&
+        (reportConfigs$ | async)['configs']['htmlCodes']
+      "
+    >
       <app-render-report
-        [reportEntities]="reportEntities$ | async"
-        [reportDimensions]="reportDimensions"
-        [selectedOus]="selectedOus"
+        [report]="
+          (reportConfigs$ | async) ? (reportConfigs$ | async)['configs'] : ''
+        "
+        [customReportDesign]="
+          (reportConfigs$ | async)
+            ? (reportConfigs$ | async)['configs']['htmlCodes']
+            : ''
+        "
       ></app-render-report>
     </div>
   </div>
