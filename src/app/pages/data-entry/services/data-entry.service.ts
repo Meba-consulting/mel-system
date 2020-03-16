@@ -73,5 +73,16 @@ export class DataEntryService {
     return this.httpClient.post('events', data);
   }
 
+  getEventsData(dimension): Observable<any> {
+    return this.httpClient.get(
+      'events.json?paging=false&orgUnit=' +
+        dimension.ou +
+        '&program=' +
+        dimension.program +
+        '&programStage=' +
+        dimension.programStage
+    );
+  }
+
   constructor(private httpClient: NgxDhis2HttpClientService) {}
 }

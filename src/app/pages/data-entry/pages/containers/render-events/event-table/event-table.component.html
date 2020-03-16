@@ -1,0 +1,25 @@
+<div style="margin-top: 15px">
+  <table class="table table-bordered table-triped table-responsive">
+    <thead>
+      <tr class="header-table">
+        <th *ngFor="let header of objectForRenderingValues['headers']">
+          {{ header.name }}
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <ng-template
+        ngFor
+        let-data
+        [ngForOf]="objectForRenderingValues['data']"
+        let-i="index"
+      >
+        <tr [ngClass]="{ 'grey-row': i % 2 != 0 }">
+          <td *ngFor="let header of objectForRenderingValues['headers']">
+            {{ data[header.id] }}
+          </td>
+        </tr>
+      </ng-template>
+    </tbody>
+  </table>
+</div>

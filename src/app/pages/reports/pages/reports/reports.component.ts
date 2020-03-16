@@ -21,6 +21,7 @@ import {
   getIndicatorAnalyticsEntities,
   getIndicatorAnalyticsLoadedState
 } from '../../store/selectors/indicators-data.selectors';
+import { getCurrentUser } from 'src/app/store';
 
 @Component({
   selector: 'app-reports',
@@ -48,7 +49,63 @@ export class ReportsComponent implements OnInit {
   indicatorLoadedState$: Observable<Boolean>;
   selectedOus: any;
   filtersSelected: any;
+  currentUser$: Observable<any>;
+  reportGroups: Array<any> = [
+    {
+      id: 'WNKdNYXqGVX',
+      displayName: 'CATEGORIES ACCESS GROUP'
+    },
+    {
+      id: 'fisrx9TzcnU',
+      displayName: 'DATA MANAGER'
+    },
+    {
+      id: 'BAkg8xJQd08',
+      displayName: 'Feedback recipients'
+    },
+    {
+      id: 'V137JfSMmgi',
+      displayName: 'HR GROUP'
+    },
+    {
+      id: 'mIRpIFBqWiq',
+      displayName: 'LOGISTICS GROUP'
+    },
+    {
+      id: 'b32FSypBypw',
+      displayName: 'MAINTENANCE & STORE GROUP'
+    },
+    {
+      id: 'Cbrocu0PBsH',
+      displayName: 'MILLING DATA MANAGER'
+    },
+    {
+      id: 'p8tazr0DMCT',
+      displayName: 'OHSE GROUP'
+    },
+    {
+      id: 'U4maUfutrSg',
+      displayName: 'PROCUREMENT GROUP'
+    },
+    {
+      id: 'yVJ3H8hxnti',
+      displayName: 'PROGRAM_SUPERUSER'
+    },
+    {
+      id: 'AMdj8Ltbh5j',
+      displayName: 'QAQC DATA MANAGER'
+    },
+    {
+      id: 'ACj8Pchsemb',
+      displayName: 'Quality Assurance Manager'
+    },
+    {
+      id: 'Q73r264jQtP',
+      displayName: 'SALES & MARKETING GROUP'
+    }
+  ];
   constructor(private store: Store<State>, private route: ActivatedRoute) {
+    this.currentUser$ = this.store.select(getCurrentUser);
     this.store.dispatch(loadReportsList());
   }
 

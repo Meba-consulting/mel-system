@@ -1,4 +1,4 @@
-<div class="row" style="margin-top: 8px;">
+<div class="row" style="margin-top: 18px;">
   <div class="col-12" *ngIf="!(reportsList$ | async)">
     <mat-progress-bar mode="indeterminate"></mat-progress-bar>
   </div>
@@ -7,16 +7,18 @@
     *ngIf="reportsList$ | async"
     style="padding-left: 0px !important"
   >
-    <h4>Reports</h4>
-    <ul class="list-group" *ngIf="reportsList$ | async">
+    <ul
+      class="list-group"
+      *ngIf="(reportsList$ | async) && (currentUser$ | async)"
+    >
       <li
         class="list-group-item"
         routerLinkActive="active-report"
-        routerLink="/reports/{{ report.id }}"
-        *ngFor="let report of reportsList$ | async"
-        (click)="getReportConfigs(report.id)"
+        routerLink="/reports/{{ reportGroup.id }}"
+        *ngFor="let reportGroup of (currentUser$ | async)?.userGroups"
+        (click)="getReportConfigs(reportGroup.id)"
       >
-        {{ report.name }}
+        {{ reportGroup.name }}
       </li>
     </ul>
     <hr />
@@ -41,7 +43,7 @@
       </ngx-dhis2-selection-filters>
     </div>
     <div
-      style="margin-top: 20px;"
+      style="margin-top: 20px; overflow: auto"
       *ngIf="
         (reportConfigs$ | async) &&
         (reportConfigs$ | async)['configs'] &&

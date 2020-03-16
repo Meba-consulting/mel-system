@@ -154,5 +154,14 @@
         </tbody>
       </table>
     </div>
+    <div
+      *ngIf="isReportSet && (eventsForReports$ | async)"
+      style="overflow: auto;"
+    >
+      <app-render-events
+        [events]="(eventsForReports$ | async)?.events"
+        [dataElements]="dataElements"
+      ></app-render-events>
+    </div>
   </div>
 </div>

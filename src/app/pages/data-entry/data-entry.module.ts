@@ -14,9 +14,11 @@ import { dataEntryFlowReducer } from './store/reducers/data-entry-flow.reducer';
 import { DataEntryFlowEffects } from './store/effects/data-entry-flow.effects';
 import { eventsReducer } from './store/reducers/events.reducer';
 import { EventsEffects } from './store/effects/events.effects';
+import { RenderEventsComponent } from './pages/containers/render-events/render-events.component';
+import { EventTableComponent } from './pages/containers/render-events/event-table/event-table.component';
 
 @NgModule({
-  declarations: [...pages, DataEntryComponent],
+  declarations: [...pages, DataEntryComponent, RenderEventsComponent, EventTableComponent],
   imports: [
     CommonModule,
     FormsModule,

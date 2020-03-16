@@ -16,7 +16,10 @@ import { getEventsById } from '../../store/selectors/events.selectors';
 import { getCurrentUser } from 'src/app/store/selectors';
 import { NgxDhis2HttpClientService } from '@iapps/ngx-dhis2-http-client';
 import { DataEntryService } from '../../services/data-entry.service';
-import { formatAttributesValues } from '../../helpers';
+import {
+  formatAttributesValues,
+  filterWithContainingCharactes
+} from '../../helpers';
 
 @Component({
   selector: 'app-home',
@@ -24,13 +27,15 @@ import { formatAttributesValues } from '../../helpers';
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit {
-  selectedOrgUnitItems: Array<any> = [];
   orgUnitFilterConfig: any = {
     singleSelection: true,
     showUserOrgUnitSection: false,
     showOrgUnitLevelGroupSection: false,
     showOrgUnitGroupSection: false,
-    showOrgUnitLevelSection: false
+    showOrgUnitLevelSection: false,
+    reportUse: false,
+    additionalQueryFields: ['programs'],
+    batchSize: 400
   };
   selectionFilterConfig: any = {
     showDataFilter: false,
@@ -40,10 +45,16 @@ export class HomeComponent implements OnInit {
     showFilterButton: false,
     orgUnitFilterConfig: {
       singleSelection: true,
+      showUserOrgUnitSection: false,
       showOrgUnitLevelGroupSection: false,
-      showUserOrgUnitSection: false
+      showOrgUnitGroupSection: false,
+      showOrgUnitLevelSection: false,
+      reportUse: false,
+      additionalQueryFields: ['programs'],
+      batchSize: 400
     }
   };
+  selectedOrgUnitItems: Array<any> = [];
   selectedOu: any;
   dataEntryFormsByOu$: Observable<any>;
   selectedDataEntryForm: any;
@@ -74,11 +85,26 @@ export class HomeComponent implements OnInit {
   entityAttributeHeaders = [];
   isReportSet: Boolean = false;
 
+  eventsForReports$: Observable<any>;
+
   constructor(
     private store: Store<State>,
     private httpClient: NgxDhis2HttpClientService,
     private dataEntryService: DataEntryService
   ) {
+    this.store.select(getCurrentUser).subscribe(user => {
+      if (user) {
+        console.log(user);
+        _.map(user['organisationUnits'], ou => {
+          this.selectedOrgUnitItems.push({
+            id: ou.id,
+            name: ou.name,
+            level: ou.level,
+            type: 'ORGANISATION_UNIT'
+          });
+        });
+      }
+    });
     this.store.dispatch(loadDataEntryFlow());
     this.dataEntryFlowConfigs$ = this.store.select(getDataEntryFlowConfigs);
 
@@ -125,6 +151,7 @@ export class HomeComponent implements OnInit {
 
   onFilterUpdate(selection) {
     console.log(selection);
+    console.log('selection', selection);
     this.selectedOu = selection[0].items[0];
     this.store.dispatch(
       loadDataEntryFormsByOu({ orgUnit: selection[0].items[0].id })
@@ -154,6 +181,16 @@ export class HomeComponent implements OnInit {
               ou: this.selectedOu.id,
               program: this.trackerProgramId
             };
+            this.selectedProgram = {
+              id: id,
+              name: _.filter(this.dataEntryForms, { id: id })[0]['name'],
+              shortName: _.filter(this.dataEntryForms, { id: id })[0][
+                'shortName'
+              ],
+              trackedEntityType: _.filter(this.dataEntryForms, { id: id })[0][
+                'trackedEntityType'
+              ]
+            };
             this.dataEntryService
               .getTrackedEntityInstancesList(dimension)
               .subscribe(trackedEntityInstancesLoaded => {
@@ -167,16 +204,13 @@ export class HomeComponent implements OnInit {
                   console.log('eventValues', this.eventValues);
                 }
               });
-            if (id == 'default') {
+            if (id.indexOf('default') > -1) {
               this.hasParentData = false;
               this.formType = 'tracker';
               this.selectedDataEntryForm = _.filter(ouInfo['programs'], {
                 id: _.filter(this.dataEntryForms, { id: id })[0]['program']
               })[0]['dataEntryForm'];
-              this.selectedProgram = {
-                id: id,
-                name: _.filter(this.dataEntryForms, { id: id })[0]['name']
-              };
+
               this.dataElements = _.filter(ouInfo['programs'], {
                 id: _.filter(this.dataEntryForms, { id: id })[0]['program']
               })[0]['programTrackedEntityAttributes'];
@@ -195,7 +229,10 @@ export class HomeComponent implements OnInit {
                   console.log('elements', elements);
                   this.entityAttributeHeaders = _.union(
                     this.entityAttributeHeaders,
-                    elements['trackedEntityAttributes']
+                    filterWithContainingCharactes(
+                      elements['trackedEntityAttributes'],
+                      this.selectedProgram.shortName
+                    )
                   );
                 }
               });
@@ -209,7 +246,6 @@ export class HomeComponent implements OnInit {
             } else {
               this.formType = 'event';
               this.hasParentData = true;
-              console.log('hereeeeeeeeeeeeeeeeeeeee', ouInfo);
               console.log('form', this.selectedDataEntryForm);
               this.selectedDataEntryForm = _.filter(
                 _.filter(ouInfo['programs'], {
@@ -217,6 +253,17 @@ export class HomeComponent implements OnInit {
                 })[0]['programStages'],
                 { id: id }
               )[0]['dataEntryForm'];
+
+              const eventsDataDimensions = {
+                ou: this.selectedOu.id,
+                program: this.trackerProgramId,
+                programStage: this.selectedProgram.id
+              };
+              console.log(eventsDataDimensions);
+
+              this.eventsForReports$ = this.dataEntryService.getEventsData(
+                eventsDataDimensions
+              );
 
               this.selectedProgram = {
                 id: id,
@@ -308,7 +355,7 @@ export class HomeComponent implements OnInit {
   }
 
   saveData() {
-    if (this.selectedProgram.id == 'default') {
+    if (this.selectedProgram.id.indexOf('default') > -1) {
       let attributesValues = [];
       _.map(Object.keys(this.elementsDataValues), key => {
         attributesValues.push({
@@ -317,7 +364,7 @@ export class HomeComponent implements OnInit {
         });
       });
       let attributesData = {
-        trackedEntityType: 'GypuFqZTCTf',
+        trackedEntityType: this.selectedProgram['trackedEntityType'],
         orgUnit: this.selectedOu.id,
         attributes: attributesValues
       };

@@ -19,14 +19,12 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 import { modules } from './modules';
-import { NgxDhis2OrgUnitFilterModule } from '@iapps/ngx-dhis2-org-unit-filter';
 import { NgxDhis2CustomFormsEntryModule } from '@iapps/ngx-dhis2-custom-forms-entry';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 
 @NgModule({
   imports: [
-    NgxDhis2OrgUnitFilterModule,
     NgxDhis2CustomFormsEntryModule,
     ...modules,
     CommonModule,
@@ -51,7 +49,6 @@ import { MatListModule } from '@angular/material/list';
     MatProgressSpinnerModule
   ],
   exports: [
-    NgxDhis2OrgUnitFilterModule,
     NgxDhis2CustomFormsEntryModule,
     ...modules,
     MatButtonModule,

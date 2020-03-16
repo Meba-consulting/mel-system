@@ -33,11 +33,11 @@ import { AngularFireStorageModule } from '@angular/fire/storage';
 import { AngularFireAuthModule } from '@angular/fire/auth';
 import { AngularFireDatabaseModule } from '@angular/fire/database';
 
-import { NgxDhis2MenuModule } from '@hisptz/ngx-dhis2-menu';
 import { RouteSerializer } from './pages/dashboard/pages/utils';
 import { FilterItemsPipe } from './core/pipes/filter-items.pipe';
 import { ChattingComponent } from './shared/components/chatting/chatting.component';
 import { FormsModule } from '@angular/forms';
+import { NgxDhis2OrgUnitFilterModule } from '@iapps/ngx-dhis2-org-unit-filter';
 
 @NgModule({
   declarations: [AppComponent, FilterItemsPipe, ChattingComponent],
@@ -46,10 +46,15 @@ import { FormsModule } from '@angular/forms';
     HttpClientModule,
     FormsModule,
     BrowserAnimationsModule,
+    NgxDhis2OrgUnitFilterModule,
     NgxDhis2HttpClientModule.forRoot({
-      namespace: 'ssb',
       version: 1,
-      models: { dimensions: 'id' }
+      namespace: 'iapps',
+      models: {
+        organisationUnits: 'id,level',
+        organisationUnitLevels: 'id,level',
+        organisationUnitGroups: 'id'
+      }
     }),
     /**
      * Translation module
@@ -61,10 +66,6 @@ import { FormsModule } from '@angular/forms';
         deps: [HttpClient]
       }
     }),
-    /**
-     * Menu  module
-     */
-    NgxDhis2MenuModule,
     /**
      * Routing module
      */
