@@ -1,14 +1,6 @@
-[![Build Status](https://travis-ci.org/hisptz/nmcp-dashboard-app.svg?branch=master)](https://travis-ci.org/hisptz/nmcp-dashboard-app)
-[![dependencies Status](https://david-dm.org/hisptz/nmcp-dashboard-app/status.svg)](https://david-dm.org/hisptz/nmcp-dashboard-app)
-[![devDependencies Status](https://david-dm.org/hisptz/nmcp-dashboard-app/dev-status.svg)](https://david-dm.org/hisptz/nmcp-dashboard-app?type=dev)
-[![Maintainability](https://api.codeclimate.com/v1/badges/bf3dad8dc98398730ba3/maintainability)](https://codeclimate.com/github/hisptz/nmcp-dashboard-app/maintainability)
-[![Test Coverage](https://api.codeclimate.com/v1/badges/bf3dad8dc98398730ba3/test_coverage)](https://codeclimate.com/github/hisptz/nmcp-dashboard-app/test_coverage) [![Greenkeeper badge](https://badges.greenkeeper.io/hisptz/nmcp-dashboard-app.svg)](https://greenkeeper.io/)
+# SSB IMS
 
-# NMCP Dashboard
-
-The NMCP dashboard is DHIS2 application aimed at facilitating the visualization, interpretation and use of all malaria related information in the DHIS2 platform.
-
-The dashboard is currently divided in 5 sections according to the HMIS collection tools and respective indicators: a) Uncomplicated malaria diagnosis (OPD), b) malaria testing (Laboratory/testing sites), c) Malaria commodities (pharmaceuticals), d) Severe malaria morbidity and mortality (IPD), and e) Preventive services (reproductive and child health)
+The Integrated Management System for Said Salim Bakhresa & Co. LTD
 
 ## Setup
 
@@ -23,15 +15,15 @@ This command will require proxy-config.json file available in the root of your s
 ```
 {
   "/api": {
-    "target": "https://play.dhis2.org/2.29/",
+    "target": "address",
     "secure": "false",
-    "auth": "admin:district",
+    "auth": "username:password",
     "changeOrigin": "true"
   },
   "/": {
-    "target": "https://play.dhis2.org/2.29/",
+    "target": "address",
     "secure": "false",
-    "auth": "admin:district",
+    "auth": "username:password",
     "changeOrigin": "true"
   }
 }
