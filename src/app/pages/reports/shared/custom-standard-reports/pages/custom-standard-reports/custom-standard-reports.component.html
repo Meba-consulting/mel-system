@@ -1,0 +1,30 @@
+<div style="margin-top: 70px">
+  <div class="container">
+    <div class="row">
+      <div class="col-8">
+        <ngx-dhis2-selection-filters
+          [selectionFilterConfig]="selectionFilterConfig"
+          (filterUpdate)="onFilterUpdate($event)"
+        >
+        </ngx-dhis2-selection-filters>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-12">
+        <div *ngIf="selectionChanged">
+          <div *ngIf="(reportConfigs$ | async) && filterSelections.length > 1">
+            <app-standard-report
+              [customHtml]="(reportConfigs$ | async)?.htmlCodes"
+              [reportId]="(reportConfigs$ | async)?.id"
+              [reportName]="(reportConfigs$ | async)?.name"
+              [filterSelections]="filterSelections"
+            ></app-standard-report>
+          </div>
+        </div>
+        <div *ngIf="!selectionChanged">
+          <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

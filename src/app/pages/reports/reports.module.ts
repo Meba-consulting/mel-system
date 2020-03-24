@@ -7,6 +7,7 @@ import { reducers } from './store/reducers';
 import { EffectsModule } from '@ngrx/effects';
 import { effects } from './store/effects';
 import { RenderReportComponent } from './containers/render-report/render-report.component';
+import { ReportsSharedModule } from './shared/reports-shared.module';
 
 @NgModule({
   declarations: [...pages, RenderReportComponent],
@@ -14,6 +15,7 @@ import { RenderReportComponent } from './containers/render-report/render-report.
     CommonModule,
     ReportsRoutingModule,
     SharedModule,
+    ReportsSharedModule,
     ...reducers,
     EffectsModule.forFeature(effects)
   ]

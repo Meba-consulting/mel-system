@@ -36,11 +36,16 @@
   </div>
   <div class="col-md-9" *ngIf="reportsList$ | async">
     <div style="width: 50%" *ngIf="reportConfigs$ | async">
-      <ngx-dhis2-selection-filters
+      <!-- <ngx-dhis2-selection-filters
         [selectionFilterConfig]="selectionFilterConfig"
         (filterUpdate)="onFilterUpdate($event)"
       >
-      </ngx-dhis2-selection-filters>
+      </ngx-dhis2-selection-filters> -->
+    </div>
+    <div>
+      <ngx-custom-standard-reports
+        [reportId]="'fortification-monthly-report'"
+      ></ngx-custom-standard-reports>
     </div>
     <div
       style="margin-top: 20px; overflow: auto"

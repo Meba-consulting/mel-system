@@ -246,13 +246,20 @@ export class HomeComponent implements OnInit {
             } else {
               this.formType = 'event';
               this.hasParentData = true;
-              console.log('form', this.selectedDataEntryForm);
+              console.log('id', id);
+              console.log(
+                'heree ',
+                _.filter(ouInfo['programs'], {
+                  id: this.trackerProgramId
+                })[0]['programStages']
+              );
               this.selectedDataEntryForm = _.filter(
                 _.filter(ouInfo['programs'], {
                   id: this.trackerProgramId
                 })[0]['programStages'],
                 { id: id }
               )[0]['dataEntryForm'];
+              console.log('form', this.selectedDataEntryForm);
 
               const eventsDataDimensions = {
                 ou: this.selectedOu.id,

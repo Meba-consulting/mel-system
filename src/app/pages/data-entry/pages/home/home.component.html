@@ -49,9 +49,7 @@
           <option
             [value]="trackedEntityInstance['trackedEntityInstance']"
             *ngFor="let trackedEntityInstance of trackedEntityInstances"
-            >{{ trackedEntityInstance['created'] | date }} - ({{
-              getItemName(trackedEntityInstance)
-            }})</option
+            >{{ trackedEntityInstance['created'] | date }}</option
           >
         </select>
       </div>
@@ -124,7 +122,7 @@
     <div class="col-md-12" *ngIf="atLeastOneDataEntered">
       <button
         class="btn btn-success"
-        style="float: right; margin-top: 15px;"
+        style="float: left; margin-top: 15px;"
         (click)="saveData()"
       >
         Save
