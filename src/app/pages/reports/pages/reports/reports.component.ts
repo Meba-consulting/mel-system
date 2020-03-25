@@ -29,18 +29,6 @@ import { getCurrentUser } from 'src/app/store';
   styleUrls: ['./reports.component.css']
 })
 export class ReportsComponent implements OnInit {
-  selectionFilterConfig: any = {
-    showDataFilter: false,
-    showPeriodFilter: true,
-    showOrgUnitFilter: true,
-    showLayout: false,
-    showFilterButton: false,
-    orgUnitFilterConfig: {
-      singleSelection: true,
-      showOrgUnitLevelGroupSection: false,
-      showUserOrgUnitSection: false
-    }
-  };
   reportsList$: Observable<any>;
   selectedReportId: string;
   reportConfigs$: Observable<any>;
@@ -50,136 +38,66 @@ export class ReportsComponent implements OnInit {
   selectedOus: any;
   filtersSelected: any;
   currentUser$: Observable<any>;
-  reportGroups: Array<any> = [
-    {
-      id: 'WNKdNYXqGVX',
-      displayName: 'CATEGORIES ACCESS GROUP'
-    },
-    {
-      id: 'fisrx9TzcnU',
-      displayName: 'DATA MANAGER'
-    },
-    {
-      id: 'BAkg8xJQd08',
-      displayName: 'Feedback recipients'
-    },
-    {
-      id: 'V137JfSMmgi',
-      displayName: 'HR GROUP'
-    },
-    {
-      id: 'mIRpIFBqWiq',
-      displayName: 'LOGISTICS GROUP'
-    },
-    {
-      id: 'b32FSypBypw',
-      displayName: 'MAINTENANCE & STORE GROUP'
-    },
-    {
-      id: 'Cbrocu0PBsH',
-      displayName: 'MILLING DATA MANAGER'
-    },
-    {
-      id: 'p8tazr0DMCT',
-      displayName: 'OHSE GROUP'
-    },
-    {
-      id: 'U4maUfutrSg',
-      displayName: 'PROCUREMENT GROUP'
-    },
-    {
-      id: 'yVJ3H8hxnti',
-      displayName: 'PROGRAM_SUPERUSER'
-    },
-    {
-      id: 'AMdj8Ltbh5j',
-      displayName: 'QAQC DATA MANAGER'
-    },
-    {
-      id: 'ACj8Pchsemb',
-      displayName: 'Quality Assurance Manager'
-    },
-    {
-      id: 'Q73r264jQtP',
-      displayName: 'SALES & MARKETING GROUP'
-    }
-  ];
+  currentUserSelectedGroup: any;
+  selectedReport: any;
+  isReportSet: boolean = false;
   constructor(private store: Store<State>, private route: ActivatedRoute) {
     this.currentUser$ = this.store.select(getCurrentUser);
-    this.store.dispatch(loadReportsList());
+    this.currentUser$.subscribe(currentUser => {
+      if (currentUser && currentUser['userGroups']) {
+        this.currentUserSelectedGroup = currentUser['userGroups'][0];
+        this.store.dispatch(
+          loadReportsConfigurationsById({
+            reportId: currentUser['userGroups'][0]['id']
+          })
+        );
+      }
+    });
   }
 
   ngOnInit() {
-    this.reportsList$ = this.store.select(getReportsList);
-    this.selectedReportId = this.route.snapshot.params['id'];
+    this.reportConfigs$ = this.store.select(getReportConfigsById, {
+      id: this.currentUserSelectedGroup.id
+    });
+    this.reportConfigs$.subscribe(reportsList => {
+      if (
+        reportsList &&
+        reportsList['configs'] &&
+        reportsList['configs'].length > 0
+      ) {
+        this.selectedReport = reportsList['configs'][0];
+        this.isReportSet = true;
+      }
+    });
+  }
+
+  getReport(report) {
+    this.isReportSet = false;
+    this.selectedReport = report;
+    setTimeout(() => {
+      this.isReportSet = true;
+    }, 1000);
+  }
+
+  onSelectReportGroup(reportGroup) {
     this.store.dispatch(
-      loadReportsConfigurationsById({ reportId: this.selectedReportId })
+      loadReportsConfigurationsById({
+        reportId: reportGroup.id
+      })
     );
-    this.reportConfigs$ = this.store.select(getReportConfigsById, {
-      id: this.selectedReportId
-    });
-  }
 
-  getReportConfigs(id) {
-    this.selectedReportId = id;
-    this.store.dispatch(loadReportsConfigurationsById({ reportId: id }));
     this.reportConfigs$ = this.store.select(getReportConfigsById, {
-      id: id
+      id: reportGroup.id
     });
-    // this.reportConfigs$.subscribe(reportConfigs => {
-    //   if (reportConfigs && this.filtersSelected.length > 1) {
-    //     this.reportDimensions = [];
-    //     this.store.dispatch(resetIndicatorDataLoadedState());
-    //     this.selectedOus = _.filter(this.filtersSelected, {
-    //       dimension: 'ou'
-    //     })[0].items;
-    //     _.map(
-    //       _.filter(this.filtersSelected, { dimension: 'ou' })[0].items,
-    //       ouInfo => {
-    //         this.reportDimensions.push({
-    //           ou: ouInfo.id,
-    //           pe: getItems(
-    //             _.filter(this.filtersSelected, { dimension: 'pe' })[0].items
-    //           ),
-    //           dx: getIndicatorIds(reportConfigs['configs']['indicators']),
-    //           reportId: this.selectedReportId
-    //         });
-    //       }
-    //     );
-    //     this.store.dispatch(
-    //       loadIndicatorsData({ dimensions: this.reportDimensions })
-    //     );
-    //     this.reportEntities$ = this.store.select(getIndicatorAnalyticsEntities);
-    //     this.indicatorLoadedState$ = this.store.select(
-    //       getIndicatorAnalyticsLoadedState
-    //     );
-    //   }
-    // });
-  }
 
-  onFilterUpdate(filters) {
-    this.filtersSelected = filters;
-    this.reportConfigs$.subscribe(reportConfigs => {
-      // if (reportConfigs && filters.length > 1) {
-      //   this.reportDimensions = [];
-      //   this.store.dispatch(resetIndicatorDataLoadedState());
-      //   this.selectedOus = _.filter(filters, { dimension: 'ou' })[0].items;
-      //   _.map(_.filter(filters, { dimension: 'ou' })[0].items, ouInfo => {
-      //     this.reportDimensions.push({
-      //       ou: ouInfo.id,
-      //       pe: getItems(_.filter(filters, { dimension: 'pe' })[0].items),
-      //       dx: getIndicatorIds(reportConfigs['configs']['indicators']),
-      //       reportId: this.selectedReportId
-      //     });
-      //   });
-      //   this.store.dispatch(
-      //     loadIndicatorsData({ dimensions: this.reportDimensions })
-      //   );
-      //   this.reportEntities$ = this.store.select(getIndicatorAnalyticsEntities);
-      //   this.indicatorLoadedState$ = this.store.select(
-      //     getIndicatorAnalyticsLoadedState
-      //   );
-      // }
+    this.reportConfigs$.subscribe(reportsList => {
+      if (
+        reportsList &&
+        reportsList['configs'] &&
+        reportsList['configs'].length > 0
+      ) {
+        this.selectedReport = reportsList['configs'][0];
+      }
     });
   }
 }

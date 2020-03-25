@@ -76,6 +76,5 @@ export class CustomStandardReportsComponent implements OnInit {
       });
     }, 1000);
     this.filterSelections = selections;
-    console.log('selections', selections);
   }
 }

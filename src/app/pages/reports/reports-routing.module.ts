@@ -5,11 +5,6 @@ import { ReportsComponent } from './pages/reports/reports.component';
 const routes: Routes = [
   {
     path: '',
-    redirectTo: 'flour-improvers',
-    pathMatch: 'full'
-  },
-  {
-    path: ':id',
     component: ReportsComponent
   }
 ];

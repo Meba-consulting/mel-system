@@ -1,24 +1,26 @@
-<div class="row" style="margin-top: 18px;">
-  <div class="col-12" *ngIf="!(reportsList$ | async)">
+<div class="row">
+  <div class="col-12" *ngIf="!(currentUser$ | async)">
     <mat-progress-bar mode="indeterminate"></mat-progress-bar>
   </div>
   <div
-    class="col-md-3"
-    *ngIf="reportsList$ | async"
-    style="padding-left: 0px !important"
+    class="col-12"
+    *ngIf="currentUser$ | async"
+    style="padding: 0 !important; margin-bottom: 5px;"
   >
-    <ul
-      class="list-group"
-      *ngIf="(reportsList$ | async) && (currentUser$ | async)"
-    >
+    <app-reports-header
+      [reportsGroups]="(currentUser$ | async)?.userGroups"
+      (selectedReportGroup)="onSelectReportGroup($event)"
+    ></app-reports-header>
+  </div>
+  <div class="col-md-3" style="padding-left: 0px !important">
+    <ul class="list-group" *ngIf="reportConfigs$ | async">
       <li
         class="list-group-item"
-        routerLinkActive="active-report"
-        routerLink="/reports/{{ reportGroup.id }}"
-        *ngFor="let reportGroup of (currentUser$ | async)?.userGroups"
-        (click)="getReportConfigs(reportGroup.id)"
+        [ngClass]="{ 'selected-report': report.id == selectedReport.id }"
+        *ngFor="let report of (reportConfigs$ | async)?.configs"
+        (click)="getReport(report)"
       >
-        {{ reportGroup.name }}
+        {{ report.name }}
       </li>
     </ul>
     <hr />
@@ -34,37 +36,11 @@
       </li>
     </ul>
   </div>
-  <div class="col-md-9" *ngIf="reportsList$ | async">
-    <div style="width: 50%" *ngIf="reportConfigs$ | async">
-      <!-- <ngx-dhis2-selection-filters
-        [selectionFilterConfig]="selectionFilterConfig"
-        (filterUpdate)="onFilterUpdate($event)"
-      >
-      </ngx-dhis2-selection-filters> -->
-    </div>
-    <div>
+  <div class="col-md-9">
+    <div *ngIf="(reportConfigs$ | async) && selectedReport && isReportSet">
       <ngx-custom-standard-reports
-        [reportId]="'fortification-monthly-report'"
+        [reportId]="selectedReport.id"
       ></ngx-custom-standard-reports>
-    </div>
-    <div
-      style="margin-top: 20px; overflow: auto"
-      *ngIf="
-        (reportConfigs$ | async) &&
-        (reportConfigs$ | async)['configs'] &&
-        (reportConfigs$ | async)['configs']['htmlCodes']
-      "
-    >
-      <app-render-report
-        [report]="
-          (reportConfigs$ | async) ? (reportConfigs$ | async)['configs'] : ''
-        "
-        [customReportDesign]="
-          (reportConfigs$ | async)
-            ? (reportConfigs$ | async)['configs']['htmlCodes']
-            : ''
-        "
-      ></app-render-report>
     </div>
   </div>
 </div>

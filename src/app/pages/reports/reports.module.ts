@@ -8,9 +8,11 @@ import { EffectsModule } from '@ngrx/effects';
 import { effects } from './store/effects';
 import { RenderReportComponent } from './containers/render-report/render-report.component';
 import { ReportsSharedModule } from './shared/reports-shared.module';
+import { ReportsHeaderComponent } from './containers/reports-header/reports-header.component';
+import { CapitalizeItemNamePipe } from './pipes/capitalize-item-name.pipe';
 
 @NgModule({
-  declarations: [...pages, RenderReportComponent],
+  declarations: [...pages, RenderReportComponent, ReportsHeaderComponent, CapitalizeItemNamePipe],
   imports: [
     CommonModule,
     ReportsRoutingModule,

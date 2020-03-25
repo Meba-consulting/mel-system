@@ -1,0 +1,14 @@
+<div class="dashboard-menu-container no-print">
+  <ul
+    class="dashboard-groups"
+    *ngIf="reportsGroups && reportsGroups.length > 0"
+  >
+    <li
+      *ngFor="let reportGroup of reportsGroups"
+      [ngClass]="{ current: reportGroup.id === activeReportGroupId }"
+      (click)="onSetActiveReportGroup(reportGroup)"
+    >
+      {{ reportGroup.name | capitalizeItemName }}
+    </li>
+  </ul>
+</div>
