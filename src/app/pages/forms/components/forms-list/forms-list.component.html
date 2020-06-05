@@ -1,14 +1,10 @@
-<div *ngIf="!procedures || procedures.length == 0">
+<div *ngIf="!forms || forms.length == 0">
   <mat-progress-bar mode="indeterminate"></mat-progress-bar>
 </div>
 <div>
   <mat-form-field style="width: 30%">
     <mat-label>Search</mat-label>
-    <input
-      matInput
-      (keyup)="applyFilter($event)"
-      placeholder="Ex. procedure aaa"
-    />
+    <input matInput (keyup)="applyFilter($event)" placeholder="Ex. form aaa" />
   </mat-form-field>
   <table
     class="mat-elevation-z2"

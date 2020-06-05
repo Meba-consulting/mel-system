@@ -60,6 +60,7 @@ a {
 .tutorial ul li:hover {
   cursor: pointer;
   background-color: #4e9052;
+  outline: none;
 }
 .tutorial ul li:hover ul {
   display: block;
@@ -70,6 +71,7 @@ a {
 }
 .tutorial ul li:hover ul li {
   display: block;
+  outline: none;
 }
 .tutorial ul li:hover ul li:hover {
   outline: none;

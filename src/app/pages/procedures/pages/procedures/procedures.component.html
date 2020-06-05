@@ -1,16 +1,31 @@
 <div class="row" style="margin-top: 15px;" *ngIf="resourcesList$ | async">
   <div class="col-md-3" style="padding-left: 0px !important">
     <ul class="list-group">
+      <li class="list-group-item-header" style="border: none !important;">
+        Departments
+      </li>
       <li
         class="list-group-item"
         routerLinkActive="active-department"
-        (click)="setDocumentTypeId(procedure.id)"
+        (click)="setDocumentTypeId(procedure)"
         routerLink="/procedures/{{ procedure.id }}"
         *ngFor="let procedure of resourcesList$ | async"
       >
         {{ procedure.name }}
       </li>
     </ul>
+    <!-- <mat-nav-list>
+      <mat-list-item *ngFor="let procedure of resourcesList$ | async">
+        <a
+          routerLinkActive="active-department"
+          routerLink="/procedures/{{ procedure.id }}"
+          >{{ procedure.name }}</a
+        >
+        <button mat-icon-button (click)="setDocumentTypeId(procedure.id)">
+          <mat-icon>info</mat-icon>
+        </button>
+      </mat-list-item>
+    </mat-nav-list> -->
   </div>
   <div class="col-md-9" style="padding-right: 0px !important">
     <div *ngIf="!(resourcesList$ | async) || !isProcedureTypeIdSet">

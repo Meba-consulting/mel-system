@@ -48,39 +48,12 @@ export class ProceduresComponent implements OnInit {
     }, 100);
   }
 
-  setDocumentTypeId(id) {
+  setDocumentTypeId(procedure) {
     this.isProcedureTypeIdSet = false;
     setTimeout(() => {
-      this.documentId = id;
+      this.documentId = procedure.id;
       this.isProcedureTypeIdSet = true;
     }, 100);
     console.log(this.documentId);
-  }
-
-  getDocIds(docArr) {
-    let docStr = '';
-    docArr.forEach(doc => {
-      docStr += doc.id + ',';
-    });
-    return docStr;
-  }
-
-  selectRow(row) {
-    this.selectedDocumentId = row.id;
-    this.pdfSrc = '../../../api/documents/' + row.id + '/data';
-    this.isPreviewSet = true;
-  }
-
-  download() {
-    this.router.navigate([]).then(result => {
-      window.open(
-        '../../../api/documents/' + this.selectedDocumentId + '/data',
-        '_blank'
-      );
-    });
-  }
-
-  togglePreview() {
-    this.isPreviewSet = false;
   }
 }
