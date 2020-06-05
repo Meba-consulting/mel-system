@@ -8,9 +8,11 @@ import { reducers } from './store/reducers';
 import { effects } from './store/effects';
 import { EffectsModule } from '@ngrx/effects';
 import { PdfViewerModule } from 'ng2-pdf-viewer';
+import { ProceduresListComponent } from './components/procedures-list/procedures-list.component';
+import { DocumentsComponent } from './containers/documents/documents.component';
 
 @NgModule({
-  declarations: [...pages],
+  declarations: [...pages, ProceduresListComponent, DocumentsComponent],
   imports: [
     CommonModule,
     ProceduresRoutingModule,

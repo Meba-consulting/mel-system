@@ -17,6 +17,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatMenuModule } from '@angular/material/menu';
 
 import { modules } from './modules';
 import { NgxDhis2CustomFormsEntryModule } from '@iapps/ngx-dhis2-custom-forms-entry';
@@ -46,7 +47,8 @@ import { MatListModule } from '@angular/material/list';
     MatTooltipModule,
     MatIconModule,
     MatListModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    MatMenuModule
   ],
   exports: [
     NgxDhis2CustomFormsEntryModule,
@@ -69,7 +71,8 @@ import { MatListModule } from '@angular/material/list';
     MatTooltipModule,
     MatIconModule,
     MatListModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    MatMenuModule
   ],
   declarations: []
 })

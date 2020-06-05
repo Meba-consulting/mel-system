@@ -1,0 +1,11 @@
+<div
+  *ngIf="
+    (currentProcedures$ | async) &&
+    (currentProcedures$ | async)['documents'] &&
+    (currentProcedures$ | async)['documents'].length > 0
+  "
+>
+  <app-procedures-list
+    [procedures]="(currentProcedures$ | async)?.documents"
+  ></app-procedures-list>
+</div>
