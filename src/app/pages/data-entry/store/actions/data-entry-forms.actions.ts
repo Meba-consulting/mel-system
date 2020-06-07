@@ -14,3 +14,15 @@ export const loadingFormsByOuFails = createAction(
   '[Data entry forms] loaing forms fails by ou',
   props<{ error: any }>()
 );
+
+export const loadProgramMetadata = createAction('[Program] load program');
+
+export const addLoadedProgramMetadata = createAction(
+  '[Program] add loaded program',
+  props<{ programMetadata: any }>()
+);
+
+export const loadingProgramMetadataFails = createAction(
+  '[Program] loaing program fails',
+  props<{ error: any }>()
+);

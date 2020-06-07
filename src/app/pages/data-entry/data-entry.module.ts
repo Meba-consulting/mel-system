@@ -17,9 +17,10 @@ import { EventsEffects } from './store/effects/events.effects';
 import { RenderEventsComponent } from './pages/containers/render-events/render-events.component';
 import { EventTableComponent } from './pages/containers/render-events/event-table/event-table.component';
 import { FormsComponent } from './components/forms/forms.component';
+import { FormsListComponent } from './components/forms-list/forms-list.component';
 
 @NgModule({
-  declarations: [...pages, DataEntryComponent, RenderEventsComponent, EventTableComponent, FormsComponent],
+  declarations: [...pages, DataEntryComponent, RenderEventsComponent, EventTableComponent, FormsComponent, FormsListComponent],
   imports: [
     CommonModule,
     FormsModule,
