@@ -12,7 +12,7 @@ import { environment } from '../environments/environment';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
 import {
   RouterStateSerializer,
-  StoreRouterConnectingModule
+  StoreRouterConnectingModule, DefaultRouterStateSerializer
 } from '@ngrx/router-store';
 
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
@@ -79,7 +79,7 @@ import { NgxDhis2OrgUnitFilterModule } from '@iapps/ngx-dhis2-org-unit-filter';
     /**
      * @ngrx/router-store keeps router state up-to-date in the store
      */
-    StoreRouterConnectingModule.forRoot(),
+    StoreRouterConnectingModule.forRoot({ serializer: DefaultRouterStateSerializer }),
 
     /**
      * Module for registering ngrx store side effects
