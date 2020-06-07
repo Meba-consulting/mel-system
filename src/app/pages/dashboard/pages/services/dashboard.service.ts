@@ -25,7 +25,7 @@ export class DashboardService {
   }
 
   loadAll(dashboardSettings: DashboardSettings): Observable<Dashboard[]> {
-    console.log('dash settings', dashboardSettings);
+    // console.log('dash settings', dashboardSettings);
     return this.loadFromApi();
   }
 

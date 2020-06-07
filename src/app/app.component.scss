@@ -3,9 +3,10 @@
 }
 
 .active-class {
-  color: #fff;
+  color: #d4b61e;
+  outline: none;
   font-weight: 600 !important;
-  background-color: #4e9052;
+  background-color: transparent;
 }
 
 .footer {
@@ -22,10 +23,12 @@
 
 a:hover {
   color: #ffffff;
+  outline: none;
   text-decoration: none;
 }
 a {
   color: #000;
+  outline: none;
   text-decoration: none;
 }
 
@@ -60,7 +63,7 @@ a {
 .tutorial ul li:hover {
   cursor: pointer;
   background-color: #4e9052;
-  outline: none;
+  outline: none !important;
 }
 .tutorial ul li:hover ul {
   display: block;
