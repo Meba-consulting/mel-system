@@ -2,6 +2,15 @@
   <div class="row" style="background-color: #f3f3f363">
     <div
       class="col-md-12"
+      *ngIf="(currentUser$ | async) && (dataEntryFlowConfigs$ | async)"
+    >
+      <app-forms
+        [currentUser]="currentUser$ | async"
+        [dataEntryFlowConfigs]="dataEntryFlowConfigs$ | async"
+      ></app-forms>
+    </div>
+    <div
+      class="col-md-12"
       style="padding: 0 !important; margin-top: 15px"
       *ngIf="currentUserGroups && currentUserGroups.length > 0"
     >

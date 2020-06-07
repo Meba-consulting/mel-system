@@ -68,11 +68,11 @@ export class HomeComponent implements OnInit {
   dataInfo = [];
   elementsDataValues: any = {};
   trackerProgramId: string = '';
+  currentUser$: Observable<any>;
 
   dataEntrySelections = new DataEntrySelections('', '');
   dataEntryFlowConfigs$: Observable<any>;
   dataEntryFlowConfigs: any;
-  currentUser$: Observable<any>;
   currentUserGroups: Array<any> = [];
   dataEntryForms: Array<any> = [];
   trackedEntityInstances: Array<any> = [];
@@ -92,6 +92,7 @@ export class HomeComponent implements OnInit {
     private httpClient: NgxDhis2HttpClientService,
     private dataEntryService: DataEntryService
   ) {
+    this.currentUser$ = this.store.select(getCurrentUser);
     this.store.select(getCurrentUser).subscribe(user => {
       if (user) {
         console.log(user);
