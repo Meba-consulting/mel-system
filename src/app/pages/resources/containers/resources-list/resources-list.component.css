@@ -1,0 +1,27 @@
+#searching-input {
+  outline: none !important;
+  border: none;
+  width: 20%;
+  margin-right: 4px;
+  margin-bottom: 5px;
+  margin-top: 5px;
+  height: 30px;
+  padding: 0.005rem 0.55rem;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5;
+  color: #495057;
+  background-color: #fff;
+  background-clip: padding-box;
+  border-bottom: 1px solid #bebebe;
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+#searching-input:focus {
+  outline: none !important;
+}
+
+.table td {
+  padding: 0.25rem !important;
+  vertical-align: top;
+  border-top: 1px solid #dee2e6;
+}

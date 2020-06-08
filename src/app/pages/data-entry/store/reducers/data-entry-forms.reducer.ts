@@ -7,7 +7,10 @@ import {
 import {
   loadDataEntryFormsByOu,
   loadingFormsByOuFails,
-  addSuccessLoadedFormsByOu
+  addSuccessLoadedFormsByOu,
+  loadProgramMetadata,
+  addLoadedProgramMetadata,
+  loadingProgramMetadataFails
 } from '../actions';
 import {
   loadingBaseState,
@@ -27,6 +30,17 @@ export const reducer = createReducer(
   on(loadingFormsByOuFails, (state, { error }) => ({
     ...state,
     ...errorBaseState,
+    error
+  })),
+  on(loadProgramMetadata, state => ({
+    ...state
+  })),
+  on(addLoadedProgramMetadata, (state, { programMetadata }) => ({
+    ...state,
+    programMetadata
+  })),
+  on(loadingProgramMetadataFails, (state, { error }) => ({
+    ...state,
     error
   }))
 );

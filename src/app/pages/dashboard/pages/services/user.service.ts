@@ -13,7 +13,7 @@ export class UserService {
    */
   loadCurrentUser(): Observable<User> {
     return this.httpClient
-      .get(`me.json?fields=id,name,displayName,created,lastUpdated,email,
+      .get(`me.json?fields=id,name,displayName,created,lastUpdated,email,userGroups[*],
     dataViewOrganisationUnits[id,name,level],organisationUnits[id,name,level],userCredentials[username],userGroups[id,name],*`);
   }
 }

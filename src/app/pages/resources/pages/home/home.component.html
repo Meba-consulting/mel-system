@@ -1,0 +1,28 @@
+<div style="height: 100vh;background-color: #FFF;" class="row">
+  <div class="col-md-12">
+    <mat-tab-group
+      mat-align-tabs="start"
+      *ngIf="
+        (resources$ | async) &&
+        (resources$ | async).length > 0 &&
+        (currentUser$ | async)
+      "
+    >
+      <mat-tab label="Forms">
+        <app-forms
+          [resources]="resources$ | async"
+          [currentUser]="currentUser$ | async"
+        ></app-forms>
+      </mat-tab>
+      <mat-tab label="Procedures">
+        <app-procedures
+          [resources]="resources$ | async"
+          [currentUser]="currentUser$ | async"
+        ></app-procedures>
+      </mat-tab>
+    </mat-tab-group>
+  </div>
+</div>
+<div *ngIf="!(resources$ | async) || !(currentUser$ | async)">
+  <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+</div>

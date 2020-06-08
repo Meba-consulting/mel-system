@@ -30,11 +30,9 @@ const routes: Routes = [
       import('./pages/contacts/contacts.module').then(m => m.ContactsModule)
   },
   {
-    path: 'procedures',
+    path: 'resources',
     loadChildren: () =>
-      import('./pages/procedures/procedures.module').then(
-        m => m.ProceduresModule
-      )
+      import('./pages/resources/resources.module').then(m => m.ResourcesModule)
   },
   {
     path: 'forms',

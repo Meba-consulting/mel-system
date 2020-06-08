@@ -6,6 +6,12 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class DataEntryService {
+  getProgramMetadata(): Observable<any> {
+    return this.httpClient.get(
+      'programs/IzEQE6HnpoC.json?fields=id,name,dataEntryForm[id,name,htmlCode],programTrackedEntityAttributes[id,name,code,valueType],programStages[userGroupAccesses[*],id,name,dataEntryForm[id,htmlCode],programStageDataElements[dataElement[id,name,code,valueType,optionSet[id,name,options[id,name,code]]]]]'
+    );
+  }
+
   getFormsByOu(ou): Observable<any> {
     return this.httpClient.get(
       'organisationUnits/' +

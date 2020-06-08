@@ -1,0 +1,28 @@
+<div class="container-fluid">
+  <div class="row" *ngIf="formsGroups">
+    <div class="col-md-3">
+      <ul class="list-group">
+        <li class="list-group-item-header" style="border: none !important;">
+          Departments
+        </li>
+        <li
+          class="list-group-item"
+          [ngClass]="{
+            'active-department': currentResourceGroup.id == form.id
+          }"
+          (click)="onSetCurrentResourceGroup(form)"
+          *ngFor="let form of formsGroups"
+        >
+          {{ form.name }}
+        </li>
+      </ul>
+    </div>
+    <div class="col-md-9">
+      <app-resources-list
+        [resources]="forms[currentResourceGroup.id]"
+        [currentUser]="currentUser"
+      >
+      </app-resources-list>
+    </div>
+  </div>
+</div>

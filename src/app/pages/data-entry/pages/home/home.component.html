@@ -2,11 +2,16 @@
   <div class="row" style="background-color: #f3f3f363">
     <div
       class="col-md-12"
-      *ngIf="(currentUser$ | async) && (dataEntryFlowConfigs$ | async)"
+      *ngIf="
+        (currentUser$ | async) &&
+        (dataEntryFlowConfigs$ | async) &&
+        (programMetadata$ | async)
+      "
     >
       <app-forms
         [currentUser]="currentUser$ | async"
         [dataEntryFlowConfigs]="dataEntryFlowConfigs$ | async"
+        [programMetadata]="programMetadata$ | async"
       ></app-forms>
     </div>
     <div

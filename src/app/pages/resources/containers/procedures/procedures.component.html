@@ -1,0 +1,28 @@
+<div class="container-fluid">
+  <div class="row" *ngIf="procedureGroups">
+    <div class="col-md-3">
+      <ul class="list-group">
+        <li class="list-group-item-header" style="border: none !important;">
+          Departments
+        </li>
+        <li
+          class="list-group-item"
+          [ngClass]="{
+            'active-department': currentResourceGroup.id == procedure.id
+          }"
+          (click)="onSetCurrentResourceGroup(procedure)"
+          *ngFor="let procedure of procedureGroups"
+        >
+          {{ procedure.name }}
+        </li>
+      </ul>
+    </div>
+    <div class="col-md-9">
+      <app-resources-list
+        [resources]="procedures[currentResourceGroup.id]"
+        [currentUser]="currentUser"
+      >
+      </app-resources-list>
+    </div>
+  </div>
+</div>

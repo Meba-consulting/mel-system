@@ -4,7 +4,10 @@ import { DataEntryService } from '../../services/data-entry.service';
 import {
   loadDataEntryFormsByOu,
   loadingFormsByOuFails,
-  addSuccessLoadedFormsByOu
+  addSuccessLoadedFormsByOu,
+  loadProgramMetadata,
+  addLoadedProgramMetadata,
+  loadingProgramMetadataFails
 } from '../actions';
 import { switchMap, catchError, map } from 'rxjs/operators';
 import { of } from 'rxjs';
@@ -22,6 +25,18 @@ export class DataEntryFormsEffects {
             })
           ),
           catchError(error => of(loadingFormsByOuFails({ error })))
+        )
+      )
+    )
+  );
+
+  programMetadata$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(loadProgramMetadata),
+      switchMap(() =>
+        this.dataEntryService.getProgramMetadata().pipe(
+          map(programMetadata => addLoadedProgramMetadata({ programMetadata })),
+          catchError(error => of(loadingProgramMetadataFails({ error })))
         )
       )
     )

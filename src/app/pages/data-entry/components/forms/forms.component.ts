@@ -8,7 +8,7 @@ import { Component, OnInit, Input } from '@angular/core';
 export class FormsComponent implements OnInit {
   @Input() currentUser: any;
   @Input() dataEntryFlowConfigs: any;
-  @Input() programsMetadata: any;
+  @Input() programMetadata: any;
   constructor() {}
 
   ngOnInit(): void {}

@@ -4,10 +4,14 @@ import { State } from 'src/app/store/reducers';
 import {
   loadDataEntryFormsByOu,
   loadDataEntryFlow,
-  loadEvents
+  loadEvents,
+  loadProgramMetadata
 } from '../../store/actions';
 import { Observable } from 'rxjs';
-import { getDataEntryFormsByOuId } from '../../store/selectors';
+import {
+  getDataEntryFormsByOuId,
+  getProgramMetadata
+} from '../../store/selectors';
 
 import * as _ from 'lodash';
 import { DataEntrySelections } from '../../modals/data-entry-selections';
@@ -86,13 +90,16 @@ export class HomeComponent implements OnInit {
   isReportSet: Boolean = false;
 
   eventsForReports$: Observable<any>;
+  programMetadata$: Observable<any>;
 
   constructor(
     private store: Store<State>,
     private httpClient: NgxDhis2HttpClientService,
     private dataEntryService: DataEntryService
   ) {
+    this.store.dispatch(loadProgramMetadata());
     this.currentUser$ = this.store.select(getCurrentUser);
+    this.programMetadata$ = this.store.select(getProgramMetadata);
     this.store.select(getCurrentUser).subscribe(user => {
       if (user) {
         console.log(user);
