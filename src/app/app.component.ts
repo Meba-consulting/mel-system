@@ -34,6 +34,7 @@ export class AppComponent implements OnInit {
   isChatSet: boolean = false;
   selectedUsername: string = '';
   currentUserUsername: string;
+  currentDashboardId: string;
   constructor(
     private store: Store<State>,
     private translate: TranslateService,
@@ -46,8 +47,6 @@ export class AppComponent implements OnInit {
 
   ngOnInit() {
     // initialize function analytics
-
-    console.log(this.route.snapshot.params);
     if (Fn) {
       Fn.init({
         baseUrl: '../../../api/'
@@ -63,7 +62,7 @@ export class AppComponent implements OnInit {
         let currentDashboard = localStorage.getItem(
           'dhis2.dashboard.current.' + currentUserInfo.userCredentials.username
         );
-        console.log('currentDashboard', currentDashboard);
+        this.currentDashboardId = currentDashboard;
       }
     });
 

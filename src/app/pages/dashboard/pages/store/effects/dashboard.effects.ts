@@ -65,6 +65,7 @@ import {
 } from '../selectors';
 import { getDashboardSettings } from '../selectors/dashboard-settings.selectors';
 import { State, getCurrentUser, getRouteUrl, Go } from 'src/app/store';
+import { Router } from '@angular/router';
 
 // ngrx store
 // Services import
@@ -412,6 +413,7 @@ export class DashboardEffects {
   constructor(
     private actions$: Actions,
     private store: Store<State>,
-    private dashboardService: DashboardService
+    private dashboardService: DashboardService,
+    private router: Router
   ) {}
 }

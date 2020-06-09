@@ -1,0 +1,28 @@
+<div
+  *ngIf="(userGroup$ | async) && (currentUser$ | async) && action !== 'edit'"
+>
+  <app-resource-form
+    [resourceGroup]="userGroup$ | async"
+    [action]="action"
+    [resource]="currentResource$ | async"
+    [currentUser]="currentUser$ | async"
+  ></app-resource-form>
+</div>
+<div
+  *ngIf="
+    (userGroup$ | async) &&
+    (currentResource$ | async) &&
+    action == 'edit' &&
+    (currentUser$ | async)
+  "
+>
+  <app-edit-resource
+    [resourceGroup]="userGroup$ | async"
+    [action]="action"
+    [resource]="currentResource$ | async"
+    [currentUser]="currentUser$ | async"
+  ></app-edit-resource>
+</div>
+<div *ngIf="!(userGroup$ | async)">
+  <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+</div>

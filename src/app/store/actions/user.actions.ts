@@ -11,7 +11,10 @@ export enum UserActionTypes {
   LoadCurrentUserFail = '[User] Load Current User fail',
   LoadSystemUsers = '[User] load system users',
   AddSystemUsers = '[User] add system users',
-  LoadingSystemUsersFail = '[User] loading system users fail'
+  LoadingSystemUsersFail = '[User] loading system users fail',
+  LoadUserGroup = '[User] load user group',
+  AddUserGroup = '[User] add user group',
+  LoadingUserGroupFails = '[User] loading user group fail'
 }
 
 export class LoadCurrentUser implements Action {
@@ -45,10 +48,28 @@ export class LoadingSystemUsersFail implements Action {
   constructor(public error: ErrorMessage) {}
 }
 
+export class LoadUserGroup implements Action {
+  readonly type = UserActionTypes.LoadUserGroup;
+  constructor(public id: string) {}
+}
+
+export class AddUserGroup implements Action {
+  readonly type = UserActionTypes.AddUserGroup;
+  constructor(public userGroup: any) {}
+}
+
+export class LoadingUserGroupFails implements Action {
+  readonly type = UserActionTypes.LoadingUserGroupFails;
+  constructor(public error: ErrorMessage) {}
+}
+
 export type UserActions =
   | LoadCurrentUser
   | AddCurrentUser
   | LoadCurrentUserFail
   | LoadSystemUsers
   | AddSystemUsers
-  | LoadingSystemUsersFail;
+  | LoadingSystemUsersFail
+  | LoadUserGroup
+  | AddUserGroup
+  | LoadingUserGroupFails;

@@ -18,11 +18,14 @@
       </ul>
     </div>
     <div class="col-md-9">
-      <app-resources-list
-        [resources]="forms[currentResourceGroup.id]"
-        [currentUser]="currentUser"
-      >
-      </app-resources-list>
+      <div *ngIf="isFormSelectionSet">
+        <app-resources-list
+          [resources]="forms[currentResourceGroup.id]"
+          [currentUser]="currentUser"
+          [userGroup]="currentResourceGroup"
+        >
+        </app-resources-list>
+      </div>
     </div>
   </div>
 </div>

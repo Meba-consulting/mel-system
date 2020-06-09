@@ -9,7 +9,8 @@ export function formatResourcesForDataTable(items) {
       type: item.external ? 'Link' : 'File',
       action: {
         url: item.external ? item.url : item.href + '/data',
-        external: item.external
+        external: item.external,
+        id: item.id
       }
     });
   });

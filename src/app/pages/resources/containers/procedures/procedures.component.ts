@@ -15,6 +15,7 @@ export class ProceduresComponent implements OnInit {
   procedureGroups: any;
   currentResourceGroup: any;
   procedures: any;
+  isFormSelectionSet: boolean = false;
   constructor() {}
 
   ngOnInit(): void {
@@ -24,9 +25,19 @@ export class ProceduresComponent implements OnInit {
       this.procedureGroups,
       this.resources
     );
+    this.isFormSelectionSet = true;
   }
 
   onSetCurrentResourceGroup(group) {
     this.currentResourceGroup = group;
+    this.isFormSelectionSet = false;
+    this.currentResourceGroup = group;
+    setTimeout(() => {
+      this.procedures = formatResourcesByAccess(
+        this.procedureGroups,
+        this.resources
+      );
+      this.isFormSelectionSet = true;
+    }, 100);
   }
 }

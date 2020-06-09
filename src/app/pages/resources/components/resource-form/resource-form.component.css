@@ -1,0 +1,13 @@
+.form {
+  width: 100%;
+}
+
+.form-element {
+  padding: 5px;
+  min-width: 20%;
+  margin-right: 4px;
+}
+
+.detail-type h4 {
+  color: #000000ad;
+}

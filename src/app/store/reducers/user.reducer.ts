@@ -26,6 +26,8 @@ export interface UserState extends EntityState<User> {
   error: ErrorMessage;
 
   users: any;
+
+  currentUserGroupOnResources: any;
 }
 
 export const adapter: EntityAdapter<User> = createEntityAdapter<User>();
@@ -36,7 +38,8 @@ export const initialState: UserState = adapter.getInitialState({
   loaded: false,
   hasError: false,
   error: null,
-  users: null
+  users: null,
+  currentUserGroupOnResources: []
 });
 
 export function userReducer(
@@ -82,6 +85,22 @@ export function userReducer(
         ...state,
         hasError: true,
         error: action.error
+      };
+    }
+
+    case UserActionTypes.LoadUserGroup: {
+      return {
+        ...state
+      };
+    }
+
+    case UserActionTypes.AddUserGroup: {
+      return {
+        ...state,
+        currentUserGroupOnResources: [
+          ...state.currentUserGroupOnResources,
+          ...action.userGroup
+        ]
       };
     }
 

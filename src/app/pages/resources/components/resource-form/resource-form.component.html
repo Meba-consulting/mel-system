@@ -1,0 +1,86 @@
+<div style="margin-top: 20px" class="row">
+  <div class="col-md-6">
+    <form>
+      <div class="form-group">
+        <input
+          placeholder="Name"
+          class="form-control"
+          name="name"
+          [(ngModel)]="name"
+          (change)="setNameStatus()"
+        />
+        <span style="color: red;font-style: italic" *ngIf="nameIsEmpty"
+          >No name specified</span
+        >
+      </div>
+      <div class="form-check form-check-inline">
+        <input
+          class="form-check-input"
+          (change)="onChangeResourceType('link')"
+          [(ngModel)]="resourceType"
+          type="radio"
+          name="resourceType"
+          id="resourceType1"
+          value="link"
+        />
+        <label class="form-check-label" for="resourceType1">Link</label>
+      </div>
+      <div class="form-check form-check-inline">
+        <input
+          class="form-check-input"
+          (change)="onChangeResourceType('document')"
+          [(ngModel)]="resourceType"
+          type="radio"
+          name="resourceType"
+          id="resourceType2"
+          value="document"
+        />
+        <label class="form-check-label" for="resourceType2"
+          >Document/File</label
+        >
+      </div>
+      <br /><br />
+      <div *ngIf="resourceType == 'document'">
+        <!-- <input
+          formControlName="file"
+          id="file"
+          type="file"
+          multiple
+          class="form-control"
+          (change)="onFileChange($event)"
+        /> -->
+        <input
+          type="file"
+          style="border: none; background-color: transparent"
+          class="form-control"
+          name="file"
+          id="fileSelector"
+          (change)="fileSelection($event)"
+        /><span *ngIf="requiredField" style="color: red;font-style: italic">
+          Required
+        </span>
+      </div>
+      <div class="form-group" *ngIf="resourceType === 'link'">
+        <input
+          class="form-control"
+          (change)="setUrlStatus()"
+          placeholder="Url: eg. https://example.com"
+          name="url"
+          [(ngModel)]="url"
+        /><span *ngIf="requiredField" style="color: red;font-style: italic">
+          Required
+        </span>
+      </div>
+    </form>
+
+    <br />
+    <button class="btn btn-primary" (click)="saveResource()">Save</button>&nbsp;
+    <button
+      class="btn btn-danger"
+      id="cancel"
+      routerLink="/resources/documents"
+    >
+      Cancel
+    </button>
+  </div>
+</div>

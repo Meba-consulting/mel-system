@@ -8,6 +8,7 @@ import {
   getResources,
   getResourcesLoadingState
 } from '../../store/selectors/resources.selector';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -18,12 +19,13 @@ export class HomeComponent implements OnInit {
   resources$: Observable<any>;
   currentUser$: Observable<any>;
   loadingState$: Observable<boolean>;
-  constructor(private store: Store<State>) {
+  constructor(private store: Store<State>, private route: ActivatedRoute) {
     this.currentUser$ = this.store.select(getCurrentUser);
-    this.store.dispatch(loadResources());
+    this.store.dispatch(loadResources({ reload: false }));
   }
 
   ngOnInit(): void {
+    // console.log(this.route.snapshot.queryParams);
     this.store.select(getResourcesLoadingState);
     this.resources$ = this.store.select(getResources);
   }

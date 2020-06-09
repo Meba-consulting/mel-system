@@ -1,6 +1,9 @@
 import { createAction, props } from '@ngrx/store';
 
-export const loadResources = createAction('[Resources] load resources');
+export const loadResources = createAction(
+  '[Resources] load resources',
+  props<{ reload: boolean }>()
+);
 
 export const addLoadedResources = createAction(
   '[Resources] add loaded resources',

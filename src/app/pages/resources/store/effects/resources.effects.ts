@@ -17,19 +17,22 @@ export class ResourcesEffects {
   resources$ = createEffect(() =>
     this.actions$.pipe(
       ofType(loadResources),
-      withLatestFrom(this.store.select(getResources)),
-      switchMap(([ation, resources]: [any, Array<any>]) => {
-        if (resources && resources.length > 0) {
-          return from([]);
-        } else {
-          return this.resourceService.getResources().pipe(
-            map(documents =>
-              addLoadedResources({ resources: documents['documents'] })
-            ),
-            catchError(error => of(loadingResourcesFail({ error })))
-          );
-        }
-      })
+      switchMap(action =>
+        //{
+        // if (resources && resources.length > 0 && !action.reload) {
+        //   return from([]);
+        // } else {
+        //   return
+        // }
+        //return
+        //}
+        this.resourceService.getResources().pipe(
+          map(documents =>
+            addLoadedResources({ resources: documents['documents'] })
+          ),
+          catchError(error => of(loadingResourcesFail({ error })))
+        )
+      )
     )
   );
   constructor(

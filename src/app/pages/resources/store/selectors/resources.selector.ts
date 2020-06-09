@@ -19,3 +19,20 @@ export const getResources = createSelector(
   getResourcesState,
   (state: ResourcesState) => state.resources
 );
+
+export const getLoadedUserGroupsEntities = createSelector(
+  getResourcesState,
+  (state: any) =>
+    state.resources.reduce(
+      (resources, resource) => ({
+        ...resources,
+        [resource.id]: resource
+      }),
+      {}
+    )
+);
+
+export const getResourceById = createSelector(
+  getLoadedUserGroupsEntities,
+  (entities, props) => entities[props.id]
+);

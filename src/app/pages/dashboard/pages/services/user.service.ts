@@ -16,4 +16,8 @@ export class UserService {
       .get(`me.json?fields=id,name,displayName,created,lastUpdated,email,userGroups[*],
     dataViewOrganisationUnits[id,name,level],organisationUnits[id,name,level],userCredentials[username],userGroups[id,name],*`);
   }
+
+  getUserGroup(id): Observable<any> {
+    return this.httpClient.get('userGroups/' + id + '.json?fields=*');
+  }
 }

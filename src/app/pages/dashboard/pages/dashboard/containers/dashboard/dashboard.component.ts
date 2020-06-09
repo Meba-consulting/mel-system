@@ -71,7 +71,6 @@ export class DashboardComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    console.log('params', this.route.snapshot.params);
     // initialize dashboads settings
     this.store.dispatch(new InitializeDashboardSettingsAction());
     this.store.dispatch(new LoadFunctions());
