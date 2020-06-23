@@ -6,9 +6,12 @@ export function createDataValuesObject(data) {
 export function formatAttributesValues(data) {
   let newData = [];
   _.map(data, entityAttribute => {
+    console.log('entityAttribute', entityAttribute);
     let values = {};
     values['created'] = entityAttribute['created'];
     values['updated'] = entityAttribute['lastUpdated'];
+    values['id'] =
+      entityAttribute['trackedEntityInstance'] + '-trackedEntityInstance';
 
     _.map(entityAttribute['attributes'], attr => {
       values[attr['attribute']] = attr['value'];
@@ -61,7 +64,6 @@ export function createEventsDataValuesObject(dataElements, events) {
     });
     data.push(values);
   });
-  console.log('data', data);
   return {
     headers: _.take(_.uniqBy(headers, 'id'), 15),
     data: data
@@ -155,4 +157,18 @@ export function createArrayOfObjectByHeadersAndDataValues(headers, dataValues) {
     dataValuesForTable.push(dataForOneEvent);
   });
   return dataValuesForTable;
+}
+
+export function createBatchs(trackedEntityInstances) {
+  let batchs = [];
+  _.each(trackedEntityInstances, trackedEntityInstance => {
+    batchs.push({
+      id: trackedEntityInstance.trackedEntityInstance,
+      name: _.filter(trackedEntityInstance['attributes'], {
+        attribute: 'uj1YTZ099cu'
+      })[0]['value'],
+      date: trackedEntityInstance['created']
+    });
+  });
+  return batchs;
 }

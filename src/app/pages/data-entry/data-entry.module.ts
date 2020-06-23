@@ -19,9 +19,10 @@ import { EventTableComponent } from './pages/containers/render-events/event-tabl
 import { FormsComponent } from './components/forms/forms.component';
 import { FormsListComponent } from './components/forms-list/forms-list.component';
 import { EventsListComponent } from './components/events-list/events-list.component';
+import { BatchControlComponent } from './components/batch-control/batch-control.component';
 
 @NgModule({
-  declarations: [...pages, DataEntryComponent, RenderEventsComponent, EventTableComponent, FormsComponent, FormsListComponent, EventsListComponent],
+  declarations: [...pages, DataEntryComponent, RenderEventsComponent, EventTableComponent, FormsComponent, FormsListComponent, EventsListComponent, BatchControlComponent],
   imports: [
     CommonModule,
     FormsModule,

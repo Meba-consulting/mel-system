@@ -81,7 +81,11 @@
           selectedOu
         "
       >
-        <select
+        <app-batch-control
+          [trackedEntityInstances]="trackedEntityInstances"
+          (selectedItem)="onSelectBatch($event)"
+        ></app-batch-control>
+        <!-- <select
           class="form-control"
           (change)="createDataObject($event.target.value, dataEntryFlowConfigs)"
           [(ngModel)]="dataEntrySelections.batchNo"
@@ -93,7 +97,7 @@
             *ngFor="let trackedEntityInstance of trackedEntityInstances"
             >{{ trackedEntityInstance['created'] | date }}</option
           >
-        </select>
+        </select> -->
       </div>
       <div
         style="min-width: 10%; float: left; margin-left: 10px;"
@@ -191,6 +195,7 @@
       <app-events-list
         [dataValues]="eventValues"
         [headers]="entityAttributeHeaders"
+        (eventSet)="onEventSet($event)"
       ></app-events-list>
     </div>
     <div

@@ -1,0 +1,60 @@
+<button
+  mat-stroked-button
+  title="Select dataset"
+  (click)="toggleCurrentFilter($event)"
+>
+  <i class="fa fa-list"></i>{{ itemType }}
+  <span class="badge badge-secondary" *ngIf="selectedItem">
+    {{ selectedItem.name }}
+  </span>
+  <i
+    class="fa {{ showSelections == true ? 'fa-caret-up' : 'fa-caret-down' }}"
+  ></i>
+</button>
+<div *ngIf="showSelections">
+  <!-- <label style="margin-bottom: 0 !important; color: #666">Select dataset</label>
+  <mat-form-field class="dataset-form-full-width" style="margin-top: -1rem">
+    <mat-select
+      (selectionChange)="onSelectionChange($event)"
+      name="searchString"
+    >
+      <ngx-mat-select-search
+        [(ngModel)]="searchString"
+        [placeholderLabel]="'Search...'"
+        [noEntriesFoundLabel]="'Not found'"
+        name="search"
+      ></ngx-mat-select-search>
+      <mat-option
+        *ngFor="let dataSet of dataSets | stringFilterBy: searchString"
+        [value]="dataSet.id"
+      >
+        {{ dataSet.name }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field> -->
+
+  <div class="mat-elevation-z1 list-items p-2">
+    <mat-form-field class="w-100">
+      <mat-label>Search</mat-label>
+      <input matInput (keyup)="onSearch($event)" />
+    </mat-form-field>
+    <div class="list-contents">
+      <mat-nav-list>
+        <a
+          mat-list-item
+          (click)="onSelectDataSet(item)"
+          *ngFor="let item of dataSets | stringFilterBy: searchString"
+          >{{ item.name }}
+          <em *ngIf="item['date']" style="margin-left: 10px;font-size: 0.6rem;"
+            >({{ item['date'] | date }}})</em
+          ></a
+        >
+      </mat-nav-list>
+    </div>
+    <div class="d-flex justify-content-end mt-2">
+      <button mat-stroked-button (click)="$event.stopPropagation(); onClose()">
+        Close
+      </button>
+    </div>
+  </div>
+</div>

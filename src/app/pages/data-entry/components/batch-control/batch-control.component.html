@@ -1,0 +1,7 @@
+<div *ngIf="batches">
+  <ngx-select-filter
+    [dataSets]="batches"
+    [itemType]="'Batch'"
+    (selectedDataSet)="onDataSetSelectionChanged($event)"
+  ></ngx-select-filter>
+</div>

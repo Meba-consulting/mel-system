@@ -307,7 +307,7 @@ export class HomeComponent implements OnInit {
   onEventSet(id) {
     console.log('evevnt id', id);
     this.currentEvent = id;
-    if (id) {
+    if (id && id.indexOf('trackedEntityInstance') == -1) {
       this.elementsDataValues = {};
       console.log('changed route to view event');
       // load event data and format them
@@ -573,11 +573,11 @@ export class HomeComponent implements OnInit {
     this.currentEvent = '';
   }
 
-  createDataObject(id, dataEntryFlowConfigs) {
+  onSelectBatch(item) {
     this.isDefaultDataSet = false;
-    this.selectedTrackedEntityInstance = id;
-
-    console.log('events values', this.eventValues);
+    this.selectedTrackedEntityInstance = item.id;
+    this.dataEntrySelections.batchNo = item.name;
+    console.log('trackedEntityInstance', this.selectedTrackedEntityInstance);
     console.log('configs ', this.dataEntryFlowConfigs['referencedDataConfigs']);
 
     _.map(
@@ -589,7 +589,7 @@ export class HomeComponent implements OnInit {
           id: this.selectedProgram.id + '-' + dataConfigs['id'] + '-val',
           value: _.filter(
             _.filter(this.trackedEntityInstances, {
-              trackedEntityInstance: id
+              trackedEntityInstance: item.id
             })[0]['attributes'],
             { attribute: dataConfigs['correspondingId'] }
           )[0]['value']
