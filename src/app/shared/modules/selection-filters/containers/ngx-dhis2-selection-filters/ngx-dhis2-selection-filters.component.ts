@@ -115,6 +115,7 @@ export class NgxDhis2SelectionFiltersComponent implements OnInit {
   }
 
   private _setSelectionParameters() {
+    console.log('dataSelections', this.dataSelections);
     // get selected periods
     const periodObject = _.find(this.dataSelections || [], ['dimension', 'pe']);
     this.selectedPeriods = periodObject ? periodObject.items : [];

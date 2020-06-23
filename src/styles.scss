@@ -1,5 +1,6 @@
 /* You can add global styles to this file, and also import other style files */
 @import '~bootstrap/scss/bootstrap.scss';
+@import '~material-design-icons/iconfont/material-icons.css';
 
 ::-webkit-scrollbar {
   width: 6px;
@@ -52,5 +53,11 @@
   transform: scale(1.1);
 }
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family: Roboto, 'Helvetica Neue', sans-serif;
+}

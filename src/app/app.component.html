@@ -4,18 +4,22 @@
       <div class="col-md-12">
         <div
           class="tutorial"
-          style="background-color: #457B49; 
+          style="background-color: #67CCBD; 
     border-bottom: solid 2px #414498; height: 145px; color: #FFF; top: 0; z-index: 1200;"
         >
           <div class="header-banner" style="width: 100%;">
             <div style="float: left; width: 10%">
-              <img height="20" src="../assets/img/bakhresa_mills_logo.png" />
+              <img height="80" width="180" src="assets/img/ssb_logo.png" />
             </div>
             <div style="float: left; width: 80%">
-              <h4 style="text-align: center !important">
-                Said Salim Bakhresa & Co. LTD Integrated Management System
+              <h2 style="text-align: center !important;">
+                Integrated Management System
+              </h2>
+              <h4
+                style="text-align: center !important; color: #CA8C63; font-weight: 600"
+              >
+                SSB IMS
               </h4>
-              <h4 style="text-align: center !important">SSB IMS</h4>
             </div>
             <div style="float: right; width: 10%">
               <a
@@ -28,14 +32,14 @@
           </div>
           <div>
             <ul style="padding: 0 !important">
-              <li [routerLink]="'/home'" routerLinkActive="active-class">
+              <li style="cursor:none" routerLinkActive="active-class">
                 Home
               </li>
               <li [routerLink]="'/dashboards/'" routerLinkActive="active-class">
                 Dashboard
               </li>
               <li [routerLink]="'/resources'" routerLinkActive="active-class">
-                Resources
+                Documents
               </li>
               <!-- <li [routerLink]="'/procedures'" routerLinkActive="active-class">
                 Procedures/instructions/process flow
@@ -46,15 +50,16 @@
               <li [routerLink]="'/data-entry'" routerLinkActive="active-class">
                 Data entry
               </li>
-              <li [routerLink]="'/reports'" routerLinkActive="active-class">
+              <li routerLinkActive="active-class" style="cursor:none">
                 Reports
               </li>
-              <li
-                style="float: right"
-                [routerLink]="'/contacts'"
-                routerLinkActive="active-class"
-              >
-                Contacts
+              <li *ngIf="viewMaintenance" style="float: right">
+                <a
+                  style="color: #FFF; text-decoration: none"
+                  href="../../../dhis-web-dashboard/index.html#/"
+                  target="_blankc"
+                  >Maintenance</a
+                >
               </li>
             </ul>
           </div>
@@ -65,7 +70,7 @@
       <div class="col-md-12">
         <router-outlet></router-outlet>
         <div
-          style="bottom: 0; right: 0; position: fixed; z-index: 200; width: 80%"
+          style="bottom: 0; right: 0; position: fixed; z-index: 200; width: 40%"
           *ngIf="users$ | async"
         >
           <div

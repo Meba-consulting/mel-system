@@ -8,7 +8,7 @@ import { Observable } from 'rxjs';
 export class DataEntryService {
   getProgramMetadata(): Observable<any> {
     return this.httpClient.get(
-      'programs/IzEQE6HnpoC.json?fields=id,name,dataEntryForm[id,name,htmlCode],programTrackedEntityAttributes[id,name,code,valueType],programStages[userGroupAccesses[*],id,name,dataEntryForm[id,htmlCode],programStageDataElements[dataElement[id,name,code,valueType,optionSet[id,name,options[id,name,code]]]]]'
+      'programs/IzEQE6HnpoC.json?fields=id,userGroupAccesses[*],programIndicators[id,name],name,dataEntryForm[id,name,htmlCode],programTrackedEntityAttributes[id,name,code,valueType],programStages[sortOrder,userGroupAccesses[*],id,name,dataEntryForm[id,htmlCode],programStageDataElements[dataElement[id,name,code,valueType,optionSet[id,name,options[id,name,code]]]]]'
     );
   }
 
@@ -32,6 +32,10 @@ export class DataEntryService {
         dimension.stage +
         '&order=lastUpdated:desc&paging=false'
     );
+  }
+
+  getEventDataById(eventId): Observable<any> {
+    return this.httpClient.get('events/' + eventId + '.json');
   }
 
   saveTrackedEntityInstances(data): Observable<any> {
@@ -79,6 +83,12 @@ export class DataEntryService {
     return this.httpClient.post('events', data);
   }
 
+  getBasicOuDetails(id): Observable<any> {
+    return this.httpClient.get(
+      'organisationUnits/' + id + '.json?fields=id,name,level'
+    );
+  }
+
   getEventsData(dimension): Observable<any> {
     return this.httpClient.get(
       'events.json?paging=false&orgUnit=' +
@@ -88,6 +98,10 @@ export class DataEntryService {
         '&programStage=' +
         dimension.programStage
     );
+  }
+
+  deleteEvent(id): Observable<any> {
+    return this.httpClient.delete('events/' + id);
   }
 
   constructor(private httpClient: NgxDhis2HttpClientService) {}

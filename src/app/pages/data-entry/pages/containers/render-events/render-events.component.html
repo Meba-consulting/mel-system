@@ -2,5 +2,6 @@
   <app-event-table
     [events]="events"
     [dataElements]="dataElements"
+    (eventSet)="onEventSet($event)"
   ></app-event-table>
 </div>

@@ -1,1 +1,6 @@
-<!-- {{ currentUser | json }} -->
+<div>
+  <app-forms-list
+    [forms]="forms"
+    (selectedForm)="onFormChange($event)"
+  ></app-forms-list>
+</div>

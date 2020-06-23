@@ -3,7 +3,7 @@
 }
 
 .active-class {
-  color: #d4b61e;
+  color: #ca8c63;
   outline: none;
   font-weight: 600 !important;
   background-color: transparent;
@@ -62,7 +62,7 @@ a {
 }
 .tutorial ul li:hover {
   cursor: pointer;
-  background-color: #4e9052;
+  color: #ca8c63;
   outline: none !important;
 }
 .tutorial ul li:hover ul {
@@ -78,8 +78,7 @@ a {
 }
 .tutorial ul li:hover ul li:hover {
   outline: none;
-  background-color: #4e9052;
-  color: #fff;
+  color: #ca8c63;
 }
 
 .tutorial ul li:hover ul {
@@ -93,11 +92,10 @@ a {
 .tutorial ul li:hover ul li {
   display: block;
   color: #000;
-  background-color: #4e9052;
 }
 
 .header-banner {
-  background-color: #457b49;
+  background-color: #67ccbd;
   height: 95px;
   padding: 10px;
   font-weight: 600;

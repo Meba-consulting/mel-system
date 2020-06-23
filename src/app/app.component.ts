@@ -35,6 +35,7 @@ export class AppComponent implements OnInit {
   selectedUsername: string = '';
   currentUserUsername: string;
   currentDashboardId: string;
+  viewMaintenance: boolean = false;
   constructor(
     private store: Store<State>,
     private translate: TranslateService,
@@ -63,6 +64,11 @@ export class AppComponent implements OnInit {
           'dhis2.dashboard.current.' + currentUserInfo.userCredentials.username
         );
         this.currentDashboardId = currentDashboard;
+        _.each(currentUserInfo.userGroups, userGroup => {
+          if (userGroup.name.indexOf('_MAINTENANCE') > -1) {
+            this.viewMaintenance = true;
+          }
+        });
       }
     });
 

@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { createEventsDataValuesObject } from 'src/app/pages/data-entry/helpers';
 
 @Component({
@@ -10,6 +10,7 @@ export class EventTableComponent implements OnInit {
   @Input() events: any;
   @Input() dataElements: any;
   objectForRenderingValues: any;
+  @Output() eventSet: EventEmitter<string> = new EventEmitter<string>();
   constructor() {}
 
   ngOnInit(): void {
@@ -19,5 +20,8 @@ export class EventTableComponent implements OnInit {
         this.events
       );
     }
+  }
+  onEventSet(e) {
+    this.eventSet.emit(e);
   }
 }

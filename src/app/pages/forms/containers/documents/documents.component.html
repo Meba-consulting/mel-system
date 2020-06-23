@@ -1,9 +1,0 @@
-<div
-  *ngIf="
-    (currentForms$ | async) &&
-    (currentForms$ | async)['documents'] &&
-    (currentForms$ | async)['documents'].length > 0
-  "
->
-  <app-forms-list [forms]="(currentForms$ | async)?.documents"></app-forms-list>
-</div>

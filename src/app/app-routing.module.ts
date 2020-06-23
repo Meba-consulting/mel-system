@@ -35,11 +35,6 @@ const routes: Routes = [
       import('./pages/resources/resources.module').then(m => m.ResourcesModule)
   },
   {
-    path: 'forms',
-    loadChildren: () =>
-      import('./pages/forms/forms.module').then(m => m.FormsModule)
-  },
-  {
     path: 'data-entry',
     loadChildren: () =>
       import('./pages/data-entry/data-entry.module').then(
