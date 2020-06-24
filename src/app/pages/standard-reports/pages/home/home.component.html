@@ -1,0 +1,74 @@
+<div style="background-color: transparent;">
+  <div class="row" style="padding: 10px 0">
+    <div class="col-12 report-header">
+      <div style="float: left">
+        <h3>Standard reports</h3>
+      </div>
+      <div style="float: right">
+        <button
+          style="padding: 0px; float: right;"
+          mat-stroked-button
+          style="border: none"
+        >
+          <a
+            href="../../../dhis-web-pivot/index.html"
+            style="text-decoration: none"
+            target="_blank"
+            >Pivot Table</a
+          >
+        </button>
+        <button
+          style="padding: 0px; float: right;"
+          mat-stroked-button
+          style="border: none"
+        >
+          <a
+            href="../../../dhis-web-data-visualizer/index.html#/"
+            style="text-decoration: none"
+            target="_blank"
+            >Data Visualizer</a
+          >
+        </button>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div *ngIf="currentUser$ | async">
+        <app-report-groups
+          [currentUser]="currentUser$ | async"
+          (selectedReportGroup)="onSelectReportGroup($event)"
+        ></app-report-groups>
+      </div>
+      <div style="width: 100%" *ngIf="!(currentUser$ | async)">
+        <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+      </div>
+    </div>
+    <div class="col-md-9">
+      <div
+        *ngIf="
+          (reportsList$ | async) &&
+          (reportsList$ | async)?.length > 0 &&
+          isReportGroupSet &&
+          currentReportGroup
+        "
+      >
+        <app-reports-list
+          [reports]="reportsList$ | async"
+          [reportGroup]="currentReportGroup"
+        ></app-reports-list>
+      </div>
+      <div
+        class="col-12"
+        *ngIf="
+          !(reportsList$ | async) ||
+          !(currentUser$ | async) ||
+          !isReportGroupSet ||
+          !currentReportGroup
+        "
+      >
+        <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+      </div>
+    </div>
+  </div>
+</div>
+
+<router-outlet></router-outlet>

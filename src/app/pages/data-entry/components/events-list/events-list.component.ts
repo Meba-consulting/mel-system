@@ -46,14 +46,14 @@ export class EventsListComponent implements OnInit {
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 
-  setEvent(id) {
-    this.selectedEventId = id;
-    this.eventSet.emit(id);
+  setEvent(event) {
+    this.selectedEventId = event.id;
+    this.eventSet.emit(event);
     this.router.navigate([], {
       queryParams: {
         form: this.route.snapshot.queryParams['form'],
         ou: this.route.snapshot.queryParams['ou'],
-        event: id
+        event: event.id
       }
     });
   }

@@ -22,7 +22,9 @@ const routes: Routes = [
   {
     path: 'reports',
     loadChildren: () =>
-      import('./pages/reports/reports.module').then(m => m.ReportsModule)
+      import('./pages/standard-reports/standard-reports.module').then(
+        m => m.StandardReportsModule
+      )
   },
   {
     path: 'contacts',

@@ -1,0 +1,20 @@
+<div *ngIf="currentUser && reportGroups && reportGroups.length > 0">
+  <ul class="list-group">
+    <li class="list-group-item-header" style="border: none !important;">
+      Report groups
+    </li>
+    <li
+      class="list-group-item"
+      [ngClass]="{
+        'active-department': currentGroup.id == reportGroup.id
+      }"
+      (click)="onSetCurrentGroup(reportGroup)"
+      *ngFor="let reportGroup of reportGroups"
+    >
+      {{ reportGroup.name }}
+    </li>
+  </ul>
+</div>
+<div *ngIf="!currentUser || !reportGroups || reportGroups.length == 0">
+  <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+</div>

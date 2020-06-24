@@ -6,7 +6,6 @@ export function createDataValuesObject(data) {
 export function formatAttributesValues(data) {
   let newData = [];
   _.map(data, entityAttribute => {
-    console.log('entityAttribute', entityAttribute);
     let values = {};
     values['created'] = entityAttribute['created'];
     values['updated'] = entityAttribute['lastUpdated'];
@@ -98,6 +97,7 @@ export function filterFormsByAccessGroups(forms, currentUser, programMetadata) {
     }
   });
   let defaultForm = {
+    program: programMetadata.id,
     id: 'default',
     name: 'Additive Inspection Form',
     category: programMetadata['userGroupAccesses'][0]['displayName'].split(

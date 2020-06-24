@@ -304,37 +304,70 @@ export class HomeComponent implements OnInit {
     }
   }
 
-  onEventSet(id) {
-    console.log('evevnt id', id);
-    this.currentEvent = id;
-    if (id && id.indexOf('trackedEntityInstance') == -1) {
+  onEventSet(data) {
+    console.log('evevnt data', data);
+    this.currentEvent = data.id;
+    if (data.id && data.id.indexOf('trackedEntityInstance') == -1) {
       this.elementsDataValues = {};
       console.log('changed route to view event');
       // load event data and format them
-      this.dataEntryService.getEventDataById(id).subscribe(data => {
-        this.dataEntryFlowConfigs$.subscribe(dataFlowConfigs => {
-          if (dataFlowConfigs) {
-            console.log(dataFlowConfigs);
-            _.map(data['dataValues'], dataValue => {
-              this.elementsDataValues[
-                dataValue['dataElement'] + '-dataElement'
-              ] = {
-                id:
-                  this.selectedProgram.id +
-                  '-' +
-                  dataValue['dataElement'] +
-                  '-val',
-                value: dataValue['value']
+      this.dataEntryService
+        .getEventDataById(this.currentEvent)
+        .subscribe(data => {
+          this.dataEntryFlowConfigs$.subscribe(dataFlowConfigs => {
+            if (dataFlowConfigs) {
+              console.log(dataFlowConfigs);
+              _.map(data['dataValues'], dataValue => {
+                this.elementsDataValues[
+                  dataValue['dataElement'] + '-dataElement'
+                ] = {
+                  id:
+                    this.selectedProgram.id +
+                    '-' +
+                    dataValue['dataElement'] +
+                    '-val',
+                  value: dataValue['value']
+                };
+              });
+            }
+            console.log('elementsDataValues', this.elementsDataValues);
+          });
+          this.viewEvent = false;
+          setTimeout(() => {
+            this.viewEvent = true;
+          }, 20);
+        });
+    } else {
+      this.isDefaultDataSet = true;
+      this.isFormSet = true;
+      this.dataEntryService
+        .getTrackedEntityInstanceById(data.id.split('-')[0])
+        .subscribe(response => {
+          this.elementsDataValues = {};
+
+          if (response) {
+            this.eventValues = formatAttributesValues([response]);
+            // console.log('event values', this.eventValues);
+            _.each(Object.keys(this.eventValues[0]), key => {
+              this.elementsDataValues[key + '-dataElement'] = {
+                id: this.selectedForm + '-' + key + '-val',
+                value: ''
               };
             });
+            console.log('elementsDataValues', this.elementsDataValues);
+            console.log(this.dataElements);
+            this.dataElements$ = this.dataEntryService.getTrackedEntityAttributes();
+            this.dataElements$.subscribe(attributes => {
+              console.log(
+                'attributes',
+                filterWithContainingCharactes(
+                  attributes['trackedEntityAttributes'],
+                  'Inspection'
+                )
+              );
+            });
           }
-          console.log('elementsDataValues', this.elementsDataValues);
         });
-        this.viewEvent = false;
-        setTimeout(() => {
-          this.viewEvent = true;
-        }, 20);
-      });
     }
   }
 
@@ -493,6 +526,9 @@ export class HomeComponent implements OnInit {
 
           if (this.selectedProgram.id.indexOf('default') > -1) {
             this.hasParentData = false;
+            this.isDefaultDataSet = true;
+            this.isFormSet = true;
+            console.log('geeeeeeeeeeeeeeeeeeeeeeeee');
             this.formType = 'tracker';
 
             this.dataElements = this.selectedProgram.programStageDataElements;
@@ -515,7 +551,7 @@ export class HomeComponent implements OnInit {
                 this.isReportSet = false;
                 setTimeout(() => {
                   this.isReportSet = true;
-                }, 20);
+                }, 100);
               }
             });
           } else {
@@ -664,15 +700,56 @@ export class HomeComponent implements OnInit {
               .saveEnrollments(enrollmentsData)
               .subscribe(response => {
                 console.log('response ', response);
-                this.eventsForReports$ = this.dataEntryService.getEventsData(
-                  this.eventsDataDimensions
-                );
+                // this.eventsForReports$ = this.dataEntryService.getEventsData(
+                //   this.eventsDataDimensions
+                // );
 
-                this.isReportSet = false;
-                setTimeout(() => {
-                  this.isReportSet = true;
-                }, 20);
-                this.isDataSaved = true;
+                const dimension = {
+                  ou: this.selectedOu.id,
+                  program: this.trackerProgramId
+                };
+
+                this.dataEntryService
+                  .getTrackedEntityInstancesList(dimension)
+                  .subscribe(trackedEntityInstancesLoaded => {
+                    if (trackedEntityInstancesLoaded) {
+                      this.trackedEntityInstances =
+                        trackedEntityInstancesLoaded['trackedEntityInstances'];
+
+                      this.eventValues = formatAttributesValues(
+                        trackedEntityInstancesLoaded['trackedEntityInstances']
+                      );
+
+                      this.hasParentData = false;
+                      this.formType = 'tracker';
+                      this.entityAttributeHeaders = [];
+
+                      this.dataElements = this.selectedProgram.programStageDataElements;
+                      this.dataElements$ = this.dataEntryService.getTrackedEntityAttributes();
+
+                      this.dataElements$.subscribe(elements => {
+                        if (elements) {
+                          this.entityAttributeHeaders.push({
+                            id: 'created',
+                            name: 'Entry Date',
+                            valueType: 'DATE'
+                          });
+                          this.entityAttributeHeaders = _.union(
+                            this.entityAttributeHeaders,
+                            filterWithContainingCharactes(
+                              elements['trackedEntityAttributes'],
+                              'Inspection'
+                            )
+                          );
+                          this.isReportSet = false;
+                          this.isDataSaved = true;
+                          setTimeout(() => {
+                            this.isReportSet = true;
+                          }, 20);
+                        }
+                      });
+                    }
+                  });
               });
           }
         });

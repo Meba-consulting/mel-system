@@ -1,0 +1,60 @@
+<div class="row">
+  <div class="col-12 filters" *ngIf="isFilterRequired">
+    <div
+      style="min-width: 55%; float: left"
+      *ngIf="addedDimensions && addedDimensions.length > 0"
+    >
+      <div style="display: block">
+        <div
+          style="width: 47%;float: left; margin-right: 2.5%"
+          *ngFor="let dimensionGroup of addedDimensions"
+        >
+          <mat-form-field class="dimensions" style=" width: 100%">
+            <mat-label>{{ dimensionGroup.name }}</mat-label>
+            <mat-select id="dimensions_{{ dimensionGroup.name }}">
+              <mat-option
+                [value]="dimension"
+                (onSelectionChange)="
+                  onDimensionSelectionChanged($event, dimension)
+                "
+                *ngFor="let dimension of dimensionGroup['dimensions']"
+                >{{ dimension.name }}</mat-option
+              >
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </div>
+    </div>
+    <div style="min-width: 15%; float: left; margin-top: 2px;">
+      <ngx-dhis2-selection-filters
+        [selectionFilterConfig]="selectionFilterConfig"
+        (filterUpdate)="onFilterUpdate($event)"
+      >
+      </ngx-dhis2-selection-filters>
+    </div>
+  </div>
+  <div
+    *ngIf="selectionChanged && reportType != 'interactive-report'"
+    class="col-12"
+  >
+    <div id="html_id" style="margin-top: 15px"></div>
+  </div>
+  <div
+    *ngIf="
+      selectionChanged &&
+      filterSelections &&
+      filterSelections.length > 1 &&
+      reportType == 'interactive-report'
+    "
+    class="col-12"
+  >
+    <div style="margin-top: 15px">
+      <app-interactive-report
+        [filterSelections]="filterSelections"
+        [reportTemplate]="reportHtml"
+        [reportId]="reportId"
+      >
+      </app-interactive-report>
+    </div>
+  </div>
+</div>

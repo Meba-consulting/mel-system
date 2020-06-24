@@ -1,0 +1,45 @@
+<div *ngIf="!(reportMetadata$ | async)" style="margin-top: 10px">
+  <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+</div>
+
+<div style="height:100vh;background-color: #FFF;">
+  <div class="row" style="padding: 10px" *ngIf="reportMetadata$ | async">
+    <div class="col-12" style="margin-bottom: 15px">
+      <button
+        style="padding: 0px"
+        mat-stroked-button
+        [routerLink]="'/reports'"
+        style="border: none"
+      >
+        <mat-icon style="margin-left: -15px">arrow_back</mat-icon>Back to the
+        list
+      </button>
+    </div>
+    <div class="col-12" style="margin-bottom: 10px">
+      <h3>{{ (reportMetadata$ | async)?.displayName }}</h3>
+      <hr style="margin: 0" />
+    </div>
+    <!-- <div class="col-12 filters">
+      <ngx-dhis2-selection-filters
+        [selectionFilterConfig]="selectionFilterConfig"
+        (filterUpdate)="onFilterUpdate($event)"
+      >
+      </ngx-dhis2-selection-filters>
+    </div> -->
+    <div
+      class="col-12"
+      style="width: 100% !important;"
+      *ngIf="reportMetadata$ | async"
+    >
+      <div style="margin-bottom: 10px"></div>
+      <div>
+        <app-render-report
+          [reportHtml]="(reportMetadata$ | async)?.designContent"
+          [reportType]="reportType"
+          [reportId]="reportId"
+        >
+        </app-render-report>
+      </div>
+    </div>
+  </div>
+</div>

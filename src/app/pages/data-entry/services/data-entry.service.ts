@@ -71,6 +71,10 @@ export class DataEntryService {
     );
   }
 
+  getTrackedEntityInstanceById(id): Observable<any> {
+    return this.httpClient.get('trackedEntityInstances/' + id + '.json');
+  }
+
   getUID(): Observable<any> {
     return this.httpClient.get('system/id.json');
   }

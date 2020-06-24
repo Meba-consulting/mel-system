@@ -56,22 +56,6 @@
         >
         </ngx-dhis2-selection-filters>
       </div>
-      <!-- <div style="width: 20%; float: left;">
-        <div *ngIf="!(dataEntryFormsByOu$ | async) && selectedOu">
-          <mat-progress-bar mode="indeterminate"></mat-progress-bar>
-        </div>
-        <select
-          (change)="getEntryForm($event.target.value)"
-          *ngIf="dataEntryFormsByOu$ | async"
-          class="form-control"
-          style="background-color: transparent;"
-        >
-          <option value="">Select form</option>
-          <option [value]="form.id" *ngFor="let form of dataEntryForms">{{
-            form.name
-          }}</option>
-        </select>
-      </div> -->
       <div
         style="min-width: 10%; float: left; margin-left: 2%;"
         *ngIf="
@@ -85,19 +69,6 @@
           [trackedEntityInstances]="trackedEntityInstances"
           (selectedItem)="onSelectBatch($event)"
         ></app-batch-control>
-        <!-- <select
-          class="form-control"
-          (change)="createDataObject($event.target.value, dataEntryFlowConfigs)"
-          [(ngModel)]="dataEntrySelections.batchNo"
-          style="background-color: transparent;"
-        >
-          <option value="">Select batch</option>
-          <option
-            [value]="trackedEntityInstance['trackedEntityInstance']"
-            *ngFor="let trackedEntityInstance of trackedEntityInstances"
-            >{{ trackedEntityInstance['created'] | date }}</option
-          >
-        </select> -->
       </div>
       <div
         style="min-width: 10%; float: left; margin-left: 10px;"
@@ -141,7 +112,6 @@
           (dataElements$ | async)?.trackedEntityAttributes &&
           dataEntrySelections.selectedDate &&
           isDefaultDataSet &&
-          isFormSet &&
           selectedOu
         "
       >
@@ -149,7 +119,7 @@
           [dataEntryForm]="selectedDataEntryForm"
           [formName]="selectedProgram['name']"
           [formId]="selectedProgram['id']"
-          [dataElements]="(dataElements$ | async)['trackedEntityAttributes']"
+          [dataElements]="(dataElements$ | async)?.trackedEntityAttributes"
           [formType]="formType"
           [elementsDataValues]="elementsDataValues"
           (entryInfo)="entryInfo($event)"
