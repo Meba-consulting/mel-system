@@ -13,6 +13,7 @@ export class FormsComponent implements OnInit {
   @Input() resources: any;
   @Input() currentUser: any;
   @Input() userGroup: any;
+  @Input() userGroups: any[];
   formsGroups: Array<any>;
   forms: any;
   currentResourceGroup: any;

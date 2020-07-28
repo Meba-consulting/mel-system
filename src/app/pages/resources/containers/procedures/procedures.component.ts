@@ -12,6 +12,7 @@ import {
 export class ProceduresComponent implements OnInit {
   @Input() resources: any;
   @Input() currentUser: any;
+  @Input() userGroups: any[];
   procedureGroups: any;
   currentResourceGroup: any;
   procedures: any;

@@ -22,11 +22,16 @@ export class ResourcesListComponent implements OnInit {
   @Input() resources: Array<any>;
   @Input() currentUser: any;
   @Input() userGroup: any;
+  @Input() userGroups: any[];
   displayedColumns: string[] = ['position', 'name', 'type', 'action'];
   dataSource: any;
   showConfirmDeletion: boolean = false;
   confirmDeletion: boolean = false;
   resourceIdToDelete: string;
+  sharingSettings: boolean = false;
+  currentResource: any;
+  userGroupSearchingText: string = '';
+  sharingSettingsMessage: string = '';
 
   constructor(
     private resourceService: ResourcesService,
@@ -74,5 +79,116 @@ export class ResourcesListComponent implements OnInit {
         // this.redirectTo('resources/documents');
       });
     }
+  }
+
+  openResourceSharingSettings(resource) {
+    this.sharingSettings = true;
+    this.currentResource = resource;
+  }
+  addUserGroupToSharingSettings(userGroup, resource) {
+    let userGroupAccesses = [];
+    let sharingSettingsData = {
+      meta: {
+        allowPublicAccess: true,
+        allowExternalAccess: true
+      },
+      object: {
+        id: resource.id,
+        name: resource.name,
+        displayName: resource.name,
+        publicAccess: 'r-------',
+        externalAccess: false,
+        userGroupAccesses: []
+      }
+    };
+    userGroupAccesses.push({
+      id: userGroup.id,
+      name: userGroup.name,
+      displayName: userGroup.name,
+      access: 'r-------'
+    });
+    userGroupAccesses = [...userGroupAccesses, ...resource.userGroupAccesses];
+    sharingSettingsData.object.userGroupAccesses = _.uniqBy(
+      userGroupAccesses,
+      'id'
+    );
+    this.sharingSettingsMessage = 'Saving sharing settings.......!';
+    this.resourceService
+      .saveSharingSettingsForDocuments(sharingSettingsData)
+      .subscribe(
+        sharingResponse => {
+          this.sharingSettingsMessage = 'Sharing settings saved!';
+          setTimeout(() => {
+            this.sharingSettingsMessage = '';
+            setTimeout(() => {
+              this.sharingSettings = false;
+            }, 1000);
+          }, 2000);
+        },
+        error => {
+          console.log(error);
+          setTimeout(() => {
+            this.sharingSettingsMessage = error.message;
+            setTimeout(() => {
+              this.sharingSettings = false;
+            }, 1000);
+          }, 2000);
+        }
+      );
+  }
+
+  removeUserGroupAccess(userGroupToRemove, resource) {
+    let userGroupAccesses = [];
+    let sharingSettingsData = {
+      meta: {
+        allowPublicAccess: true,
+        allowExternalAccess: true
+      },
+      object: {
+        id: resource.id,
+        name: resource.name,
+        displayName: resource.name,
+        publicAccess: 'r-------',
+        externalAccess: false,
+        userGroupAccesses: []
+      }
+    };
+    userGroupAccesses = _.filter(resource.userGroupAccesses, userGroup => {
+      if (userGroup.id != userGroupToRemove.id) {
+        return userGroup;
+      }
+    });
+    sharingSettingsData.object.userGroupAccesses = _.uniqBy(
+      userGroupAccesses,
+      'id'
+    );
+    this.sharingSettingsMessage =
+      'Removing "' + userGroupToRemove.displayName + '"............';
+    this.resourceService
+      .saveSharingSettingsForDocuments(sharingSettingsData)
+      .subscribe(
+        sharingResponse => {
+          this.sharingSettingsMessage = 'Changes saved!';
+          setTimeout(() => {
+            this.sharingSettingsMessage = '';
+            // setTimeout(() => {
+            //   this.sharingSettings = false;
+            // }, 1000);
+          }, 2000);
+        },
+        error => {
+          console.log(error);
+          setTimeout(() => {
+            this.sharingSettingsMessage = error.message;
+            // setTimeout(() => {
+            //   this.sharingSettings = false;
+            // }, 1000);
+          }, 2000);
+        }
+      );
+  }
+
+  closeSharingSettings() {
+    this.sharingSettings = false;
   }
 }

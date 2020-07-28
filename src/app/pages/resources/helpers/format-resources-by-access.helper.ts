@@ -29,7 +29,7 @@ export function getProceduresGroups(currentUser) {
       });
     }
   });
-  return proceduresGroups;
+  return _.orderBy(proceduresGroups, ['name'], ['asc']);
 }
 
 export function getFormsGroups(currentUser) {
@@ -39,13 +39,15 @@ export function getFormsGroups(currentUser) {
     if (userGroup.name.toLowerCase().indexOf('_form') == 0) {
       formsGroups.push({
         id: userGroup.id,
-        name: userGroup.name
-          .replace('_FORMS ', '')
-          .replace('_forms ', '')
-          .replace('_FORM ', '')
-          .replace('_form ', '')
+        name: _.capitalize(
+          userGroup.name
+            .replace('_FORMS ', '')
+            .replace('_forms ', '')
+            .replace('_FORM ', '')
+            .replace('_form ', '')
+        )
       });
     }
   });
-  return formsGroups;
+  return _.orderBy(formsGroups, ['name'], ['asc']);
 }

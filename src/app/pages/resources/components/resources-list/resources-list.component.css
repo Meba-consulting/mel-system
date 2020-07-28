@@ -41,3 +41,30 @@
   display: flex;
   justify-content: center;
 }
+
+.sharing-settings {
+  margin-left: 5%;
+  margin-right: 5%;
+  width: 90%;
+  position: absolute;
+  border-radius: 2px;
+  top: 60px;
+  padding: 20px;
+  z-index: 22;
+  height: 530px;
+  overflow: hidden;
+  color: #676767 !important;
+}
+
+button {
+  outline: none !important;
+}
+
+button:hover {
+  outline: none !important;
+}
+
+.status-message {
+  padding: 15px 5px;
+  background-color: #dbffdd;
+}

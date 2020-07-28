@@ -2,7 +2,11 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { State } from 'src/app/store/reducers';
-import { getCurrentUser } from 'src/app/store';
+import {
+  getCurrentUser,
+  loadUserGroups,
+  getAllUserGroups
+} from 'src/app/store';
 import { loadResources } from '../../store/actions';
 import {
   getResourcesLoadingState,
@@ -21,11 +25,13 @@ export class ResourcesComponent implements OnInit, OnDestroy {
   loadingState$: Observable<boolean>;
   navigationSubscription: any;
   allDataLoaded: boolean = false;
+  userGroups$: Observable<any>;
   constructor(
     private store: Store<State>,
     private router: Router,
     private route: ActivatedRoute
   ) {
+    this.store.dispatch(loadUserGroups());
     this.currentUser$ = this.store.select(getCurrentUser);
 
     // this.loadingState$ = this.store.select(getResourcesLoadingState);
@@ -40,6 +46,7 @@ export class ResourcesComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    this.userGroups$ = this.store.select(getAllUserGroups);
     console.log(this.route.snapshot.queryParams.status);
     this.allDataLoaded = false;
     this.store.dispatch(loadResources({ reload: true }));

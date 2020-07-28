@@ -2,14 +2,25 @@
   <mat-progress-bar mode="indeterminate"></mat-progress-bar>
 </div>
 <div style=" z-index: 19">
-  <mat-form-field style="width: 30%">
+  <!-- <mat-form-field style="width: 30%">
     <mat-label>Search</mat-label>
     <input
       matInput
       (keyup)="applyFilter($event)"
       placeholder="Ex. resource list"
     />
-  </mat-form-field>
+  </mat-form-field> -->
+  <div class="d-flex justify-content-between">
+    <mat-form-field class="w-50">
+      <mat-label>Search resource</mat-label>
+      <mat-icon matPrefix>search</mat-icon
+      ><input
+        matInput
+        (keyup)="applyFilter($event)"
+        placeholder="Ex. resource list"
+      />
+    </mat-form-field>
+  </div>
   <table
     class="mat-elevation-z2"
     mat-table
@@ -94,6 +105,14 @@
             <mat-icon>delete</mat-icon>
             <span>Delete</span>
           </button>
+          <button
+            mat-menu-item
+            *ngIf="element.action.canShare"
+            (click)="openResourceSharingSettings(element)"
+          >
+            <mat-icon>share</mat-icon>
+            <span>Sharing settings</span>
+          </button>
         </mat-menu>
       </td>
     </ng-container>
@@ -126,6 +145,94 @@
       >
         <span style="color: #457b49">Cancel</span>
       </button>
+    </div>
+  </div>
+</mat-card>
+<mat-card *ngIf="sharingSettings" class="sharing-settings">
+  <div class="padding:20px" *ngIf="currentResource">
+    <div style="padding: 0px 0px 20px 0px">
+      <div class="row">
+        <div class="col-8">
+          <h4 style="float: left">Sharing settings</h4>
+        </div>
+        <div class="col-4">
+          <button
+            style="float: right"
+            mat-stroked-button
+            (click)="closeSharingSettings()"
+          >
+            Close
+          </button>
+        </div>
+      </div>
+    </div>
+    <div style="padding: 0px 0px 15px 0px">
+      <h5>{{ currentResource.name }}</h5>
+    </div>
+    <div>
+      <h6>Who can access</h6>
+      <hr />
+    </div>
+    <div style="padding: 10px 30px;max-height: 150px; overflow: auto;">
+      <div *ngIf="currentResource.userGroupAccesses">
+        <div
+          class="row"
+          *ngFor="let access of currentResource.userGroupAccesses"
+        >
+          <div
+            style="border-bottom: solid 1px #eee; padding: 15px 0px"
+            class="col-10"
+          >
+            {{ access.displayName }}
+          </div>
+          <div class="col-2" style="padding: 15px 0px">
+            <div>
+              <mat-icon
+                title="Remove {{ access.displayName }}"
+                (click)="removeUserGroupAccess(access, currentResource)"
+                style="cursor: pointer;"
+                >remove</mat-icon
+              >
+              <!-- <span style="float: left"></span> -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div style="padding: 4px 30px" *ngIf="sharingSettingsMessage != ''">
+      <div class="status-message">
+        <span>{{ sharingSettingsMessage }}</span>
+      </div>
+    </div>
+    <div style="padding: 15px 30px">
+      <div class="row">
+        <!-- <div class="col-12">
+          <input
+            matInput
+            placeholder="Search"
+            style="border-bottom: solid 1px #eee"
+          />
+        </div> -->
+        <div class="col-12 d-flex justify-content-between">
+          <mat-form-field class="w-100">
+            <mat-label>Search group</mat-label>
+            <mat-icon matPrefix>search</mat-icon>
+            <input matInput [(ngModel)]="userGroupSearchingText" />
+          </mat-form-field>
+        </div>
+        <div class="col-12" style="height: 120px; overflow: auto">
+          <div
+            (click)="addUserGroupToSharingSettings(userGroup, currentResource)"
+            style="padding: 8px 0; cursor: pointer; border-bottom: solid 1px #eee"
+            *ngFor="
+              let userGroup of userGroups
+                | filterByInputText: userGroupSearchingText
+            "
+          >
+            {{ userGroup.displayName }}
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </mat-card>
