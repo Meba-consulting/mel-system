@@ -9,8 +9,10 @@ import {
   addLoadedProgramMetadata,
   loadingProgramMetadataFails
 } from '../actions';
-import { switchMap, catchError, map } from 'rxjs/operators';
-import { of } from 'rxjs';
+import { switchMap, catchError, map, withLatestFrom } from 'rxjs/operators';
+import { of, from } from 'rxjs';
+import { getAllProgramMetadata } from '../selectors';
+import * as _ from 'lodash';
 
 @Injectable()
 export class DataEntryFormsEffects {
@@ -33,9 +35,13 @@ export class DataEntryFormsEffects {
   programMetadata$ = createEffect(() =>
     this.actions$.pipe(
       ofType(loadProgramMetadata),
-      switchMap(() =>
-        this.dataEntryService.getProgramMetadata().pipe(
-          map(programMetadata => addLoadedProgramMetadata({ programMetadata })),
+      switchMap(action =>
+        this.dataEntryService.getProgramMetadata(action.programId).pipe(
+          map(programMetadata =>
+            addLoadedProgramMetadata({
+              programMetadata: programMetadata['programs']
+            })
+          ),
           catchError(error => of(loadingProgramMetadataFails({ error })))
         )
       )

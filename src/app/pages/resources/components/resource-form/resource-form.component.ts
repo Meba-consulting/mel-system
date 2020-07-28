@@ -152,6 +152,29 @@ export class ResourceFormComponent implements OnInit {
     } else if (this.name && !this.file && !this.url) {
       this.requiredField = true;
     } else {
+      console.log('url', this.url);
+      let data = {
+        name: this.name,
+        type: 'EXTERNAL_URL',
+        attachment: false,
+        url: this.url,
+        external: true
+      };
+      console.log('data');
+      this.resourceService.saveDocument(data).subscribe(response => {
+        console.log('response', response);
+        this.store.dispatch(loadResources({ reload: true }));
+        // this.router.navigate(['/resources/documents']);
+        setTimeout(() => {
+          this.router
+            .navigateByUrl('/', { skipLocationChange: true })
+            .then(() =>
+              this.router.navigate(['resources/documents'], {
+                queryParams: { status: 'added' }
+              })
+            );
+        }, 70);
+      });
       this.nameIsEmpty = false;
       this.requiredField = false;
     }

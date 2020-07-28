@@ -1,0 +1,17 @@
+.data-entry-side-bar {
+  background-color: #eeeeee;
+  padding-right: 0 !important;
+  padding-left: 0 !important;
+}
+
+.toggle-btn-active {
+  background-color: #4e9052;
+  padding: 3px;
+  border-radius: 3px;
+  color: #ffffff !important;
+}
+
+.grey-row,
+.header-table {
+  background-color: #eeeeee !important;
+}

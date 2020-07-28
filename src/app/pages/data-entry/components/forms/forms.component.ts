@@ -15,6 +15,9 @@ export class FormsComponent implements OnInit {
   @Input() programMetadata: any;
   @Output() selectedForm: EventEmitter<any> = new EventEmitter<any>();
   @Output() dataEntryFlowAndForm: EventEmitter<any> = new EventEmitter<any>();
+  @Input() trackerProgramId: string;
+  @Input() trackedEntityType: string;
+  @Input() trackedEntityTypeName: string;
   programStagesAsForms: Array<any>;
   forms: Array<any>;
   constructor() {}
@@ -24,7 +27,10 @@ export class FormsComponent implements OnInit {
     this.forms = filterFormsByAccessGroups(
       this.programStagesAsForms,
       this.currentUser,
-      this.programMetadata
+      this.programMetadata,
+      this.trackerProgramId,
+      this.trackedEntityType,
+      this.trackedEntityTypeName
     );
   }
 

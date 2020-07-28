@@ -36,7 +36,7 @@ export function getFormsGroups(currentUser) {
   let formsGroups = [];
 
   _.each(currentUser.userGroups, userGroup => {
-    if (userGroup.name.toLowerCase().indexOf('_form') > -1) {
+    if (userGroup.name.toLowerCase().indexOf('_form') == 0) {
       formsGroups.push({
         id: userGroup.id,
         name: userGroup.name

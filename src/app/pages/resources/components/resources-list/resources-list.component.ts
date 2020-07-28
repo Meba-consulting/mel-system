@@ -36,7 +36,7 @@ export class ResourcesListComponent implements OnInit {
 
   ngOnInit(): void {
     this.dataSource = new MatTableDataSource(
-      formatResourcesForDataTable(this.resources)
+      formatResourcesForDataTable(this.resources, this.currentUser)
     );
     this.dataSource.paginator = this.paginator;
   }

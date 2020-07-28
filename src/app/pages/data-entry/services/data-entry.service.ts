@@ -6,9 +6,11 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class DataEntryService {
-  getProgramMetadata(): Observable<any> {
+  getProgramMetadata(id): Observable<any> {
     return this.httpClient.get(
-      'programs/IzEQE6HnpoC.json?fields=id,userGroupAccesses[*],programIndicators[id,name],name,dataEntryForm[id,name,htmlCode],programTrackedEntityAttributes[id,name,code,valueType],programStages[sortOrder,userGroupAccesses[*],id,name,dataEntryForm[id,htmlCode],programStageDataElements[dataElement[id,name,code,valueType,optionSet[id,name,options[id,name,code]]]]]'
+      'programs.json?filter=id:in:[' +
+        id +
+        ']&fields=id,userGroupAccesses[*],programIndicators[id,name],name,dataEntryForm[id,name,htmlCode],programTrackedEntityAttributes[id,name,code,valueType],programStages[sortOrder,userGroupAccesses[*],id,name,dataEntryForm[id,htmlCode],programStageDataElements[dataElement[id,name,code,valueType,optionSet[id,name,options[id,name,code]]]]]'
     );
   }
 

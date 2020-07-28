@@ -1,7 +1,7 @@
 <div *ngIf="!resources">
   <mat-progress-bar mode="indeterminate"></mat-progress-bar>
 </div>
-<div>
+<div style=" z-index: 19">
   <mat-form-field style="width: 30%">
     <mat-label>Search</mat-label>
     <input
@@ -18,17 +18,38 @@
   >
     <ng-container matColumnDef="position">
       <th mat-header-cell *matHeaderCellDef>No.</th>
-      <td mat-cell *matCellDef="let element">{{ element.position }}</td>
+      <td
+        mat-cell
+        style="cursor: pointer"
+        *matCellDef="let element"
+        (click)="openResource(element.action.url)"
+      >
+        {{ element.position }}
+      </td>
     </ng-container>
 
     <ng-container matColumnDef="name">
       <th mat-header-cell *matHeaderCellDef>Name</th>
-      <td mat-cell *matCellDef="let element">{{ element.name }}</td>
+      <td
+        mat-cell
+        style="cursor: pointer"
+        (click)="openResource(element.action.url)"
+        *matCellDef="let element"
+      >
+        {{ element.name }}
+      </td>
     </ng-container>
 
     <ng-container matColumnDef="type">
       <th mat-header-cell *matHeaderCellDef>Type</th>
-      <td mat-cell *matCellDef="let element">{{ element.type }}</td>
+      <td
+        mat-cell
+        style="cursor: pointer"
+        (click)="openResource(element.action.url)"
+        *matCellDef="let element"
+      >
+        {{ element.type }}
+      </td>
     </ng-container>
 
     <ng-container matColumnDef="action">
@@ -67,6 +88,7 @@
           </button> -->
           <button
             mat-menu-item
+            *ngIf="element.action.canDelete"
             (click)="deleteResource(element.action.id, false)"
           >
             <mat-icon>delete</mat-icon>
@@ -85,18 +107,28 @@
     showFirstLastButtons
   ></mat-paginator>
 </div>
-<div *ngIf="resourceIdToDelete && confirmDeletion">
-  <button mat-stroked-button (click)="deleteResource(resourceIdToDelete, true)">
-    <span style="color: red">Confirm</span>
-  </button>
-  <button
-    mat-stroked-button
-    (click)="cancelDeletion()"
-    style="margin-left: 6px"
-  >
-    <span style="color: #457b49">Cancel</span>
-  </button>
-</div>
+<mat-card
+  class="confirmation-div"
+  *ngIf="resourceIdToDelete && confirmDeletion"
+>
+  <div>
+    <div class="control-btns">
+      <button
+        mat-stroked-button
+        (click)="deleteResource(resourceIdToDelete, true)"
+      >
+        <span style="color: red">Confirm</span>
+      </button>
+      <button
+        mat-stroked-button
+        (click)="cancelDeletion()"
+        style="margin-left: 6px"
+      >
+        <span style="color: #457b49">Cancel</span>
+      </button>
+    </div>
+  </div>
+</mat-card>
 <div>
   <button
     routerLink="add/{{ userGroup.id }}/new"

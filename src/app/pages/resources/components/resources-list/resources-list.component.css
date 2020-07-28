@@ -25,3 +25,19 @@
   vertical-align: top;
   border-top: 1px solid #dee2e6;
 }
+
+.confirmation-div {
+  margin-left: 30%;
+  margin-right: 30%;
+  width: 40%;
+  position: absolute;
+  border-radius: 2px;
+  top: 130px;
+  padding: 20px;
+  z-index: 20;
+}
+
+.control-btns {
+  display: flex;
+  justify-content: center;
+}

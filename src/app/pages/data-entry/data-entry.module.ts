@@ -20,9 +20,14 @@ import { FormsComponent } from './components/forms/forms.component';
 import { FormsListComponent } from './components/forms-list/forms-list.component';
 import { EventsListComponent } from './components/events-list/events-list.component';
 import { BatchControlComponent } from './components/batch-control/batch-control.component';
+import { DataEntryDashboardComponent } from './pages/containers/data-entry-dashboard/data-entry-dashboard.component';
+import { CorrectiveActionsComponent } from './pages/containers/corrective-actions/corrective-actions.component';
+import { FortificationComponent } from './pages/containers/fortification/fortification.component';
+import { WasteEnergyManagementComponent } from './pages/containers/waste-energy-management/waste-energy-management.component';
+import { HumanResourceManagementComponent } from './pages/containers/human-resource-management/human-resource-management.component';
 
 @NgModule({
-  declarations: [...pages, DataEntryComponent, RenderEventsComponent, EventTableComponent, FormsComponent, FormsListComponent, EventsListComponent, BatchControlComponent],
+  declarations: [...pages, DataEntryComponent, RenderEventsComponent, EventTableComponent, FormsComponent, FormsListComponent, EventsListComponent, BatchControlComponent, DataEntryDashboardComponent, CorrectiveActionsComponent, FortificationComponent, WasteEnergyManagementComponent, HumanResourceManagementComponent],
   imports: [
     CommonModule,
     FormsModule,

@@ -54,6 +54,7 @@
           style="border: none; background-color: transparent"
           class="form-control"
           name="file"
+          accept=".pdf"
           id="fileSelector"
           (change)="fileSelection($event)"
         /><span *ngIf="requiredField" style="color: red;font-style: italic">
@@ -74,7 +75,13 @@
     </form>
 
     <br />
-    <button class="btn btn-primary" (click)="saveResource()">Save</button>&nbsp;
+    <button
+      class="btn btn-primary"
+      (click)="saveResource()"
+      *ngIf="resourceType !== 'document'"
+    >
+      Save</button
+    >&nbsp;
     <button
       class="btn btn-danger"
       id="cancel"

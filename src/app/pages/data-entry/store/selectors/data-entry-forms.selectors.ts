@@ -24,9 +24,15 @@ export const getDataEntryFormsByOuId = createSelector(
   (entities, props) => entities[props.id]
 );
 
-export const getProgramMetadata = createSelector(
+export const getProgramMetadataById = createSelector(
   getDataEntryFormsState,
-  (state: DataEntryFormsState) => state.programMetadata
+  (state: DataEntryFormsState, props) =>
+    _.filter(state.programMetadata, { id: props.id })[0]
+);
+
+export const getAllProgramMetadata = createSelector(
+  getDataEntryFormsState,
+  (state: DataEntryFormsState) => (state ? state.programMetadata : [])
 );
 
 export const getProgramStageById = createSelector(

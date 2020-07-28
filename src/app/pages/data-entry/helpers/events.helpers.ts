@@ -77,7 +77,14 @@ export function getProgramStagesAsForms(programMetadata) {
   return forms;
 }
 
-export function filterFormsByAccessGroups(forms, currentUser, programMetadata) {
+export function filterFormsByAccessGroups(
+  forms,
+  currentUser,
+  programMetadata,
+  trackerProgramId,
+  trackedEntityType,
+  trackedEntityTypeName
+) {
   let filteredForms = [];
   _.each(currentUser.userGroups, userGroup => {
     if (userGroup.name.indexOf('_DATA_ENTRY') > -1) {
@@ -88,8 +95,8 @@ export function filterFormsByAccessGroups(forms, currentUser, programMetadata) {
             ...{
               category: userGroup.name.split('_DATA_ENTRY')[1],
               categoryId: userGroup.id,
-              trackerProgramId: 'IzEQE6HnpoC',
-              trackedEntityType: 'GypuFqZTCTf'
+              trackerProgramId: trackerProgramId,
+              trackedEntityType: trackedEntityType
             }
           });
         }
@@ -99,15 +106,15 @@ export function filterFormsByAccessGroups(forms, currentUser, programMetadata) {
   let defaultForm = {
     program: programMetadata.id,
     id: 'default',
-    name: 'Additive Inspection Form',
+    name: trackedEntityTypeName,
     category: programMetadata['userGroupAccesses'][0]['displayName'].split(
       '_DATA_ENTRY'
     )[1],
     categoryId: programMetadata['userGroupAccesses'][0]['id'],
     dataEntryForm: programMetadata.dataEntryForm,
     programStageDataElements: programMetadata.programTrackedEntityAttributes,
-    trackerProgramId: 'IzEQE6HnpoC',
-    trackedEntityType: 'GypuFqZTCTf'
+    trackerProgramId: trackerProgramId,
+    trackedEntityType: trackedEntityType
   };
   return [
     ...[defaultForm],
@@ -159,16 +166,33 @@ export function createArrayOfObjectByHeadersAndDataValues(headers, dataValues) {
   return dataValuesForTable;
 }
 
-export function createBatchs(trackedEntityInstances) {
+export function createBatchs(trackedEntityInstances, id) {
   let batchs = [];
   _.each(trackedEntityInstances, trackedEntityInstance => {
     batchs.push({
       id: trackedEntityInstance.trackedEntityInstance,
       name: _.filter(trackedEntityInstance['attributes'], {
-        attribute: 'uj1YTZ099cu'
+        attribute: id
       })[0]['value'],
       date: trackedEntityInstance['created']
     });
   });
   return batchs;
+}
+
+export function getUserGroupsToSeeDataEntryTabs(currentUser) {
+  let groups = {};
+  groups['fortification'] = _.filter(currentUser['userGroups'], {
+    name: '_DATA_ENTRY Fortification'
+  });
+  groups['HR'] = _.filter(currentUser['userGroups'], {
+    name: '_DATA_ENTRY Human Resource Managemenet'
+  });
+  groups['waste'] = _.filter(currentUser['userGroups'], {
+    name: '_DATA_ENTRY Waste & Energy Management'
+  });
+  groups['corrective'] = _.filter(currentUser['userGroups'], {
+    name: '_DATA_ENTRY Corrective actions'
+  });
+  return groups;
 }

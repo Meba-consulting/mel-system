@@ -15,11 +15,14 @@ export const loadingFormsByOuFails = createAction(
   props<{ error: any }>()
 );
 
-export const loadProgramMetadata = createAction('[Program] load program');
+export const loadProgramMetadata = createAction(
+  '[Program] load program',
+  props<{ programId: string }>()
+);
 
 export const addLoadedProgramMetadata = createAction(
   '[Program] add loaded program',
-  props<{ programMetadata: any }>()
+  props<{ programMetadata: Array<any> }>()
 );
 
 export const loadingProgramMetadataFails = createAction(

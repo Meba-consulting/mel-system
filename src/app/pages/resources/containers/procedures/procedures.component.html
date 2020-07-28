@@ -13,7 +13,24 @@
           (click)="onSetCurrentResourceGroup(procedure)"
           *ngFor="let procedure of procedureGroups"
         >
-          {{ procedure.name }}
+          <div
+            class="row"
+            [ngClass]="{
+              'active-department': currentResourceGroup.id == procedure.id
+            }"
+          >
+            <div
+              class="col-1"
+              style="padding: 10px 0px 10px 2px !important"
+              [ngClass]="{
+                'selected-item': currentResourceGroup.id == procedure.id,
+                '': currentResourceGroup.id != procedure.id
+              }"
+            ></div>
+            <div class="col-11" style="padding: 10px 0px 10px 2px !important">
+              {{ procedure.name }}
+            </div>
+          </div>
         </li>
       </ul>
     </div>
