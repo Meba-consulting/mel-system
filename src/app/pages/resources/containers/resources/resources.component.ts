@@ -2,11 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { State } from 'src/app/store/reducers';
-import {
-  getCurrentUser,
-  loadUserGroups,
-  getAllUserGroups
-} from 'src/app/store';
+import { getCurrentUser, getAllUserGroups } from 'src/app/store';
 import { loadResources } from '../../store/actions';
 import {
   getResourcesLoadingState,
@@ -31,7 +27,6 @@ export class ResourcesComponent implements OnInit, OnDestroy {
     private router: Router,
     private route: ActivatedRoute
   ) {
-    this.store.dispatch(loadUserGroups());
     this.currentUser$ = this.store.select(getCurrentUser);
 
     // this.loadingState$ = this.store.select(getResourcesLoadingState);

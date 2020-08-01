@@ -1,4 +1,4 @@
-<div class="row">
+<!-- <div class="row">
   <div
     class="col-md-12"
     *ngIf="
@@ -45,5 +45,48 @@
         <app-human-resource-management></app-human-resource-management>
       </mat-tab>
     </mat-tab-group>
+  </div>
+</div> -->
+
+<div class="row">
+  <div class="col-md-3">
+    <ul class="list-group">
+      <li class="list-group-item-header" style="border: none !important;">
+        Departments
+      </li>
+      <li
+        class="list-group-item"
+        [ngClass]="{
+          'active-department': currentDepartment.id == department.id
+        }"
+        (click)="onSetCurrentDepartment(department)"
+        *ngFor="let department of departments"
+      >
+        <div
+          class="row"
+          [ngClass]="{
+            'active-department': currentDepartment.id == department.id
+          }"
+        >
+          <div
+            class="col-1"
+            style="padding: 10px 0px 10px 2px !important"
+            [ngClass]="{
+              'selected-item': currentDepartment.id == department.id,
+              '': currentDepartment.id != department.id
+            }"
+          ></div>
+          <div class="col-11" style="padding: 10px 0px 10px 2px !important">
+            {{ department.name }}
+          </div>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div class="col-md-9">
+    <h4>{{ currentDepartment.name }}</h4>
+    <div>
+      {{ programs | json }}
+    </div>
   </div>
 </div>

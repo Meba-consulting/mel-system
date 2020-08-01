@@ -1,8 +1,12 @@
 <div>
   <div class="row">
-    <div class="col-md-12" *ngIf="currentUser$ | async">
+    <div
+      class="col-md-12"
+      *ngIf="(currentUser$ | async) && (programs$ | async)"
+    >
       <app-data-entry-dashboard
         [currentUser]="currentUser$ | async"
+        [programs]="programs$ | async"
       ></app-data-entry-dashboard>
     </div>
   </div>

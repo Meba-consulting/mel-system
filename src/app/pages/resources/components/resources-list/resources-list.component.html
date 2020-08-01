@@ -127,7 +127,7 @@
   ></mat-paginator>
 </div>
 <mat-card
-  class="confirmation-div"
+  class="confirmation-div mat-elevation-z10"
   *ngIf="resourceIdToDelete && confirmDeletion"
 >
   <div>
@@ -148,7 +148,7 @@
     </div>
   </div>
 </mat-card>
-<mat-card *ngIf="sharingSettings" class="sharing-settings">
+<mat-card *ngIf="sharingSettings" class="sharing-settings mat-elevation-z10">
   <div class="padding:20px" *ngIf="currentResource">
     <div style="padding: 0px 0px 20px 0px">
       <div class="row">
@@ -173,7 +173,7 @@
       <h6>Who can access</h6>
       <hr />
     </div>
-    <div style="padding: 10px 30px;max-height: 150px; overflow: auto;">
+    <div style="padding: 2px 20px;max-height: 150px; overflow: auto;">
       <div *ngIf="currentResource.userGroupAccesses">
         <div
           class="row"
@@ -199,7 +199,7 @@
         </div>
       </div>
     </div>
-    <div style="padding: 4px 30px" *ngIf="sharingSettingsMessage != ''">
+    <div style="padding: 4px 20px" *ngIf="sharingSettingsMessage != ''">
       <div class="status-message">
         <span>{{ sharingSettingsMessage }}</span>
       </div>

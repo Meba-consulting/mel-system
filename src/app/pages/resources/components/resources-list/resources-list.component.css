@@ -43,12 +43,12 @@
 }
 
 .sharing-settings {
-  margin-left: 5%;
-  margin-right: 5%;
-  width: 90%;
+  margin-left: 10%;
+  margin-right: 10%;
+  width: 80%;
   position: absolute;
   border-radius: 2px;
-  top: 60px;
+  top: 40px;
   padding: 20px;
   z-index: 22;
   height: 530px;

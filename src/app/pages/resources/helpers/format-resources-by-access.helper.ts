@@ -21,11 +21,13 @@ export function getProceduresGroups(currentUser) {
     if (userGroup.name.toLowerCase().indexOf('_procedure') > -1) {
       proceduresGroups.push({
         id: userGroup.id,
-        name: userGroup.name
-          .replace('_PROCEDURES ', '')
-          .replace('_procedures ', '')
-          .replace('_PROCEDURE ', '')
-          .replace('_procedure ', '')
+        name: _.capitalize(
+          userGroup.name
+            .replace('_PROCEDURES ', '')
+            .replace('_procedures ', '')
+            .replace('_PROCEDURE ', '')
+            .replace('_procedure ', '')
+        )
       });
     }
   });

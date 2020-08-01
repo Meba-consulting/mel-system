@@ -3,15 +3,12 @@ import { Store } from '@ngrx/store';
 import { State } from 'src/app/store/reducers';
 
 import * as _ from 'lodash';
-import { NgxDhis2HttpClientService } from '@iapps/ngx-dhis2-http-client';
-import { DataEntryService } from '../../../services/data-entry.service';
 import {
-  formatAttributesValues,
-  filterWithContainingCharactes,
-  getUserGroupsToSeeDataEntryTabs
+  getUserGroupsToSeeDataEntryTabs,
+  getDepartmentsFromUserGroups
 } from '../../../helpers';
-import { ActivatedRoute, Router } from '@angular/router';
 import { loadProgramMetadata } from '../../../store/actions';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-data-entry-dashboard',
@@ -20,20 +17,22 @@ import { loadProgramMetadata } from '../../../store/actions';
 })
 export class DataEntryDashboardComponent implements OnInit {
   @Input() currentUser: any;
-  userGroupsControl: any;
-  constructor(
-    private store: Store<State>,
-    private httpClient: NgxDhis2HttpClientService,
-    private dataEntryService: DataEntryService,
-    private route: ActivatedRoute,
-    private router: Router
-  ) {
-    this.store.dispatch(
-      loadProgramMetadata({ programId: 'IzEQE6HnpoC,UWyXM8q8WGd,NaTg5H77zCU' })
-    );
+  @Input() programs: any[];
+  departments: Array<any>;
+  currentDepartment: Array<any>;
+  constructor(private store: Store<State>) {
+    // this.store.dispatch(
+    //   loadProgramMetadata({ programId: 'IzEQE6HnpoC,UWyXM8q8WGd,NaTg5H77zCU' })
+    // );
   }
 
   ngOnInit() {
-    this.userGroupsControl = getUserGroupsToSeeDataEntryTabs(this.currentUser);
+    this.departments = getDepartmentsFromUserGroups(this.currentUser);
+    this.currentDepartment = this.departments[0];
+    // this.userGroupsControl = getUserGroupsToSeeDataEntryTabs(this.currentUser);
+  }
+
+  onSetCurrentDepartment(department) {
+    this.currentDepartment = department;
   }
 }
