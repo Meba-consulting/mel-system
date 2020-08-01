@@ -2,7 +2,11 @@
   <div class="row">
     <div
       class="col-md-12"
-      *ngIf="(currentUser$ | async) && (programs$ | async)"
+      *ngIf="
+        (currentUser$ | async) &&
+        (programs$ | async) &&
+        (programs$ | async)?.length > 0
+      "
     >
       <app-data-entry-dashboard
         [currentUser]="currentUser$ | async"

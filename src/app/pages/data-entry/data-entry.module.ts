@@ -25,9 +25,10 @@ import { CorrectiveActionsComponent } from './pages/containers/corrective-action
 import { FortificationComponent } from './pages/containers/fortification/fortification.component';
 import { WasteEnergyManagementComponent } from './pages/containers/waste-energy-management/waste-energy-management.component';
 import { HumanResourceManagementComponent } from './pages/containers/human-resource-management/human-resource-management.component';
+import { ProgramsListComponent } from './components/programs-list/programs-list.component';
 
 @NgModule({
-  declarations: [...pages, DataEntryComponent, RenderEventsComponent, EventTableComponent, FormsComponent, FormsListComponent, EventsListComponent, BatchControlComponent, DataEntryDashboardComponent, CorrectiveActionsComponent, FortificationComponent, WasteEnergyManagementComponent, HumanResourceManagementComponent],
+  declarations: [...pages, DataEntryComponent, RenderEventsComponent, EventTableComponent, FormsComponent, FormsListComponent, EventsListComponent, BatchControlComponent, DataEntryDashboardComponent, CorrectiveActionsComponent, FortificationComponent, WasteEnergyManagementComponent, HumanResourceManagementComponent, ProgramsListComponent],
   imports: [
     CommonModule,
     FormsModule,

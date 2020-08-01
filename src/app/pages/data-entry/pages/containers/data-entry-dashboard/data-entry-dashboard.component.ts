@@ -5,7 +5,8 @@ import { State } from 'src/app/store/reducers';
 import * as _ from 'lodash';
 import {
   getUserGroupsToSeeDataEntryTabs,
-  getDepartmentsFromUserGroups
+  getDepartmentsFromUserGroups,
+  filterProgramsByDepartments
 } from '../../../helpers';
 import { loadProgramMetadata } from '../../../store/actions';
 import { Observable } from 'rxjs';
@@ -19,7 +20,9 @@ export class DataEntryDashboardComponent implements OnInit {
   @Input() currentUser: any;
   @Input() programs: any[];
   departments: Array<any>;
-  currentDepartment: Array<any>;
+  currentDepartment: any;
+  filteredProgramsByDepartments: Array<any>;
+  showPrograms: boolean = false;
   constructor(private store: Store<State>) {
     // this.store.dispatch(
     //   loadProgramMetadata({ programId: 'IzEQE6HnpoC,UWyXM8q8WGd,NaTg5H77zCU' })
@@ -27,12 +30,31 @@ export class DataEntryDashboardComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.departments = getDepartmentsFromUserGroups(this.currentUser);
-    this.currentDepartment = this.departments[0];
+    if (this.programs && this.programs.length > 0) {
+      this.departments = getDepartmentsFromUserGroups(this.currentUser);
+      this.currentDepartment = this.departments[0];
+      this.filteredProgramsByDepartments = filterProgramsByDepartments(
+        this.programs,
+        this.currentDepartment
+      );
+      this.showPrograms = true;
+    }
     // this.userGroupsControl = getUserGroupsToSeeDataEntryTabs(this.currentUser);
   }
 
   onSetCurrentDepartment(department) {
     this.currentDepartment = department;
+    this.showPrograms = false;
+    setTimeout(() => {
+      this.filteredProgramsByDepartments = filterProgramsByDepartments(
+        this.programs,
+        this.currentDepartment
+      );
+      this.showPrograms = true;
+    }, 20);
+  }
+
+  onSelectProgram(program) {
+    console.log(program);
   }
 }

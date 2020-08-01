@@ -83,10 +83,17 @@
       </li>
     </ul>
   </div>
-  <div class="col-md-9">
+  <div class="col-md-9" *ngIf="currentDepartment">
     <h4>{{ currentDepartment.name }}</h4>
-    <div>
-      {{ programs | json }}
+    <div *ngIf="showPrograms">
+      <app-programs-list
+        [programs]="filteredProgramsByDepartments"
+        [department]="currentDepartment"
+        (selectedProgram)="onSelectProgram($event)"
+      ></app-programs-list>
+    </div>
+    <div *ngIf="!showPrograms">
+      <mat-progress-bar mode="indeterminate"></mat-progress-bar>
     </div>
   </div>
 </div>
