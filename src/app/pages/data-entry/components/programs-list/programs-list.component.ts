@@ -1,11 +1,4 @@
-import {
-  Component,
-  OnInit,
-  ViewChild,
-  Input,
-  Output,
-  EventEmitter
-} from '@angular/core';
+import { Component, OnInit, ViewChild, Input } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { filterProgramsForDataTable } from '../../helpers';
@@ -21,7 +14,6 @@ export class ProgramsListComponent implements OnInit {
   @Input() department: any;
   displayedColumns: string[] = ['position', 'name', 'department', 'type'];
   dataSource: any;
-  @Output() selectedProgram: EventEmitter<any> = new EventEmitter<any>();
   constructor() {}
 
   ngOnInit(): void {
@@ -34,9 +26,5 @@ export class ProgramsListComponent implements OnInit {
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
-  }
-
-  getProgram(program) {
-    this.selectedProgram.emit(program);
   }
 }

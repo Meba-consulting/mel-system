@@ -74,3 +74,10 @@ body {
   height: 100vh !important;
   overflow: auto;
 }
+
+.mat-flat-button.mat-primary,
+.mat-raised-button.mat-primary,
+.mat-fab.mat-primary,
+.mat-mini-fab.mat-primary {
+  background-color: #ca8c63;
+}

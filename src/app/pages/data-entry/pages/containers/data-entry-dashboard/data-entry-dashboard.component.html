@@ -89,7 +89,6 @@
       <app-programs-list
         [programs]="filteredProgramsByDepartments"
         [department]="currentDepartment"
-        (selectedProgram)="onSelectProgram($event)"
       ></app-programs-list>
     </div>
     <div *ngIf="!showPrograms">

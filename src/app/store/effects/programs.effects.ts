@@ -6,27 +6,36 @@ import {
   addLoadedPrograms,
   loadingProgramsFail
 } from '../actions';
-import { switchMap, map, catchError } from 'rxjs/operators';
-import { of } from 'rxjs';
+import { switchMap, map, catchError, withLatestFrom } from 'rxjs/operators';
+import { of, from } from 'rxjs';
+import { Store } from '@ngrx/store';
+import { State } from '../reducers';
+import { getAllPrograms } from '../selectors';
 
 @Injectable()
 export class ProgramsEffects {
   constructor(
     private actions$: Actions,
-    private programsService: ProgramsService
+    private programsService: ProgramsService,
+    private store: Store<State>
   ) {}
 
   programs$ = createEffect(() =>
     this.actions$.pipe(
       ofType(loadPrograms),
-      switchMap(() =>
-        this.programsService.loadPrograms().pipe(
-          map(programs =>
-            addLoadedPrograms({ programs: programs['programs'] })
-          ),
-          catchError(error => of(loadingProgramsFail({ error })))
-        )
-      )
+      withLatestFrom(this.store.select(getAllPrograms)),
+      switchMap(([action, programs]: [any, any[]]) => {
+        if (programs && programs.length > 0) {
+          return from([]);
+        } else {
+          return this.programsService.loadPrograms().pipe(
+            map(programs =>
+              addLoadedPrograms({ programs: programs['programs'] })
+            ),
+            catchError(error => of(loadingProgramsFail({ error })))
+          );
+        }
+      })
     )
   );
 }

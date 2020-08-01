@@ -53,8 +53,4 @@ export class DataEntryDashboardComponent implements OnInit {
       this.showPrograms = true;
     }, 20);
   }
-
-  onSelectProgram(program) {
-    console.log(program);
-  }
 }

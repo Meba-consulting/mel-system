@@ -1,0 +1,25 @@
+<div *ngIf="!(currentProgram$ | async)">
+  <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+</div>
+<div *ngIf="currentProgram$ | async">
+  <div class="row p-2">
+    <div class="col-12 d-flex align-items-center mb-3  no-print">
+      <button color="primary" mat-flat-button routerLink="/data-entry">
+        <mat-icon>arrow_back</mat-icon>
+        <span class="ml-2">BACK TO FORMS LIST</span>
+      </button>
+      <div class="ml-3 report-title">
+        {{ (currentProgram$ | async)?.name }}
+      </div>
+    </div>
+    <div class="col-12">
+      <mat-card>
+        <div *ngIf="type == 'upload'">
+          <app-program-uploading
+            [program]="currentProgram$ | async"
+          ></app-program-uploading>
+        </div>
+      </mat-card>
+    </div>
+  </div>
+</div>

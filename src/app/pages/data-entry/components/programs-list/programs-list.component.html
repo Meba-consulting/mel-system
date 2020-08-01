@@ -23,7 +23,7 @@
       <th mat-header-cell *matHeaderCellDef>No.</th>
       <td
         mat-cell
-        (click)="getProgram(element)"
+        routerLink="{{ element.category }}/{{ element.type }}/{{ element.id }}"
         style="cursor: pointer"
         *matCellDef="let element"
       >
@@ -35,7 +35,7 @@
       <th mat-header-cell *matHeaderCellDef>Form</th>
       <td
         mat-cell
-        (click)="getProgram(element)"
+        routerLink="{{ element.category }}/{{ element.type }}/{{ element.id }}"
         style="cursor: pointer"
         *matCellDef="let element"
       >
@@ -47,7 +47,7 @@
       <th mat-header-cell *matHeaderCellDef>Department</th>
       <td
         mat-cell
-        (click)="getProgram(element)"
+        routerLink="{{ element.category }}/{{ element.type }}/{{ element.id }}"
         style="cursor: pointer"
         *matCellDef="let element"
       >
@@ -58,7 +58,7 @@
       <th mat-header-cell *matHeaderCellDef>Type</th>
       <td
         mat-cell
-        (click)="getProgram(element)"
+        routerLink="{{ element.category }}/{{ element.type }}/{{ element.id }}"
         style="cursor: pointer"
         *matCellDef="let element"
       >

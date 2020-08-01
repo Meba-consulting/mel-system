@@ -13,3 +13,8 @@ export const {
   selectIds: getProgramsIds,
   selectTotal: getTotalLoadedPrograms
 } = programsAdapter.getSelectors(getProgramsState);
+
+export const getProgramById = createSelector(
+  getProgramsEntities,
+  (entities, props) => entities[props.id]
+);
