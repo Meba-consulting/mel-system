@@ -1,3 +1,14 @@
-<div>
-  {{ program | json }}
+<div style="display: flex">
+  <input
+    type="file"
+    style="border: none; background-color: transparent; float: left;"
+    class="form-control"
+    name="file"
+    accept=".pdf"
+    id="fileSelector"
+    (change)="fileSelection($event)"
+  /><span *ngIf="requiredField" style="color: red;font-style: italic">
+    Required
+  </span>
+  <button style="float: right" mat-stroked-button>Save</button>
 </div>

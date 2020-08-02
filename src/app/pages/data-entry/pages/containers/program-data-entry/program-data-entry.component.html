@@ -1,7 +1,15 @@
-<div *ngIf="!(currentProgram$ | async)">
+<div
+  *ngIf="
+    !(currentProgram$ | async) || !(currentProgramDataEntryFlowConfigs$ | async)
+  "
+>
   <mat-progress-bar mode="indeterminate"></mat-progress-bar>
 </div>
-<div *ngIf="currentProgram$ | async">
+<div
+  *ngIf="
+    (currentProgram$ | async) && (currentProgramDataEntryFlowConfigs$ | async)
+  "
+>
   <div class="row p-2">
     <div class="col-12 d-flex align-items-center mb-3  no-print">
       <button color="primary" mat-flat-button routerLink="/data-entry">
@@ -14,10 +22,26 @@
     </div>
     <div class="col-12">
       <mat-card>
-        <div *ngIf="type == 'upload'">
-          <app-program-uploading
-            [program]="currentProgram$ | async"
-          ></app-program-uploading>
+        <div>
+          <div>
+            <ngx-dhis2-selection-filters
+              [selectionFilterConfig]="selectionFilterConfig"
+              (filterUpdate)="onFilterUpdate($event)"
+              [dataSelections]="
+                selectedOrgUnitItems.length > 0 ? selectedOrgUnitItems : []
+              "
+            >
+            </ngx-dhis2-selection-filters>
+          </div>
+        </div>
+        <div class="data-entry-section">
+          <div *ngIf="type == 'upload' && selectionChanged">
+            <app-program-uploading
+              [dataEntryFlow]="currentProgramDataEntryFlowConfigs$ | async"
+              [program]="currentProgram$ | async"
+              [orgUnit]="selectedOrgUnit"
+            ></app-program-uploading>
+          </div>
         </div>
       </mat-card>
     </div>

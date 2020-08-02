@@ -26,6 +26,10 @@ export class DataEntryService {
     return this.httpClient.get('dataStore/data-entry/data-flow');
   }
 
+  getProgramDataEntryFlowConfigs(id): Observable<any> {
+    return this.httpClient.get('dataStore/data-entry/' + id);
+  }
+
   loadEvents(dimension): Observable<any> {
     return this.httpClient.get(
       'events/query.json?orgUnit=' +

@@ -1,9 +1,14 @@
 import { createReducer, on } from '@ngrx/store';
-import { initialDataEntryFlowState } from '../states/data-entry-flow.states';
+import {
+  initialDataEntryFlowState,
+  dataEntryFlowAdapter
+} from '../states/data-entry-flow.states';
 import {
   loadDataEntryFlow,
   addLoadedDataEntryFlow,
-  loadingDataEntryFlowFails
+  loadingDataEntryFlowFails,
+  loadProgramDataEntryFlowConfigs,
+  addLoadedProgramDataEntryFlowConfigs
 } from '../actions';
 import {
   loadingBaseState,
@@ -26,7 +31,13 @@ export const reducer = createReducer(
     ...state,
     ...errorBaseState,
     error
-  }))
+  })),
+  on(loadProgramDataEntryFlowConfigs, state => ({
+    ...state
+  })),
+  on(addLoadedProgramDataEntryFlowConfigs, (state, { entryFlow }) =>
+    dataEntryFlowAdapter.addOne(entryFlow, { ...state })
+  )
 );
 
 export function dataEntryFlowReducer(state, action) {

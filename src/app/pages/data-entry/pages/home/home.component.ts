@@ -4,6 +4,7 @@ import * as _ from 'lodash';
 import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { State, getCurrentUser, getAllPrograms } from 'src/app/store';
+import { loadDataEntryFlow } from '../../store/actions';
 
 @Component({
   selector: 'app-home',
@@ -16,6 +17,7 @@ export class HomeComponent implements OnInit {
   constructor(private store: Store<State>) {
     this.currentUser$ = this.store.select(getCurrentUser);
     this.programs$ = this.store.select(getAllPrograms);
+    this.store.dispatch(loadDataEntryFlow());
   }
 
   ngOnInit() {}
