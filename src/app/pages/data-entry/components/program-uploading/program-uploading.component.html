@@ -1,0 +1,47 @@
+<div>
+  <div style="display: inline-block">
+    <button
+      style="margin-right: 5px"
+      [ngClass]="{ 'active-btn': !showFileUpload }"
+      (click)="showUpload(false)"
+      mat-stroked-button
+    >
+      Files
+    </button>
+    <button
+      *ngIf="canAddNew"
+      [ngClass]="{ 'active-btn': showFileUpload }"
+      (click)="showUpload(true)"
+      mat-stroked-button
+    >
+      Add new
+    </button>
+  </div>
+  <div class="uploading" style="display: flex" *ngIf="showFileUpload">
+    <input
+      type="file"
+      style="border: none; background-color: transparent; float: left;"
+      class="form-control"
+      name="file"
+      accept=".pdf"
+      id="fileSelector"
+      (change)="fileSelection($event)"
+    /><span *ngIf="requiredField" style="color: red;font-style: italic">
+      Required
+    </span>
+    <button style="float: right" mat-stroked-button>Save</button>
+  </div>
+  <div *ngIf="!showFileUpload" class="list">
+    <div class="data" *ngIf="(events$ | async) && currentUser">
+      <app-file-resources
+        [dataEntryFlow]="dataEntryFlow"
+        [events]="events$ | async"
+        [key]="key"
+        [currentUser]="currentUser"
+      ></app-file-resources>
+    </div>
+    <div *ngIf="!(events$ | async)">
+      <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+    </div>
+  </div>
+</div>

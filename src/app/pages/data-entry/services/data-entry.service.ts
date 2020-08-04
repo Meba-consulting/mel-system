@@ -40,6 +40,10 @@ export class DataEntryService {
     );
   }
 
+  getFileResource(id): Observable<any> {
+    return this.httpClient.get('fileResources/' + id + '.json');
+  }
+
   getEventDataById(eventId): Observable<any> {
     return this.httpClient.get('events/' + eventId + '.json');
   }

@@ -1,4 +1,5 @@
 import * as _ from 'lodash';
+import { deduceCurrentUserGroupForAction } from './data-entry-flow-configs.helpers';
 export function createDataValuesObject(data) {
   return [];
 }
@@ -195,4 +196,64 @@ export function getUserGroupsToSeeDataEntryTabs(currentUser) {
     name: '_DATA_ENTRY Corrective actions'
   });
   return groups;
+}
+
+export function getFileResourcesDimensions(rows, headers) {
+  return _.map(rows, row => {
+    return {
+      id: row[row.length - 3],
+      currentGroupActed: row[row.length - 2],
+      currentGroupIdActed: row[row.length - 1],
+      eventUid: row[0],
+      dataElementUid: headers[row.length - 3].name,
+      status: row[11]
+    };
+  });
+}
+
+export function formatFileResourcesForDataTable(
+  resources,
+  status,
+  dataEntryFlow,
+  currentUser
+) {
+  return _.filter(
+    _.orderBy(_.uniqBy(resources, 'id'), ['created'], ['desc']),
+    (resource, index) => {
+      const controlConfigs = deduceCurrentUserGroupForAction(
+        dataEntryFlow,
+        resource,
+        currentUser,
+        status
+      );
+      console.log('controlConfigs', controlConfigs);
+      if (
+        (resource.status == status && controlConfigs.allowed) ||
+        (status == 'ACTED-BY-ME' && controlConfigs.allowed)
+      ) {
+        return {
+          name: resource.name,
+          id: resource.id,
+          status: resource.status,
+          currentGroupActed: resource.currentGroupActed,
+          currentGroupIdActed: resource.currentGroupIdActed,
+          currentGroupToAct: controlConfigs.group,
+          created: formatDateYYMMDD(resource.created),
+          lastUpdated: resource.lastUpdated
+            ? formatDateYYMMDD(resource.lastUpdated)
+            : '',
+          downloadPath:
+            'events/files?dataElementUid=' +
+            resource.dataElementUid +
+            '&eventUid=' +
+            resource.eventUid,
+          key: resource.key,
+          actions: {
+            key: resource.key,
+            id: resource.key
+          }
+        };
+      }
+    }
+  );
 }

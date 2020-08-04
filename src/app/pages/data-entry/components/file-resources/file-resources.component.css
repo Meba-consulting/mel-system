@@ -1,0 +1,8 @@
+.status-controls {
+  background-color: #eee;
+  text-decoration: none;
+  cursor: pointer;
+}
+.status-controls-active {
+  background-color: aqua;
+}

@@ -14,3 +14,13 @@ export const loadingEventsFails = createAction(
   '[Events] loading events fail',
   props<{ error: any }>()
 );
+
+export const loadFileResources = createAction(
+  '[Events] load file resources',
+  props<{ dimensions: any[]; key: string }>()
+);
+
+export const addLoadedFileResource = createAction(
+  '[Events] add loaded file resources',
+  props<{ file: any }>()
+);

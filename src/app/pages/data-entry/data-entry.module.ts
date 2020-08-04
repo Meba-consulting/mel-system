@@ -26,11 +26,32 @@ import { FortificationComponent } from './pages/containers/fortification/fortifi
 import { WasteEnergyManagementComponent } from './pages/containers/waste-energy-management/waste-energy-management.component';
 import { HumanResourceManagementComponent } from './pages/containers/human-resource-management/human-resource-management.component';
 import { ProgramsListComponent } from './components/programs-list/programs-list.component';
-import { ProgramUploadingComponent } from './pages/containers/program-uploading/program-uploading.component';
+import { ProgramUploadingComponent } from './components/program-uploading/program-uploading.component';
 import { ProgramDataEntryComponent } from './pages/containers/program-data-entry/program-data-entry.component';
+import { FileResourcesComponent } from './components/file-resources/file-resources.component';
+import { FileResourcesListComponent } from './components/file-resources-list/file-resources-list.component';
 
 @NgModule({
-  declarations: [...pages, DataEntryComponent, RenderEventsComponent, EventTableComponent, FormsComponent, FormsListComponent, EventsListComponent, BatchControlComponent, DataEntryDashboardComponent, CorrectiveActionsComponent, FortificationComponent, WasteEnergyManagementComponent, HumanResourceManagementComponent, ProgramsListComponent, ProgramUploadingComponent, ProgramDataEntryComponent],
+  declarations: [
+    ...pages,
+    DataEntryComponent,
+    RenderEventsComponent,
+    EventTableComponent,
+    FormsComponent,
+    FormsListComponent,
+    EventsListComponent,
+    BatchControlComponent,
+    DataEntryDashboardComponent,
+    CorrectiveActionsComponent,
+    FortificationComponent,
+    WasteEnergyManagementComponent,
+    HumanResourceManagementComponent,
+    ProgramsListComponent,
+    ProgramUploadingComponent,
+    ProgramDataEntryComponent,
+    FileResourcesComponent,
+    FileResourcesListComponent
+  ],
   imports: [
     CommonModule,
     FormsModule,

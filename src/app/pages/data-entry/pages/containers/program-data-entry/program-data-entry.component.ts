@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { State, getProgramById } from 'src/app/store';
+import { State, getProgramById, getCurrentUser } from 'src/app/store';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 import {
@@ -43,6 +43,7 @@ export class ProgramDataEntryComponent implements OnInit {
   currentProgramDataEntryFlowConfigs$: Observable<any>;
   selectionChanged: boolean = false;
   selectedOrgUnit: any;
+  currentUser$: Observable<any>;
   constructor(private store: Store<State>, private route: ActivatedRoute) {}
 
   ngOnInit(): void {
@@ -56,6 +57,7 @@ export class ProgramDataEntryComponent implements OnInit {
       getCurrentProgramDataEntryFlowConfigs,
       { id: this.id }
     );
+    this.currentUser$ = this.store.select(getCurrentUser);
   }
 
   onFilterUpdate(selections) {

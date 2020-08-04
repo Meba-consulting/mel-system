@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { HomeComponent } from './pages/home/home.component';
-import { ProgramUploadingComponent } from './pages/containers/program-uploading/program-uploading.component';
 import { ProgramDataEntryComponent } from './pages/containers/program-data-entry/program-data-entry.component';
 
 const routes: Routes = [

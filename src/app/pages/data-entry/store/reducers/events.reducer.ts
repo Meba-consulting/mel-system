@@ -1,6 +1,12 @@
 import { createReducer, on } from '@ngrx/store';
 import { initialEventsState, eventsAdapter } from '../states/events.states';
-import { loadEvents, addLoadedEvents, loadingEventsFails } from '../actions';
+import {
+  loadEvents,
+  addLoadedEvents,
+  loadingEventsFails,
+  loadFileResources,
+  addLoadedFileResource
+} from '../actions';
 import {
   loadingBaseState,
   loadedBaseState,
@@ -20,6 +26,13 @@ export const reducer = createReducer(
     ...state,
     error,
     ...errorBaseState
+  })),
+  on(loadFileResources, state => ({
+    ...state
+  })),
+  on(addLoadedFileResource, (state, { file }) => ({
+    ...state,
+    files: [...state.files, file]
   }))
 );
 

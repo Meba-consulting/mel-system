@@ -1,0 +1,108 @@
+<div *ngIf="!fileResources">
+  <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+</div>
+<div>
+  <div class="d-flex justify-content-between">
+    <mat-form-field class="w-50">
+      <mat-label>Search form</mat-label>
+      <mat-icon matPrefix>search</mat-icon
+      ><input
+        matInput
+        (keyup)="applyFilter($event)"
+        placeholder="Ex. form bbb"
+      />
+    </mat-form-field>
+  </div>
+  <table
+    class="mat-elevation-z2"
+    mat-table
+    [dataSource]="dataSource"
+    style="width: 100%"
+  >
+    <!-- <ng-container matColumnDef="position">
+      <th mat-header-cell *matHeaderCellDef>No.</th>
+      <td
+        mat-cell
+        style="cursor: pointer"
+        (click)="downloadFile(element)"
+        *matCellDef="let element"
+      >
+        {{ element.position }}
+      </td>
+    </ng-container> -->
+
+    <ng-container matColumnDef="created">
+      <th mat-header-cell *matHeaderCellDef>Report date</th>
+      <td mat-cell style="cursor: pointer" *matCellDef="let element">
+        {{ element.created }}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="name">
+      <th mat-header-cell *matHeaderCellDef>File</th>
+      <td
+        mat-cell
+        style="cursor: pointer"
+        (click)="downloadFile(element)"
+        *matCellDef="let element"
+      >
+        {{ element.name }}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="status">
+      <th mat-header-cell *matHeaderCellDef>Status</th>
+      <td
+        mat-cell
+        style="cursor: pointer"
+        (click)="downloadFile(element)"
+        *matCellDef="let element"
+      >
+        {{ element.status }}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="currentGroupActed">
+      <th mat-header-cell *matHeaderCellDef>Lastly acted by</th>
+      <td
+        mat-cell
+        style="cursor: pointer"
+        (click)="downloadFile(element)"
+        *matCellDef="let element"
+      >
+        {{ element.currentGroupActed }}
+      </td>
+    </ng-container>
+
+    <!-- <ng-container matColumnDef="action">
+            <th mat-header-cell *matHeaderCellDef></th>
+            <td mat-cell *matCellDef="let element">
+                <button mat-icon-button [matMenuTriggerFor]="menu" matTooltip="More actions on resource">
+                    <mat-icon>more_vert</mat-icon>
+                </button>
+                <mat-menu #menu="matMenu">
+                    <button mat-menu-item *ngIf="!element.action.external" (click)="openResource(element.action.url)">
+                        <mat-icon>cloud_download</mat-icon>
+                        <span>Download</span>
+                    </button>
+                    <button mat-menu-item *ngIf="element.action.external" (click)="openResource(element.action.url)">
+                        <mat-icon>link</mat-icon>
+                        <span>View</span>
+                    </button>
+                    <button mat-menu-item (click)="deleteResource(element.action.id, false)">
+                        <mat-icon>delete</mat-icon>
+                        <span>Delete</span>
+                    </button>
+                </mat-menu>
+            </td>
+        </ng-container> -->
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+  </table>
+
+  <mat-paginator
+    [pageSizeOptions]="[5, 10, 15, 20, 25, 50, 100]"
+    showFirstLastButtons
+  ></mat-paginator>
+</div>

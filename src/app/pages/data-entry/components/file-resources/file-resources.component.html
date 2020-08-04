@@ -1,0 +1,42 @@
+<div
+  *ngIf="
+    (fileResources$ | async) &&
+    (fileResources$ | async)?.length > 0 &&
+    dataEntryFlow &&
+    currentUser
+  "
+>
+  <div>
+    <a
+      class="status-controls"
+      mat-stroked-button
+      [ngClass]="{ 'status-controls-active': status == 'ACTIVE' }"
+      (click)="setStatus('ACTIVE')"
+      >Waiting for actions</a
+    >
+    <a
+      mat-stroked-button
+      class="status-controls"
+      [ngClass]="{ 'status-controls-active': status == 'ACTED-BY-ME' }"
+      (click)="setStatus('ACTED-BY-ME')"
+      >Acted by me</a
+    ><a
+      mat-stroked-button
+      class="status-controls"
+      [ngClass]="{ 'status-controls-active': status == 'COMPLETED' }"
+      (click)="setStatus('COMPLETED')"
+      >Completed</a
+    >
+  </div>
+  <div *ngIf="statusSet">
+    <app-file-resources-list
+      [fileResources]="fileResources$ | async"
+      [status]="status"
+      [dataEntryFlow]="dataEntryFlow"
+      [currentUser]="currentUser"
+    ></app-file-resources-list>
+  </div>
+</div>
+<div *ngIf="!(fileResources$ | async)">
+  <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+</div>
