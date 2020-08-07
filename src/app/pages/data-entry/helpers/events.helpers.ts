@@ -226,7 +226,6 @@ export function formatFileResourcesForDataTable(
         currentUser,
         status
       );
-      console.log('controlConfigs', controlConfigs);
       if (
         (resource.status == status && controlConfigs.allowed) ||
         (status == 'ACTED-BY-ME' && controlConfigs.allowed)

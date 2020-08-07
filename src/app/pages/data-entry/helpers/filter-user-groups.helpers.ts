@@ -4,7 +4,10 @@ export function getDepartmentsFromUserGroups(currentUser) {
   return _.map(filterDepartments(currentUser.userGroups), userGroup => {
     const group = {
       id: userGroup.id,
-      name: _.capitalize(userGroup.name.toLowerCase().replace('dpt: ', ''))
+      name: userGroup.name
+        .toLowerCase()
+        .replace('dpt: ', '')
+        .toUpperCase()
     };
     return group;
   });
