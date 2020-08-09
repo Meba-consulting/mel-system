@@ -17,4 +17,9 @@
   <div class="col-12" *ngIf="!(currentUser$ | async)">
     <mat-progress-bar mode="indeterminate"></mat-progress-bar>
   </div>
+  <div *ngIf="(programs$ | async) && (programs$ | async)?.length == 0">
+    <div style="padding: 20%;">
+      <p style="text-align: center">No any forms available</p>
+    </div>
+  </div>
 </div>
