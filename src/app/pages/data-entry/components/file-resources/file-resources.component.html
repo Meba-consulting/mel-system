@@ -1,11 +1,4 @@
-<div
-  *ngIf="
-    (fileResources$ | async) &&
-    (fileResources$ | async)?.length > 0 &&
-    dataEntryFlow &&
-    currentUser
-  "
->
+<div *ngIf="(fileResources$ | async) && dataEntryFlow && currentUser">
   <div>
     <a
       class="status-controls"

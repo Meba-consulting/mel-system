@@ -2,7 +2,7 @@ import * as _ from 'lodash';
 
 export function formatResourcesByAccess(groups, resouces) {
   let newResources = {};
-  _.each(groups, group => {
+  _.each(_.orderBy(groups, ['name'], ['asc']), group => {
     let resourcesByGroup = [];
     _.each(resouces, resouce => {
       if (_.filter(resouce.userGroupAccesses, { id: group.id }).length > 0) {
@@ -27,7 +27,7 @@ export function getProceduresGroups(currentUser) {
             .replace('_procedures ', '')
             .replace('_PROCEDURE ', '')
             .replace('_procedure ', '')
-        )
+        ).toUpperCase()
       });
     }
   });
@@ -47,7 +47,7 @@ export function getFormsGroups(currentUser) {
             .replace('_forms ', '')
             .replace('_FORM ', '')
             .replace('_form ', '')
-        )
+        ).toUpperCase()
       });
     }
   });
