@@ -35,7 +35,6 @@ export function getDepartmentsFromUserGroups(currentUser) {
       newDepts.push(dept);
     }
   });
-  console.log(newDepts);
   return newDepts;
 }
 

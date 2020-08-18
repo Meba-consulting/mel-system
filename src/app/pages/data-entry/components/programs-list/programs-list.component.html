@@ -66,28 +66,32 @@
       </td>
     </ng-container>
 
-    <!-- <ng-container matColumnDef="action">
-            <th mat-header-cell *matHeaderCellDef></th>
-            <td mat-cell *matCellDef="let element">
-                <button mat-icon-button [matMenuTriggerFor]="menu" matTooltip="More actions on resource">
-                    <mat-icon>more_vert</mat-icon>
-                </button>
-                <mat-menu #menu="matMenu">
-                    <button mat-menu-item *ngIf="!element.action.external" (click)="openResource(element.action.url)">
-                        <mat-icon>cloud_download</mat-icon>
-                        <span>Download</span>
-                    </button>
-                    <button mat-menu-item *ngIf="element.action.external" (click)="openResource(element.action.url)">
-                        <mat-icon>link</mat-icon>
-                        <span>View</span>
-                    </button>
-                    <button mat-menu-item (click)="deleteResource(element.action.id, false)">
-                        <mat-icon>delete</mat-icon>
-                        <span>Delete</span>
-                    </button>
-                </mat-menu>
-            </td>
-        </ng-container> -->
+    <ng-container matColumnDef="action">
+      <th mat-header-cell *matHeaderCellDef></th>
+      <td mat-cell *matCellDef="let element">
+        <button
+          mat-icon-button
+          [matMenuTriggerFor]="menu"
+          matTooltip="More actions on form"
+        >
+          <mat-icon>more_vert</mat-icon>
+        </button>
+        <mat-menu #menu="matMenu">
+          <button
+            mat-menu-item
+            routerLink="{{ element.category }}/{{ element.type }}/{{
+              element.id
+            }}"
+          >
+            <mat-icon>view</mat-icon>
+            <span>View</span></button
+          ><button mat-menu-item (click)="openConfiguration(element)">
+            <mat-icon>configure</mat-icon>
+            <span>Configure</span>
+          </button>
+        </mat-menu>
+      </td>
+    </ng-container>
 
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
@@ -98,3 +102,104 @@
     showFirstLastButtons
   ></mat-paginator>
 </div>
+
+<mat-card
+  *ngIf="configurationOpened && (userGroups$ | async)"
+  class="configuration-area mat-elevation-z10"
+>
+  <div class="row">
+    <div class="col-12">
+      <button
+        style="float: right"
+        mat-stroked-button
+        (click)="closeConfigurationArea()"
+      >
+        Close
+      </button>
+    </div>
+    <div class="col-12">
+      <h4>{{ currentProgram.name }}</h4>
+    </div>
+    <div class="col-12" style="margin-top: 20px">
+      <div
+        class="row"
+        *ngIf="configuredGroups && configuredGroups.length > 0 && setRemove"
+      >
+        <div class="col-12" style="height: 200px;overflow: auto">
+          <h5>Configured groups</h5>
+          <hr />
+          <table style="width: 70%">
+            <thead>
+              <tr>
+                <th>Group</th>
+                <th>Order</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let group of configuredGroups; let i = index">
+                <td>
+                  {{ group.name }}
+                </td>
+                <td>{{ i + 1 }}</td>
+                <td title="Remove">
+                  <button
+                    mat-stroked-button
+                    (click)="removeGroup(group)"
+                    style="border: none; background-color: transparent"
+                  >
+                    <span>X</span>
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="row" style="margin-top: 15px">
+        <div class="col-12">
+          <h5>Set data flow here</h5>
+          <hr />
+        </div>
+        <div class="col-2">
+          <!-- <h5>{{ flowMessage }}</h5> -->
+        </div>
+        <div class="col-8">
+          <div class="row">
+            <div class="col-12 d-flex justify-content-between">
+              <mat-form-field class="w-100">
+                <mat-label>Search group</mat-label>
+                <mat-icon matPrefix>search</mat-icon>
+                <input matInput [(ngModel)]="userGroupSearchingText" />
+              </mat-form-field>
+            </div>
+            <div class="col-12" style="height: 120px; overflow: auto">
+              <div
+                (click)="addGroupToConfigs(userGroup)"
+                style="padding: 8px 0; cursor: pointer; border-bottom: solid 1px #eee"
+                *ngFor="
+                  let userGroup of userGroups$
+                    | async
+                    | filterUserGroup: userGroupSearchingText
+                "
+              >
+                {{ userGroup.displayName }}
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-2">
+          <!-- <button (click)="next()" mat-stroked-button>Next</button> -->
+        </div>
+      </div>
+      <div class="col-12">
+        <button mat-stroked-button style="float: right" (click)="saveConfigs()">
+          Save
+        </button>
+      </div>
+    </div>
+    <div *ngIf="message != ''" style="margin-top: 20px">
+      {{ message }}
+    </div>
+  </div>
+</mat-card>

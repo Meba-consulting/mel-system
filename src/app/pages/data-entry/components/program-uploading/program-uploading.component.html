@@ -17,19 +17,33 @@
       Add new
     </button>
   </div>
-  <div class="uploading" style="display: flex" *ngIf="showFileUpload">
+  <div
+    class="uploading"
+    style="display: flex; width: 100%;"
+    *ngIf="showFileUpload"
+  >
     <input
       type="file"
-      style="border: none; background-color: transparent; float: left;"
+      style="border: none; background-color: transparent; float: left;width: 60%;"
       class="form-control"
       name="file"
       accept=".pdf"
       id="fileSelector"
       (change)="fileSelection($event)"
-    /><span *ngIf="requiredField" style="color: red;font-style: italic">
+    />
+
+    <span *ngIf="requiredField" style="color: red;font-style: italic">
       Required
     </span>
-    <button style="float: right" mat-stroked-button>Save</button>
+    <span style="margin-right: 15px" *ngIf="fileResourceInfo">{{
+      fileResourceInfo.resourceName
+    }}</span>
+    <button style="float: right" mat-stroked-button (click)="saveData()">
+      Save
+    </button>
+  </div>
+  <div *ngIf="message != ''" class="messaging">
+    <p>{{ message }}</p>
   </div>
   <div *ngIf="!showFileUpload" class="list">
     <div class="data" *ngIf="(events$ | async) && currentUser">

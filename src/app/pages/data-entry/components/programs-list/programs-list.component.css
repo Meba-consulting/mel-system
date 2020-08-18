@@ -1,0 +1,13 @@
+.configuration-area {
+  margin-left: 5%;
+  margin-right: 5%;
+  width: 90%;
+  position: absolute;
+  border-radius: 2px;
+  top: 40px;
+  padding: 20px;
+  z-index: 22;
+  height: 700px;
+  overflow: hidden;
+  color: #676767 !important;
+}

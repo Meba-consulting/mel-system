@@ -74,28 +74,24 @@
       </td>
     </ng-container>
 
-    <!-- <ng-container matColumnDef="action">
-            <th mat-header-cell *matHeaderCellDef></th>
-            <td mat-cell *matCellDef="let element">
-                <button mat-icon-button [matMenuTriggerFor]="menu" matTooltip="More actions on resource">
-                    <mat-icon>more_vert</mat-icon>
-                </button>
-                <mat-menu #menu="matMenu">
-                    <button mat-menu-item *ngIf="!element.action.external" (click)="openResource(element.action.url)">
-                        <mat-icon>cloud_download</mat-icon>
-                        <span>Download</span>
-                    </button>
-                    <button mat-menu-item *ngIf="element.action.external" (click)="openResource(element.action.url)">
-                        <mat-icon>link</mat-icon>
-                        <span>View</span>
-                    </button>
-                    <button mat-menu-item (click)="deleteResource(element.action.id, false)">
-                        <mat-icon>delete</mat-icon>
-                        <span>Delete</span>
-                    </button>
-                </mat-menu>
-            </td>
-        </ng-container> -->
+    <ng-container matColumnDef="action">
+      <th mat-header-cell *matHeaderCellDef></th>
+      <td mat-cell *matCellDef="let element">
+        <button
+          mat-icon-button
+          [matMenuTriggerFor]="menu"
+          matTooltip="More actions"
+        >
+          <mat-icon>more_vert</mat-icon>
+        </button>
+        <mat-menu #menu="matMenu">
+          <button mat-menu-item (click)="openActOnThisEvent(element)">
+            <mat-icon>update</mat-icon>
+            <span>Update</span>
+          </button>
+        </mat-menu>
+      </td>
+    </ng-container>
 
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
@@ -106,3 +102,46 @@
     showFirstLastButtons
   ></mat-paginator>
 </div>
+
+<mat-card *ngIf="openedEventArea" class="act-on-resource mat-elevation-z10">
+  <div class="row">
+    <div class="col-12">
+      <button style="float: right" mat-stroked-button (click)="close()">
+        Close
+      </button>
+    </div>
+    <div class="col-12">
+      <h3 style="text-align: left">{{ selectedEventData.name }}</h3>
+    </div>
+    <div class="col-12">
+      <div class="form-updating" style="margin-top: 50px;">
+        <input
+          type="file"
+          style="border: none; background-color: transparent; float: left;width: 60%;"
+          class="form-control"
+          name="file"
+          accept=".pdf"
+          id="fileSelector"
+          (change)="fileSelection($event)"
+        />
+
+        <span *ngIf="requiredField" style="color: red;font-style: italic">
+          Required
+        </span>
+      </div>
+      <div>
+        <p style="margin-right: 15px" *ngIf="fileResourceInfo">
+          {{ fileResourceInfo.resourceName }}
+        </p>
+      </div>
+      <div>
+        <button style="float: right" mat-stroked-button (click)="saveData()">
+          Save
+        </button>
+      </div>
+      <div *ngIf="message != ''" class="messaging">
+        <p>{{ message }}</p>
+      </div>
+    </div>
+  </div>
+</mat-card>

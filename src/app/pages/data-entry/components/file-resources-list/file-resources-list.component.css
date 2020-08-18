@@ -1,0 +1,13 @@
+.act-on-resource {
+  margin-left: 15%;
+  margin-right: 15%;
+  width: 70%;
+  position: absolute;
+  border-radius: 2px;
+  top: 40px;
+  padding: 20px;
+  z-index: 22;
+  height: 300px;
+  overflow: hidden;
+  color: #676767 !important;
+}

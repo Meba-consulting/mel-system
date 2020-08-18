@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, ViewChild, ElementRef } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { State } from 'src/app/store';
 import { loadEvents } from '../../store/actions';
@@ -8,6 +8,8 @@ import {
   getEventsById
 } from '../../store/selectors/events.selectors';
 import { checkIfCurrentUserCanAddNew } from '../../helpers';
+import { ResourcesService } from 'src/app/pages/resources/services/resources.service';
+import { NgxDhis2HttpClientService } from '@iapps/ngx-dhis2-http-client';
 
 @Component({
   selector: 'app-program-uploading',
@@ -25,7 +27,17 @@ export class ProgramUploadingComponent implements OnInit {
   key: string;
   showFileUpload: boolean = false;
   canAddNew: boolean = false;
-  constructor(private store: Store<State>) {}
+  fileResourceInfo: any;
+  saved: boolean = false;
+  message: string = '';
+  fileName: string = '';
+  @ViewChild('fileSelector') fileSelectorInput: ElementRef;
+
+  constructor(
+    private store: Store<State>,
+    private resourceService: ResourcesService,
+    private httpClient: NgxDhis2HttpClientService
+  ) {}
 
   ngOnInit(): void {
     this.canAddNew = checkIfCurrentUserCanAddNew(
@@ -41,7 +53,66 @@ export class ProgramUploadingComponent implements OnInit {
 
   fileSelection(event) {
     const element: HTMLElement = document.getElementById('fileSelector');
-    this.file = event.target.files[0];
+    this.file = element.id;
+    this.fileResourceInfo = {
+      resourceName: event.target.files[0].name,
+      resourceType: 'DATA_VALUE',
+      attachment: true,
+      file: event.target.files[0],
+      url: ''
+    };
+    event.srcElement.value = null;
+  }
+
+  saveData() {
+    if (this.fileResourceInfo) {
+      this.message = 'Saving data for ' + this.fileResourceInfo.resourceName;
+      this.resourceService
+        .uploadDataValueResource(this.fileResourceInfo)
+        .subscribe(response => {
+          const eventData = {
+            eventDate: '2020-08-11',
+            status:
+              this.dataEntryFlow.groups.length > 1 ? 'ACTIVE' : 'COMPLETED',
+            notes: [],
+            completedDate:
+              this.dataEntryFlow.groups.length > 1 ? '' : '2020-08-11',
+            program: this.program.id,
+            programStage: this.program.programStages[0].id,
+            orgUnit: this.orgUnit.id,
+            dataValues: [
+              {
+                dataElement: 'TebwJX5PGqd',
+                value: response.response.fileResource.id
+              },
+              {
+                dataElement: 'MFBuF12a58L',
+                value: this.dataEntryFlow.groups[0].name
+              },
+              {
+                dataElement: 'JGV9wKloWLo',
+                value: this.dataEntryFlow.groups[0].id
+              }
+            ]
+          };
+          document.getElementById('fileSelector').innerHTML = '';
+          this.httpClient
+            .post('events.json', eventData)
+            .subscribe(eventResponse => {
+              setTimeout(() => {
+                this.message = 'Data Saved !';
+                this.fileResourceInfo = null;
+              }, 500);
+              setTimeout(() => {
+                this.message = '';
+              }, 1000);
+            });
+        });
+    }
+  }
+
+  reset() {
+    this.fileSelectorInput.nativeElement.value = '';
   }
 
   loadEvents(orgUnit) {

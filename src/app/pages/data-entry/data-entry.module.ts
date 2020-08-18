@@ -31,6 +31,7 @@ import { ProgramDataEntryComponent } from './pages/containers/program-data-entry
 import { FileResourcesComponent } from './components/file-resources/file-resources.component';
 import { FileResourcesListComponent } from './components/file-resources-list/file-resources-list.component';
 import { ProgramEntryComponent } from './components/program-entry/program-entry.component';
+import { FilterUserGroupPipe } from './pipes/filter-user-group.pipe';
 
 @NgModule({
   declarations: [
@@ -52,7 +53,8 @@ import { ProgramEntryComponent } from './components/program-entry/program-entry.
     ProgramDataEntryComponent,
     FileResourcesComponent,
     FileResourcesListComponent,
-    ProgramEntryComponent
+    ProgramEntryComponent,
+    FilterUserGroupPipe
   ],
   imports: [
     CommonModule,

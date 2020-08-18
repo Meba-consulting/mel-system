@@ -19,7 +19,11 @@ export function filterProgramsForDataTable(programs, department) {
       id: program.id,
       department: department.name,
       category: 'event',
-      type: program.programStages[0].dataEntryForm ? 'entry' : 'upload'
+      type: program.programStages[0].dataEntryForm ? 'entry' : 'upload',
+      action: {
+        id: program.id,
+        canManage: true
+      }
     };
   });
 }

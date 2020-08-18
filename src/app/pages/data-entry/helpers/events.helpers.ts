@@ -217,7 +217,7 @@ export function formatFileResourcesForDataTable(
   dataEntryFlow,
   currentUser
 ) {
-  return _.filter(
+  const data = _.filter(
     _.orderBy(_.uniqBy(resources, 'id'), ['created'], ['desc']),
     (resource, index) => {
       const controlConfigs = deduceCurrentUserGroupForAction(
@@ -247,6 +247,7 @@ export function formatFileResourcesForDataTable(
             '&eventUid=' +
             resource.eventUid,
           key: resource.key,
+          dataEntryFlow: dataEntryFlow,
           actions: {
             key: resource.key,
             id: resource.key
@@ -255,4 +256,7 @@ export function formatFileResourcesForDataTable(
       }
     }
   );
+
+  console.log(' he', data);
+  return data;
 }

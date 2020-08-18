@@ -22,6 +22,13 @@ export class ResourcesService {
     return this.httpClient.post('fileResources', formData);
   }
 
+  uploadDataValueResource(fileResource): Observable<any> {
+    const formData = new FormData();
+    formData.append('file', fileResource.file);
+    formData.append('domain', 'DATA_VALUE');
+    return this.httpClient.post('fileResources', formData);
+  }
+
   saveDocument(data): Observable<any> {
     return this.httpClient.post('documents', data);
   }
