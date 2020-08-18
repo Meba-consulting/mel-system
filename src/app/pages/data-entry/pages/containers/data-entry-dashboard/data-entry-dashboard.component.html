@@ -12,10 +12,13 @@
         [ngClass]="{
           'active-department': currentDepartment.id == department.id
         }"
-        (click)="onSetCurrentDepartment(department)"
         *ngFor="let department of departments"
       >
         <div
+          (click)="onSetCurrentDepartment(department)"
+          *ngIf="
+            department.managedGroups && department.managedGroups.length == 0
+          "
           class="row"
           [ngClass]="{
             'active-department': currentDepartment.id == department.id
@@ -33,6 +36,58 @@
             {{ department.name }}
           </div>
         </div>
+        <div
+          class="row"
+          style="padding: 8px 4px"
+          *ngIf="
+            department.managedGroups && department.managedGroups.length > 0
+          "
+        >
+          <div class="col-1"></div>
+          <div class="col-11">
+            {{ department.name }}
+            <span style="float: right">
+              <img
+                height="15"
+                src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABoAAAAaCAYAAACpSkzOAAAABmJLR0QA/wD/AP+gvaeTAAAA9ElEQVRIie3T20rDQBSF4e8JKkhpa7WeUBTFB/Mt9U4Qb7TaekJFxcNLxJuJDmHSkw2CZMG+yV5r/ROSoVatv1QDh2jOoasZuhrFxQJOkGGA7i8gbVyErjMsxsvjsMhnOCOsG7Jx11FsuCwsM9yiNwWkFzLFnv4kpkdsTgBZxV1JfqNoXimBPWFrBGQN94ncA9bLQh1cJUJv2Ev4t/Gc8N+Eg49UR/qbvWM/8u3gpQSyPA6Sq10C+8ABdvGa2F9PA8mV+lUzfIYpPp/1Sny/WT9ROldIrpafm14ZZBxsiKV5QWLYeQQZVAGJYadhWlVBav1zfQHKJIAi7N8iJQAAAABJRU5ErkJggg=="
+              />
+            </span>
+          </div>
+        </div>
+        <ul
+          class="list-group"
+          *ngIf="
+            department.managedGroups && department.managedGroups.length > 0
+          "
+        >
+          <li
+            class="list-group-item"
+            [ngClass]="{
+              'active-department': currentDepartment.id == depart.id
+            }"
+            (click)="onSetCurrentDepartment(depart)"
+            *ngFor="let depart of department.managedGroups"
+          >
+            <div
+              class="row"
+              [ngClass]="{
+                'active-department': currentDepartment.id == depart.id
+              }"
+            >
+              <div
+                class="col-1"
+                style="padding: 10px 0px 10px 2px !important"
+                [ngClass]="{
+                  'selected-item': currentDepartment.id == depart.id,
+                  '': currentDepartment.id != depart.id
+                }"
+              ></div>
+              <div class="col-11" style="padding: 10px 0px 10px 2px !important">
+                {{ depart.name }}
+              </div>
+            </div>
+          </li>
+        </ul>
       </li>
     </ul>
   </div>

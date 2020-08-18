@@ -1,7 +1,6 @@
 import * as _ from 'lodash';
 
 export function filterProgramsByDepartments(programs, currentDepartment) {
-  console.log('programs', programs);
   return _.filter(_.orderBy(programs, ['name'], ['asc']), program => {
     const userGroupAccess = _.filter(program.userGroupAccesses, {
       id: currentDepartment.id
