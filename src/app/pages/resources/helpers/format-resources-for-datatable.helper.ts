@@ -9,7 +9,7 @@ export function formatResourcesForDataTable(items, currentUser) {
         if (
           _.filter(currentUser.userGroups, { name: '_MAINTENANCE IMS' })
             .length > 0 ||
-          (userGroup.displayName.indexOf('_VIEW_DOC') > -1 &&
+          (userGroup.displayName.toLowerCase().indexOf('_view_doc') > -1 &&
             _.filter(currentUser.userGroups, { id: userGroup.userGroupUid }) &&
             _.filter(currentUser.userGroups, { id: userGroup.userGroupUid })
               .length > 0)

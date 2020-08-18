@@ -30,6 +30,7 @@ import { ProgramUploadingComponent } from './components/program-uploading/progra
 import { ProgramDataEntryComponent } from './pages/containers/program-data-entry/program-data-entry.component';
 import { FileResourcesComponent } from './components/file-resources/file-resources.component';
 import { FileResourcesListComponent } from './components/file-resources-list/file-resources-list.component';
+import { ProgramEntryComponent } from './components/program-entry/program-entry.component';
 
 @NgModule({
   declarations: [
@@ -50,7 +51,8 @@ import { FileResourcesListComponent } from './components/file-resources-list/fil
     ProgramUploadingComponent,
     ProgramDataEntryComponent,
     FileResourcesComponent,
-    FileResourcesListComponent
+    FileResourcesListComponent,
+    ProgramEntryComponent
   ],
   imports: [
     CommonModule,

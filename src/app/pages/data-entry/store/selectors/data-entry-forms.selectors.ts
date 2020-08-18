@@ -24,6 +24,11 @@ export const getDataEntryFormsByOuId = createSelector(
   (entities, props) => entities[props.id]
 );
 
+export const getFormsLoadedState = createSelector(
+  getDataEntryFormsState,
+  (state: DataEntryFormsState) => state.loaded
+);
+
 export const getProgramMetadataById = createSelector(
   getDataEntryFormsState,
   (state: DataEntryFormsState, props) =>

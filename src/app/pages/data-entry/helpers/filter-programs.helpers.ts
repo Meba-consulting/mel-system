@@ -1,6 +1,7 @@
 import * as _ from 'lodash';
 
 export function filterProgramsByDepartments(programs, currentDepartment) {
+  console.log('programs', programs);
   return _.filter(_.orderBy(programs, ['name'], ['asc']), program => {
     const userGroupAccess = _.filter(program.userGroupAccesses, {
       id: currentDepartment.id
@@ -18,8 +19,8 @@ export function filterProgramsForDataTable(programs, department) {
       name: program.name,
       id: program.id,
       department: department.name,
-      category: program.programStages.length > 1 ? 'tracker' : 'event',
-      type: program.programStages[0].dataEntryForm ? 'Entry' : 'Upload'
+      category: 'event',
+      type: program.programStages[0].dataEntryForm ? 'entry' : 'upload'
     };
   });
 }

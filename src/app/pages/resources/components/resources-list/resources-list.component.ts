@@ -32,6 +32,7 @@ export class ResourcesListComponent implements OnInit {
   currentResource: any;
   userGroupSearchingText: string = '';
   sharingSettingsMessage: string = '';
+  canAddResource: boolean = false;
 
   constructor(
     private resourceService: ResourcesService,
@@ -44,6 +45,11 @@ export class ResourcesListComponent implements OnInit {
       formatResourcesForDataTable(this.resources, this.currentUser)
     );
     this.dataSource.paginator = this.paginator;
+    _.each(this.currentUser.userGroups, userGroup => {
+      if (userGroup.name.indexOf('_MAINTENANCE') > -1) {
+        this.canAddResource = true;
+      }
+    });
   }
 
   redirectTo(uri: string) {

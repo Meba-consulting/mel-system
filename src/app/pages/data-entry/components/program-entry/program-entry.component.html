@@ -1,0 +1,15 @@
+<p>program-entry works!</p>
+{{ program | json }}
+
+<div>
+  <app-data-entry
+    [dataEntryForm]="program['dataEntryForm']"
+    [formName]="program['name']"
+    [formId]="program['id']"
+    [dataElements]="[]"
+    [formType]="'event'"
+    [elementsDataValues]="elementsDataValues"
+    (entryInfo)="onEntryInfoChange($event)"
+  >
+  </app-data-entry>
+</div>
