@@ -1,0 +1,20 @@
+<!-- <p>events-report works!</p>
+{{ reportElements | json }} -->
+<div *ngIf="events && events.length > 0">
+  <!-- <app-events-list [dataValues]="eventValues" [headers]="reportElements" (eventSet)="onEventSet($event)">
+    </app-events-list> -->
+  <app-events-report-list
+    [events]="events"
+    [reportDataELements]="reportElements"
+  ></app-events-report-list>
+</div>
+
+<div *ngIf="events && events.length == 0">
+  <p style="text-align: center; padding: 30px">
+    No data
+  </p>
+</div>
+
+<div *ngIf="!events">
+  <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+</div>

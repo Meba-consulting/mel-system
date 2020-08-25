@@ -40,6 +40,13 @@ export class ResourcesService {
     );
   }
 
+  saveSharingSettingsForPrograms(data): Observable<any> {
+    return this.httpClient.post(
+      'sharing?type=program&id=' + data.object.id,
+      data
+    );
+  }
+
   deleteResource(itemId) {
     return this.httpClient.delete('documents/' + itemId);
   }

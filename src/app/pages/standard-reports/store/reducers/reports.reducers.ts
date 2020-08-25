@@ -9,7 +9,10 @@ import {
   loadingOldStdReportsListFails,
   loadReportMetadata,
   addLoadedReportMetadata,
-  loadingReportMetadataFails
+  loadingReportMetadataFails,
+  loadSSBResources,
+  addLoadedSSBResources,
+  loadingSSBResourcesFail
 } from '../actions';
 import {
   loadingBaseState,
@@ -44,6 +47,20 @@ const reducer = createReducer(
   on(loadingReportMetadataFails, (state, { error }) => ({
     ...state,
     reportMetadataError: error,
+    ...errorBaseState
+  })),
+  on(loadSSBResources, state => ({
+    ...state,
+    ...loadingBaseState
+  })),
+  on(addLoadedSSBResources, (state, { resources }) => ({
+    ...state,
+    resources,
+    ...loadedBaseState
+  })),
+  on(loadingSSBResourcesFail, (state, { error }) => ({
+    ...state,
+    error,
     ...errorBaseState
   }))
 );

@@ -11,3 +11,11 @@
   overflow: hidden;
   color: #676767 !important;
 }
+
+button {
+  outline: none !important;
+}
+
+button:hover {
+  outline: none !important;
+}

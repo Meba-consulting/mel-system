@@ -9,7 +9,7 @@ import { DataEntryFormsEffects } from './store/effects/data-entry-forms.effects'
 import { StoreModule } from '@ngrx/store';
 import { dataEntryFormsReducer } from './store/reducers/data-entry-forms.reducer';
 import { DataEntryComponent } from './pages/containers/data-entry/data-entry.component';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { dataEntryFlowReducer } from './store/reducers/data-entry-flow.reducer';
 import { DataEntryFlowEffects } from './store/effects/data-entry-flow.effects';
 import { eventsReducer } from './store/reducers/events.reducer';
@@ -32,6 +32,9 @@ import { FileResourcesComponent } from './components/file-resources/file-resourc
 import { FileResourcesListComponent } from './components/file-resources-list/file-resources-list.component';
 import { ProgramEntryComponent } from './components/program-entry/program-entry.component';
 import { FilterUserGroupPipe } from './pipes/filter-user-group.pipe';
+import { NewProgramComponent } from './pages/containers/new-program/new-program.component';
+import { EventsReportComponent } from './components/events-report/events-report.component';
+import { EventsReportListComponent } from './components/events-report-list/events-report-list.component';
 
 @NgModule({
   declarations: [
@@ -54,11 +57,15 @@ import { FilterUserGroupPipe } from './pipes/filter-user-group.pipe';
     FileResourcesComponent,
     FileResourcesListComponent,
     ProgramEntryComponent,
-    FilterUserGroupPipe
+    FilterUserGroupPipe,
+    NewProgramComponent,
+    EventsReportComponent,
+    EventsReportListComponent
   ],
   imports: [
     CommonModule,
     FormsModule,
+    ReactiveFormsModule,
     DataEntryRoutingModule,
     SharedModule,
     EffectsModule.forFeature([

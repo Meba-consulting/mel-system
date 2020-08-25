@@ -37,6 +37,7 @@
           </div>
         </div>
         <div
+          (click)="toggleSubItems()"
           class="row"
           style="padding: 8px 4px"
           *ngIf="
@@ -46,10 +47,16 @@
           <div class="col-1"></div>
           <div class="col-11">
             {{ department.name }}
-            <span style="float: right">
+            <span *ngIf="!showSubMenu" style="float: right">
               <img
                 height="15"
-                src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABoAAAAaCAYAAACpSkzOAAAABmJLR0QA/wD/AP+gvaeTAAAA9ElEQVRIie3T20rDQBSF4e8JKkhpa7WeUBTFB/Mt9U4Qb7TaekJFxcNLxJuJDmHSkw2CZMG+yV5r/ROSoVatv1QDh2jOoasZuhrFxQJOkGGA7i8gbVyErjMsxsvjsMhnOCOsG7Jx11FsuCwsM9yiNwWkFzLFnv4kpkdsTgBZxV1JfqNoXimBPWFrBGQN94ncA9bLQh1cJUJv2Ev4t/Gc8N+Eg49UR/qbvWM/8u3gpQSyPA6Sq10C+8ABdvGa2F9PA8mV+lUzfIYpPp/1Sny/WT9ROldIrpafm14ZZBxsiKV5QWLYeQQZVAGJYadhWlVBav1zfQHKJIAi7N8iJQAAAABJRU5ErkJggg=="
+                src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAABmJLR0QA/wD/AP+gvaeTAAAB9ElEQVRoge2YSUoEMRSGvypwWDiAK3FA+wbSCi7EBk/geAm9gaIn0o1HcGhcCOJGcac4TzsndKEu8mJpq9Vp66VUyAchTdH9/XldVCoJBAKBQCAQCPw5IsfvFYFRoAS0A91y/Qg4B1aBZWBLrtcDc8CsfK6FuxTvj4iAKWAPeHFse8AkyR9UlEG5/t7V60wB2MgQXAZ6xdUB7CgUU+mtyhBwoRB6DYyIsxPYVyrmvfdbSsCjUuCLuEri7geePHg/UQCuFIuw7VLcAPOevG9EZHsmqrWyZDQChx68b0x5LMK2Ccma9uQlorYp9qdtV/JagHsPXoo5FGFbn2QuantjYIz8sFmr2t4YGFaWpmGzNrW9MeZllRc260jbGwE3QJOy+DtugWbMNPyg6Y0xD0tePEsfa3tj4ExZmsap9G3a3hg4UZamBkrfpe2NgTVlaRor0g/68P7GC3HJhzfvJUornpYoYLaRvgsZl6wZT17sXSl7LGJdchrR2cNXej/Qi9msaBdxCfRIxoIn7yd8bHXt+moA3a1u1TXiEOZMKWtY5eHDgVIRTocPlgLZnpl1ktveiZlZNIp473UmwmwjaxnELh9nkQHMyiFrAZXeLwfrQh/JkWkHyRLjGLPssEeb23K9geTItM4xw3Kb4g0EAoFAIBD4T7wCRyH981ztZJoAAAAASUVORK5CYII="
+              />
+            </span>
+            <span *ngIf="showSubMenu" style="float: right">
+              <img
+                height="15"
+                src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAYAAAA7MK6iAAAABmJLR0QA/wD/AP+gvaeTAAABFUlEQVRIie2UX07CQBCHvzSxPtCT8Cf2SeAseCWNCMHDVL0EegHlBMJDm5TUh/3VFJDKMtGn/SWTbbYz83WnOwNBQUF/qAEwBV6BDVCdaRvluAf6bcBLYAFsDbBjVgJzIP4J+mJMnqtSQ6AjGwIPelcBz/vwRyN0BVy1VDOVTwXM6s2Bsbz5L9AmPMeVvQfu51tOOz0BWmummDuANyP42gM8UswSYG0EJx7gRDGfkR7+S5HWKgI+jMm6Z/i+R0BmBN94+E60ZuDGWYmtndIToClQiPVdpbkBXA+QNnhzgOy0Xww8GeEFrk9HuNubAGPtFfLJgIv9r4rlZCn7MSt10gNoUz3cZFli6/G1ctzid/ODgoL89AVRZwZd9/BTTQAAAABJRU5ErkJggg=="
               />
             </span>
           </div>
@@ -57,7 +64,9 @@
         <ul
           class="list-group"
           *ngIf="
-            department.managedGroups && department.managedGroups.length > 0
+            department.managedGroups &&
+            department.managedGroups.length > 0 &&
+            showSubMenu
           "
         >
           <li
@@ -97,6 +106,8 @@
       <app-programs-list
         [programs]="filteredProgramsByDepartments"
         [department]="currentDepartment"
+        [userGroups]="userGroups"
+        [currentUser]="currentUser"
       ></app-programs-list>
     </div>
     <div *ngIf="!showPrograms">

@@ -27,11 +27,6 @@ const routes: Routes = [
       )
   },
   {
-    path: 'contacts',
-    loadChildren: () =>
-      import('./pages/contacts/contacts.module').then(m => m.ContactsModule)
-  },
-  {
     path: 'resources',
     loadChildren: () =>
       import('./pages/resources/resources.module').then(m => m.ResourcesModule)

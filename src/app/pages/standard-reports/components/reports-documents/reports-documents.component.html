@@ -1,0 +1,54 @@
+<div class="container-fluid">
+  <div class="row" *ngIf="reportGroups">
+    <div class="col-md-3">
+      <ul class="list-group">
+        <li class="list-group-item-header" style="border: none !important;">
+          Report groups
+        </li>
+        <li
+          class="list-group-item"
+          (click)="onSetCurrentResourceGroup(reportGroup)"
+          *ngFor="let reportGroup of reportGroups"
+        >
+          <div
+            class="row"
+            [ngClass]="{
+              'active-department': currentResourceGroup.id == reportGroup.id
+            }"
+          >
+            <div
+              class="col-1"
+              style="padding: 10px 0px 10px 2px !important"
+              [ngClass]="{
+                'selected-item': currentResourceGroup.id == reportGroup.id,
+                '': currentResourceGroup.id != reportGroup.id
+              }"
+            ></div>
+            <div class="col-11" style="padding: 10px 0px 10px 2px !important">
+              {{ reportGroup.name }}
+            </div>
+          </div>
+        </li>
+      </ul>
+    </div>
+    <div class="col-md-9">
+      <!-- <div *ngIf="isFormSelectionSet">
+        <app-resources-list
+          [resources]="forms[currentResourceGroup.id]"
+          [currentUser]="currentUser"
+          [userGroup]="currentResourceGroup"
+          [userGroups]="userGroups"
+        >
+        </app-resources-list>
+      </div> -->
+      <div *ngIf="isReportSelectionSet">
+        <app-uploaded-reports-list
+          [resources]="reports[currentResourceGroup.id]"
+          [currentUser]="currentUser"
+          [userGroup]="currentResourceGroup"
+          [userGroups]="userGroups"
+        ></app-uploaded-reports-list>
+      </div>
+    </div>
+  </div>
+</div>

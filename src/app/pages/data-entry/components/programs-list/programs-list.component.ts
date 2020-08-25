@@ -9,6 +9,7 @@ import { Observable } from 'rxjs';
 import { getCurrentProgramDataEntryFlowConfigs } from '../../store/selectors/data-entry-flow.selectors';
 import * as _ from 'lodash';
 import { NgxDhis2HttpClientService } from '@iapps/ngx-dhis2-http-client';
+import { ResourcesService } from 'src/app/pages/resources/services/resources.service';
 
 @Component({
   selector: 'app-programs-list',
@@ -19,6 +20,8 @@ export class ProgramsListComponent implements OnInit {
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @Input() programs: any;
   @Input() department: any;
+  @Input() userGroups: any;
+  @Input() currentUser: any;
   programConfigs$: Observable<any>;
   configurationOpened: boolean = false;
   displayedColumns: string[] = [
@@ -36,9 +39,19 @@ export class ProgramsListComponent implements OnInit {
   configuredGroups: Array<any>;
   message: string = '';
   setRemove: boolean = false;
+  programMetadata$: Observable<any>;
+  programMetadata: any;
+  sharingSettings: boolean = false;
+  sharingSettingsMessage: string = '';
+  canPerformMaintenance: boolean = false;
+  currentLevel: number = 1;
+  level: number = 1;
+  deleteMessage: string = '';
+  shouldDelete: boolean = false;
   constructor(
     private store: Store<State>,
-    private httpClient: NgxDhis2HttpClientService
+    private httpClient: NgxDhis2HttpClientService,
+    private resourceService: ResourcesService
   ) {
     this.userGroups$ = this.store.select(getAllUserGroups);
   }
@@ -48,6 +61,11 @@ export class ProgramsListComponent implements OnInit {
       filterProgramsForDataTable(this.programs, this.department)
     );
     this.dataSource.paginator = this.paginator;
+    _.each(this.currentUser.userGroups, userGroup => {
+      if (userGroup.name.indexOf('_MAINTENANCE') > -1) {
+        this.canPerformMaintenance = true;
+      }
+    });
   }
 
   applyFilter(event: Event) {
@@ -57,7 +75,6 @@ export class ProgramsListComponent implements OnInit {
 
   openConfiguration(program) {
     this.store.dispatch(loadProgramDataEntryFlowConfigs({ id: program.id }));
-    console.log(program);
     this.currentProgram = program;
     this.programConfigs$ = this.store.select(
       getCurrentProgramDataEntryFlowConfigs,
@@ -66,6 +83,12 @@ export class ProgramsListComponent implements OnInit {
     this.programConfigs$.subscribe(configs => {
       if (configs) {
         this.configuredGroups = configs.groups;
+        console.log('configuredGroups', this.configuredGroups);
+        this.level = _.orderBy(
+          this.configuredGroups,
+          ['order'],
+          ['desc']
+        )[0].order;
       }
     });
     setTimeout(() => {
@@ -78,19 +101,29 @@ export class ProgramsListComponent implements OnInit {
     this.configurationOpened = false;
   }
 
+  openSharingSettings(metadata) {
+    this.programMetadata$ = this.httpClient.get(
+      'programs/' + metadata.id + '.json'
+    );
+    this.programMetadata$.subscribe(response => {
+      if (response) {
+        this.programMetadata = response;
+      }
+    });
+    this.sharingSettings = true;
+  }
+
   addGroupToConfigs(group) {
     this.flowMessage = 'Next group';
     const formattedGroup = {
       id: group.id,
       name: group.name,
-      order: this.configuredGroups.length
+      order: this.level
     };
-    this.configuredGroups = [...this.configuredGroups, group];
-    console.log(this.configuredGroups);
+    this.configuredGroups = [...this.configuredGroups, formattedGroup];
   }
 
   removeGroup(group) {
-    console.log(group);
     this.setRemove = false;
     const groups = _.filter(this.configuredGroups, configuredGroup => {
       if (configuredGroup.id != group.id) {
@@ -120,5 +153,144 @@ export class ProgramsListComponent implements OnInit {
           this.message = '';
         }, 1000);
       });
+  }
+
+  cancelDeletion() {
+    this.shouldDelete = false;
+  }
+
+  delete(program, shouldDelete) {
+    this.currentProgram = program;
+    this.shouldDelete = true;
+    if (shouldDelete) {
+      this.deleteMessage = 'Deleting ' + program.name;
+      this.httpClient.delete('programs/' + program.id).subscribe(
+        response => {
+          if (response) {
+            setTimeout(() => {
+              this.deleteMessage = 'Deleted';
+            }, 1000);
+            setTimeout(() => {
+              this.deleteMessage = '';
+              this.shouldDelete = false;
+            }, 2000);
+          }
+        },
+        error => {
+          setTimeout(() => {
+            this.deleteMessage = error.message;
+          }, 1000);
+          setTimeout(() => {
+            this.deleteMessage = '';
+            this.shouldDelete = false;
+          }, 2000);
+        }
+      );
+    }
+  }
+
+  closeSharingSettings() {
+    this.sharingSettings = false;
+  }
+
+  addUserGroupToSharingSettings(userGroup, resource) {
+    let userGroupAccesses = [];
+    let sharingSettingsData = {
+      meta: {
+        allowPublicAccess: true,
+        allowExternalAccess: true
+      },
+      object: {
+        id: resource.id,
+        name: resource.name,
+        displayName: resource.name,
+        publicAccess: 'rwrw----',
+        externalAccess: false,
+        userGroupAccesses: []
+      }
+    };
+    userGroupAccesses.push({
+      id: userGroup.id,
+      name: userGroup.name,
+      displayName: userGroup.name,
+      access: 'rwrw----'
+    });
+    userGroupAccesses = [...userGroupAccesses, ...resource.userGroupAccesses];
+    sharingSettingsData.object.userGroupAccesses = _.uniqBy(
+      userGroupAccesses,
+      'id'
+    );
+    this.sharingSettingsMessage = 'Saving sharing settings.......!';
+    this.resourceService
+      .saveSharingSettingsForPrograms(sharingSettingsData)
+      .subscribe(
+        sharingResponse => {
+          this.sharingSettingsMessage = 'Sharing settings saved!';
+          setTimeout(() => {
+            this.sharingSettingsMessage = '';
+            setTimeout(() => {
+              this.sharingSettings = false;
+            }, 1000);
+          }, 2000);
+        },
+        error => {
+          setTimeout(() => {
+            this.sharingSettingsMessage = error.message;
+            setTimeout(() => {
+              this.sharingSettings = false;
+            }, 1000);
+          }, 2000);
+        }
+      );
+  }
+
+  removeUserGroupAccess(userGroupToRemove, resource) {
+    let userGroupAccesses = [];
+    let sharingSettingsData = {
+      meta: {
+        allowPublicAccess: true,
+        allowExternalAccess: true
+      },
+      object: {
+        id: resource.id,
+        name: resource.name,
+        displayName: resource.name,
+        publicAccess: 'rwrw----',
+        externalAccess: false,
+        userGroupAccesses: []
+      }
+    };
+    userGroupAccesses = _.filter(resource.userGroupAccesses, userGroup => {
+      if (userGroup.id != userGroupToRemove.id) {
+        return userGroup;
+      }
+    });
+    sharingSettingsData.object.userGroupAccesses = _.uniqBy(
+      userGroupAccesses,
+      'id'
+    );
+    this.sharingSettingsMessage =
+      'Removing "' + userGroupToRemove.displayName + '"............';
+    this.resourceService
+      .saveSharingSettingsForPrograms(sharingSettingsData)
+      .subscribe(
+        sharingResponse => {
+          this.sharingSettingsMessage = 'Changes saved!';
+          setTimeout(() => {
+            this.sharingSettingsMessage = '';
+            // setTimeout(() => {
+            //   this.sharingSettings = false;
+            // }, 1000);
+          }, 2000);
+        },
+        error => {
+          setTimeout(() => {
+            this.sharingSettingsMessage = error.message;
+            // setTimeout(() => {
+            //   this.sharingSettings = false;
+            // }, 1000);
+          }, 2000);
+        }
+      );
   }
 }

@@ -15,6 +15,7 @@ export class DataEntryComponent implements OnInit {
   @Input() selectedProgram: any;
   @Output() entryInfo = new EventEmitter<any>();
   @Input() elementsDataValues: any;
+  @Input() indicators: any;
   statusArr = [];
   statusUpdateOnDomElement = {
     colorKey: 'WAIT',

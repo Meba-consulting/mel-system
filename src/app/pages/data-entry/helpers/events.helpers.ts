@@ -133,6 +133,7 @@ export function formatFormsListForDataTable(forms) {
 
 export function createDisplayColumns(headers) {
   let columns = [];
+  columns.push('created');
   _.each(headers, header => {
     columns.push(header.id);
   });
@@ -141,6 +142,7 @@ export function createDisplayColumns(headers) {
 
 export function createKeyedHeaders(headers) {
   let keyedHeaders = {};
+  keyedHeaders['created'] = 'Created';
   _.each(headers, header => {
     keyedHeaders[header.id] =
       header.name.split(':').length > 1
@@ -256,7 +258,27 @@ export function formatFileResourcesForDataTable(
       }
     }
   );
-
-  console.log(' he', data);
   return data;
+}
+
+export function formatEventsDataIntoKeyValuePair(events) {
+  return _.map(events, event => {
+    return {
+      id: event.event,
+      values: createKeyValuePairForDataValues(event.dataValues, event)
+    };
+  });
+}
+
+function createKeyValuePairForDataValues(dataValues, event) {
+  let dataValuesKeyValuePaired = {};
+  dataValuesKeyValuePaired['created'] = event.created.substring(0, 10);
+  _.each(dataValues, dataValue => {
+    dataValuesKeyValuePaired[dataValue.dataElement] = dataValue.value;
+  });
+  return dataValuesKeyValuePaired;
+}
+
+export function listEventsDataTableData(headers, events) {
+  return null;
 }

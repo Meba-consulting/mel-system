@@ -19,10 +19,12 @@ import { Observable } from 'rxjs';
 export class DataEntryDashboardComponent implements OnInit {
   @Input() currentUser: any;
   @Input() programs: any[];
+  @Input() userGroups: any[];
   departments: Array<any>;
   currentDepartment: any;
   filteredProgramsByDepartments: Array<any>;
   showPrograms: boolean = false;
+  showSubMenu: boolean = false;
   constructor(private store: Store<State>) {
     // this.store.dispatch(
     //   loadProgramMetadata({ programId: 'IzEQE6HnpoC,UWyXM8q8WGd,NaTg5H77zCU' })
@@ -40,6 +42,10 @@ export class DataEntryDashboardComponent implements OnInit {
       this.showPrograms = true;
     }
     // this.userGroupsControl = getUserGroupsToSeeDataEntryTabs(this.currentUser);
+  }
+
+  toggleSubItems() {
+    this.showSubMenu = !this.showSubMenu;
   }
 
   onSetCurrentDepartment(department) {

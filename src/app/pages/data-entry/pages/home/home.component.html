@@ -5,16 +5,23 @@
       *ngIf="
         (currentUser$ | async) &&
         (programs$ | async) &&
-        (programs$ | async)?.length > 0
+        (programs$ | async)?.length > 0 &&
+        (userGroups$ | async)
       "
     >
       <app-data-entry-dashboard
         [currentUser]="currentUser$ | async"
         [programs]="programs$ | async"
+        [userGroups]="userGroups$ | async"
       ></app-data-entry-dashboard>
     </div>
   </div>
-  <div class="col-12" *ngIf="!(currentUser$ | async)">
+  <div
+    class="col-12"
+    *ngIf="
+      !(currentUser$ | async) || !(programs$ | async) || !(userGroups$ | async)
+    "
+  >
     <mat-progress-bar mode="indeterminate"></mat-progress-bar>
   </div>
   <div

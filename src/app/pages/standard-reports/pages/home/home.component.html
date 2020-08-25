@@ -1,73 +1,94 @@
-<div style="background-color: transparent;">
-  <div class="row" style="padding: 10px 0">
-    <div class="col-12 report-header">
-      <div style="float: left">
-        <h3>Standard reports</h3>
-      </div>
-      <div style="float: right">
-        <button
-          style="padding: 0px; float: right;"
-          mat-stroked-button
-          style="border: none"
-        >
-          <a
-            href="../../../dhis-web-pivot/index.html"
-            style="text-decoration: none"
-            target="_blank"
-            >Pivot Table</a
+<div style="margin-top: 15px" *ngIf="!(currentUser$ | async)">
+  <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+</div>
+<div
+  style="height: 100vh;background-color: #FFF;"
+  class="row"
+  *ngIf="currentUser$ | async"
+>
+  <div class="col-md-12">
+    <mat-tab-group mat-align-tabs="start">
+      <mat-tab label="Standard reports">
+        <div style="background-color: transparent;">
+          <div class="row" style="padding: 10px 30px">
+            <div class="col-12 report-header">
+              <!-- <div style="float: left">
+                <h3>Standard reports</h3>
+              </div> -->
+            </div>
+            <div class="col-md-3">
+              <div *ngIf="currentUser$ | async">
+                <app-report-groups
+                  [currentUser]="currentUser$ | async"
+                  (selectedReportGroup)="onSelectReportGroup($event)"
+                >
+                </app-report-groups>
+              </div>
+              <div style="width: 100%" *ngIf="!(currentUser$ | async)">
+                <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+              </div>
+            </div>
+            <div class="col-md-9">
+              <div
+                *ngIf="
+                  (reportsList$ | async) &&
+                  (reportsList$ | async)?.length > 0 &&
+                  isReportGroupSet &&
+                  currentReportGroup
+                "
+              >
+                <app-reports-list
+                  [reports]="reportsList$ | async"
+                  [reportGroup]="currentReportGroup"
+                ></app-reports-list>
+              </div>
+              <div
+                class="col-12"
+                *ngIf="
+                  !(reportsList$ | async) ||
+                  !(currentUser$ | async) ||
+                  !isReportGroupSet ||
+                  !currentReportGroup
+                "
+              >
+                <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+              </div>
+            </div>
+          </div>
+        </div>
+      </mat-tab>
+      <mat-tab label="Uploaded reports">
+        <app-uploaded-reports></app-uploaded-reports>
+      </mat-tab>
+      <mat-tab label="Analysis tools">
+        <div style="float: left">
+          <button
+            style="padding: 0px; float: left;"
+            mat-stroked-button
+            style="border: none"
           >
-        </button>
-        <button
-          style="padding: 0px; float: right;"
-          mat-stroked-button
-          style="border: none"
-        >
-          <a
-            href="../../../dhis-web-data-visualizer/index.html#/"
-            style="text-decoration: none"
-            target="_blank"
-            >Data Visualizer</a
+            <a
+              href="../../../dhis-web-pivot/index.html"
+              style="text-decoration: none"
+              target="_blank"
+              >Pivot Table</a
+            >
+          </button>
+          <button
+            style="padding: 0px; float: left;"
+            mat-stroked-button
+            style="border: none"
           >
-        </button>
-      </div>
-    </div>
-    <div class="col-md-3">
-      <div *ngIf="currentUser$ | async">
-        <app-report-groups
-          [currentUser]="currentUser$ | async"
-          (selectedReportGroup)="onSelectReportGroup($event)"
-        ></app-report-groups>
-      </div>
-      <div style="width: 100%" *ngIf="!(currentUser$ | async)">
-        <mat-progress-bar mode="indeterminate"></mat-progress-bar>
-      </div>
-    </div>
-    <div class="col-md-9">
-      <div
-        *ngIf="
-          (reportsList$ | async) &&
-          (reportsList$ | async)?.length > 0 &&
-          isReportGroupSet &&
-          currentReportGroup
-        "
-      >
-        <app-reports-list
-          [reports]="reportsList$ | async"
-          [reportGroup]="currentReportGroup"
-        ></app-reports-list>
-      </div>
-      <div
-        class="col-12"
-        *ngIf="
-          !(reportsList$ | async) ||
-          !(currentUser$ | async) ||
-          !isReportGroupSet ||
-          !currentReportGroup
-        "
-      >
-        <mat-progress-bar mode="indeterminate"></mat-progress-bar>
-      </div>
-    </div>
+            <a
+              href="../../../dhis-web-data-visualizer/index.html#/"
+              style="text-decoration: none"
+              target="_blank"
+              >Data Visualizer</a
+            >
+          </button>
+        </div>
+      </mat-tab>
+    </mat-tab-group>
   </div>
 </div>
 

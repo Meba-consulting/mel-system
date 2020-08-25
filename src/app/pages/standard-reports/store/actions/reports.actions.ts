@@ -29,3 +29,18 @@ export const loadingReportMetadataFails = createAction(
   '[Old Reports] loading reports metadata fails',
   props<{ error: any }>()
 );
+
+export const loadSSBResources = createAction(
+  '[Resources] load SSB resources',
+  props<{ reload: boolean }>()
+);
+
+export const addLoadedSSBResources = createAction(
+  '[Resources] add loaded SSB resources',
+  props<{ resources: any }>()
+);
+
+export const loadingSSBResourcesFail = createAction(
+  '[Resources] loading SSB resources fail',
+  props<{ error: any }>()
+);

@@ -5,13 +5,27 @@
     </li>
     <li
       class="list-group-item"
-      [ngClass]="{
-        'active-department': currentGroup.id == reportGroup.id
-      }"
       (click)="onSetCurrentGroup(reportGroup)"
       *ngFor="let reportGroup of reportGroups"
     >
-      {{ reportGroup.name }}
+      <div
+        class="row"
+        [ngClass]="{
+          'active-department': currentGroup.id == reportGroup.id
+        }"
+      >
+        <div
+          class="col-1"
+          style="padding: 10px 0px 10px 2px !important"
+          [ngClass]="{
+            'selected-item': currentGroup.id == reportGroup.id,
+            '': currentGroup.id != reportGroup.id
+          }"
+        ></div>
+        <div class="col-11" style="padding: 10px 0px 10px 2px !important">
+          {{ reportGroup.name }}
+        </div>
+      </div>
     </li>
   </ul>
 </div>

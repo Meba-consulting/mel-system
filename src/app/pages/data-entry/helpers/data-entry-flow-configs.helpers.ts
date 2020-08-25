@@ -30,10 +30,14 @@ export function deduceCurrentUserGroupForAction(
           id: resource.currentGroupIdActed
         })[0]
       : null;
-  const currentUserGroup = _.filter(dataEntryFlowConfigs.groups, {
-    order: userGroup.order + 1
-  });
+  let currentUserGroup = null;
+  if (userGroup) {
+    currentUserGroup = _.filter(dataEntryFlowConfigs.groups, {
+      order: userGroup.order + 1
+    });
+  }
   if (
+    userGroup &&
     currentUserGroup &&
     currentUserGroup.length > 0 &&
     userGroup &&

@@ -76,18 +76,38 @@
         >
           <mat-icon>more_vert</mat-icon>
         </button>
-        <mat-menu #menu="matMenu">
+        <mat-menu #menu="matMenu" class="menu-options">
           <button
             mat-menu-item
             routerLink="{{ element.category }}/{{ element.type }}/{{
               element.id
             }}"
           >
-            <mat-icon>view</mat-icon>
+            <mat-icon>remove_red_eye</mat-icon>
             <span>View</span></button
-          ><button mat-menu-item (click)="openConfiguration(element)">
-            <mat-icon>configure</mat-icon>
-            <span>Configure</span>
+          ><button
+            *ngIf="canPerformMaintenance && element.type == 'upload'"
+            mat-menu-item
+            (click)="openConfiguration(element)"
+          >
+            <mat-icon>account_tree</mat-icon>
+            <span>Set data flow</span>
+          </button>
+          <button
+            *ngIf="canPerformMaintenance && element.type == 'upload'"
+            mat-menu-item
+            (click)="delete(element, false)"
+          >
+            <mat-icon>delete</mat-icon>
+            <span>Delete</span>
+          </button>
+          <button
+            *ngIf="canPerformMaintenance"
+            mat-menu-item
+            (click)="openSharingSettings(element)"
+          >
+            <mat-icon>settings</mat-icon>
+            <span>Sharing settings</span>
           </button>
         </mat-menu>
       </td>
@@ -102,6 +122,31 @@
     showFirstLastButtons
   ></mat-paginator>
 </div>
+
+<!-- Delete -->
+<mat-card
+  class="confirmation-div mat-elevation-z10"
+  *ngIf="currentProgram && shouldDelete"
+>
+  <div>
+    <div class="control-btns">
+      <button mat-stroked-button (click)="delete(currentProgram, true)">
+        <span style="color: red">Confirm</span>
+      </button>
+      <button
+        mat-stroked-button
+        (click)="cancelDeletion()"
+        style="margin-left: 6px"
+      >
+        <span style="color: #457b49">Cancel</span>
+      </button>
+    </div>
+  </div>
+  <div>
+    {{ deleteMessage }}
+  </div>
+</mat-card>
+<!-- End of delete -->
 
 <mat-card
   *ngIf="configurationOpened && (userGroups$ | async)"
@@ -132,7 +177,7 @@
             <thead>
               <tr>
                 <th>Group</th>
-                <th>Order</th>
+                <th>Data flow stages</th>
                 <th>Action</th>
               </tr>
             </thead>
@@ -141,7 +186,7 @@
                 <td>
                   {{ group.name }}
                 </td>
-                <td>{{ i + 1 }}</td>
+                <td>{{ group.order }}</td>
                 <td title="Remove">
                   <button
                     mat-stroked-button
@@ -162,7 +207,19 @@
           <hr />
         </div>
         <div class="col-2">
-          <!-- <h5>{{ flowMessage }}</h5> -->
+          <!-- <input [(ngModel)]="level" /> -->
+
+          <mat-form-field class="example-full-width" style="width: 90px">
+            <mat-label>Level</mat-label>
+            <input
+              min="1"
+              type="number"
+              [(ngModel)]="level"
+              matInput
+              placeholder="2"
+            />
+            <mat-icon matSuffix>mode_edit</mat-icon>
+          </mat-form-field>
         </div>
         <div class="col-8">
           <div class="row">
@@ -188,9 +245,7 @@
             </div>
           </div>
         </div>
-        <div class="col-2">
-          <!-- <button (click)="next()" mat-stroked-button>Next</button> -->
-        </div>
+        <div class="col-2"></div>
       </div>
       <div class="col-12">
         <button mat-stroked-button style="float: right" (click)="saveConfigs()">
@@ -201,5 +256,113 @@
     <div *ngIf="message != ''" style="margin-top: 20px">
       {{ message }}
     </div>
+  </div> </mat-card
+><mat-card *ngIf="sharingSettings" class="sharing-settings mat-elevation-z10">
+  <div *ngIf="!(programMetadata$ | async)">
+    <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+  </div>
+  <!-- {{ programMetadata$ | async | json }} -->
+  <div class="padding:20px" *ngIf="programMetadata$ | async">
+    <div style="padding: 0px 0px 20px 0px">
+      <div class="row">
+        <div class="col-8">
+          <h4 style="float: left">Sharing settings</h4>
+        </div>
+        <div class="col-4">
+          <button
+            style="float: right"
+            mat-stroked-button
+            (click)="closeSharingSettings()"
+          >
+            Close
+          </button>
+        </div>
+      </div>
+    </div>
+    <div style="padding: 0px 0px 15px 0px">
+      <h5>{{ programMetadata.name }}</h5>
+    </div>
+    <div>
+      <h6>Data flow Departments</h6>
+      <hr />
+    </div>
+    <div style="padding: 2px 20px;max-height: 150px; overflow: auto;">
+      <div *ngIf="(programMetadata$ | async)?.userGroupAccesses">
+        <div
+          class="row"
+          *ngFor="let access of (programMetadata$ | async)?.userGroupAccesses"
+        >
+          <div
+            style="border-bottom: solid 1px #eee; padding: 15px 0px"
+            class="col-10"
+          >
+            {{ access.displayName }}
+          </div>
+          <div class="col-2" style="padding: 15px 0px">
+            <div>
+              <mat-icon
+                title="Remove {{ access.displayName }}"
+                (click)="removeUserGroupAccess(access, programMetadata)"
+                style="cursor: pointer;"
+                >remove</mat-icon
+              >
+              <!-- <span style="float: left"></span> -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div style="padding: 4px 20px" *ngIf="sharingSettingsMessage != ''">
+      <div class="status-message">
+        <span>{{ sharingSettingsMessage }}</span>
+      </div>
+    </div>
+    <div style="padding: 15px 30px">
+      <div class="row">
+        <div class="col-12 d-flex justify-content-between">
+          <mat-form-field class="w-100">
+            <mat-label>Search group</mat-label>
+            <mat-icon matPrefix>search</mat-icon>
+            <input matInput [(ngModel)]="userGroupSearchingText" />
+          </mat-form-field>
+        </div>
+        <div class="col-12" style="height: 120px; overflow: auto">
+          <div
+            (click)="addUserGroupToSharingSettings(userGroup, programMetadata)"
+            style="padding: 8px 0; cursor: pointer; border-bottom: solid 1px #eee"
+            *ngFor="
+              let userGroup of userGroups
+                | filterUserGroup: userGroupSearchingText
+            "
+          >
+            {{ userGroup.displayName }}
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </mat-card>
+
+<div *ngIf="canPerformMaintenance">
+  <button
+    routerLink="new-form/{{ department.name }}/{{ department.id }}/new"
+    tabindex="0"
+    type="button"
+    title="Add new upload form"
+    style="border: 10px; box-sizing: border-box; font-family: Roboto, sans-serif; -webkit-tap-highlight-color: rgba(0, 0, 0, 0); cursor: pointer; text-decoration: none; margin: 0px; padding: 0px; outline: none; font-size: inherit; font-weight: inherit; position: relative; vertical-align: bottom; background-color: #ca8c63; transition: all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms; height: 56px; width: 56px; overflow: hidden; border-radius: 50%; text-align: center;float: left; "
+  >
+    <div>
+      <div
+        style="transition: all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms; top: 0px;"
+      >
+        <svg
+          class=""
+          viewBox="0 0 24 24"
+          style="display: inline-block; color: rgb(255, 255, 255); fill: rgb(255, 255, 255); height: 56px; width: 24px; user-select: none; transition: all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms; line-height: 56px;"
+        >
+          <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"></path>
+        </svg>
+      </div>
+    </div>
+  </button>
+</div>

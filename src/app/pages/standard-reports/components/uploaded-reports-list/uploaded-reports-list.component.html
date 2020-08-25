@@ -1,0 +1,261 @@
+<div *ngIf="!resources">
+  <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+</div>
+<div style=" z-index: 19">
+  <!-- <mat-form-field style="width: 30%">
+    <mat-label>Search</mat-label>
+    <input
+      matInput
+      (keyup)="applyFilter($event)"
+      placeholder="Ex. resource list"
+    />
+  </mat-form-field> -->
+  <div class="d-flex justify-content-between">
+    <mat-form-field class="w-50">
+      <mat-label>Search report</mat-label>
+      <mat-icon matPrefix>search</mat-icon
+      ><input
+        matInput
+        (keyup)="applyFilter($event)"
+        placeholder="Ex. report aa"
+      />
+    </mat-form-field>
+  </div>
+  <table
+    class="mat-elevation-z2"
+    mat-table
+    [dataSource]="dataSource"
+    style="width: 100%"
+  >
+    <ng-container matColumnDef="position">
+      <th mat-header-cell *matHeaderCellDef>No.</th>
+      <td
+        mat-cell
+        style="cursor: pointer"
+        *matCellDef="let element"
+        (click)="openResource(element.action.url)"
+      >
+        {{ element.position }}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="name">
+      <th mat-header-cell *matHeaderCellDef>Name</th>
+      <td
+        mat-cell
+        style="cursor: pointer"
+        (click)="openResource(element.action.url)"
+        *matCellDef="let element"
+      >
+        {{ element.name }}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="type">
+      <th mat-header-cell *matHeaderCellDef>Type</th>
+      <td
+        mat-cell
+        style="cursor: pointer"
+        (click)="openResource(element.action.url)"
+        *matCellDef="let element"
+      >
+        {{ element.type }}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="action">
+      <th mat-header-cell *matHeaderCellDef></th>
+      <td mat-cell *matCellDef="let element">
+        <button
+          mat-icon-button
+          [matMenuTriggerFor]="menu"
+          matTooltip="More actions on resource"
+        >
+          <mat-icon>more_vert</mat-icon>
+        </button>
+        <mat-menu #menu="matMenu">
+          <button
+            mat-menu-item
+            *ngIf="!element.action.external"
+            (click)="openResource(element.action.url)"
+          >
+            <mat-icon>cloud_download</mat-icon>
+            <span>Download</span>
+          </button>
+          <button
+            mat-menu-item
+            *ngIf="element.action.external"
+            (click)="openResource(element.action.url)"
+          >
+            <mat-icon>link</mat-icon>
+            <span>View</span>
+          </button>
+          <!-- <button
+            mat-menu-item
+            routerLink="edit/{{ userGroup.id }}/{{ element.action.id }}"
+          >
+            <mat-icon>edit</mat-icon>
+            <span>Edit</span>
+          </button> -->
+          <button
+            mat-menu-item
+            *ngIf="element.action.canDelete"
+            (click)="deleteResource(element.action.id, false)"
+          >
+            <mat-icon>delete</mat-icon>
+            <span>Delete</span>
+          </button>
+          <button
+            mat-menu-item
+            *ngIf="element.action.canShare"
+            (click)="openResourceSharingSettings(element)"
+          >
+            <mat-icon>share</mat-icon>
+            <span>Sharing settings</span>
+          </button>
+        </mat-menu>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+  </table>
+
+  <mat-paginator
+    [pageSizeOptions]="[10, 15, 20, 25, 50, 100]"
+    showFirstLastButtons
+  ></mat-paginator>
+</div>
+<mat-card
+  class="confirmation-div mat-elevation-z10"
+  *ngIf="resourceIdToDelete && confirmDeletion"
+>
+  <div>
+    <div class="control-btns">
+      <button
+        mat-stroked-button
+        (click)="deleteResource(resourceIdToDelete, true)"
+      >
+        <span style="color: red">Confirm</span>
+      </button>
+      <button
+        mat-stroked-button
+        (click)="cancelDeletion()"
+        style="margin-left: 6px"
+      >
+        <span style="color: #457b49">Cancel</span>
+      </button>
+    </div>
+  </div>
+</mat-card>
+<mat-card *ngIf="sharingSettings" class="sharing-settings mat-elevation-z10">
+  <div class="padding:20px" *ngIf="currentResource">
+    <div style="padding: 0px 0px 20px 0px">
+      <div class="row">
+        <div class="col-8">
+          <h4 style="float: left">Sharing settings</h4>
+        </div>
+        <div class="col-4">
+          <button
+            style="float: right"
+            mat-stroked-button
+            (click)="closeSharingSettings()"
+          >
+            Close
+          </button>
+        </div>
+      </div>
+    </div>
+    <div style="padding: 0px 0px 15px 0px">
+      <h5>{{ currentResource.name }}</h5>
+    </div>
+    <div>
+      <h6>Who can access</h6>
+      <hr />
+    </div>
+    <div style="padding: 2px 20px;max-height: 150px; overflow: auto;">
+      <div *ngIf="currentResource.userGroupAccesses">
+        <div
+          class="row"
+          *ngFor="let access of currentResource.userGroupAccesses"
+        >
+          <div
+            style="border-bottom: solid 1px #eee; padding: 15px 0px"
+            class="col-10"
+          >
+            {{ access.displayName }}
+          </div>
+          <div class="col-2" style="padding: 15px 0px">
+            <div>
+              <mat-icon
+                title="Remove {{ access.displayName }}"
+                (click)="removeUserGroupAccess(access, currentResource)"
+                style="cursor: pointer;"
+                >remove
+              </mat-icon>
+              <!-- <span style="float: left"></span> -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div style="padding: 4px 20px" *ngIf="sharingSettingsMessage != ''">
+      <div class="status-message">
+        <span>{{ sharingSettingsMessage }}</span>
+      </div>
+    </div>
+    <div style="padding: 15px 30px">
+      <div class="row">
+        <!-- <div class="col-12">
+          <input
+            matInput
+            placeholder="Search"
+            style="border-bottom: solid 1px #eee"
+          />
+        </div> -->
+        <div class="col-12 d-flex justify-content-between">
+          <mat-form-field class="w-100">
+            <mat-label>Search group</mat-label>
+            <mat-icon matPrefix>search</mat-icon>
+            <input matInput [(ngModel)]="userGroupSearchingText" />
+          </mat-form-field>
+        </div>
+        <div class="col-12" style="height: 120px; overflow: auto">
+          <div
+            (click)="addUserGroupToSharingSettings(userGroup, currentResource)"
+            style="padding: 8px 0; cursor: pointer; border-bottom: solid 1px #eee"
+            *ngFor="
+              let userGroup of userGroups
+                | filterUsingInput: userGroupSearchingText
+            "
+          >
+            {{ userGroup.displayName }}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</mat-card>
+<div *ngIf="canAddResource">
+  <button
+    routerLink="upload-new-report/{{ userGroup.id }}/new/uploaded"
+    tabindex="0"
+    type="button"
+    title="Add new document"
+    style="border: 10px; box-sizing: border-box; font-family: Roboto, sans-serif; -webkit-tap-highlight-color: rgba(0, 0, 0, 0); cursor: pointer; text-decoration: none; margin: 0px; padding: 0px; outline: none; font-size: inherit; font-weight: inherit; position: relative; vertical-align: bottom; background-color: #ca8c63; transition: all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms; height: 56px; width: 56px; overflow: hidden; border-radius: 50%; text-align: center;float: right; "
+  >
+    <div>
+      <div
+        style="transition: all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms; top: 0px;"
+      >
+        <svg
+          class=""
+          viewBox="0 0 24 24"
+          style="display: inline-block; color: rgb(255, 255, 255); fill: rgb(255, 255, 255); height: 56px; width: 24px; user-select: none; transition: all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms; line-height: 56px;"
+        >
+          <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"></path>
+        </svg>
+      </div>
+    </div>
+  </button>
+</div>

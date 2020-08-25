@@ -34,3 +34,30 @@ export const getCountOfLoadedReportTypes = createSelector(
   getOldReportsState,
   (state: OldReportsState) => state.countOfReportsTypesLoaded
 );
+
+export const getResourcesLoadingState = createSelector(
+  getOldReportsState,
+  (state: OldReportsState) => state.loading
+);
+
+export const getResources = createSelector(
+  getOldReportsState,
+  (state: OldReportsState) => state.resources
+);
+
+export const getLoadedUserGroupsEntities = createSelector(
+  getOldReportsState,
+  (state: any) =>
+    state.resources.reduce(
+      (resources, resource) => ({
+        ...resources,
+        [resource.id]: resource
+      }),
+      {}
+    )
+);
+
+export const getResourceById = createSelector(
+  getLoadedUserGroupsEntities,
+  (entities, props) => entities[props.id]
+);

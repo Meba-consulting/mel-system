@@ -28,7 +28,10 @@ export function formatReportsForDataTable(items, reportGroup) {
 export function getReportGroups(userGroups) {
   let groups = [];
   _.each(userGroups, userGroup => {
-    if (userGroup.name.toLowerCase().indexOf('_report') > -1) {
+    if (
+      userGroup.name.toLowerCase().indexOf('_report') > -1 &&
+      userGroup.name.toLowerCase().indexOf('_reports_') == -1
+    ) {
       groups.push({
         id: userGroup.id,
         name: userGroup.name

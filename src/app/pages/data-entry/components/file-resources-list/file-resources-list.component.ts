@@ -100,7 +100,7 @@ export class FileResourcesListComponent implements OnInit {
             this.dataEntryFlow.groups,
             this.eventToUpdate
           );
-          const maxOrder = this.getMaxOrder(this.dataEntryFlow.groups);
+          const maxOrder = this.getMaxLevel(this.dataEntryFlow.groups);
           const eventData = {
             event: this.eventToUpdate.event,
             eventDate: this.eventToUpdate.created.substring(0, 10),
@@ -144,11 +144,15 @@ export class FileResourcesListComponent implements OnInit {
     }
   }
 
+  getMaxLevel(groups) {
+    return _.orderBy(groups, ['order'], ['desc'])[0]['order'];
+  }
+
   getNextGroup(groups, event) {
     const currentGroupId = _.filter(event['dataValues'], {
       dataElement: 'JGV9wKloWLo'
     })[0].value;
-    const maxOrder = this.getMaxOrder(groups);
+    const maxOrder = this.getMaxLevel(groups);
     let currOrder = _.filter(groups, { id: currentGroupId })[0].order;
     if (currOrder + 1 <= maxOrder) {
       return _.filter(groups, { order: currOrder + 1 });

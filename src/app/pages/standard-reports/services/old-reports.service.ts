@@ -20,5 +20,9 @@ export class OldReportsService {
     }
   }
 
+  getResources(): Observable<any> {
+    return this.httpClient.get('documents.json?fields=*&paging=false');
+  }
+
   constructor(private httpClient: NgxDhis2HttpClientService) {}
 }

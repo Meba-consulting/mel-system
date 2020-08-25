@@ -11,6 +11,8 @@ import { checkIfCurrentUserCanAddNew } from '../../helpers';
 import { ResourcesService } from 'src/app/pages/resources/services/resources.service';
 import { NgxDhis2HttpClientService } from '@iapps/ngx-dhis2-http-client';
 
+import * as _ from 'lodash';
+
 @Component({
   selector: 'app-program-uploading',
   templateUrl: './program-uploading.component.html',
@@ -67,16 +69,15 @@ export class ProgramUploadingComponent implements OnInit {
   saveData() {
     if (this.fileResourceInfo) {
       this.message = 'Saving data for ' + this.fileResourceInfo.resourceName;
+      const maxLevel = this.getMaxLevel(this.dataEntryFlow.groups);
       this.resourceService
         .uploadDataValueResource(this.fileResourceInfo)
         .subscribe(response => {
           const eventData = {
-            eventDate: '2020-08-11',
-            status:
-              this.dataEntryFlow.groups.length > 1 ? 'ACTIVE' : 'COMPLETED',
+            eventDate: '2020-08-20',
+            status: maxLevel > 1 ? 'ACTIVE' : 'COMPLETED',
             notes: [],
-            completedDate:
-              this.dataEntryFlow.groups.length > 1 ? '' : '2020-08-11',
+            completedDate: maxLevel > 1 ? '' : '2020-08-20',
             program: this.program.id,
             programStage: this.program.programStages[0].id,
             orgUnit: this.orgUnit.id,
@@ -109,6 +110,10 @@ export class ProgramUploadingComponent implements OnInit {
             });
         });
     }
+  }
+
+  getMaxLevel(groups) {
+    return _.orderBy(groups, ['order'], ['desc'])[0]['order'];
   }
 
   reset() {

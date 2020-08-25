@@ -85,9 +85,17 @@
           <mat-icon>more_vert</mat-icon>
         </button>
         <mat-menu #menu="matMenu">
-          <button mat-menu-item (click)="openActOnThisEvent(element)">
+          <button mat-menu-item (click)="downloadFile(element)">
+            <mat-icon>cloud_download</mat-icon>
+            <span>Download</span>
+          </button>
+          <button
+            *ngIf="status != 'ACTED-BY-ME' && status != 'COMPLETED'"
+            mat-menu-item
+            (click)="openActOnThisEvent(element)"
+          >
             <mat-icon>update</mat-icon>
-            <span>Update</span>
+            <span>Upload worked document</span>
           </button>
         </mat-menu>
       </td>
@@ -120,7 +128,7 @@
           style="border: none; background-color: transparent; float: left;width: 60%;"
           class="form-control"
           name="file"
-          accept=".pdf"
+          accept=".pdf, .xls, .xlsx, .doc, .docx"
           id="fileSelector"
           (change)="fileSelection($event)"
         />

@@ -20,13 +20,13 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatMenuModule } from '@angular/material/menu';
 
 import { modules } from './modules';
-import { NgxDhis2CustomFormsEntryModule } from '@iapps/ngx-dhis2-custom-forms-entry';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
 
 @NgModule({
   imports: [
-    NgxDhis2CustomFormsEntryModule,
     ...modules,
     CommonModule,
     MatButtonModule,
@@ -48,10 +48,11 @@ import { MatListModule } from '@angular/material/list';
     MatIconModule,
     MatListModule,
     MatProgressSpinnerModule,
-    MatMenuModule
+    MatMenuModule,
+    MatDatepickerModule,
+    MatNativeDateModule
   ],
   exports: [
-    NgxDhis2CustomFormsEntryModule,
     ...modules,
     MatButtonModule,
     MatCardModule,
@@ -72,7 +73,9 @@ import { MatListModule } from '@angular/material/list';
     MatIconModule,
     MatListModule,
     MatProgressSpinnerModule,
-    MatMenuModule
+    MatMenuModule,
+    MatDatepickerModule,
+    MatNativeDateModule
   ],
   declarations: []
 })

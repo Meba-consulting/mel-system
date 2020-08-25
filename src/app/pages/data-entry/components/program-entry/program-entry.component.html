@@ -1,15 +1,79 @@
-<p>For tomorrow!</p>
-<!-- {{ program | json }} -->
-
-<!-- <div>
-  <app-data-entry
-    [dataEntryForm]="program['dataEntryForm']"
-    [formName]="program['name']"
-    [formId]="program['id']"
-    [dataElements]="[]"
-    [formType]="'event'"
-    [elementsDataValues]="elementsDataValues"
-    (entryInfo)="onEntryInfoChange($event)"
-  >
-  </app-data-entry>
-</div> -->
+<div class="row">
+  <div class="col-12">
+    <button
+      style="float: right; margin-left: 5px;"
+      mat-stroked-button
+      (click)="toggleEntryAndReport('report')"
+      [ngClass]="{ active: isListReportSet }"
+    >
+      List report
+    </button>
+    <button
+      style="float: right; margin-left: 5px;"
+      mat-stroked-button
+      (click)="toggleEntryAndReport('entry')"
+      [ngClass]="{ active: !isListReportSet }"
+    >
+      Entry
+    </button>
+  </div>
+  <div class="col-12" *ngIf="!isListReportSet">
+    <div>
+      <mat-form-field style="width: 30%;" appearance="outline">
+        <mat-label>Reporting date</mat-label>
+        <input
+          matInput
+          [matDatepicker]="start_date"
+          [min]="minDate"
+          [max]="maxDate"
+          [(ngModel)]="reportingDate"
+          (dateInput)="getDate($event.value)"
+        />
+        <mat-datepicker-toggle
+          matSuffix
+          [for]="start_date"
+        ></mat-datepicker-toggle>
+        <mat-datepicker #start_date></mat-datepicker>
+      </mat-form-field>
+    </div>
+    <div style="width: 100%; overflow: auto" *ngIf="reportingDate">
+      <app-data-entry
+        [dataEntryForm]="program['programStages'][0]['dataEntryForm']"
+        [formName]="program['name']"
+        [formId]="program['id']"
+        [dataElements]="dataElements"
+        [indicators]="indicators"
+        [formType]="'event'"
+        [elementsDataValues]="elementsDataValues"
+        (entryInfo)="onEntryInfoChange($event)"
+      >
+      </app-data-entry>
+    </div>
+  </div>
+  <div class="col-12" *ngIf="isListReportSet">
+    <div *ngIf="events && eventLoaded" style="width: 100%; overflow: auto;">
+      <app-events-report
+        [events]="events"
+        [reportElements]="
+          program.programStages[0]['programStageSections'][0]['dataElements']
+        "
+      ></app-events-report>
+    </div>
+    <div *ngIf="!eventLoaded">
+      <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+    </div>
+  </div>
+  <div class="col-12" style="margin-top: 15px" *ngIf="!isListReportSet">
+    <p>{{ eventSaveMessage }}</p>
+  </div>
+  <div class="col-12" *ngIf="!isListReportSet">
+    <button
+      style="float: left; margin-top: 15px;"
+      mat-stroked-button
+      [disabled]="!dataValues || dataValues.length == 0"
+      (click)="saveData()"
+    >
+      Save
+    </button>
+  </div>
+</div>

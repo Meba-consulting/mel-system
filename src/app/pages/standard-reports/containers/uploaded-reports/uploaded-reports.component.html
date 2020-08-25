@@ -1,0 +1,19 @@
+<div
+  style="margin-top: 15px"
+  *ngIf="
+    !(resources$ | async) || !(currentUser$ | async) || !(userGroups$ | async)
+  "
+>
+  <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+</div>
+<div
+  *ngIf="
+    (resources$ | async) && (currentUser$ | async) && (userGroups$ | async)
+  "
+>
+  <app-reports-documents
+    [resources]="resources$ | async"
+    [currentUser]="currentUser$ | async"
+    [userGroups]="userGroups$ | async"
+  ></app-reports-documents>
+</div>

@@ -7,7 +7,10 @@ import {
   loadingOldStdReportsListFails,
   loadReportMetadata,
   addLoadedReportMetadata,
-  loadingReportMetadataFails
+  loadingReportMetadataFails,
+  loadSSBResources,
+  addLoadedSSBResources,
+  loadingSSBResourcesFail
 } from '../actions';
 import {
   switchMap,
@@ -74,6 +77,27 @@ export class OldReportsEffects {
     )
   );
 
+  resources$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(loadSSBResources),
+      switchMap(action =>
+        //{
+        // if (resources && resources.length > 0 && !action.reload) {
+        //   return from([]);
+        // } else {
+        //   return
+        // }
+        //return
+        //}
+        this.reportsService.getResources().pipe(
+          map(documents =>
+            addLoadedSSBResources({ resources: documents['documents'] })
+          ),
+          catchError(error => of(loadingSSBResourcesFail({ error })))
+        )
+      )
+    )
+  );
   constructor(
     private actions$: Actions,
     private reportsService: OldReportsService,
