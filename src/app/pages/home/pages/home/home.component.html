@@ -1,6 +1,66 @@
-<app-render-html
-  [htmlCodes]="
-    (homePageDesign$ | async) ? (homePageDesign$ | async)['pageHtmlCodes'] : ''
-  "
-  [id]="(homePageDesign$ | async) ? (homePageDesign$ | async)['id'] : 'id'"
-></app-render-html>
+<div
+  class="row"
+  style="padding: 30px 0px; height: 100vh; background-color: #f7f7f7"
+>
+  <div class="col-md-9">
+    <div class="about">
+      <h3>About</h3>
+      <hr />
+      <p style="text-align: justify">
+        SSB ISO Information Management System is an integrated system for
+        managing ISO forms and procedures. It has data entry, management of
+        documents between departments, reports generation and data analysis
+        capabilities. Below is a summary description of each of available
+        modules.
+      </p>
+    </div>
+    <div class="dashboard" style="margin-top: 25px">
+      <h4>Dashboards</h4>
+      <hr style="margin: 0px !important" />
+      <p style="text-align: justify">
+        This is an important module where one lands and get the saved reports in
+        form of charts and tables. One can also view the definition of the
+        indicator used.
+      </p>
+    </div>
+
+    <div class="documents">
+      <h4>Documents</h4>
+      <hr style="margin: 0px !important" />
+      <p style="text-align: justify">
+        This is a repository for resources of types <b>forms</b> or
+        <b>procedures</b> are managed via this module. You can download the
+        forms or procedures from here and use them.
+      </p>
+    </div>
+    <div class="data-entry">
+      <h4>Data entry/Upload</h4>
+      <hr style="margin: 0px !important" />
+      <p style="text-align: justify">
+        SSB ISO IMS enables you to enter data by numbers but also upload the
+        document you have worked with and you need to send it to the
+        supervisor/manager or another department.
+      </p>
+    </div>
+    <div class="data-entry">
+      <h4>Reports</h4>
+      <hr style="margin: 0px !important" />
+      <p style="text-align: justify">
+        Through this module you can view shared standard reports and uploaded
+        reports but also get access to the analysis tools which are Pivot table
+        and Data visualizer. Pivot table enables you to generate reports in form
+        of tables and Data visualizer gives you charts or graphs
+      </p>
+    </div>
+  </div>
+  <div class="col-md-3" style="border-left: solid 8px #FFF">
+    <h4>Modules</h4>
+    <hr />
+    <ul>
+      <li><a [routerLink]="'/dashboards'">Dashboard</a></li>
+      <li><a [routerLink]="'/resources'">Documents</a></li>
+      <li><a [routerLink]="'/data-entry'">Data entry/Upload</a></li>
+      <li><a [routerLink]="'/reports'">Reports</a></li>
+    </ul>
+  </div>
+</div>

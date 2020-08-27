@@ -32,7 +32,10 @@
           </div>
           <div>
             <ul style="padding: 0 !important">
-              <li style="cursor:none" routerLinkActive="active-class">
+              <!-- <li style="cursor:none" routerLinkActive="active-class">
+                Home
+              </li> -->
+              <li [routerLink]="'/home'" routerLinkActive="active-class">
                 Home
               </li>
               <li [routerLink]="'/dashboards/'" routerLinkActive="active-class">
