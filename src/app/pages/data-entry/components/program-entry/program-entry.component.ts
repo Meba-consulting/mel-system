@@ -32,6 +32,7 @@ export class ProgramEntryComponent implements OnInit {
   isListReportSet: boolean = true;
   eventLoaded: boolean = false;
   events: any[];
+  dateChanged: boolean = false;
 
   constructor(
     private httpClient: NgxDhis2HttpClientService,
@@ -77,6 +78,11 @@ export class ProgramEntryComponent implements OnInit {
 
   getDate(date) {
     this.reportingDate = formatDateToYYMMDD(date);
+    this.dataValues = [];
+    this.dateChanged = false;
+    setTimeout(() => {
+      this.dateChanged = true;
+    }, 500);
   }
 
   getEvents() {
@@ -107,7 +113,6 @@ export class ProgramEntryComponent implements OnInit {
           dataElement: elemId,
           value: data.value
         });
-    console.log(this.dataValues);
   }
 
   saveData() {
@@ -122,10 +127,8 @@ export class ProgramEntryComponent implements OnInit {
       dataValues: this.dataValues
     };
     this.eventSaveMessage = 'Saving data................';
-    console.log(eventData);
     this.eventLoaded = false;
     this.httpClient.post('events', eventData).subscribe(response => {
-      console.log(response);
       setTimeout(() => {
         this.eventSaveMessage = 'Saved successful';
       }, 800);

@@ -36,7 +36,10 @@
         <mat-datepicker #start_date></mat-datepicker>
       </mat-form-field>
     </div>
-    <div style="width: 100%; overflow: auto" *ngIf="reportingDate">
+    <div
+      style="width: 100%; overflow: auto"
+      *ngIf="reportingDate && dateChanged"
+    >
       <app-data-entry
         [dataEntryForm]="program['programStages'][0]['dataEntryForm']"
         [formName]="program['name']"

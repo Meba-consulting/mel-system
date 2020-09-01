@@ -49,7 +49,9 @@ export function createEventsDataValuesObject(dataElements, events) {
   _.map(events, event => {
     let values = {};
     values['id'] = event['event'];
+    values['eventDate'] = event['eventDate'];
     values['created'] = event['created'];
+    headers.push({ id: 'eventDate', name: 'Report Date', valueType: 'DATE' });
     headers.push({ id: 'created', name: 'Created', valueType: 'DATE' });
     // values['updated'] = event['lastUpdated'];
     // headers.push({ id: 'updated', name: 'Updated', valueType: 'DATE' });
@@ -133,6 +135,7 @@ export function formatFormsListForDataTable(forms) {
 
 export function createDisplayColumns(headers) {
   let columns = [];
+  columns.push('eventDate');
   columns.push('created');
   _.each(headers, header => {
     columns.push(header.id);
@@ -142,6 +145,7 @@ export function createDisplayColumns(headers) {
 
 export function createKeyedHeaders(headers) {
   let keyedHeaders = {};
+  keyedHeaders['eventDate'] = 'Report Date';
   keyedHeaders['created'] = 'Created';
   _.each(headers, header => {
     keyedHeaders[header.id] =
@@ -272,6 +276,7 @@ export function formatEventsDataIntoKeyValuePair(events) {
 
 function createKeyValuePairForDataValues(dataValues, event) {
   let dataValuesKeyValuePaired = {};
+  dataValuesKeyValuePaired['eventDate'] = event.eventDate.substring(0, 10);
   dataValuesKeyValuePaired['created'] = event.created.substring(0, 10);
   _.each(dataValues, dataValue => {
     dataValuesKeyValuePaired[dataValue.dataElement] = dataValue.value;
