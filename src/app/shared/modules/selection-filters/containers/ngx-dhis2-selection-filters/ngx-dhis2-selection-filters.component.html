@@ -181,7 +181,7 @@
     <ngx-dhis2-period-filter
       *ngIf="selectedFilter === 'PERIOD'"
       [selectedPeriods]="selectedPeriods"
-      [periodFilterConfig]="{ singleSelection: true }"
+      [periodFilterConfig]="{ singleSelection: false }"
       (close)="onFilterClose($event, 'PERIOD')"
       (update)="onFilterUpdate($event, 'PERIOD')"
     ></ngx-dhis2-period-filter>

@@ -7,11 +7,11 @@ export function getDataElementsFromProgram(programDataElements) {
 }
 
 export function formatProgrgamIndicators(indicators) {
-  return _.map(indicators, indicator => {
-    let keyedObj = {};
+  let keyedObj = {};
+  _.map(indicators, indicator => {
     keyedObj[indicator.id] = indicator;
-    return keyedObj;
   });
+  return keyedObj;
 }
 
 export function formatDateToYYMMDD(dateValue) {

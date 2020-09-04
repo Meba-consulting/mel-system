@@ -33,6 +33,9 @@ export class RenderReportComponent implements OnInit, AfterViewInit {
       reportUse: false,
       additionalQueryFields: [],
       batchSize: 400
+    },
+    periodFilterConfig: {
+      singleSelection: false
     }
   };
   selectedOrgUnitItems: Array<any> = [];
