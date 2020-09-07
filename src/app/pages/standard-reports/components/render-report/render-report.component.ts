@@ -189,4 +189,10 @@ export class RenderReportComponent implements OnInit, AfterViewInit {
       this.filterSelections = selections;
     }
   }
+
+  printPDF() {
+    setTimeout(function() {
+      window.print();
+    }, 500);
+  }
 }

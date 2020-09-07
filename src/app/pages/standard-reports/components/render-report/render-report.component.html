@@ -1,5 +1,5 @@
 <div class="row">
-  <div class="col-12 filters" *ngIf="isFilterRequired">
+  <div class="col-12 filters no-print" *ngIf="isFilterRequired">
     <div
       style="min-width: 55%; float: left"
       *ngIf="addedDimensions && addedDimensions.length > 0"
@@ -25,17 +25,22 @@
         </div>
       </div>
     </div>
-    <div style="min-width: 15%; float: left; margin-top: 2px;">
+    <div style="min-width: 15%; float: left; margin-top: 2px; max-width: 90%;">
       <ngx-dhis2-selection-filters
         [selectionFilterConfig]="selectionFilterConfig"
         (filterUpdate)="onFilterUpdate($event)"
       >
       </ngx-dhis2-selection-filters>
     </div>
+    <div style="float: right; width: 10%">
+      <button mat-stroked-button (click)="printPDF()" style="float: right">
+        Print
+      </button>
+    </div>
   </div>
   <div
     *ngIf="selectionChanged && reportType != 'interactive-report'"
-    class="col-12"
+    class="col-12 print"
   >
     <div id="html_id" style="margin-top: 15px"></div>
   </div>

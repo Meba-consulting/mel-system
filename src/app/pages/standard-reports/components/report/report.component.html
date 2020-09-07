@@ -2,23 +2,23 @@
   <mat-progress-bar mode="indeterminate"></mat-progress-bar>
 </div>
 
-<div style="height:100vh;background-color: #FFF;">
+<div style="height:100%;background-color: #FFF;">
   <div class="row" style="padding: 10px" *ngIf="reportMetadata$ | async">
     <div class="col-12" style="margin-bottom: 15px">
-      <button
-        style="padding: 0px"
-        mat-stroked-button
-        [routerLink]="'/reports'"
-        style="border: none"
-      >
-        <mat-icon style="margin-left: -15px">arrow_back</mat-icon>Back to the
-        list
-      </button>
+      <div class="col-12 d-flex align-items-center mb-3  no-print">
+        <button color="primary" mat-flat-button routerLink="/reports">
+          <mat-icon>arrow_back</mat-icon>
+          <span class="ml-2">BACK TO REPORTS LIST</span>
+        </button>
+        <div class="ml-3 report-title">
+          {{ (reportMetadata$ | async)?.displayName }}
+        </div>
+      </div>
     </div>
-    <div class="col-12" style="margin-bottom: 10px">
-      <h3>{{ (reportMetadata$ | async)?.displayName }}</h3>
+    <!-- <div class="col-12" style="margin-bottom: 10px">
+      <h3></h3>
       <hr style="margin: 0" />
-    </div>
+    </div> -->
     <!-- <div class="col-12 filters">
       <ngx-dhis2-selection-filters
         [selectionFilterConfig]="selectionFilterConfig"
