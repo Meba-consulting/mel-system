@@ -42,5 +42,5 @@ export function getReportGroups(userGroups) {
       });
     }
   });
-  return groups;
+  return _.orderBy(groups, ['name'], ['asc']);
 }

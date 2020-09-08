@@ -1,8 +1,9 @@
-<div style="overflow: auto" *ngIf="dataElements">
+<div style="overflow: auto" *ngIf="dataElements && lastEvent">
   <ngx-dhis2-custom-forms-entry
     [htmlCustomForm]="dataEntryForm['htmlCode']"
     [dataElements]="dataElements"
     [indicators]="indicators"
+    [lastEvent]="lastEvent"
     [formType]="formType"
     [formId]="formId"
     [elementsDataValues]="elementsDataValues"

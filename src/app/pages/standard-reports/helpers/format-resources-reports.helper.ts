@@ -17,5 +17,5 @@ export function getReportsResourcesGroups(currentUser) {
       });
     }
   });
-  return groups;
+  return _.orderBy(groups, ['name'], ['asc']);
 }

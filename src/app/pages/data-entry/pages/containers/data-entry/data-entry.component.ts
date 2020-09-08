@@ -16,6 +16,8 @@ export class DataEntryComponent implements OnInit {
   @Output() entryInfo = new EventEmitter<any>();
   @Input() elementsDataValues: any;
   @Input() indicators: any;
+  @Input() events: any;
+  lastEvent: any;
   statusArr = [];
   statusUpdateOnDomElement = {
     colorKey: 'WAIT',
@@ -26,7 +28,13 @@ export class DataEntryComponent implements OnInit {
   };
   constructor() {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    if (this.events && this.events.length > 0) {
+      this.lastEvent = this.events[0];
+    } else {
+      this.lastEvent = 'no data';
+    }
+  }
 
   getDataElements(programStageDataElements) {
     let formattedDataElements = [];

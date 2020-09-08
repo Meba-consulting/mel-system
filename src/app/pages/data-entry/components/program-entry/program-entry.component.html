@@ -38,7 +38,7 @@
     </div>
     <div
       style="width: 100%; overflow: auto"
-      *ngIf="reportingDate && dateChanged"
+      *ngIf="reportingDate && dateChanged && (events$ | async)"
     >
       <app-data-entry
         [dataEntryForm]="program['programStages'][0]['dataEntryForm']"
@@ -46,6 +46,7 @@
         [formId]="program['id']"
         [dataElements]="dataElements"
         [indicators]="indicators"
+        [events]="events"
         [formType]="'event'"
         [elementsDataValues]="elementsDataValues"
         (entryInfo)="onEntryInfoChange($event)"

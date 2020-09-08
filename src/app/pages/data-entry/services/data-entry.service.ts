@@ -110,7 +110,8 @@ export class DataEntryService {
         '&program=' +
         dimension.program +
         '&programStage=' +
-        dimension.programStage
+        dimension.programStage +
+        '&order=eventDate:desc'
     );
   }
 
