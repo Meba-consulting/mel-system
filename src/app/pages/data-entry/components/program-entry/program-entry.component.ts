@@ -33,6 +33,7 @@ export class ProgramEntryComponent implements OnInit {
   eventLoaded: boolean = false;
   events: any[];
   dateChanged: boolean = false;
+  elementsToDisable: string[] = [];
 
   constructor(
     private httpClient: NgxDhis2HttpClientService,
@@ -46,6 +47,7 @@ export class ProgramEntryComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.elementsToDisable = [...this.elementsToDisable, this.orgUnit.id];
     this.dataElements = getDataElementsFromProgram(
       this.program.programStages[0]['programStageDataElements']
     );

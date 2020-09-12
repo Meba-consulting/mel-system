@@ -17,6 +17,7 @@ export class DataEntryComponent implements OnInit {
   @Input() elementsDataValues: any;
   @Input() indicators: any;
   @Input() events: any;
+  @Input() elementsToDisable: string[];
   lastEvent: any;
   statusArr = [];
   statusUpdateOnDomElement = {

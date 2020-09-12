@@ -145,6 +145,7 @@ export function onFormReady(
   entryFormStatusColors,
   indicators,
   lastEvent,
+  elementsToDisable,
   formReadyFunc
 ) {
   console.log('lastEvent::::: Ts6nEjbUXLT', lastEvent);
@@ -328,6 +329,21 @@ export function onFormReady(
     }
 
     setTimeout(() => {
+      // disable some elements
+      _.each(elementsToDisable, elementToDisable => {
+        let td: any = document.querySelector(
+          "td[todisable='" + elementToDisable + "']"
+        );
+        const elemToDisable: any = td.querySelector("input[name='entryfield']");
+
+        if (elemToDisable) {
+          elemToDisable.setAttribute('disabled', 'disabled');
+          elemToDisable.setAttribute('value', 'NA');
+        }
+      });
+    }, 1500);
+
+    setTimeout(() => {
       const dataElementId = 'Ts6nEjbUXLT';
       const optionComboId = 'dataElement';
       if (
@@ -343,7 +359,6 @@ export function onFormReady(
           reference[dataElementId],
           elementValues
         );
-        console.log(value);
         if (value) {
           const elem: any = document.querySelector(
             "input[id='psZv0YwxGoM-Ts6nEjbUXLT-val']"
@@ -401,12 +416,14 @@ export function onFormReady(
       console.log(JSON.stringify({ type: 'Text area input', error }));
     }
   }
+
   const returnedFormFuncObject = formReadyFunc(
     formType,
     entryFormStatusColors,
     dataElementObjects,
     indicators,
     lastEvent,
+    elementsToDisable,
     dataValues
   );
   // console.log("returnedFormFuncObject", returnedFormFuncObject);
@@ -420,6 +437,7 @@ export function onDataValueChange(
   dataElementObjects,
   indicators: any,
   lastEvent: any,
+  elementsToDisable: string[],
   dataValues: any
 ) {
   // Get attribute from the element

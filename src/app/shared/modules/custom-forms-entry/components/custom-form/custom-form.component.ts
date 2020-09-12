@@ -33,6 +33,7 @@ export class CustomFormComponent implements OnInit, AfterViewInit, OnChanges {
   @Input() elementsDataValues: any;
   @Input() indicators: any;
   @Input() lastEvent: any;
+  @Input() elementsToDisable: string[];
   currentDataValues = {};
   _htmlMarkup: SafeHtml;
   entryFormStatusColors: any = {};
@@ -49,7 +50,6 @@ export class CustomFormComponent implements OnInit, AfterViewInit, OnChanges {
       (e: CustomEvent) => {
         e.stopPropagation();
         const dataValueObject = e.detail;
-        console.log('dataValueObject::::::::', dataValueObject);
         if (dataValueObject && dataValueObject.colorKey !== 'ERROR') {
           this.onCustomFormInputChange.emit(dataValueObject);
         }
@@ -105,12 +105,14 @@ export class CustomFormComponent implements OnInit, AfterViewInit, OnChanges {
       this.entryFormStatusColors,
       this.indicators,
       this.lastEvent,
+      this.elementsToDisable,
       function(
         entryFormType,
         entryFormStatusColors,
         dataElementObjects,
         indicators,
         lastEvent,
+        elementsToDisable,
         dataValues
       ) {
         // Listen for change event
@@ -131,6 +133,7 @@ export class CustomFormComponent implements OnInit, AfterViewInit, OnChanges {
                 dataElementObjects,
                 indicators,
                 lastEvent,
+                elementsToDisable,
                 dataValues
               );
             }
