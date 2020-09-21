@@ -1,7 +1,8 @@
 import { Component, OnInit, Input } from '@angular/core';
 import {
   getProceduresGroups,
-  formatResourcesByAccess
+  formatResourcesByAccess,
+  getProceduresDepartmentsGroups
 } from '../../helpers/format-resources-by-access.helper';
 
 @Component({
@@ -17,10 +18,11 @@ export class ProceduresComponent implements OnInit {
   currentResourceGroup: any;
   procedures: any;
   isFormSelectionSet: boolean = false;
+  showSubMenu: boolean = false;
   constructor() {}
 
   ngOnInit(): void {
-    this.procedureGroups = getProceduresGroups(this.currentUser);
+    this.procedureGroups = getProceduresDepartmentsGroups(this.currentUser);
     this.currentResourceGroup = this.procedureGroups[0];
     this.procedures = formatResourcesByAccess(
       this.procedureGroups,
@@ -40,5 +42,9 @@ export class ProceduresComponent implements OnInit {
       );
       this.isFormSelectionSet = true;
     }, 100);
+  }
+
+  toggleSubItems() {
+    this.showSubMenu = !this.showSubMenu;
   }
 }
