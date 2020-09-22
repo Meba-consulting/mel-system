@@ -20,6 +20,7 @@ export class FormsComponent implements OnInit {
   currentResourceGroup: any;
   isFormSelectionSet: boolean = false;
   showSubMenu: boolean = false;
+  departmentIdToShowSubMenu: string = '';
   constructor() {}
 
   ngOnInit(): void {
@@ -38,7 +39,8 @@ export class FormsComponent implements OnInit {
     }, 100);
   }
 
-  toggleSubItems() {
+  toggleSubItems(dept) {
     this.showSubMenu = !this.showSubMenu;
+    this.departmentIdToShowSubMenu = dept.id;
   }
 }
