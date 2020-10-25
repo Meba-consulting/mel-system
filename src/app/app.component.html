@@ -1,19 +1,19 @@
 <div class="application-container">
-  <div class="container">
+  <div class="container-fluid">
     <div class="row  no-print">
       <div class="col-md-12">
         <div
           class="tutorial"
-          style="background-color: #67CCBD; 
+          style="background-color: #00796b; 
     border-bottom: solid 2px #414498; height: 145px; color: #FFF; top: 0; z-index: 1200;"
         >
           <div class="header-banner" style="width: 100%;">
             <div style="float: left; width: 10%">
-              <img height="80" width="180" src="assets/img/ssb_logo.png" />
+              <!-- <img height="80" width="180" src="assets/img/ssb_logo.png" /> -->
             </div>
             <div style="float: left; width: 80%">
               <h2 style="text-align: center !important; margin-top: 15px;">
-                SSB ISO - Information Management System
+                MEL - IMS
               </h2>
               <!-- <h4
                 style="text-align: center !important; color: #CA8C63; font-weight: 600"
@@ -32,26 +32,8 @@
           </div>
           <div>
             <ul style="padding: 0 !important">
-              <!-- <li style="cursor:none" routerLinkActive="active-class">
-                Home
-              </li> -->
-              <li [routerLink]="'/home'" routerLinkActive="active-class">
-                Home
-              </li>
               <li [routerLink]="'/dashboards/'" routerLinkActive="active-class">
                 Dashboard
-              </li>
-              <li [routerLink]="'/resources'" routerLinkActive="active-class">
-                Documents
-              </li>
-              <!-- <li [routerLink]="'/procedures'" routerLinkActive="active-class">
-                Procedures/instructions/process flow
-              </li>
-              <li [routerLink]="'/forms'" routerLinkActive="active-class">
-                Forms & checklists
-              </li> -->
-              <li [routerLink]="'/data-entry'" routerLinkActive="active-class">
-                Data entry/Upload
               </li>
               <li [routerLink]="'/reports'" routerLinkActive="active-class">
                 Reports
@@ -72,74 +54,6 @@
     <div class="row" style="margin: 0px;">
       <div class="col-md-12">
         <router-outlet></router-outlet>
-        <div
-          style="bottom: 0; right: 0; position: fixed; z-index: 200; width: 40%"
-          *ngIf="users$ | async"
-        >
-          <div
-            *ngIf="isChatSet"
-            style="width: 320px; float: right; margin-bottom: 50px;"
-          >
-            <input
-              class="form-control"
-              placeholder="search user"
-              [(ngModel)]="searchInput"
-              style="border: none; border-bottom: solid 1px #222; border-radius: 0px; margin-bottom: 5px;"
-            />
-            <select [(ngModel)]="selectedUsername" style="margin-bottom: 5px;">
-              <option value="">select user</option>
-              <option
-                value="{{ user.userCredentials.username }}"
-                *ngFor="
-                  let user of (users$ | async)?.users | filterItems: searchInput
-                "
-                >{{ user.name }} - {{ user.userCredentials.username }}</option
-              >
-            </select>
-            <div
-              *ngIf="
-                selectedUsername != '' &&
-                selectedUsername !=
-                  (currentUser$ | async).userCredentials.username
-              "
-            >
-              <app-chatting
-                [usernamePartner]="selectedUsername"
-                [currentUserUsername]="
-                  (currentUser$ | async).userCredentials.username
-                "
-              ></app-chatting>
-            </div>
-          </div>
-          <div
-            style="bottom: 0px; position: absolute; width: 100%; margin-top: 20px;"
-          >
-            <button
-              *ngIf="!isChatSet"
-              class="btn"
-              style="float: right"
-              (click)="showChat()"
-            >
-              <img
-                height="50"
-                title="Go to Chat"
-                src="data:image/png;base64,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"
-              />
-            </button>
-            <button
-              *ngIf="isChatSet"
-              class="btn"
-              style="float: right"
-              (click)="showChat()"
-            >
-              <img
-                height="50"
-                title="close"
-                src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAABmJLR0QA/wD/AP+gvaeTAAAFoklEQVRo3u1ZW2wUZRRu4v3BS4zPGh980BgfxMTEJx/K3mpLCumLVkywXlChEBBKgVKIsDO7S2uLIhdBCl5wKSqlYtVoiaE7M9stksi2aSstEKhtt6XQUruX2fk932623bbu2pnZ7dpkT3KS2Z2Z/5zv/89tzsnJyVKWspSluZK59sw9Bs71gsEqrDVx4jGLTWo12ySfiRfH6Hc4wnSN/3DPZBWPGnnXGrxTVOm9O6PKL9rvuctoFZeZbWI98biRF5SltW0TJUe6lFLnVVZ+eoBtOzPEdvw0EmFc4z/co2fCy2rOT+AdvGu2iydMvLAUa84bgBermx8yWYVKUmCYOLTiSJe89XsfqxUDbJ8nrIrxzpZGH8MaWIt4yMi5KnI5z4PpA1DZfCedwDqYyJLqNv+G7/rYHjGoWvlkoN7/to8tqfIEzLw4CjOFzJSCMNnFZ8y8dNFil4IbSNhet5wyADMZawNQnt0dJH/6w7Cz5emUgKCjXm6yCf7XPu0Ifejypw3ATK4hWZAJ2dBBFwgDL2wjUwqv/+Y6+2SeAMQzZEI2dCD/qdB2ErzAmWyiXNk0PO8AZjJ0IDCykRN2qjWnd80U+7f/OKJLgcO/h9nJ9ijjWs9a25tuMOhktApvz82cdgnPU0yXyxsGNAt1esPs8k2FhRU2SbjGf7indd1NDf2MLCW0mJeeSwqiqMp1H2XfqyV13bJWYU1/KiwUZgkJ9/CM1vVLojmnl0Lzvcmce3P+7tbARxrzA3Y7BgIn4B1UIkqDcR07ITyj9WSQu/IdrUHymU2JMzYv/l12ql/zbvWOKJMgGrtm7zr+i4GBmWmVAx0paY6bK8UHZp8GJ64v2O0JaE12cOaYktj9RM/hXgys1gCwt1VmBVUePwrP2RWsXepcQwWd1l1CZIpRMh/AvRjVt2t3fBSfFrvYMf007NLjFKOZ7eyY5oUbOqeA4Frvc//FfPMYg84WR8tj08qQ/KpWv5YFD5F5tPUpbGB8aqd9dH3t1r+zL+45vIN3D2k0MXL6AH3rFMdncUfxQW9A7UJ1F8Js1M900y1aA2uplf/qAa/fwIu2Kf+gj6OVn19SvVD3sMJSRV3D6qPYW8cuIXqdiHN0d/Oq41dULxSUU4aDBWgttfJXH7/MqNT/dRIIfuBPtQulmtTKXxUF8svUidDxaDGtTAOBaVGF7pzu7AfUO3umgRTvn+HsCGEvUShbaECgM9WHr+hOiJkEwp0dRUJUcrlzj07L7nk2d0epyhIlk0BKv74CR2+fXTRS+0Vt0ZgpINARWd3IiaWzgBTw5+6nls9tNWV8poCUnforcRkfiV5WYSOQzrVrmKie0spzbeTlOdxB6Jr4U5caymR3PficzHTnJMmnbgg6onGevINiE56lJBPU86WYLoZOaD4YrOKiubVIedfraL38H3paU72tG5FGHYXcN9TNPKgRQVWxXEHjgEyDqPhhiEEXIy/u0NRtJDAbKcQp605ezwiA+JYp9YC36Ov/cmKZ3s9gLVzdMsGWH2wPUbPQP+0rUCtRw86Frvh8AfjYHYqcAo0wQsQXzLvEp/TPRWgcBqd3/DaedgDIDwCQT4MeMqWbJHt1kdN5h24QyClon678okdJJBzmtrb+GtvcOMi0zE6io7dBtuKzTrRBZcoPPjLjclQZKZtSYcyGqVGtEIhzPpl98PMIe++rXlZYfT4A3yGwvRiVUaZlhTVtE1AK/TE0nBFtYsNQRD80xqPD0O5wIYah9A7KIjoBp8nqKkz5qC3f4XmElBt782h3RPg7X/awl/ddDGL0ZsAk1i55KRRuzeWFJyOnRyaADjnGERTlDlMlLVl4qY8UvB0dTQtyZDzNS/0WukfP1MF00PlP6ySXdmoPdjuy42SvJPwcCa/GrhmrXA/nLBRCCbDYJj6R1jFxlrK0MOgf4uS88TUh4mQAAAAASUVORK5CYII="
-              />
-            </button>
-          </div>
-        </div>
         <div class="footer"></div>
       </div>
     </div>
