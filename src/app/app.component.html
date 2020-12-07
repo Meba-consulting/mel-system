@@ -1,33 +1,24 @@
 <div class="application-container">
   <div class="container-fluid">
-    <div class="row  no-print">
+    <div class="row no-print">
       <div class="col-md-12">
         <div
           class="tutorial"
-          style="background-color: #00796b; 
-    border-bottom: solid 2px #414498; height: 145px; color: #FFF; top: 0; z-index: 1200;"
+          style="
+            background-color: #42a6d7;
+            border-bottom: solid 2px #414498;
+            height: 145px;
+            color: #fff;
+            top: 0;
+            z-index: 1200;
+          "
         >
-          <div class="header-banner" style="width: 100%;">
-            <div style="float: left; width: 10%">
-              <!-- <img height="80" width="180" src="assets/img/ssb_logo.png" /> -->
-            </div>
-            <div style="float: left; width: 80%">
-              <h2 style="text-align: center !important; margin-top: 15px;">
-                MEL - IMS
+          <div class="header-banner" style="width: 100%">
+            <div style="float: left; width: 10%"></div>
+            <div style="float: left; width: 100%">
+              <h2 style="text-align: center !important; margin-top: 15px">
+                LEGAL & HUMAN RIGHTS CENTER - ME SYSTEM
               </h2>
-              <!-- <h4
-                style="text-align: center !important; color: #CA8C63; font-weight: 600"
-              >
-                SSB ISO IMS
-              </h4> -->
-            </div>
-            <div style="float: right; width: 10%">
-              <a
-                title="Log out"
-                style="float: right; color: #FFF; font-size: 0.7rem;"
-                href="../../../dhis-web-commons-security/logout.action"
-                >Logout</a
-              >
             </div>
           </div>
           <div>
@@ -35,12 +26,18 @@
               <li [routerLink]="'/dashboards/'" routerLinkActive="active-class">
                 Dashboard
               </li>
+              <li [routerLink]="'/data-entry'" routerLinkActive="active-class">
+                Data entry
+              </li>
               <li [routerLink]="'/reports'" routerLinkActive="active-class">
                 Reports
               </li>
+              <li [routerLink]="'/settings'" routerLinkActive="active-class">
+                Settings
+              </li>
               <li *ngIf="viewMaintenance" style="float: right">
                 <a
-                  style="color: #FFF; text-decoration: none"
+                  style="color: #fff; text-decoration: none"
                   href="../../../dhis-web-dashboard/index.html#/"
                   target="_blankc"
                   >Maintenance</a
@@ -51,7 +48,7 @@
         </div>
       </div>
     </div>
-    <div class="row" style="margin: 0px;">
+    <div class="row" style="margin: 0px">
       <div class="col-md-12">
         <router-outlet></router-outlet>
         <div class="footer"></div>
