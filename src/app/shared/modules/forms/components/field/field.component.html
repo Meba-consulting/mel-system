@@ -1,0 +1,77 @@
+<div [formGroup]="form" *ngIf="isCommonField">
+  <mat-form-field
+    [ngSwitch]="field?.controlType"
+    appearance="fill"
+    class="w-100 no-padding"
+  >
+    <mat-label [attr.for]="field?.key">{{ field?.label }}</mat-label>
+
+    <!-- textbox -->
+    <input
+      *ngSwitchCase="'textbox'"
+      [formControlName]="field?.key"
+      [id]="field?.key"
+      [min]="field?.min"
+      [max]="field?.max"
+      [disabled]="true"
+      [placeholder]="field?.placeholder"
+      [type]="field?.type"
+      matInput
+      (keyup)="onFieldUpdate()"
+    />
+    <!-- end of textbox -->
+
+    <!-- dropdown -->
+    <mat-select
+      [id]="field?.key"
+      *ngSwitchCase="'dropdown'"
+      [placeholder]="field?.placeholder"
+      [formControlName]="field?.key"
+      (selectionChange)="onFieldUpdate()"
+    >
+      <mat-option *ngFor="let option of field?.options" [value]="option?.key">{{
+        option.name
+      }}</mat-option>
+    </mat-select>
+    <!-- end of dropdown -->
+
+    <!-- text area field -->
+    <textarea
+      *ngSwitchCase="'textarea'"
+      matInput
+      [id]="field?.key"
+      [formControlName]="field?.key"
+      [placeholder]="field?.placeholder"
+      (keyup)="onFieldUpdate()"
+    ></textarea>
+    <!-- end of text area field -->
+
+    <mat-error *ngIf="!isValid">{{ field?.label }} is required</mat-error>
+  </mat-form-field>
+</div>
+
+<div [formGroup]="form" *ngIf="isDate">
+  <!-- date field -->
+  <mat-form-field
+    [hidden]="field?.hidden"
+    [ngSwitch]="field?.controlType"
+    appearance="outline"
+    class="w-100"
+  >
+    <mat-label [attr.for]="field?.key">{{ field?.label }}</mat-label>
+    <input
+      matInput
+      [id]="field?.key"
+      [matDatepicker]="fieldId"
+      [placeholder]="field?.placeholder"
+      [formControlName]="field?.key"
+      (dateChange)="onFieldUpdate()"
+    />
+    <mat-datepicker-toggle matSuffix [for]="fieldId"></mat-datepicker-toggle>
+    <mat-datepicker #fieldId></mat-datepicker>
+    <mat-error *ngIf="!isValid">{{ field?.label }} is required</mat-error>
+  </mat-form-field>
+  <!-- end of data field -->
+</div>
+
+<div [formGroup]="form" *ngIf="isCommonField"></div>

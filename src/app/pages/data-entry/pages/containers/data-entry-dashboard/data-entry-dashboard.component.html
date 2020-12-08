@@ -1,117 +1,31 @@
 <div class="row" style="margin-top: 20px">
-  <div class="col-md-3">
-    <div>
-      <h4 class="list-group-item-header" style="border: none !important;">
-        Departments
-      </h4>
+  <div class="col-md-8">
+    <div class="forms">
+      <mat-form-field class="w-100">
+        <mat-label>Select form</mat-label>
+        <mat-select required (selectionChange)="getForm($event.value)">
+          <mat-option *ngFor="let option of programs" [value]="option">
+            {{ option.name }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
     </div>
-    <hr />
-    <ul class="list-group">
-      <li
-        class="list-group-item"
-        [ngClass]="{
-          'active-department': currentDepartment.id == department.id
-        }"
-        *ngFor="let department of departments"
+    <div class="ou-filter">
+      <button
+        class="w-100"
+        (click)="onToggleOuFilter($event)"
+        mat-stroked-button
       >
-        <div
-          (click)="onSetCurrentDepartment(department)"
-          *ngIf="
-            department.managedGroups && department.managedGroups.length == 0
-          "
-          class="row"
-          [ngClass]="{
-            'active-department': currentDepartment.id == department.id
-          }"
-        >
-          <div
-            class="col-1"
-            style="padding: 10px 0px 10px 2px !important; max-width: 1.8% !important;"
-            [ngClass]="{
-              'selected-item': currentDepartment.id == department.id,
-              '': currentDepartment.id != department.id
-            }"
-          ></div>
-          <div class="col-11" style="padding: 10px 0px 10px 2px !important">
-            {{ department.name }}
-          </div>
-        </div>
-        <div
-          (click)="toggleSubItems()"
-          class="row"
-          style="padding: 8px 4px"
-          *ngIf="
-            department.managedGroups && department.managedGroups.length > 0
-          "
-        >
-          <div class="col-1" style="max-width: 1.8% !important"></div>
-          <div class="col-11" style="margin-left: -10px !important;">
-            {{ department.name }}
-            <span *ngIf="!showSubMenu" style="float: right">
-              <i
-                class="fa fa-angle-down"
-                style="font-weight: 600;font-size: 1.4rem;"
-              ></i>
-            </span>
-            <span *ngIf="showSubMenu" style="float: right">
-              <i
-                class="fa fa-angle-up"
-                style="font-weight: 600;font-size: 1.4rem;"
-              ></i>
-            </span>
-          </div>
-        </div>
-        <ul
-          class="list-group"
-          *ngIf="
-            department.managedGroups &&
-            department.managedGroups.length > 0 &&
-            showSubMenu
-          "
-        >
-          <li
-            class="list-group-item"
-            [ngClass]="{
-              'active-department': currentDepartment.id == depart.id
-            }"
-            (click)="onSetCurrentDepartment(depart)"
-            *ngFor="let depart of department.managedGroups"
-          >
-            <div
-              class="row"
-              [ngClass]="{
-                'active-department': currentDepartment.id == depart.id
-              }"
-            >
-              <div
-                class="col-1"
-                style="padding: 10px 0px 10px 2px !important;max-width: 1.8% !important"
-                [ngClass]="{
-                  'selected-item': currentDepartment.id == depart.id,
-                  '': currentDepartment.id != depart.id
-                }"
-              ></div>
-              <div class="col-11" style="padding: 10px 0px 10px 2px !important">
-                {{ depart.name }}
-              </div>
-            </div>
-          </li>
-        </ul>
-      </li>
-    </ul>
-  </div>
-  <div class="col-md-9" *ngIf="currentDepartment">
-    <h4>{{ currentDepartment.name }}</h4>
-    <div *ngIf="showPrograms">
-      <app-programs-list
-        [programs]="filteredProgramsByDepartments"
-        [department]="currentDepartment"
-        [userGroups]="userGroups"
-        [currentUser]="currentUser"
-      ></app-programs-list>
-    </div>
-    <div *ngIf="!showPrograms">
-      <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+        Organisation unit
+      </button>
+      <ngx-dhis2-org-unit-filter
+        *ngIf="ouFilterIsSet"
+        [selectedOrgUnitItems]="selectedOrgUnits"
+        [orgUnitFilterConfig]="orgUnitFilterConfig"
+        (orgUnitClose)="onFilterClose($event)"
+        (orgUnitUpdate)="onFilterUpdate($event)"
+      ></ngx-dhis2-org-unit-filter>
     </div>
   </div>
+  <div class="col-md-4"></div>
 </div>

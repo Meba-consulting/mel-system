@@ -3,3 +3,4 @@ export * from './system-info.actions';
 export * from './user.actions';
 export * from './user-groups.actions';
 export * from './programs.actions';
+export * from './attributes.actions';

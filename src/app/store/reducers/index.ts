@@ -9,6 +9,8 @@ import { UserGroupsState } from '../states/user-groups.states';
 import { userGroupsReducer } from './user-groups.reducer';
 import { ProgramsState } from '../states/programs.states';
 import { programsReducer } from './programs.reducers';
+import { AttributesState } from '../states/attributes.states';
+import { attributesReducer } from './attributes.reducer';
 
 /**
  * Root state interface
@@ -31,6 +33,7 @@ export interface State {
   legendSets: LegendSetState;
   userGroups: UserGroupsState;
   programs: ProgramsState;
+  attributes: AttributesState;
 }
 
 export const reducers: ActionReducerMap<State> = {
@@ -39,7 +42,8 @@ export const reducers: ActionReducerMap<State> = {
   route: routerReducer,
   legendSets: legendSetReducer,
   userGroups: userGroupsReducer,
-  programs: programsReducer
+  programs: programsReducer,
+  attributes: attributesReducer,
 };
 
 export const metaReducers: MetaReducer<State>[] = !environment.production

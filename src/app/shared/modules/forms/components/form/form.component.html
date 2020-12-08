@@ -1,0 +1,19 @@
+<form [formGroup]="form" class="row p-1">
+  <div
+    *ngFor="let field of fields"
+    class="{{ isFormHorizontal ? 'col' : 'col-12' }} {{
+      field.hidden ? 'hidden-field' : ''
+    }}"
+  >
+    <div class="row">
+      <div class="col-12">
+        <app-field
+          [field]="field"
+          [form]="form"
+          [isCheckBoxButton]="shouldRenderAsCheckBoxesButton"
+          (fieldUpdate)="onFieldUpdate($event)"
+        ></app-field>
+      </div>
+    </div>
+  </div>
+</form>

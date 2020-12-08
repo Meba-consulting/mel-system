@@ -1,0 +1,9 @@
+.active-program {
+  background-color: #42a6d7;
+  color: #fff;
+}
+
+.list-item:hover {
+  background-color: #42a6d7;
+  color: #fff;
+}

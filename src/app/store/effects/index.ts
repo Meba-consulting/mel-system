@@ -4,6 +4,7 @@ import { UserEffects } from './user.effects';
 import { LegendSetEffects } from './legend-set.effects';
 import { UserGroupsEffects } from './user-groups.effects';
 import { ProgramsEffects } from './programs.effects';
+import { AttributesEffects } from './attributes.effects';
 
 export const effects: any[] = [
   RouterEffects,
@@ -11,5 +12,6 @@ export const effects: any[] = [
   UserEffects,
   LegendSetEffects,
   UserGroupsEffects,
-  ProgramsEffects
+  ProgramsEffects,
+  AttributesEffects,
 ];

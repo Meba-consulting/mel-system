@@ -6,7 +6,7 @@ import * as _ from 'lodash';
 import {
   getUserGroupsToSeeDataEntryTabs,
   getDepartmentsFromUserGroups,
-  filterProgramsByDepartments
+  filterProgramsByDepartments,
 } from '../../../helpers';
 import { loadProgramMetadata } from '../../../store/actions';
 import { Observable } from 'rxjs';
@@ -14,7 +14,7 @@ import { Observable } from 'rxjs';
 @Component({
   selector: 'app-data-entry-dashboard',
   templateUrl: './data-entry-dashboard.component.html',
-  styleUrls: ['./data-entry-dashboard.component.css']
+  styleUrls: ['./data-entry-dashboard.component.css'],
 })
 export class DataEntryDashboardComponent implements OnInit {
   @Input() currentUser: any;
@@ -25,6 +25,20 @@ export class DataEntryDashboardComponent implements OnInit {
   filteredProgramsByDepartments: Array<any>;
   showPrograms: boolean = false;
   showSubMenu: boolean = false;
+
+  orgUnitFilterConfig: any = {
+    singleSelection: true,
+    showUserOrgUnitSection: false,
+    showOrgUnitLevelGroupSection: false,
+    showOrgUnitGroupSection: false,
+    showOrgUnitLevelSection: false,
+    reportUse: false,
+    additionalQueryFields: [],
+    batchSize: 400,
+    selectedOrgUnitItems: [],
+  };
+  selectedOrgUnits: Array<any> = [];
+  ouFilterIsSet: boolean = false;
   constructor(private store: Store<State>) {
     // this.store.dispatch(
     //   loadProgramMetadata({ programId: 'IzEQE6HnpoC,UWyXM8q8WGd,NaTg5H77zCU' })
@@ -33,19 +47,36 @@ export class DataEntryDashboardComponent implements OnInit {
 
   ngOnInit() {
     if (this.programs && this.programs.length > 0) {
-      this.departments = getDepartmentsFromUserGroups(this.currentUser);
-      this.currentDepartment = this.departments[0];
-      this.filteredProgramsByDepartments = filterProgramsByDepartments(
-        this.programs,
-        this.currentDepartment
-      );
+      // this.departments = getDepartmentsFromUserGroups(this.currentUser);
+      // this.currentDepartment = this.departments[0];
+      // this.filteredProgramsByDepartments = filterProgramsByDepartments(
+      //   this.programs,
+      //   this.currentDepartment
+      // );
       this.showPrograms = true;
     }
     // this.userGroupsControl = getUserGroupsToSeeDataEntryTabs(this.currentUser);
   }
 
+  onFilterUpdate(selections) {
+    console.log(selections);
+  }
+
+  onFilterClose(selections) {
+    console.log('closing');
+  }
+
+  getForm(val) {
+    console.log(val);
+  }
+
   toggleSubItems() {
     this.showSubMenu = !this.showSubMenu;
+  }
+
+  onToggleOuFilter(e) {
+    e.stopPropagation();
+    this.ouFilterIsSet = !this.ouFilterIsSet;
   }
 
   onSetCurrentDepartment(department) {

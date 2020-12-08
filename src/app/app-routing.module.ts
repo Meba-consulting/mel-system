@@ -5,48 +5,55 @@ const routes: Routes = [
   {
     path: 'home',
     loadChildren: () =>
-      import('./pages/home/home.module').then(m => m.HomeModule)
+      import('./pages/home/home.module').then((m) => m.HomeModule),
   },
   {
     path: 'dashboards',
     loadChildren: () =>
       import('./pages/dashboard/pages/dashboard/dashboard.module').then(
-        m => m.DashboardModule
-      )
+        (m) => m.DashboardModule
+      ),
   },
   {
     path: '',
     redirectTo: 'dashboards',
-    pathMatch: 'full'
+    pathMatch: 'full',
   },
   {
     path: 'reports',
     loadChildren: () =>
       import('./pages/standard-reports/standard-reports.module').then(
-        m => m.StandardReportsModule
-      )
+        (m) => m.StandardReportsModule
+      ),
   },
   {
     path: 'resources',
     loadChildren: () =>
-      import('./pages/resources/resources.module').then(m => m.ResourcesModule)
+      import('./pages/resources/resources.module').then(
+        (m) => m.ResourcesModule
+      ),
   },
   {
     path: 'data-entry',
     loadChildren: () =>
       import('./pages/data-entry/data-entry.module').then(
-        m => m.DataEntryModule
-      )
-  }
+        (m) => m.DataEntryModule
+      ),
+  },
+  {
+    path: 'settings',
+    loadChildren: () =>
+      import('./pages/settings/settings.module').then((m) => m.SettingsModule),
+  },
 ];
 
 @NgModule({
   imports: [
     RouterModule.forRoot(routes, {
       useHash: true,
-      preloadingStrategy: PreloadAllModules
-    })
+      preloadingStrategy: PreloadAllModules,
+    }),
   ],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
 export class AppRoutingModule {}

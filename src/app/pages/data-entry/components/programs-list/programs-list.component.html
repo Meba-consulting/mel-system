@@ -1,7 +1,7 @@
 <div *ngIf="!programs">
   <mat-progress-bar mode="indeterminate"></mat-progress-bar>
 </div>
-<div>
+<!-- <div>
   <div class="d-flex justify-content-between">
     <mat-form-field class="w-50">
       <mat-label>Search form</mat-label>
@@ -121,8 +121,9 @@
     [pageSizeOptions]="[5, 10, 15, 20, 25, 50, 100]"
     showFirstLastButtons
   ></mat-paginator>
-</div>
+</div> -->
 
+{{ programs | json }}
 <!-- Delete -->
 <mat-card
   class="confirmation-div mat-elevation-z10"
@@ -170,7 +171,7 @@
         class="row"
         *ngIf="configuredGroups && configuredGroups.length > 0 && setRemove"
       >
-        <div class="col-12" style="height: 200px;overflow: auto">
+        <div class="col-12" style="height: 200px; overflow: auto">
           <h5>Configured groups</h5>
           <hr />
           <table style="width: 70%">
@@ -233,7 +234,11 @@
             <div class="col-12" style="height: 120px; overflow: auto">
               <div
                 (click)="addGroupToConfigs(userGroup)"
-                style="padding: 8px 0; cursor: pointer; border-bottom: solid 1px #eee"
+                style="
+                  padding: 8px 0;
+                  cursor: pointer;
+                  border-bottom: solid 1px #eee;
+                "
                 *ngFor="
                   let userGroup of userGroups$
                     | async
@@ -286,7 +291,7 @@
       <h6>Data flow Departments</h6>
       <hr />
     </div>
-    <div style="padding: 2px 20px;max-height: 150px; overflow: auto;">
+    <div style="padding: 2px 20px; max-height: 150px; overflow: auto">
       <div *ngIf="(programMetadata$ | async)?.userGroupAccesses">
         <div
           class="row"
@@ -303,7 +308,7 @@
               <mat-icon
                 title="Remove {{ access.displayName }}"
                 (click)="removeUserGroupAccess(access, programMetadata)"
-                style="cursor: pointer;"
+                style="cursor: pointer"
                 >remove</mat-icon
               >
               <!-- <span style="float: left"></span> -->
@@ -329,7 +334,11 @@
         <div class="col-12" style="height: 120px; overflow: auto">
           <div
             (click)="addUserGroupToSharingSettings(userGroup, programMetadata)"
-            style="padding: 8px 0; cursor: pointer; border-bottom: solid 1px #eee"
+            style="
+              padding: 8px 0;
+              cursor: pointer;
+              border-bottom: solid 1px #eee;
+            "
             *ngFor="
               let userGroup of userGroups
                 | filterUserGroup: userGroupSearchingText
@@ -349,16 +358,50 @@
     tabindex="0"
     type="button"
     title="Add new upload form"
-    style="border: 10px; box-sizing: border-box; font-family: Roboto, sans-serif; -webkit-tap-highlight-color: rgba(0, 0, 0, 0); cursor: pointer; text-decoration: none; margin: 0px; padding: 0px; outline: none; font-size: inherit; font-weight: inherit; position: relative; vertical-align: bottom; background-color: #ca8c63; transition: all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms; height: 56px; width: 56px; overflow: hidden; border-radius: 50%; text-align: center;float: left; "
+    style="
+      border: 10px;
+      box-sizing: border-box;
+      font-family: Roboto, sans-serif;
+      -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+      cursor: pointer;
+      text-decoration: none;
+      margin: 0px;
+      padding: 0px;
+      outline: none;
+      font-size: inherit;
+      font-weight: inherit;
+      position: relative;
+      vertical-align: bottom;
+      background-color: #ca8c63;
+      transition: all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms;
+      height: 56px;
+      width: 56px;
+      overflow: hidden;
+      border-radius: 50%;
+      text-align: center;
+      float: left;
+    "
   >
     <div>
       <div
-        style="transition: all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms; top: 0px;"
+        style="
+          transition: all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms;
+          top: 0px;
+        "
       >
         <svg
           class=""
           viewBox="0 0 24 24"
-          style="display: inline-block; color: rgb(255, 255, 255); fill: rgb(255, 255, 255); height: 56px; width: 24px; user-select: none; transition: all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms; line-height: 56px;"
+          style="
+            display: inline-block;
+            color: rgb(255, 255, 255);
+            fill: rgb(255, 255, 255);
+            height: 56px;
+            width: 24px;
+            user-select: none;
+            transition: all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms;
+            line-height: 56px;
+          "
         >
           <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"></path>
         </svg>
