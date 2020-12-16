@@ -19,6 +19,7 @@ import { SettingsRoutingModule } from './settings-routing.module';
     ...settingsReducers,
     EffectsModule.forFeature(settingsEffects),
   ],
+  entryComponents: [...settingsComponents],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class SettingsModule {}

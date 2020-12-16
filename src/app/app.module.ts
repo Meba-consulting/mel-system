@@ -12,7 +12,8 @@ import { environment } from '../environments/environment';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
 import {
   RouterStateSerializer,
-  StoreRouterConnectingModule, DefaultRouterStateSerializer
+  StoreRouterConnectingModule,
+  DefaultRouterStateSerializer,
 } from '@ngrx/router-store';
 
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
@@ -53,8 +54,8 @@ import { NgxDhis2OrgUnitFilterModule } from '@iapps/ngx-dhis2-org-unit-filter';
       models: {
         organisationUnits: 'id,level',
         organisationUnitLevels: 'id,level',
-        organisationUnitGroups: 'id'
-      }
+        organisationUnitGroups: 'id',
+      },
     }),
     /**
      * Translation module
@@ -63,8 +64,8 @@ import { NgxDhis2OrgUnitFilterModule } from '@iapps/ngx-dhis2-org-unit-filter';
       loader: {
         provide: TranslateLoader,
         useFactory: HttpLoaderFactory,
-        deps: [HttpClient]
-      }
+        deps: [HttpClient],
+      },
     }),
     /**
      * Routing module
@@ -79,7 +80,9 @@ import { NgxDhis2OrgUnitFilterModule } from '@iapps/ngx-dhis2-org-unit-filter';
     /**
      * @ngrx/router-store keeps router state up-to-date in the store
      */
-    StoreRouterConnectingModule.forRoot({ serializer: DefaultRouterStateSerializer }),
+    StoreRouterConnectingModule.forRoot({
+      serializer: DefaultRouterStateSerializer,
+    }),
 
     /**
      * Module for registering ngrx store side effects
@@ -94,9 +97,9 @@ import { NgxDhis2OrgUnitFilterModule } from '@iapps/ngx-dhis2-org-unit-filter';
     AngularFirestoreModule, // imports firebase/firestore, only needed for database features
     AngularFireAuthModule, // imports firebase/auth, only needed for auth features,
     AngularFireStorageModule, // imports firebase/storage only needed for storage features
-    AngularFireDatabaseModule
+    AngularFireDatabaseModule,
   ],
   providers: [{ provide: RouterStateSerializer, useClass: RouteSerializer }],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
 export class AppModule {}

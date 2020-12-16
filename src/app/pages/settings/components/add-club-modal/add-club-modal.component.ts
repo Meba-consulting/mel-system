@@ -1,26 +1,23 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { FormValue } from 'src/app/shared/modules/forms/models/form-value.model';
-
-import * as _ from 'lodash';
+import { Component, Inject, OnInit } from '@angular/core';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Store } from '@ngrx/store';
+import { database } from 'firebase';
+import { Observable } from 'rxjs';
+import { FormValue } from 'src/app/shared/modules/forms/models/form-value.model';
 import { State } from 'src/app/store';
 import { getClubInfoFromFormValues } from '../../helpers';
 import { saveClub } from '../../store/actions';
-import { Observable } from 'rxjs';
-import { getClubsSavingState } from '../../store/selectors';
-import { OuService } from 'src/app/core/services/ou.service';
-import { AddClubModalComponent } from '../add-club-modal/add-club-modal.component';
-import { MatDialog } from '@angular/material/dialog';
-@Component({
-  selector: 'app-create-organisation-unit',
-  templateUrl: './create-organisation-unit.component.html',
-  styleUrls: ['./create-organisation-unit.component.css'],
-})
-export class CreateOrganisationUnitComponent implements OnInit {
-  formFields: any[];
-  currentFormData: any;
-  @Input() clubCategories: any[];
 
+import * as _ from 'lodash';
+import { getClubsSavingState } from '../../store/selectors';
+
+@Component({
+  selector: 'app-add-club-modal',
+  templateUrl: './add-club-modal.component.html',
+  styleUrls: ['./add-club-modal.component.css'],
+})
+export class AddClubModalComponent implements OnInit {
+  clubCategories: any;
   orgUnitFilterConfig: any = {
     singleSelection: true,
     showUserOrgUnitSection: false,
@@ -38,17 +35,18 @@ export class CreateOrganisationUnitComponent implements OnInit {
   formValues: any = {};
   isFormValid: boolean;
   clubSavingState$: Observable<boolean>;
-
-  loadingClubsData: boolean = false;
-  clubsData$: Observable<any>;
+  formFields: any[];
+  currentFormData: any;
+  isClubAdded: boolean = false;
   constructor(
-    private store: Store<State>,
-    private ouService: OuService,
-    private dialog: MatDialog
-  ) {}
+    private dialogRef: MatDialogRef<AddClubModalComponent>,
+    @Inject(MAT_DIALOG_DATA) data,
+    private store: Store<State>
+  ) {
+    this.clubCategories = data.clubCategories;
+  }
 
   ngOnInit(): void {
-    this.getClubsData();
     this.clubSavingState$ = this.store.select(getClubsSavingState);
     this.formFields = [
       {
@@ -93,25 +91,6 @@ export class CreateOrganisationUnitComponent implements OnInit {
         required: false,
       },
     ];
-
-    // console.log('formFields', this.formFields);
-  }
-
-  getClubsData() {
-    this.loadingClubsData = true;
-    this.clubsData$ = this.ouService.getClubsFromSQLVIEW();
-  }
-
-  onAddClub(e) {
-    e.stopPropagation();
-    this.dialog.open(AddClubModalComponent, {
-      width: '70%',
-      height: '700px',
-      disableClose: false,
-      data: { clubCategories: this.clubCategories },
-      panelClass: 'custom-dialog-container',
-    });
-    this.dialog.afterAllClosed.subscribe(() => this.getClubsData());
   }
 
   formulateOptions(options) {
@@ -123,5 +102,39 @@ export class CreateOrganisationUnitComponent implements OnInit {
         name: option?.name,
       };
     });
+  }
+
+  onClose(e) {
+    e.stopPropagation();
+    this.dialogRef.close();
+  }
+
+  onFilterUpdate(selections) {
+    console.log(selections);
+    this.ouFilterIsSet = false;
+    this.formValues['parent'] = { value: selections?.items[0]?.id };
+    this.selectedOrgUnits = selections?.items;
+  }
+
+  onFilterClose(selections) {
+    this.ouFilterIsSet = false;
+  }
+
+  onToggleOuFilter(e) {
+    e.stopPropagation();
+    this.ouFilterIsSet = !this.ouFilterIsSet;
+  }
+
+  onFormUpdate(formValue: FormValue) {
+    console.log(formValue.getValues());
+    this.formValues = { ...this.formValues, ...formValue.getValues() };
+    this.isFormValid = formValue.isValid;
+  }
+
+  onSaveClubDetails(e) {
+    e.stopPropagation();
+    const clubDetails = getClubInfoFromFormValues(this.formValues);
+    this.store.dispatch(saveClub({ clubDetails }));
+    this.isClubAdded = true;
   }
 }

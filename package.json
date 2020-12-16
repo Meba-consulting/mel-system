@@ -1,10 +1,10 @@
 {
-  "name": "ssb-ims",
+  "name": "mel-system",
   "version": "2.0.0",
   "scripts": {
     "ng": "ng",
     "start": "ng serve --aot",
-    "build": "ng build --prod --aot && cd dist/ssb-ims && zip -r -D ssb-ims.zip .",
+    "build": "ng build --prod --aot && cd dist/mel-system && zip -r -D mel-system.zip .",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",

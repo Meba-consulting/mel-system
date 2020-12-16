@@ -1,6 +1,6 @@
-# SSB IMS
+# MEL
 
-The Integrated Management System for Said Salim Bakhresa & Co. LTD
+Monitoring evaluation system for LHRC
 
 ## Setup
 
