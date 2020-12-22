@@ -50,9 +50,21 @@
           <mat-icon>more_vert</mat-icon>
         </button>
         <mat-menu #menu="matMenu" class="menu-options">
-          <button mat-menu-item>
-            <mat-icon>settings</mat-icon>
-            <span>Sharing settings</span>
+          <button (click)="onEditClubInfo($event, element)" mat-menu-item>
+            <mat-icon>edit</mat-icon>
+            <span>Edit</span>
+          </button>
+          <button (click)="onAddClubMember($event, element)" mat-menu-item>
+            <mat-icon>add</mat-icon>
+            <span>Add club members</span>
+          </button>
+          <button (click)="onViewClubMembers($event, element)" mat-menu-item>
+            <mat-icon>list</mat-icon>
+            <span>View Club members</span>
+          </button>
+          <button (click)="onCloseClub($event, element)" mat-menu-item>
+            <mat-icon>close</mat-icon>
+            <span>Close the club</span>
           </button>
         </mat-menu>
       </td>

@@ -1,0 +1,66 @@
+<div
+  *ngIf="{
+    program: clubMemberRegistrationProgram$ | async,
+    programsLoadedState: programsLoadedState$ | async
+  } as params"
+>
+  <mat-toolbar class="modal-header">Add club member</mat-toolbar>
+
+  <div class="p-3">
+    <!-- {{ params?.program | json }} -->
+    <div class="h3 text-left">{{ params?.program?.name }}</div>
+    <hr />
+    <div style="max-height: 450px; overflow: auto" class="p-2">
+      <!-- {{ params?.program?.programTrackedEntityAttributes | json }} -->
+      <div
+        *ngIf="
+          params?.programsLoadedState &&
+          params?.program?.programTrackedEntityAttributes
+        "
+      >
+        <app-default-form-entry
+          [isTrackedEntityInstanceAttributes]="true"
+          [trackedEntityAttributes]="
+            params?.program?.programTrackedEntityAttributes
+          "
+          [trackedEntityType]="params?.program?.trackedEntityType"
+          [dataElements]="[]"
+          [programName]="params?.program?.name"
+          (formData)="onGetFormData($event)"
+          (isFormValid)="onCheckFormValidity($event)"
+        ></app-default-form-entry>
+      </div>
+
+      <mat-progress-bar
+        *ngIf="!params?.programsLoadedState"
+        mode="indeterminate"
+      ></mat-progress-bar>
+    </div>
+    <div class="p-2">
+      <button
+        mat-stroked-button
+        (click)="onClose($event)"
+        class="mr-2 float-right"
+      >
+        Close
+      </button>
+      <button
+        [disabled]="!isFormValid || isMemberAdded"
+        class="mr-2 float-right"
+        mat-stroked-button
+        (click)="
+          onSaveMemberDetails($event, params?.program?.trackedEntityType)
+        "
+      >
+        <mat-spinner
+          *ngIf="savingData"
+          color="accent"
+          [diameter]="20"
+          style="display: inline-block !important; margin-right: 4px"
+        >
+        </mat-spinner>
+        Save
+      </button>
+    </div>
+  </div>
+</div>

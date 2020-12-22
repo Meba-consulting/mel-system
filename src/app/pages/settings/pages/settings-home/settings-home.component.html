@@ -130,13 +130,16 @@
 >
   <mat-tab-group>
     <mat-tab label="Club Registration">
-      <div class="p-3" *ngIf="params?.loadedAttributesState">
+      <div class="p-3">
         <app-create-organisation-unit
+          *ngIf="params?.loadedAttributesState"
           [clubCategories]="params?.selectedAttribute?.optionSet?.options"
         ></app-create-organisation-unit>
-      </div>
-      <div class="p-3" *ngIf="!params?.loadedAttributesState">
-        <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+
+        <mat-progress-bar
+          mode="indeterminate"
+          *ngIf="!params?.loadedAttributesState"
+        ></mat-progress-bar>
       </div>
     </mat-tab>
     <mat-tab label="Trainings Design"></mat-tab>

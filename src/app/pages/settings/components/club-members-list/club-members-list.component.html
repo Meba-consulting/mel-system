@@ -1,0 +1,26 @@
+<div *ngIf="{ clubMembers: clubMembers$ | async } as params">
+  <mat-toolbar class="modal-header"
+    >Club Members for {{ club?.name }}</mat-toolbar
+  >
+  <!-- {{ club | json }} -->
+  <div>
+    <div class="p-4" style="height: 450px; overflow: auto">
+      <mat-progress-bar
+        *ngIf="!params?.clubMembers"
+        mode="indeterminate"
+      ></mat-progress-bar>
+      <div *ngIf="params?.clubMembers">
+        <app-members-list [members]="params?.clubMembers"></app-members-list>
+      </div>
+    </div>
+    <div class="p-4">
+      <button
+        mat-stroked-button
+        (click)="onClose($event)"
+        class="mr-2 float-right"
+      >
+        Close
+      </button>
+    </div>
+  </div>
+</div>

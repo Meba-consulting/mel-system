@@ -13,4 +13,12 @@ export class SettingsService {
       'attributes.json?fields=id,name,optionSet[id,name,options[id,name]],organisationUnitAttribute&paging=false'
     );
   }
+
+  saveTrackedEntityInstanceData(data): Observable<any> {
+    return this.httpClient.post('trackedEntityInstances', data);
+  }
+
+  saveEnrollments(data): Observable<any> {
+    return this.httpClient.post('enrollments', data);
+  }
 }
