@@ -8,6 +8,9 @@
     mode="indeterminate"
   ></mat-progress-bar>
 
+  <div class="danger" *ngIf="params?.clubsData && params?.clubsData?.message">
+    {{ params?.clubsData?.message }}
+  </div>
   <div *ngIf="params?.clubsData">
     <app-clubs-list [clubs]="params?.clubsData"></app-clubs-list>
   </div>

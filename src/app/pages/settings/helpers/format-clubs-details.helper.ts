@@ -32,7 +32,6 @@ export function getClubInfoFromFormValues(values) {
 export function formatClubsForDatatableList(clubs) {
   // console.log('clubs', clubs);
   return _.map(clubs?.listGrid?.rows, (club, index) => {
-    console.log(index);
     return {
       position: index + 1,
       region: club[1],
