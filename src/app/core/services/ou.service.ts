@@ -23,17 +23,21 @@ export class OuService {
 
   deleteOu(id): Observable<any> {
     console.log('delete', id);
-    return this.httpClientCore
-      .delete('../../../api/organisationUnits/' + id)
-      .pipe(
-        map((response) => {
-          console.log(response);
-          return response;
-        }),
-        catchError((error) => {
-          return of(error);
-        })
-      );
+    return this.httpClient.delete('../../../api/organisationUnits/' + id).pipe(
+      map((response) => {
+        console.log(response);
+        return response;
+      }),
+      catchError((error) => {
+        return of(error);
+      })
+    );
+  }
+
+  getOu(id): Observable<any> {
+    return this.httpClient.get(
+      'organisationUnits/' + id + '.json?fields=*,parent[id,name,code]'
+    );
   }
 
   getClubsFromSQLVIEW(): Observable<any> {

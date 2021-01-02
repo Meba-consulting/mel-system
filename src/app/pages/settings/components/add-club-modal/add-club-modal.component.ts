@@ -11,9 +11,11 @@ import { editClub, saveClub } from '../../store/actions';
 import * as _ from 'lodash';
 import {
   getClubSavedState,
+  getClubsEditingState,
   getClubsSavingState,
   getCurrentClub,
 } from '../../store/selectors';
+import { OuService } from 'src/app/core/services/ou.service';
 
 @Component({
   selector: 'app-add-club-modal',
@@ -39,25 +41,68 @@ export class AddClubModalComponent implements OnInit {
   formValues: any = {};
   isFormValid: boolean;
   clubSavingState$: Observable<boolean>;
+  clubEditingState$: Observable<boolean>;
   formFields: any[];
-  currentFormData: any;
+  currentFormData: any = {};
   isClubAdded: boolean = false;
   savingClubMessage: string = '';
   currentClub$: Observable<any>;
   isClubEdited: boolean = false;
+  isAddingClub: boolean = false;
+  club: any;
 
   constructor(
     private dialogRef: MatDialogRef<AddClubModalComponent>,
     @Inject(MAT_DIALOG_DATA) data,
-    private store: Store<State>
+    private store: Store<State>,
+    private ouService: OuService
   ) {
     this.clubCategories = data.clubCategories;
     console.log('club to edit', data?.club);
+    this.club = data?.club;
   }
 
   ngOnInit(): void {
-    this.currentClub$ = this.store.select(getCurrentClub);
+    if (this.club && this.club?.id) {
+      console.log(this.club);
+      this.selectedOrgUnits = [this.club?.parent];
+      this.currentFormData['regdate'] = {
+        id: 'regdate',
+        value: new Date(this.club?.openingDate),
+      };
+      this.currentFormData['name'] = {
+        id: 'shortname',
+        value: this.club?.name,
+      };
+      this.currentFormData['shortname'] = {
+        id: 'shortname',
+        value: this.club?.shortName,
+      };
+
+      // attributeValues
+
+      this.currentFormData['clubcategory'] = {
+        id: 'clubcategory',
+        value: (_.filter(this.clubCategories, {
+          name: this.club?.attributeValues[0]?.value,
+        }) || [])[0]?.id,
+      };
+
+      this.currentFormData['phonenumber'] = {
+        id: 'phonenumber',
+        value: this.club?.phoneNumber,
+      };
+
+      this.formValues['parent'] = { value: this.club?.parent?.id };
+      this.currentClub$ = this.ouService.getOu(this.club?.id);
+      this.isAddingClub = false;
+    } else {
+      this.currentClub$ = this.store.select(getCurrentClub);
+      this.isAddingClub = true;
+    }
+
     this.clubSavingState$ = this.store.select(getClubsSavingState);
+    this.clubEditingState$ = this.store.select(getClubsEditingState);
     this.formFields = [
       {
         id: 'regdate',
@@ -164,7 +209,8 @@ export class AddClubModalComponent implements OnInit {
     this.isClubEdited = true;
     this.store.select(getClubSavedState).subscribe((response) => {
       if (response) {
-        this.savingClubMessage = 'Successfuly saved ' + clubDetails?.name;
+        this.savingClubMessage =
+          'Successfuly saved changes for ' + clubDetails?.name;
         setTimeout(() => {
           this.savingClubMessage = '';
         }, 1000);

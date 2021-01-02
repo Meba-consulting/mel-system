@@ -9,6 +9,7 @@ import {
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
+import { OuService } from 'src/app/core/services/ou.service';
 import { formatClubsForDatatableList } from '../../helpers';
 import { AddClubMemberComponent } from '../add-club-member/add-club-member.component';
 import { AddClubModalComponent } from '../add-club-modal/add-club-modal.component';
@@ -34,7 +35,7 @@ export class ClubsListComponent implements OnInit {
     'action',
   ];
   dataSource: any;
-  constructor(private dialog: MatDialog) {}
+  constructor(private dialog: MatDialog, private ouService: OuService) {}
 
   ngOnInit(): void {
     this.dataSource = new MatTableDataSource(
@@ -50,12 +51,17 @@ export class ClubsListComponent implements OnInit {
 
   onEditClubInfo(e, club) {
     e.stopPropagation();
-    this.dialog.open(AddClubModalComponent, {
-      width: '70%',
-      height: '700px',
-      disableClose: false,
-      data: { clubCategories: this.clubCategories, club: club },
-      panelClass: 'custom-dialog-container',
+    this.ouService.getOu(club?.uuid).subscribe((response) => {
+      if (response) {
+        // console.log('response', response);
+        this.dialog.open(AddClubModalComponent, {
+          width: '70%',
+          height: '700px',
+          disableClose: false,
+          data: { clubCategories: this.clubCategories, club: response },
+          panelClass: 'custom-dialog-container',
+        });
+      }
     });
   }
 

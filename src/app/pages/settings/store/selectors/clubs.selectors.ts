@@ -20,6 +20,11 @@ export const getClubsSavingState = createSelector(
   (state: clubsState) => state.savingClub
 );
 
+export const getClubsEditingState = createSelector(
+  getClubsState,
+  (state: clubsState) => state.editingClub
+);
+
 export const getClubSavedState = createSelector(
   getClubsState,
   (state: clubsState) => state.savedClub

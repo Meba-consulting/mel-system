@@ -29,13 +29,13 @@ const reducer = createReducer(
   })),
   on(editClub, (state) => ({
     ...state,
-    savingClub: true,
+    editingClub: true,
     savedClub: false,
   })),
   on(updateClub, (state, { id, club }) =>
     clubsAdapter.updateOne(
       { id: id, changes: club },
-      { ...state, savingClub: false, savedClub: true }
+      { ...state, editingClub: false, savedClub: true }
     )
   )
 );
