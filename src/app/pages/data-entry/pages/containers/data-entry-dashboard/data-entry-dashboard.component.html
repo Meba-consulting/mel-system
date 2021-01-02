@@ -17,6 +17,9 @@
         mat-stroked-button
       >
         Organisation unit
+        <span *ngIf="selectedOu && !ouFilterIsSet"
+          >: {{ selectedOu?.name }}</span
+        >
       </button>
       <ngx-dhis2-org-unit-filter
         *ngIf="ouFilterIsSet"
@@ -25,6 +28,14 @@
         (orgUnitClose)="onFilterClose($event)"
         (orgUnitUpdate)="onFilterUpdate($event)"
       ></ngx-dhis2-org-unit-filter>
+    </div>
+
+    <div *ngIf="paramersSet && currentProgram">
+      <app-program-entry
+        [program]="currentProgram"
+        [orgUnit]="selectedOu"
+        [currentUser]="currentUser"
+      ></app-program-entry>
     </div>
   </div>
   <div class="col-md-4"></div>

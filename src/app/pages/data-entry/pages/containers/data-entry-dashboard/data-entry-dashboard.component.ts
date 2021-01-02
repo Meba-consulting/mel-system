@@ -10,6 +10,7 @@ import {
 } from '../../../helpers';
 import { loadProgramMetadata } from '../../../store/actions';
 import { Observable } from 'rxjs';
+import { DataService } from 'src/app/core/services/data.service';
 
 @Component({
   selector: 'app-data-entry-dashboard',
@@ -39,35 +40,56 @@ export class DataEntryDashboardComponent implements OnInit {
   };
   selectedOrgUnits: Array<any> = [];
   ouFilterIsSet: boolean = false;
-  constructor(private store: Store<State>) {
-    // this.store.dispatch(
-    //   loadProgramMetadata({ programId: 'IzEQE6HnpoC,UWyXM8q8WGd,NaTg5H77zCU' })
-    // );
-  }
+  ouId: string;
+  programId: string;
+  currentProgram: any;
+  paramersSet: boolean = false;
+  selectedOu: any;
+  constructor(private store: Store<State>, private dataService: DataService) {}
 
   ngOnInit() {
     if (this.programs && this.programs.length > 0) {
-      // this.departments = getDepartmentsFromUserGroups(this.currentUser);
-      // this.currentDepartment = this.departments[0];
-      // this.filteredProgramsByDepartments = filterProgramsByDepartments(
-      //   this.programs,
-      //   this.currentDepartment
-      // );
       this.showPrograms = true;
     }
-    // this.userGroupsControl = getUserGroupsToSeeDataEntryTabs(this.currentUser);
   }
 
   onFilterUpdate(selections) {
     console.log(selections);
+    this.ouFilterIsSet = false;
+    this.ouId = selections?.items[0]?.id;
+    this.selectedOrgUnits = selections?.items;
+    this.selectedOu = selections?.items[0];
+    if (this.ouId && this.programId) {
+      const parameters = {
+        orgUnit: this.ouId,
+        program: this.programId,
+      };
+      this.paramersSet = true;
+      this.getTrackedEntityInstanceData(parameters);
+    }
   }
 
   onFilterClose(selections) {
     console.log('closing');
+    this.ouFilterIsSet = false;
+  }
+
+  getTrackedEntityInstanceData(parameters) {
+    this.dataService.getRegisteredMembers(parameters);
   }
 
   getForm(val) {
     console.log(val);
+    this.currentProgram = val;
+    this.programId = val?.id;
+    if (this.ouId && this.programId) {
+      const parameters = {
+        orgUnit: this.ouId,
+        program: this.programId,
+      };
+      this.paramersSet = true;
+      this.getTrackedEntityInstanceData(parameters);
+    }
   }
 
   toggleSubItems() {
