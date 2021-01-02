@@ -1,7 +1,15 @@
-<div *ngIf="{ clubSavingState: clubSavingState$ | async } as params">
+<div
+  *ngIf="{
+    clubSavingState: clubSavingState$ | async,
+    currentClub: currentClub$ | async
+  } as params"
+>
   <mat-toolbar class="modal-header">Register a club</mat-toolbar>
 
   <div class="p-5">
+    <div class="success-save-message" *ngIf="isClubAdded && savingClubMessage">
+      {{ savingClubMessage }}
+    </div>
     <div style="max-height: 500px">
       <div>
         <button
@@ -56,6 +64,21 @@
         >
         </mat-spinner>
         Save
+      </button>
+      <button
+        [disabled]="!isFormValid || isClubEdited"
+        class="mr-2 float-right"
+        mat-stroked-button
+        (click)="onEditClubDetails($event, params?.currentClub)"
+      >
+        <mat-spinner
+          *ngIf="params?.clubSavingState"
+          color="accent"
+          [diameter]="20"
+          style="display: inline-block !important; margin-right: 4px"
+        >
+        </mat-spinner>
+        Edit
       </button>
     </div>
   </div>

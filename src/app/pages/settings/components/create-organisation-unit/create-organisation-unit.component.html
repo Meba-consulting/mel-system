@@ -8,11 +8,18 @@
     mode="indeterminate"
   ></mat-progress-bar>
 
-  <div class="danger" *ngIf="params?.clubsData && params?.clubsData?.message">
+  <div
+    class="text-danger text-center"
+    *ngIf="params?.clubsData && params?.clubsData?.message"
+  >
     {{ params?.clubsData?.message }}
   </div>
   <div *ngIf="params?.clubsData">
-    <app-clubs-list [clubs]="params?.clubsData"></app-clubs-list>
+    <app-clubs-list
+      [clubs]="params?.clubsData"
+      [clubCategories]="clubCategories"
+      (dialogClosed)="onClose($event)"
+    ></app-clubs-list>
   </div>
 
   <div>

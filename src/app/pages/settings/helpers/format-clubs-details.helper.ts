@@ -2,14 +2,13 @@ import { formatDateToYYMMDD } from '../../data-entry/helpers';
 
 import * as _ from 'lodash';
 export function getClubInfoFromFormValues(values) {
+  console.log('values', values);
   let formattedData = {
     attributeValues: [
       {
-        value: (
-          _.filter(values?.clubcategory?.options, {
-            key: values?.clubcategory?.value,
-          }) || []
-        )?.name,
+        value: (_.filter(values?.clubcategory?.options, {
+          key: values?.clubcategory?.value,
+        }) || [])[0]?.name,
         attribute: {
           id: 'i1svsrgKdXW',
           name: 'Club Category',

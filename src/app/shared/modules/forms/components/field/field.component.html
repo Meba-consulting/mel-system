@@ -1,7 +1,7 @@
 <div [formGroup]="form" *ngIf="isCommonField">
   <mat-form-field
     [ngSwitch]="field?.controlType"
-    appearance="fill"
+    appearance="outline"
     class="w-100 no-padding"
   >
     <mat-label [attr.for]="field?.key">{{ field?.label }}</mat-label>

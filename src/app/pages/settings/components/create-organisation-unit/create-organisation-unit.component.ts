@@ -124,4 +124,8 @@ export class CreateOrganisationUnitComponent implements OnInit {
       };
     });
   }
+
+  onClose(e) {
+    this.getClubsData();
+  }
 }

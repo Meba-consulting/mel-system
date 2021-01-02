@@ -6,6 +6,7 @@ import { ClubMembersListComponent } from './club-members-list/club-members-list.
 import { ClubsListComponent } from './clubs-list/clubs-list.component';
 import { CreateOrganisationUnitComponent } from './create-organisation-unit/create-organisation-unit.component';
 import { DefaultFormEntryComponent } from './default-form-entry/default-form-entry.component';
+import { DeleteOuComponent } from './delete-ou/delete-ou.component';
 import { MembersListComponent } from './members-list/members-list.component';
 
 export const settingsComponents: any[] = [
@@ -18,4 +19,5 @@ export const settingsComponents: any[] = [
   DefaultFormEntryComponent,
   ClubMembersListComponent,
   MembersListComponent,
+  DeleteOuComponent,
 ];
