@@ -1,58 +1,105 @@
-<div class="application-container">
+<div
+  class="application-container"
+  *ngIf="{ currentUser: currentUser$ | async } as params"
+>
   <div class="container-fluid">
-    <div class="row no-print">
-      <div class="col-md-12">
+    <div class="row">
+      <div class="col-12 no-print header-banner">
         <div
-          class="tutorial"
-          style="
-            background-color: #3ea9d9;
-            border-bottom: solid 2px #414498;
-            height: 145px;
-            color: #fff;
-            top: 0;
-            z-index: 1200;
-          "
+          class="float-right d-flext text-justify-center"
+          style="margin-top: 20px"
         >
-          <div class="header-banner d-flex" style="width: 100%">
+          <div class="h6">
+            <img
+              height="25"
+              src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAABmJLR0QA/wD/AP+gvaeTAAACQUlEQVR4nO3au2sUURjG4SfGwluC8V4o4qUQRVMItppGo0j0b9BSEQtrwVbQVmwNNoKgKIhYRQsleKmsRBuDmKjghQiBXCxmF0VxM5k950yi5wdfscvwnvf9Zoc9lyGTyWQymcz/Skfi8bpxHAPYhU2N79/iJW436mtiX9FZjLP4gJlZagxn0FmL0wh0467Zg/9e99FTg9+grMALcw/frOdYntx1QG6qHr5ZN5K7DsQR7Ydv1sHE3oPwVLgGDCf23jbbhAvfrK0xjC6KIYrDETT7I2hGa8CWBaIZrQHrImhuiKAZrQExprKfI2hGa8C7BaIZrQEPI2gORdCMRidGhfsLfC/SzYr1C5jCpYB6FzEdUC8JS/Fa+3f/FZYk9h6Mnfiievhv2J3cdWD68Mncw3/E/hr8RmE7HikffkixnvjnGFDs+X33Z+hx3MLRlIZSb4o2WaZY3W1sfB7BG0VjMplMJpPJZJIQ6wByLY7hEJ60odOBc9is2F+Y1xOlNTitCDzl5xS3nX2By7/oTOExTmF1W04D04vrmPD3xc01rJyDZg8GW+hNNMbsDZKgIn24p9ipKbPCG8EJdLXQ7MLJxrVlNKcbHg5UDVFlMdSPC9hXccxx3MEzxXNNsee/V7ESrHocPozzivcKorBDYTz0mV/oeoA9IYOvwlVMzoNwZWsSV5R4w6TMIzAqzlFXCsawvtUFZRowE8ZLbbTMGOtcYMGQG1C3gbrJDajbQN3kBtRtoG5yA+o2kMlkMplMJlMXPwAQlnQd3J0ImQAAAABJRU5ErkJggg=="
+            />
+            {{ params?.currentUser?.name }}
+          </div>
+        </div>
+      </div>
+      <div
+        class="col-md-2 no-print left-panel"
+        style="border-right: solid 1px #eee"
+      >
+        <div>
+          <div class="user-panel text-center">
+            <img
+              height="180"
+              src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAABmJLR0QA/wD/AP+gvaeTAAACQUlEQVR4nO3au2sUURjG4SfGwluC8V4o4qUQRVMItppGo0j0b9BSEQtrwVbQVmwNNoKgKIhYRQsleKmsRBuDmKjghQiBXCxmF0VxM5k950yi5wdfscvwnvf9Zoc9lyGTyWQymcz/Skfi8bpxHAPYhU2N79/iJW436mtiX9FZjLP4gJlZagxn0FmL0wh0467Zg/9e99FTg9+grMALcw/frOdYntx1QG6qHr5ZN5K7DsQR7Ydv1sHE3oPwVLgGDCf23jbbhAvfrK0xjC6KIYrDETT7I2hGa8CWBaIZrQHrImhuiKAZrQExprKfI2hGa8C7BaIZrQEPI2gORdCMRidGhfsLfC/SzYr1C5jCpYB6FzEdUC8JS/Fa+3f/FZYk9h6Mnfiievhv2J3cdWD68Mncw3/E/hr8RmE7HikffkixnvjnGFDs+X33Z+hx3MLRlIZSb4o2WaZY3W1sfB7BG0VjMplMJpPJZJIQ6wByLY7hEJ60odOBc9is2F+Y1xOlNTitCDzl5xS3nX2By7/oTOExTmF1W04D04vrmPD3xc01rJyDZg8GW+hNNMbsDZKgIn24p9ipKbPCG8EJdLXQ7MLJxrVlNKcbHg5UDVFlMdSPC9hXccxx3MEzxXNNsee/V7ESrHocPozzivcKorBDYTz0mV/oeoA9IYOvwlVMzoNwZWsSV5R4w6TMIzAqzlFXCsawvtUFZRowE8ZLbbTMGOtcYMGQG1C3gbrJDajbQN3kBtRtoG5yA+o2kMlkMplMJlMXPwAQlnQd3J0ImQAAAABJRU5ErkJggg=="
+            />
+            <br />
+            <!-- <div class="h6 text-center"> -->
+            {{ params?.currentUser?.name }}
+            <!-- </div> -->
+          </div>
+          <!-- <div class="header-banner d-flex" style="width: 100%">
             <div class="float-left w-25">
               <img src="assets/img/lhrc_msg.png" class="left-img-lhrc" />
-            </div>
-            <div class="w-50">
+            </div> -->
+          <!-- <div class="w-50">
               <h2 style="text-align: center !important; margin-top: 15px">
                 LEGAL & HUMAN RIGHTS CENTER - MEL
               </h2>
-            </div>
-            <div class="float-right w-25"></div>
-          </div>
-          <div class="d-flex justify-content-center">
-            <ul style="padding: 0 !important">
-              <li [routerLink]="'/dashboards/'" routerLinkActive="active-class">
+            </div> -->
+          <!-- <div class="float-right w-25"></div>
+          </div> -->
+          <div class="dashboard-menu">
+            <ul class="list-group">
+              <li
+                class="list-group-item"
+                [routerLink]="'/dashboards/'"
+                routerLinkActive="active-class"
+              >
+                <img
+                  height="25"
+                  src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABXAvmHAAAABmJLR0QA/wD/AP+gvaeTAAABIElEQVRoge2YsQ3CMBBF/yF6BiBMQE9Nnz28AjOwQTJJemo6RkgWYAGOIgQhyFlycrFldK+05Yuf7HNOBxiGYaSExJnTrQStaoC3gTE7MDmc983n4OFyL5m5BigwHnXM7K7HTTM2u5LXUTVh8wBQgLj+HmSmKnzzAMAFEX7iDcgCQBH+sTe7sY3oxuvxCWSBCaTGBFITUYC6GYtbaSKaADO7iRItHnDS5HrGnoJ4/UnF93wqlgOpyV4gWg5oV7cD8U5AubodiHmFrBodwwRS4xNYpHbRRhZgcpgm0QIk1i7ayP+B/t1Vr120+escyILsBcQcWKqTpo14Akt10rTxXKFlOmnaZJ8DJpAaE0iNR0C9kxa3M6feScukujUMwwjjCa6bV7FiSqWRAAAAAElFTkSuQmCC"
+                />
                 Dashboard
               </li>
-              <li [routerLink]="'/data-entry'" routerLinkActive="active-class">
+            </ul>
+          </div>
+          <div class="h5 p-3">GENERAL</div>
+          <div class="menu-items">
+            <ul class="list-group">
+              <li
+                class="list-group-item"
+                [routerLink]="'/data-entry'"
+                routerLinkActive="active-class"
+              >
+                <img
+                  height="25"
+                  src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABXAvmHAAAABmJLR0QA/wD/AP+gvaeTAAAA4ElEQVRoge2ZMQrCQBBFn6Ki4I30Rta2akrPpb0HMIXnEEELEZYQgxtnd1z5DwJp8jOPTDbsBIQQohRmQAXUwA24ZzhMiz9mKjqJQOVQvKlAHYSugbFleIMkAmHPTyyDW4gSGESExl7Tl6h7DRMWkoWRQcYSWHyZsTeoo5Ouvtxhu9pEvQNqIZ4fuOQt8A6tQt5IwBsJeCMBbyTgjQS8kYA3EvCmj8AJuPIjw6w+G5qc/P+G5lPCR1z8aHFuGdxCkrHKJThfkX4+as6WwsfrU+BQssBLYgOcKfAXkxBCpOEBCZb6Z74C7OcAAAAASUVORK5CYII="
+                />
                 Data entry
               </li>
-              <li [routerLink]="'/reports'" routerLinkActive="active-class">
+              <li
+                class="list-group-item"
+                [routerLink]="'/reports'"
+                routerLinkActive="active-class"
+              >
+                <img
+                  height="25"
+                  src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABXAvmHAAAABmJLR0QA/wD/AP+gvaeTAAAAzElEQVRoge2YUQqEMAxEx8V7bW9mvZl7MvfDChU0aa0aq/NgvhwxY4qRAIQQQgpolOsuyJIhaJVWudkB6A4tZx+bAT5XVnEGWgdifhDeBJad6gs8wNT5b2JdIh7AGOQV7xipxJP13OqPEANYwwDWVB8gZw50SJ/K2mcy1aNSfQdeFaDH9Pe6pZgSTwP5N2N3gFvCANYwgDUcZNa8KgAH2RkwgDUMYE31AXImsYO+nZtJ8Umewzbi8YrPSs9eLWpHSNpGX8UdaiCEkKfyB7oyQEVo+hy7AAAAAElFTkSuQmCC"
+                />
                 Reports
               </li>
-              <li [routerLink]="'/settings'" routerLinkActive="active-class">
-                Settings
-              </li>
-              <li *ngIf="viewMaintenance" style="float: right">
-                <a
-                  style="color: #fff; text-decoration: none"
-                  href="../../../dhis-web-dashboard/index.html#/"
-                  target="_blankc"
-                  >Maintenance</a
-                >
+              <li
+                class="list-group-item"
+                [routerLink]="'/settings'"
+                routerLinkActive="active-class"
+              >
+                <img
+                  height="25"
+                  src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABXAvmHAAAABmJLR0QA/wD/AP+gvaeTAAAA4ElEQVRoge2ZMQrCQBBFn6Ki4I30Rta2akrPpb0HMIXnEEELEZYQgxtnd1z5DwJp8jOPTDbsBIQQohRmQAXUwA24ZzhMiz9mKjqJQOVQvKlAHYSugbFleIMkAmHPTyyDW4gSGESExl7Tl6h7DRMWkoWRQcYSWHyZsTeoo5Ouvtxhu9pEvQNqIZ4fuOQt8A6tQt5IwBsJeCMBbyTgjQS8kYA3EvCmj8AJuPIjw6w+G5qc/P+G5lPCR1z8aHFuGdxCkrHKJThfkX4+as6WwsfrU+BQssBLYgOcKfAXkxBCpOEBCZb6Z74C7OcAAAAASUVORK5CYII="
+                />
+                General Registration
               </li>
             </ul>
           </div>
         </div>
       </div>
-    </div>
-    <div class="row" style="margin: 0px">
-      <div class="col-md-12">
+      <div class="col-md-10 right-panel">
         <router-outlet></router-outlet>
         <div class="footer"></div>
       </div>

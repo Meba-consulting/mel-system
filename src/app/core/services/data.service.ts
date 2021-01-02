@@ -12,7 +12,7 @@ export class DataService {
     return this.httpClient.get(
       'trackedEntityInstances/query.json?ou=' +
         parameters?.orgUnit +
-        '&ouMode=ACCESSIBLE&program=' +
+        '&program=' +
         parameters?.program +
         '&pageSize=50&page=1&totalPages=false'
     );

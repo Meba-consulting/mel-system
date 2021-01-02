@@ -1,7 +1,7 @@
 <div class="row">
-  <div class="col-12">
+  <div class="col-12" style="margin-top: 15px">
     <button
-      style="float: right; margin-left: 5px;"
+      style="float: right; margin-left: 5px"
       mat-stroked-button
       (click)="toggleEntryAndReport('report')"
       [ngClass]="{ active: isListReportSet }"
@@ -9,7 +9,7 @@
       List report
     </button>
     <button
-      style="float: right; margin-left: 5px;"
+      style="float: right; margin-left: 5px"
       mat-stroked-button
       (click)="toggleEntryAndReport('entry')"
       [ngClass]="{ active: !isListReportSet }"
@@ -17,9 +17,10 @@
       Entry
     </button>
   </div>
+
   <div class="col-12" *ngIf="!isListReportSet">
     <div>
-      <mat-form-field style="width: 30%;" appearance="outline">
+      <mat-form-field style="width: 30%" appearance="outline">
         <mat-label>Reporting date</mat-label>
         <input
           matInput
@@ -40,7 +41,21 @@
       style="width: 100%; overflow: auto"
       *ngIf="reportingDate && dateChanged && (events$ | async)"
     >
-      <app-data-entry
+      <app-tracked-entrity-entry-form
+        [trackedEntityType]="program?.trackedEntityType"
+      ></app-tracked-entrity-entry-form>
+
+      <mat-tab-group>
+        <mat-tab
+          *ngFor="let stage of program?.programStages"
+          label="{{ stage?.name }}"
+        >
+          <div class="p-3">
+            <p>Data entry for {{ stage?.name }}</p>
+          </div>
+        </mat-tab>
+      </mat-tab-group>
+      <!-- <app-data-entry
         [dataEntryForm]="program['programStages'][0]['dataEntryForm']"
         [formName]="program['name']"
         [formId]="program['id']"
@@ -52,11 +67,11 @@
         [elementsDataValues]="elementsDataValues"
         (entryInfo)="onEntryInfoChange($event)"
       >
-      </app-data-entry>
+      </app-data-entry> -->
     </div>
   </div>
   <div class="col-12" *ngIf="isListReportSet">
-    <div *ngIf="events && eventLoaded" style="width: 100%; overflow: auto;">
+    <div *ngIf="events && eventLoaded" style="width: 100%; overflow: auto">
       <app-events-report
         [events]="events"
         [reportElements]="
@@ -73,7 +88,7 @@
   </div>
   <div class="col-12" *ngIf="!isListReportSet">
     <button
-      style="float: left; margin-top: 15px;"
+      style="float: left; margin-top: 15px"
       mat-stroked-button
       [disabled]="!dataValues || dataValues.length == 0"
       (click)="saveData()"

@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import {
   Manifest,
-  NgxDhis2HttpClientService
+  NgxDhis2HttpClientService,
 } from '@iapps/ngx-dhis2-http-client';
 import { Store } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
@@ -17,7 +17,7 @@ import {
   getAllSystemUsers,
   LoadSystemUsers,
   loadUserGroups,
-  loadPrograms
+  loadPrograms,
 } from './store';
 import { ActivatedRoute } from '@angular/router';
 import * as _ from 'lodash';
@@ -25,7 +25,7 @@ import * as _ from 'lodash';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+  styleUrls: ['./app.component.scss'],
 })
 export class AppComponent implements OnInit {
   currentUser$: Observable<any>;
@@ -52,7 +52,7 @@ export class AppComponent implements OnInit {
     // initialize function analytics
     if (Fn) {
       Fn.init({
-        baseUrl: '../../../api/'
+        baseUrl: '../../../api/',
       });
     }
     // Load system information
@@ -62,13 +62,14 @@ export class AppComponent implements OnInit {
     this.store.dispatch(loadPrograms());
 
     this.currentUser$ = this.store.select(getCurrentUser);
-    this.currentUser$.subscribe(currentUserInfo => {
+    this.currentUser$.subscribe((currentUserInfo) => {
       if (currentUserInfo) {
+        console.log('currentUserInfo', currentUserInfo);
         let currentDashboard = localStorage.getItem(
           'dhis2.dashboard.current.' + currentUserInfo.userCredentials.username
         );
         this.currentDashboardId = currentDashboard;
-        _.each(currentUserInfo.userGroups, userGroup => {
+        _.each(currentUserInfo.userGroups, (userGroup) => {
           if (userGroup.name.indexOf('_MAINTENANCE') > -1) {
             this.viewMaintenance = true;
           }

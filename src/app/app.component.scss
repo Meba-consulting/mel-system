@@ -3,7 +3,7 @@
 }
 
 .active-class {
-  color: #fff;
+  color: #42a6d7;
   outline: none;
   font-weight: 600 !important;
   background-color: transparent;
@@ -31,78 +31,51 @@ a {
   outline: none;
   text-decoration: none;
 }
-
-// .row {
-//   display: flex;
-//   flex-wrap: wrap;
-//   margin-right: 0 !important;
-//   margin-left: 0 !important;
-// }
-
-.tutorial {
-  width: 100%;
-  /* margin: 5% auto 0 auto; */
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  /* max-width: 800px; */
-}
-.tutorial ul {
-  font-size: 0;
-  list-style-type: none;
-}
-.tutorial ul li {
-  font-family: Scorecard-Averta, sans-serif, appleLogo !important;
-  font-size: 1rem;
-  font-weight: 400;
-  display: inline-block;
-  padding: 8px 15px;
-  position: relative;
-}
-.tutorial ul li ul {
-  display: none;
-}
-.tutorial ul li:hover {
-  cursor: pointer;
-  color: #fff;
-  outline: none !important;
-}
-.tutorial ul li:hover ul {
-  display: block;
-  margin-top: 15px;
-  width: 200px;
-  left: 0;
-  position: absolute;
-}
-.tutorial ul li:hover ul li {
-  display: block;
-  outline: none;
-}
-.tutorial ul li:hover ul li:hover {
-  outline: none;
-  color: #ffffff;
-}
-
-.tutorial ul li:hover ul {
-  display: block;
-  margin-top: 15px;
-  width: 200px;
-  left: 0;
-  position: absolute;
-}
-
-.tutorial ul li:hover ul li {
-  display: block;
-  color: #000;
-}
-
 .header-banner {
   background-color: #3ea9d9;
-  height: 95px;
-  padding: 10px;
+  height: 50px;
+  // padding: 10px;
   font-weight: 600;
+  position: fixed;
+  z-index: 100 !important;
+}
+
+.left-panel {
+  margin-top: 53px;
+  z-index: 90 !important;
+}
+
+.right-panel {
+  margin-top: 53px;
+  z-index: 90 !important;
 }
 
 .left-img-lhrc {
   height: 144px !important;
   margin-left: -10px !important;
   margin-top: -10px !important;
+}
+
+.user-panel {
+  padding: 0px !important;
+}
+
+.user-panel img {
+  border-radius: 50% !important;
+}
+
+.dashboard-menu {
+  margin: 10px 0 20px 0 !important;
+}
+
+.list-group-item {
+  border: none !important;
+  cursor: pointer;
+  background-color: transparent;
+  outline: none;
+}
+
+.list-group-item:hover {
+  outline: none !important;
+  border: none !important;
 }

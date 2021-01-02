@@ -3,7 +3,7 @@ import { Observable } from 'rxjs';
 import {
   getDataElementsFromProgram,
   formatDateToYYMMDD,
-  formatProgrgamIndicators
+  formatProgrgamIndicators,
 } from '../../helpers';
 
 import * as _ from 'lodash';
@@ -13,7 +13,7 @@ import { DataEntryService } from '../../services/data-entry.service';
 @Component({
   selector: 'app-program-entry',
   templateUrl: './program-entry.component.html',
-  styleUrls: ['./program-entry.component.css']
+  styleUrls: ['./program-entry.component.css'],
 })
 export class ProgramEntryComponent implements OnInit {
   @Input() program: any;
@@ -47,6 +47,7 @@ export class ProgramEntryComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    console.log('program########', this.program);
     this.elementsToDisable = [...this.elementsToDisable, this.orgUnit.id];
     this.dataElements = getDataElementsFromProgram(
       this.program.programStages[0]['programStageDataElements']
@@ -55,10 +56,10 @@ export class ProgramEntryComponent implements OnInit {
     const dimensions = {
       ou: this.orgUnit.id,
       program: this.program.id,
-      programStage: this.program.programStages[0].id
+      programStage: this.program.programStages[0].id,
     };
     this.events$ = this.dataEntryService.getEventsData(dimensions);
-    this.events$.subscribe(response => {
+    this.events$.subscribe((response) => {
       if (response) {
         setTimeout(() => {
           this.events = response['events'];
@@ -91,7 +92,7 @@ export class ProgramEntryComponent implements OnInit {
     const dimensions = {
       ou: this.orgUnit.id,
       program: this.program.id,
-      programStage: this.program.programStages[0].id
+      programStage: this.program.programStages[0].id,
     };
     this.events$ = this.dataEntryService.getEventsData(dimensions);
     // this.events$ = this.httpClient.get(
@@ -109,11 +110,11 @@ export class ProgramEntryComponent implements OnInit {
     _.filter(this.dataValues, { dataElement: elemId }).length > 0
       ? (this.dataValues[index] = {
           dataElement: elemId,
-          value: data.value
+          value: data.value,
         })
       : this.dataValues.push({
           dataElement: elemId,
-          value: data.value
+          value: data.value,
         });
   }
 
@@ -126,11 +127,11 @@ export class ProgramEntryComponent implements OnInit {
       program: this.program.id,
       programStage: this.program.programStages[0].id,
       orgUnit: this.orgUnit.id,
-      dataValues: this.dataValues
+      dataValues: this.dataValues,
     };
     this.eventSaveMessage = 'Saving data................';
     this.eventLoaded = false;
-    this.httpClient.post('events', eventData).subscribe(response => {
+    this.httpClient.post('events', eventData).subscribe((response) => {
       setTimeout(() => {
         this.eventSaveMessage = 'Saved successful';
       }, 800);
@@ -138,10 +139,10 @@ export class ProgramEntryComponent implements OnInit {
         const dimensions = {
           ou: this.orgUnit.id,
           program: this.program.id,
-          programStage: this.program.programStages[0].id
+          programStage: this.program.programStages[0].id,
         };
         this.events$ = this.dataEntryService.getEventsData(dimensions);
-        this.events$.subscribe(response => {
+        this.events$.subscribe((response) => {
           if (response) {
             setTimeout(() => {
               this.events = response['events'];
