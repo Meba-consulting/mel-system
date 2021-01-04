@@ -1,0 +1,41 @@
+.ngx-dhis2-org-unit-filter__container {
+  width: 100%;
+}
+
+.ngx-dhis2-org-unit-filter__selected-org-units {
+  height: 30px;
+  border-bottom: solid thin #fafafa;
+}
+
+.ngx-dhis2-org-unit-filter__selection-container {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  position: relative;
+}
+
+.ngx-dhis2-org-unit-filter__org-unit-selection,
+.ngx-dhis2-org-unit-filter__org-unit-options {
+  flex: 1;
+  height: 400px !important;
+}
+
+.ngx-dhis2-org-unit-filter__org-unit-selection,
+.ngx-dhis2-org-unit-filter__org-unit-level-group {
+  position: relative;
+}
+
+.ngx-dhis2-org-unit-filter__org-unit-buttons {
+  display: flex;
+  justify-content: flex-end;
+  font-size: 12px;
+}
+
+.ngx-dhis2-org-unit-filter__org-unit-buttons button {
+  outline: none;
+}
+
+::ng-deep .mat-checkbox-inner-container {
+  height: 12px !important;
+  width: 12px !important;
+}

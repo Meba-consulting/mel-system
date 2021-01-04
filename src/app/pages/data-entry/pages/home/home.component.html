@@ -1,5 +1,7 @@
 <div>
   <div class="row">
+    <div class="col-12 h4 p-3">Data entry</div>
+    <hr />
     <div
       class="col-md-12"
       *ngIf="
@@ -16,14 +18,12 @@
       ></app-data-entry-dashboard>
     </div>
   </div>
-  <div
-    class="col-12"
+  <mat-progress-bar
     *ngIf="
       !(currentUser$ | async) || !(programs$ | async) || !(userGroups$ | async)
     "
-  >
-    <mat-progress-bar mode="indeterminate"></mat-progress-bar>
-  </div>
+    mode="indeterminate"
+  ></mat-progress-bar>
   <div
     *ngIf="
       (programs$ | async) &&
@@ -31,7 +31,7 @@
       (programsLoadedState$ | async)
     "
   >
-    <div style="padding: 20%;">
+    <div style="padding: 20%">
       <p style="text-align: center">No any forms available</p>
     </div>
   </div>

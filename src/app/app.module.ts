@@ -38,7 +38,7 @@ import { RouteSerializer } from './pages/dashboard/pages/utils';
 import { FilterItemsPipe } from './core/pipes/filter-items.pipe';
 import { ChattingComponent } from './shared/components/chatting/chatting.component';
 import { FormsModule } from '@angular/forms';
-import { NgxDhis2OrgUnitFilterModule } from '@iapps/ngx-dhis2-org-unit-filter';
+import { SharedModule } from './shared';
 
 @NgModule({
   declarations: [AppComponent, FilterItemsPipe, ChattingComponent],
@@ -47,7 +47,7 @@ import { NgxDhis2OrgUnitFilterModule } from '@iapps/ngx-dhis2-org-unit-filter';
     HttpClientModule,
     FormsModule,
     BrowserAnimationsModule,
-    NgxDhis2OrgUnitFilterModule,
+    SharedModule,
     NgxDhis2HttpClientModule.forRoot({
       version: 1,
       namespace: 'iapps',

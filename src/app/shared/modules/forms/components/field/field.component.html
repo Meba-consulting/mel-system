@@ -5,7 +5,19 @@
     class="w-100 no-padding"
   >
     <mat-label [attr.for]="field?.key">{{ field?.label }}</mat-label>
-
+    <!-- Number -->
+    <input
+      *ngSwitchCase="'number'"
+      [formControlName]="field?.key"
+      [id]="field?.key"
+      [min]="field?.min"
+      [max]="field?.max"
+      [disabled]="true"
+      [placeholder]="field?.placeholder"
+      [type]="field?.type"
+      matInput
+      (keyup)="onFieldUpdate()"
+    />
     <!-- textbox -->
     <input
       *ngSwitchCase="'textbox'"

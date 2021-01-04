@@ -7,7 +7,7 @@ import {
 import { Store } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
 import { of, Observable } from 'rxjs';
-import { catchError } from 'rxjs/operators';
+import { catchError, window } from 'rxjs/operators';
 import { Fn } from '@iapps/function-analytics';
 
 import {
@@ -21,6 +21,7 @@ import {
 } from './store';
 import { ActivatedRoute } from '@angular/router';
 import * as _ from 'lodash';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-root',
@@ -38,12 +39,14 @@ export class AppComponent implements OnInit {
   currentUserUsername: string;
   currentDashboardId: string;
   viewMaintenance: boolean = false;
+  showUserProfileSummary: boolean = false;
   constructor(
     private store: Store<State>,
     private translate: TranslateService,
     private titleService: Title,
     private httpClient: NgxDhis2HttpClientService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private coreAngularHttp: HttpClient
   ) {
     this.searchInput = '';
   }
@@ -114,7 +117,17 @@ export class AppComponent implements OnInit {
     this.isViewAllContentsSet = !this.isViewAllContentsSet;
   }
 
-  showChat() {
-    this.isChatSet = !this.isChatSet;
+  // showChat() {
+  //   this.isChatSet = !this.isChatSet;
+  // }
+
+  onLogOut(e) {
+    e.stopPropagation();
+    this.httpClient
+      .get('../../../mel/dhis-web-commons-security/logout.action')
+      .subscribe(() => {});
+
+    location.reload();
+    location.reload();
   }
 }

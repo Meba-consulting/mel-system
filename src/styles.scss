@@ -70,12 +70,12 @@ body {
   position: relative;
   overflow: hidden;
   display: flex;
-  min-height: 100vh !important;
+  min-height: auto !important;
   transition: height 500ms cubic-bezier(0.35, 0, 0.25, 1);
 }
 
 .mat-tab-body-content {
-  height: 100vh !important;
+  height: auto !important;
   overflow: auto;
 }
 

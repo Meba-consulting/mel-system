@@ -35,6 +35,8 @@ export class ProgramEntryComponent implements OnInit {
   dateChanged: boolean = false;
   elementsToDisable: string[] = [];
 
+  isFormValid: boolean = false;
+
   constructor(
     private httpClient: NgxDhis2HttpClientService,
     private dataEntryService: DataEntryService
@@ -116,6 +118,18 @@ export class ProgramEntryComponent implements OnInit {
           dataElement: elemId,
           value: data.value,
         });
+  }
+
+  onGetFormValuesData(data) {
+    console.log(data);
+  }
+
+  onGetFormValidity(e) {
+    this.isFormValid = e;
+  }
+
+  onSaveData(e) {
+    e.stopPropagation();
   }
 
   saveData() {
