@@ -1,5 +1,6 @@
 import * as _ from 'lodash';
-import { USER_ORG_UNITS } from '@iapps/ngx-dhis2-org-unit-filter';
+import { USER_ORG_UNITS } from 'src/app/shared/modules/org-unit-filter/constants/user-org-units.constants';
+// import { USER_ORG_UNITS } from '@iapps/ngx-dhis2-org-unit-filter';
 import { VisualizationDataSelection } from '../models';
 
 // TODO: Refactor this implementation to be flexible for increased preferences
@@ -45,8 +46,8 @@ export function updateDataSelectionBasedOnPreferences(
             {
               id: 'USER_ORGUNIT',
               name: userOrgUnit ? userOrgUnit.name : '',
-              type: userOrgUnit ? userOrgUnit.type : 'USER_ORGANISATION_UNIT'
-            }
+              type: userOrgUnit ? userOrgUnit.type : 'USER_ORGANISATION_UNIT',
+            },
           ];
         }
       }
@@ -55,7 +56,7 @@ export function updateDataSelectionBasedOnPreferences(
         items:
           dataSelectionItems.length > 0
             ? dataSelectionItems
-            : dataSelection.items
+            : dataSelection.items,
       };
     }
     case 'reportTable': {
@@ -86,12 +87,12 @@ export function updateDataSelectionBasedOnPreferences(
           if (lowestOrgUnitLevel) {
             dataSelectionItems = [
               ...dataSelection.items,
-              { id: `LEVEL-${lowestOrgUnitLevel + 1}`, name: 'Level 2' }
+              { id: `LEVEL-${lowestOrgUnitLevel + 1}`, name: 'Level 2' },
             ];
           } else {
             const userOrgUnitChildren = _.find(USER_ORG_UNITS, [
               'id',
-              'USER_ORGUNIT_CHILDREN'
+              'USER_ORGUNIT_CHILDREN',
             ]);
             dataSelectionItems = [
               {
@@ -99,8 +100,8 @@ export function updateDataSelectionBasedOnPreferences(
                 name: userOrgUnitChildren ? userOrgUnitChildren.name : '',
                 type: userOrgUnitChildren
                   ? userOrgUnitChildren.type
-                  : 'USER_ORGANISATION_UNIT'
-              }
+                  : 'USER_ORGANISATION_UNIT',
+              },
             ];
           }
         }
@@ -111,7 +112,7 @@ export function updateDataSelectionBasedOnPreferences(
         items:
           dataSelectionItems.length > 0
             ? dataSelectionItems
-            : dataSelection.items
+            : dataSelection.items,
       };
     }
     default:

@@ -9,17 +9,17 @@ import {
   take,
   tap,
   concatMap,
-  withLatestFrom
+  withLatestFrom,
 } from 'rxjs/operators';
 
 import {
   getFunctionLoadedStatus,
-  getFunctions
+  getFunctions,
 } from '../../../ngx-dhis2-data-selection-filter/modules/data-filter/store/selectors/function.selectors';
 import {
   getMergedDataSelections,
   getSanitizedAnalytics,
-  getStandardizedAnalyticsObject
+  getStandardizedAnalyticsObject,
 } from '../../helpers';
 import { VisualizationDataSelection, VisualizationLayer } from '../../models';
 import { AnalyticsService } from '../../services/analytics.service';
@@ -27,27 +27,31 @@ import {
   LoadVisualizationAnalyticsAction,
   LoadVisualizationAnalyticsSuccessAction,
   UpdateVisualizationLayerAction,
-  VisualizationLayerActionTypes
+  VisualizationLayerActionTypes,
 } from '../actions/visualization-layer.actions';
 import { UpdateVisualizationObjectAction } from '../actions/visualization-object.actions';
 import { VisualizationState } from '../reducers';
 import { getCombinedVisualizationObjectById } from '../selectors';
-import {
-  OrgUnitLevel,
-  getOrgUnitLevels,
-  getOrgUnitGroups,
-  OrgUnitGroup
-} from '@iapps/ngx-dhis2-org-unit-filter';
+// import {
+//   OrgUnitLevel,
+//   getOrgUnitLevels,
+//   getOrgUnitGroups,
+//   OrgUnitGroup
+// } from '@iapps/ngx-dhis2-org-unit-filter';
 import { updateDataSelectionsWithSummaryNames } from '../../helpers/update-data-selections-with-summary-name.helper';
 import { NgxDhis2HttpClientService, User } from '@iapps/ngx-dhis2-http-client';
 import { getVisualizationLayerSubtitle } from '../../helpers/get-visualization-layer-subtitle.helper';
+import { getOrgUnitLevels } from 'src/app/shared/modules/org-unit-filter/store/selectors/org-unit-level.selectors';
+import { getOrgUnitGroups } from 'src/app/shared/modules/org-unit-filter/store/selectors/org-unit-group.selectors';
+import { OrgUnitLevel } from 'src/app/shared/modules/org-unit-filter/models/org-unit-level.model';
+import { OrgUnitGroup } from 'src/app/shared/modules/org-unit-filter/models/org-unit-group.model';
 
 @Injectable()
 export class VisualizationLayerEffects {
   @Effect({ dispatch: false })
   loadAnalytics$: Observable<any> = this.actions$.pipe(
     ofType(VisualizationLayerActionTypes.LOAD_VISUALIZATION_ANALYTICS),
-    concatMap(action =>
+    concatMap((action) =>
       of(action).pipe(
         withLatestFrom(
           this.store.pipe(select(getOrgUnitLevels)),
@@ -78,8 +82,8 @@ export class VisualizationLayerEffects {
                       statusCode: 200,
                       statusText: 'OK',
                       percent: 50,
-                      message: 'Favorite information has been loaded'
-                    }
+                      message: 'Favorite information has been loaded',
+                    },
                   })
                 );
 
@@ -93,7 +97,7 @@ export class VisualizationLayerEffects {
                             visualizationLayer.dataSelections,
                             action.globalSelections,
                             visualizationType
-                          )
+                          ),
                         };
                       }
                     )
@@ -108,7 +112,7 @@ export class VisualizationLayerEffects {
                   )
                   .subscribe((functions: any[]) => {
                     const functionRules = _.flatten(
-                      _.map(functions, functionObject => functionObject.items)
+                      _.map(functions, (functionObject) => functionObject.items)
                     );
 
                     const newVisualizationLayers: VisualizationLayer[] = _.map(
@@ -135,7 +139,7 @@ export class VisualizationLayerEffects {
                                       }
                                       return item;
                                     }
-                                  )
+                                  ),
                                 };
                               }
                               default:
@@ -159,7 +163,7 @@ export class VisualizationLayerEffects {
                         }
                       )
                     ).subscribe(
-                      analyticsResponse => {
+                      (analyticsResponse) => {
                         // Save visualizations layers
                         _.each(
                           analyticsResponse,
@@ -190,8 +194,8 @@ export class VisualizationLayerEffects {
                                     ...visualizationLayer.config,
                                     subtitle: getVisualizationLayerSubtitle(
                                       dataSelections
-                                    )
-                                  }
+                                    ),
+                                  },
                                 }
                               )
                             );
@@ -206,13 +210,13 @@ export class VisualizationLayerEffects {
                                 statusCode: 200,
                                 statusText: 'OK',
                                 percent: 100,
-                                message: 'Analytics loaded'
-                              }
+                                message: 'Analytics loaded',
+                              },
                             }
                           )
                         );
                       },
-                      error => {
+                      (error) => {
                         this.store.dispatch(
                           new UpdateVisualizationObjectAction(
                             action.visualizationId,
@@ -221,8 +225,8 @@ export class VisualizationLayerEffects {
                                 statusCode: error.status,
                                 statusText: 'Error',
                                 percent: 100,
-                                message: error.message
-                              }
+                                message: error.message,
+                              },
                             }
                           )
                         );
@@ -240,11 +244,11 @@ export class VisualizationLayerEffects {
                           visualizationLayer.dataSelections,
                           action.globalSelections,
                           visualizationObject.type
-                        )
+                        ),
                       };
                     }
                   ),
-                  visualizationLayer => {
+                  (visualizationLayer) => {
                     this.store.dispatch(
                       new UpdateVisualizationLayerAction(
                         visualizationLayer.id,
@@ -255,7 +259,7 @@ export class VisualizationLayerEffects {
                 );
               }
             } else {
-              _.each(action.visualizationLayers, visualizationLayer => {
+              _.each(action.visualizationLayers, (visualizationLayer) => {
                 this.store.dispatch(
                   new UpdateVisualizationLayerAction(
                     visualizationLayer.id,

@@ -1,7 +1,9 @@
 import { VisualizationDataSelection } from '../models';
-import { OrgUnitGroup, OrgUnitLevel } from '@iapps/ngx-dhis2-org-unit-filter';
+// import { OrgUnitGroup, OrgUnitLevel } from '@iapps/ngx-dhis2-org-unit-filter';
 import { find, max } from 'lodash';
 import { User } from '@iapps/ngx-dhis2-http-client';
+import { OrgUnitGroup } from 'src/app/shared/modules/org-unit-filter/models/org-unit-group.model';
+import { OrgUnitLevel } from 'src/app/shared/modules/org-unit-filter/models/org-unit-level.model';
 
 export function updateDataSelectionsWithSummaryNames(
   dataSelections: VisualizationDataSelection[],
@@ -33,7 +35,7 @@ export function updateDataSelectionsWithSummaryNames(
             ...dataSelection,
             title: startingTitle
               ? `${startingTitle} in ${endingTitle}`
-              : endingTitle
+              : endingTitle,
           };
 
         case 'pe': {
@@ -52,14 +54,16 @@ export function updateDataSelectionsWithSummaryNames(
             title: peItems
               .map((peId: string) => metaDataNames[peId])
               .filter((peName: string) => peName)
-              .join(', ')
+              .join(', '),
           };
         }
 
         default:
           return {
             ...dataSelection,
-            title: (dataSelection.items || []).map(item => item.name).join(', ')
+            title: (dataSelection.items || [])
+              .map((item) => item.name)
+              .join(', '),
           };
       }
     }
@@ -72,11 +76,11 @@ function getStartingOrgUnitTitle(
   orgUnitLevels: OrgUnitLevel[]
 ) {
   return (dataSelection.items || [])
-    .map(item => {
+    .map((item) => {
       if (item.id.indexOf('LEVEL') !== -1) {
         const orgUnitLevel = find(orgUnitLevels, [
           'level',
-          parseInt((item ? item.id || '' : '').slice(-1), 10)
+          parseInt((item ? item.id || '' : '').slice(-1), 10),
         ]);
         return orgUnitLevel ? orgUnitLevel.name : undefined;
       }
@@ -84,12 +88,12 @@ function getStartingOrgUnitTitle(
       if (item.id.indexOf('OU_GROUP') !== -1) {
         const orgUnitGroup = find(orgUnitGroups, [
           'id',
-          (item ? item.id || '' : '').split('-')[1]
+          (item ? item.id || '' : '').split('-')[1],
         ]);
         return orgUnitGroup ? orgUnitGroup.name : undefined;
       }
     })
-    .filter(name => name)
+    .filter((name) => name)
     .join(',');
 }
 
@@ -98,18 +102,18 @@ function getEndingOrgUnitTitle(
   orgUnitLevels: OrgUnitLevel[],
   userOrgUnits
 ) {
-  const orgUnitMinLevel = max(userOrgUnits.map(orgUnit => orgUnit.level));
+  const orgUnitMinLevel = max(userOrgUnits.map((orgUnit) => orgUnit.level));
 
   const userOrgUnitsNames = userOrgUnits
-    .map(orgUnit => orgUnit.name)
+    .map((orgUnit) => orgUnit.name)
     .join(', ');
 
   return (dataSelection.items || [])
     .filter(
-      item =>
+      (item) =>
         item.id.indexOf('LEVEL') === -1 && item.id.indexOf('OU_GROUP') === -1
     )
-    .map(item => {
+    .map((item) => {
       switch (item.id) {
         case 'USER_ORGUNIT':
           return userOrgUnitsNames;
@@ -117,7 +121,7 @@ function getEndingOrgUnitTitle(
         case 'USER_ORGUNIT_CHILDREN': {
           const orgUnitLevel = find(orgUnitLevels, [
             'level',
-            orgUnitMinLevel + 1
+            orgUnitMinLevel + 1,
           ]);
 
           const orgUnitLevelName = orgUnitLevel ? orgUnitLevel.name : undefined;
@@ -129,7 +133,7 @@ function getEndingOrgUnitTitle(
         case 'USER_ORGUNIT_GRANDCHILDREN': {
           const orgUnitLevel = find(orgUnitLevels, [
             'level',
-            orgUnitMinLevel + 2
+            orgUnitMinLevel + 2,
           ]);
 
           const orgUnitLevelName = orgUnitLevel ? orgUnitLevel.name : undefined;
