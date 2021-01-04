@@ -9,13 +9,51 @@
           class="float-right d-flext text-justify-center"
           style="margin-top: 15px"
         >
-          <div class="h6">
+          <div
+            class="h6"
+            style="cursor: pointer"
+            mat-icon-button
+            [matMenuTriggerFor]="menu"
+            aria-label="User details"
+          >
             <img
               height="25"
               src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAABmJLR0QA/wD/AP+gvaeTAAACQUlEQVR4nO3au2sUURjG4SfGwluC8V4o4qUQRVMItppGo0j0b9BSEQtrwVbQVmwNNoKgKIhYRQsleKmsRBuDmKjghQiBXCxmF0VxM5k950yi5wdfscvwnvf9Zoc9lyGTyWQymcz/Skfi8bpxHAPYhU2N79/iJW436mtiX9FZjLP4gJlZagxn0FmL0wh0467Zg/9e99FTg9+grMALcw/frOdYntx1QG6qHr5ZN5K7DsQR7Ydv1sHE3oPwVLgGDCf23jbbhAvfrK0xjC6KIYrDETT7I2hGa8CWBaIZrQHrImhuiKAZrQExprKfI2hGa8C7BaIZrQEPI2gORdCMRidGhfsLfC/SzYr1C5jCpYB6FzEdUC8JS/Fa+3f/FZYk9h6Mnfiievhv2J3cdWD68Mncw3/E/hr8RmE7HikffkixnvjnGFDs+X33Z+hx3MLRlIZSb4o2WaZY3W1sfB7BG0VjMplMJpPJZJIQ6wByLY7hEJ60odOBc9is2F+Y1xOlNTitCDzl5xS3nX2By7/oTOExTmF1W04D04vrmPD3xc01rJyDZg8GW+hNNMbsDZKgIn24p9ipKbPCG8EJdLXQ7MLJxrVlNKcbHg5UDVFlMdSPC9hXccxx3MEzxXNNsee/V7ESrHocPozzivcKorBDYTz0mV/oeoA9IYOvwlVMzoNwZWsSV5R4w6TMIzAqzlFXCsawvtUFZRowE8ZLbbTMGOtcYMGQG1C3gbrJDajbQN3kBtRtoG5yA+o2kMlkMplMJlMXPwAQlnQd3J0ImQAAAABJRU5ErkJggg=="
             />
-            {{ params?.currentUser?.name }}
+            {{
+              params?.currentUser?.email
+                ? params?.currentUser?.email
+                : params?.currentUser?.name
+            }}
           </div>
+          <mat-menu #menu="matMenu">
+            <button mat-menu-item>
+              <mat-icon>person</mat-icon>
+              <span
+                >{{ params?.currentUser?.name }}
+                <em class="text-small"
+                  >({{ params?.currentUser?.userCredentials?.username }})</em
+                ></span
+              >
+            </button>
+
+            <button mat-menu-item>
+              <mat-icon>edit</mat-icon>
+              Edit profile
+            </button>
+            <button mat-menu-item>
+              <mat-icon>settings</mat-icon>
+              Change password
+            </button>
+            <button mat-menu-item (click)="onLogOut($event)">
+              <img
+                style="margin-right: 16px; vertical-align: middle"
+                src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAABmJLR0QA/wD/AP+gvaeTAAABNElEQVRIie3Uuy5EURQG4G8ECZUHMAjegciIxKVRege33lOQiBJReAGFVjITnkDENdFQumVGaF2KfYhMTubsM6acvztn/+tfa6/1r00bLUAJezhDDe+4xi5ms4ILDc6GsI+pRPgY9/hEMRHvwwkWcZun6nG8opoE96RwurCEB7xgMla8iCehDf0R/AGcJ0lGYxIUsCq0KBYDeEQlR4z5PGQs4wszMeSNhLyQI0G3YIadWPFdjV2WhgNhdr/orCOsYw0fGMZRhuBc3fdd/b+OnBW2BP9t0VWeJM0MeTs2IK9NV5KiprOIzSzaoLD95Rjyz1NxI2xojPgFnjESW9GY0M+q8KD1pnC6hbY8JeKlWPG/lVWEvtZwiC1sCm6pJWflPJWnYUKw7KlwozdcCm7JHGgbmfgGuINGiyHM8GoAAAAASUVORK5CYII="
+              />
+              Logout
+              <!-- <mat-icon>login</mat-icon> -->
+            </button>
+          </mat-menu>
         </div>
       </div>
       <div
@@ -86,7 +124,7 @@
               </li>
               <li
                 class="list-group-item"
-                [routerLink]="'/settings'"
+                [routerLink]="'/general-registration'"
                 routerLinkActive="active-class"
               >
                 <img
@@ -94,6 +132,17 @@
                   src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABXAvmHAAAABmJLR0QA/wD/AP+gvaeTAAAA4ElEQVRoge2ZMQrCQBBFn6Ki4I30Rta2akrPpb0HMIXnEEELEZYQgxtnd1z5DwJp8jOPTDbsBIQQohRmQAXUwA24ZzhMiz9mKjqJQOVQvKlAHYSugbFleIMkAmHPTyyDW4gSGESExl7Tl6h7DRMWkoWRQcYSWHyZsTeoo5Ouvtxhu9pEvQNqIZ4fuOQt8A6tQt5IwBsJeCMBbyTgjQS8kYA3EvCmj8AJuPIjw6w+G5qc/P+G5lPCR1z8aHFuGdxCkrHKJThfkX4+as6WwsfrU+BQssBLYgOcKfAXkxBCpOEBCZb6Z74C7OcAAAAASUVORK5CYII="
                 />
                 General Registration
+              </li>
+              <li
+                class="list-group-item"
+                [routerLink]="'/user-management'"
+                routerLinkActive="active-class"
+              >
+                <img
+                  height="25"
+                  src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAABmJLR0QA/wD/AP+gvaeTAAACQUlEQVR4nO3au2sUURjG4SfGwluC8V4o4qUQRVMItppGo0j0b9BSEQtrwVbQVmwNNoKgKIhYRQsleKmsRBuDmKjghQiBXCxmF0VxM5k950yi5wdfscvwnvf9Zoc9lyGTyWQymcz/Skfi8bpxHAPYhU2N79/iJW436mtiX9FZjLP4gJlZagxn0FmL0wh0467Zg/9e99FTg9+grMALcw/frOdYntx1QG6qHr5ZN5K7DsQR7Ydv1sHE3oPwVLgGDCf23jbbhAvfrK0xjC6KIYrDETT7I2hGa8CWBaIZrQHrImhuiKAZrQExprKfI2hGa8C7BaIZrQEPI2gORdCMRidGhfsLfC/SzYr1C5jCpYB6FzEdUC8JS/Fa+3f/FZYk9h6Mnfiievhv2J3cdWD68Mncw3/E/hr8RmE7HikffkixnvjnGFDs+X33Z+hx3MLRlIZSb4o2WaZY3W1sfB7BG0VjMplMJpPJZJIQ6wByLY7hEJ60odOBc9is2F+Y1xOlNTitCDzl5xS3nX2By7/oTOExTmF1W04D04vrmPD3xc01rJyDZg8GW+hNNMbsDZKgIn24p9ipKbPCG8EJdLXQ7MLJxrVlNKcbHg5UDVFlMdSPC9hXccxx3MEzxXNNsee/V7ESrHocPozzivcKorBDYTz0mV/oeoA9IYOvwlVMzoNwZWsSV5R4w6TMIzAqzlFXCsawvtUFZRowE8ZLbbTMGOtcYMGQG1C3gbrJDajbQN3kBtRtoG5yA+o2kMlkMplMJlMXPwAQlnQd3J0ImQAAAABJRU5ErkJggg=="
+                />
+                User management
               </li>
             </ul>
           </div>

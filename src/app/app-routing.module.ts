@@ -41,9 +41,16 @@ const routes: Routes = [
       ),
   },
   {
-    path: 'settings',
+    path: 'general-registration',
     loadChildren: () =>
       import('./pages/settings/settings.module').then((m) => m.SettingsModule),
+  },
+  {
+    path: 'user-management',
+    loadChildren: () =>
+      import('./pages/user-management/user-management.module').then(
+        (m) => m.UserManagementModule
+      ),
   },
 ];
 

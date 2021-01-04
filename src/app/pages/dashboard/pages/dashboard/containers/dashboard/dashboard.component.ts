@@ -2,7 +2,7 @@ import {
   Component,
   OnInit,
   ChangeDetectionStrategy,
-  HostListener
+  HostListener,
 } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
@@ -14,14 +14,11 @@ import {
   getDashboardObjectLoading,
   getDashboardObjectLoaded,
   getDashboardGroupsLoading,
-  getDashboardGroupsLoaded
+  getDashboardGroupsLoaded,
 } from '../../../store/selectors';
 import { Dashboard, DashboardGroups } from '../../models';
 import { LoadFunctions } from '../../modules/ngx-dhis2-data-selection-filter/modules/data-filter/store/actions/function.actions';
-import {
-  loadOrgUnitLevels,
-  loadOrgUnitGroups
-} from '@iapps/ngx-dhis2-org-unit-filter';
+
 import { State } from 'src/app/store';
 import { Router, ActivatedRoute } from '@angular/router';
 import {
@@ -29,14 +26,16 @@ import {
   SetCurrentDashboardAction,
   SetActiveDashboardGroupsAction,
   CreateDashboardAction,
-  ToggleDashboardBookmarkAction
+  ToggleDashboardBookmarkAction,
 } from '../../../store/actions';
+import { loadOrgUnitLevels } from 'src/app/shared/modules/org-unit-filter/store/actions/org-unit-level.actions';
+import { loadOrgUnitGroups } from 'src/app/shared/modules/org-unit-filter/store/actions/org-unit-group.actions';
 
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DashboardComponent implements OnInit {
   dashboards$: Observable<Dashboard[]>;
@@ -76,7 +75,7 @@ export class DashboardComponent implements OnInit {
     this.store.dispatch(new LoadFunctions());
     this.store.dispatch(loadOrgUnitLevels());
     this.store.dispatch(loadOrgUnitGroups());
-    this.store.select(getCurrentDashboardId).subscribe(id => {
+    this.store.select(getCurrentDashboardId).subscribe((id) => {
       if (id) {
         this.router.navigate(['/dashboards', id]);
       }
@@ -124,7 +123,7 @@ export class DashboardComponent implements OnInit {
         dashboardDetails.supportBookmark,
         {
           bookmarked: dashboardDetails.bookmarked,
-          bookmarkPending: true
+          bookmarkPending: true,
         }
       )
     );
