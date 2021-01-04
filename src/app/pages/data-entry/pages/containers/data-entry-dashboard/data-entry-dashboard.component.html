@@ -1,7 +1,7 @@
 <div class="row" style="margin-top: 20px">
   <div class="col-md-8">
     <div class="forms">
-      <mat-form-field class="w-100">
+      <mat-form-field class="w-100" appearance="outline">
         <mat-label>Select form</mat-label>
         <mat-select required (selectionChange)="getForm($event.value)">
           <mat-option *ngFor="let option of programs" [value]="option">
@@ -12,6 +12,7 @@
     </div>
     <div class="ou-filter">
       <button
+        style="text-align: left; padding: 10px 8px"
         class="w-100"
         (click)="onToggleOuFilter($event)"
         mat-stroked-button

@@ -35,7 +35,23 @@ export class TrackedEntrityEntryFormComponent implements OnInit, OnChanges {
               ? 'date'
               : attribute?.trackedEntityAttribute?.optionSet
               ? 'dropdown'
+              : attribute?.trackedEntityAttribute?.valueType ==
+                  'INTEGER_ZERO_OR_POSITIVE' &&
+                !attribute?.trackedEntityAttribute?.optionSet
+              ? 'number'
               : 'textbox',
+          type:
+            attribute?.trackedEntityAttribute?.valueType ==
+              'INTEGER_ZERO_OR_POSITIVE' &&
+            !attribute?.trackedEntityAttribute?.optionSet
+              ? 'number'
+              : null,
+          min:
+            attribute?.trackedEntityAttribute?.valueType ==
+              'INTEGER_ZERO_OR_POSITIVE' &&
+            !attribute?.trackedEntityAttribute?.optionSet
+              ? 0
+              : null,
           name: attribute?.trackedEntityAttribute?.name,
           options: attribute?.trackedEntityAttribute?.optionSet
             ? _.map(

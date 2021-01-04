@@ -20,8 +20,12 @@
 
   <div class="col-12" *ngIf="!isListReportSet">
     <div>
-      <mat-form-field style="width: 30%" appearance="outline">
-        <mat-label>Reporting date</mat-label>
+      <mat-form-field style="min-width: 40%" appearance="outline">
+        <mat-label>{{
+          program?.incidentDateLabel
+            ? program?.incidentDateLabel
+            : 'Reporting date'
+        }}</mat-label>
         <input
           matInput
           [matDatepicker]="start_date"
@@ -38,7 +42,13 @@
       </mat-form-field>
     </div>
     <div
-      style="width: 100%; overflow: auto"
+      style="
+        padding: 15px;
+        width: 100%;
+        border-radius: 15px;
+        background-color: #eeeeee69;
+        overflow: auto;
+      "
       *ngIf="reportingDate && dateChanged && (events$ | async)"
     >
       <app-tracked-entrity-entry-form
@@ -51,7 +61,19 @@
           label="{{ stage?.name }}"
         >
           <div class="p-3">
-            <p>Data entry for {{ stage?.name }}</p>
+            <app-program-stage-data-entry
+              [programStateDataElements]="stage?.programStageDataElements"
+              (formValuesData)="onGetFormValuesData($event)"
+              (isFormValid)="onGetFormValidity($event)"
+            ></app-program-stage-data-entry>
+            <button
+              mat-stroked-button
+              class="mr-2"
+              (click)="onSaveData($event)"
+              [disabled]="!isFormValid"
+            >
+              Save
+            </button>
           </div>
         </mat-tab>
       </mat-tab-group>
@@ -83,7 +105,7 @@
       <mat-progress-bar mode="indeterminate"></mat-progress-bar>
     </div>
   </div>
-  <div class="col-12" style="margin-top: 15px" *ngIf="!isListReportSet">
+  <!-- <div class="col-12" style="margin-top: 15px" *ngIf="!isListReportSet">
     <p>{{ eventSaveMessage }}</p>
   </div>
   <div class="col-12" *ngIf="!isListReportSet">
@@ -95,5 +117,5 @@
     >
       Save
     </button>
-  </div>
+  </div> -->
 </div>
