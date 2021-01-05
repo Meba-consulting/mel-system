@@ -19,12 +19,7 @@ import { EventTableComponent } from './pages/containers/render-events/event-tabl
 import { FormsComponent } from './components/forms/forms.component';
 import { FormsListComponent } from './components/forms-list/forms-list.component';
 import { EventsListComponent } from './components/events-list/events-list.component';
-import { BatchControlComponent } from './components/batch-control/batch-control.component';
 import { DataEntryDashboardComponent } from './pages/containers/data-entry-dashboard/data-entry-dashboard.component';
-import { CorrectiveActionsComponent } from './pages/containers/corrective-actions/corrective-actions.component';
-import { FortificationComponent } from './pages/containers/fortification/fortification.component';
-import { WasteEnergyManagementComponent } from './pages/containers/waste-energy-management/waste-energy-management.component';
-import { HumanResourceManagementComponent } from './pages/containers/human-resource-management/human-resource-management.component';
 import { ProgramsListComponent } from './components/programs-list/programs-list.component';
 import { ProgramUploadingComponent } from './components/program-uploading/program-uploading.component';
 import { ProgramDataEntryComponent } from './pages/containers/program-data-entry/program-data-entry.component';
@@ -32,7 +27,6 @@ import { FileResourcesComponent } from './components/file-resources/file-resourc
 import { FileResourcesListComponent } from './components/file-resources-list/file-resources-list.component';
 import { ProgramEntryComponent } from './components/program-entry/program-entry.component';
 import { FilterUserGroupPipe } from './pipes/filter-user-group.pipe';
-import { NewProgramComponent } from './pages/containers/new-program/new-program.component';
 import { EventsReportComponent } from './components/events-report/events-report.component';
 import { EventsReportListComponent } from './components/events-report-list/events-report-list.component';
 
@@ -45,12 +39,7 @@ import { EventsReportListComponent } from './components/events-report-list/event
     FormsComponent,
     FormsListComponent,
     EventsListComponent,
-    BatchControlComponent,
     DataEntryDashboardComponent,
-    CorrectiveActionsComponent,
-    FortificationComponent,
-    WasteEnergyManagementComponent,
-    HumanResourceManagementComponent,
     ProgramsListComponent,
     ProgramUploadingComponent,
     ProgramDataEntryComponent,
@@ -58,9 +47,8 @@ import { EventsReportListComponent } from './components/events-report-list/event
     FileResourcesListComponent,
     ProgramEntryComponent,
     FilterUserGroupPipe,
-    NewProgramComponent,
     EventsReportComponent,
-    EventsReportListComponent
+    EventsReportListComponent,
   ],
   imports: [
     CommonModule,
@@ -71,11 +59,11 @@ import { EventsReportListComponent } from './components/events-report-list/event
     EffectsModule.forFeature([
       DataEntryFormsEffects,
       DataEntryFlowEffects,
-      EventsEffects
+      EventsEffects,
     ]),
     StoreModule.forFeature('dataEntryForms', dataEntryFormsReducer),
     StoreModule.forFeature('dataEntryFlowConfigs', dataEntryFlowReducer),
-    StoreModule.forFeature('events', eventsReducer)
-  ]
+    StoreModule.forFeature('events', eventsReducer),
+  ],
 })
 export class DataEntryModule {}

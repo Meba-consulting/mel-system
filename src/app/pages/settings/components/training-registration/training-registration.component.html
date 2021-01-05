@@ -1,0 +1,83 @@
+<div
+  class="row"
+  *ngIf="{
+    currentTrackedEntityInstance: currentTrackedEntityInstance$ | async
+  } as params"
+>
+  <div class="col-md-8">
+    <div
+      class="success-save-message"
+      *ngIf="!savingData && savingMessage != ''"
+    >
+      {{ savingMessage }}
+    </div>
+    <div class="forms">
+      <mat-form-field class="w-100" appearance="outline">
+        <mat-label>Select form</mat-label>
+        <mat-select required (selectionChange)="getForm($event.value)">
+          <mat-option
+            *ngFor="let option of trainingRegistrationPrograms"
+            [value]="option"
+          >
+            {{ option.name }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <div class="ou-filter">
+      <button
+        style="text-align: left; padding: 10px 8px"
+        class="w-100"
+        (click)="onToggleOuFilter($event)"
+        mat-stroked-button
+      >
+        Location
+        <span *ngIf="selectedOu && !ouFilterIsSet"
+          >: {{ selectedOu?.name }}</span
+        >
+      </button>
+      <ngx-dhis2-org-unit-filter
+        *ngIf="ouFilterIsSet"
+        [selectedOrgUnitItems]="selectedOrgUnits"
+        [orgUnitFilterConfig]="orgUnitFilterConfig"
+        (orgUnitClose)="onFilterClose($event)"
+        (orgUnitUpdate)="onFilterUpdate($event)"
+      ></ngx-dhis2-org-unit-filter>
+    </div>
+
+    <div *ngIf="paramersSet && currentProgram">
+      <div
+        style="
+          height: 50vh;
+          overflow: auto;
+          margin-top: 20px;
+          padding: 8px 15px;
+        "
+      >
+        <app-tracked-entrity-entry-form
+          [trackedEntityType]="currentProgram?.trackedEntityType"
+          (dataValues)="onGetDataValues($event)"
+          (isFormValid)="onGetFormValidity($event)"
+        ></app-tracked-entrity-entry-form>
+      </div>
+      <div class="btns">
+        <button
+          class="mr-2 float-left"
+          mat-stroked-button
+          [disabled]="!isFormValid || savedData"
+          (click)="onSaveData($event)"
+        >
+          <mat-spinner
+            *ngIf="savingData && savingMessage != ''"
+            color="accent"
+            [diameter]="20"
+            style="display: inline-block !important; margin-right: 4px"
+          >
+          </mat-spinner>
+          Save
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-4"></div>
+</div>

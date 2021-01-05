@@ -17,4 +17,22 @@ export class DataService {
         '&pageSize=50&page=1&totalPages=false'
     );
   }
+
+  saveTrackedEntityInstanceAndAssociatedData(data): Observable<any> {
+    return this.httpClient.post('trackedEntityInstances', data);
+  }
+
+  getTrackedEntityInstanceDetails(id): Observable<any> {
+    return this.httpClient.get('trackedEntityInstances/' + id);
+  }
+
+  getTrackedEntityInstances(parameters): Observable<any> {
+    return this.httpClient.get(
+      'trackedEntityInstances/query.json?ou=' +
+        parameters?.orgUnit +
+        '&program=' +
+        parameters?.program +
+        '&pageSize=50&page=1&totalPages=false'
+    );
+  }
 }
