@@ -11,6 +11,8 @@ import {
 import { loadProgramMetadata } from '../../../store/actions';
 import { Observable } from 'rxjs';
 import { DataService } from 'src/app/core/services/data.service';
+import { ConfirmDeleteModalComponent } from 'src/app/shared/components/confirm-delete-modal/confirm-delete-modal.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-data-entry-dashboard',
@@ -45,7 +47,13 @@ export class DataEntryDashboardComponent implements OnInit {
   currentProgram: any;
   paramersSet: boolean = false;
   selectedOu: any;
-  constructor(private store: Store<State>, private dataService: DataService) {}
+
+  queryResponseData$: Observable<any>;
+  constructor(
+    private store: Store<State>,
+    private dataService: DataService,
+    private dialog: MatDialog
+  ) {}
 
   ngOnInit() {
     if (this.programs && this.programs.length > 0) {
@@ -60,12 +68,7 @@ export class DataEntryDashboardComponent implements OnInit {
     this.selectedOrgUnits = selections?.items;
     this.selectedOu = selections?.items[0];
     if (this.ouId && this.programId) {
-      const parameters = {
-        orgUnit: this.ouId,
-        program: this.programId,
-      };
       this.paramersSet = true;
-      this.getTrackedEntityInstanceData(parameters);
     }
   }
 
@@ -74,21 +77,12 @@ export class DataEntryDashboardComponent implements OnInit {
     this.ouFilterIsSet = false;
   }
 
-  getTrackedEntityInstanceData(parameters) {
-    this.dataService.getRegisteredMembers(parameters);
-  }
-
   getForm(val) {
     console.log(val);
     this.currentProgram = val;
     this.programId = val?.id;
     if (this.ouId && this.programId) {
-      const parameters = {
-        orgUnit: this.ouId,
-        program: this.programId,
-      };
       this.paramersSet = true;
-      this.getTrackedEntityInstanceData(parameters);
     }
   }
 
@@ -99,17 +93,5 @@ export class DataEntryDashboardComponent implements OnInit {
   onToggleOuFilter(e) {
     e.stopPropagation();
     this.ouFilterIsSet = !this.ouFilterIsSet;
-  }
-
-  onSetCurrentDepartment(department) {
-    this.currentDepartment = department;
-    this.showPrograms = false;
-    setTimeout(() => {
-      this.filteredProgramsByDepartments = filterProgramsByDepartments(
-        this.programs,
-        this.currentDepartment
-      );
-      this.showPrograms = true;
-    }, 20);
   }
 }

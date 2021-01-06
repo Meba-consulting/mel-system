@@ -9,6 +9,9 @@ import {
 import * as _ from 'lodash';
 import { NgxDhis2HttpClientService } from '@iapps/ngx-dhis2-http-client';
 import { DataEntryService } from '../../services/data-entry.service';
+import { ConfirmDeleteModalComponent } from 'src/app/shared/components/confirm-delete-modal/confirm-delete-modal.component';
+import { MatDialog } from '@angular/material/dialog';
+import { DataService } from 'src/app/core/services/data.service';
 
 @Component({
   selector: 'app-program-entry',
@@ -35,11 +38,15 @@ export class ProgramEntryComponent implements OnInit {
   dateChanged: boolean = false;
   elementsToDisable: string[] = [];
 
+  queryResponseData$: Observable<any>;
+
   isFormValid: boolean = false;
 
   constructor(
     private httpClient: NgxDhis2HttpClientService,
-    private dataEntryService: DataEntryService
+    private dataEntryService: DataEntryService,
+    private dialog: MatDialog,
+    private dataService: DataService
   ) {
     const currentMonth = new Date().getMonth();
     const currentDate = new Date().getDate();
@@ -49,28 +56,43 @@ export class ProgramEntryComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log('program########', this.program);
-    this.elementsToDisable = [...this.elementsToDisable, this.orgUnit.id];
-    this.dataElements = getDataElementsFromProgram(
-      this.program.programStages[0]['programStageDataElements']
-    );
-    this.indicators = formatProgrgamIndicators(this.program.programIndicators);
-    const dimensions = {
-      ou: this.orgUnit.id,
-      program: this.program.id,
-      programStage: this.program.programStages[0].id,
-    };
-    this.events$ = this.dataEntryService.getEventsData(dimensions);
-    this.events$.subscribe((response) => {
-      if (response) {
-        setTimeout(() => {
-          this.events = response['events'];
-        }, 700);
-        setTimeout(() => {
-          this.eventLoaded = true;
-        }, 2000);
-      }
+    console.log('hereeeeeeeee', this.program);
+    this.getTrackedEntityInstanceData({
+      orgUnit: this.orgUnit?.id,
+      program: this.program?.id,
     });
+    // this.elementsToDisable = [...this.elementsToDisable, this.orgUnit.id];
+    // this.dataElements = getDataElementsFromProgram(
+    //   this.program.programStages[0]['programStageDataElements']
+    // );
+    // this.indicators = formatProgrgamIndicators(this.program.programIndicators);
+    // const dimensions = {
+    //   ou: this.orgUnit.id,
+    //   program: this.program.id,
+    //   programStage: this.program.programStages[0].id,
+    // };
+    // this.events$ = this.dataEntryService.getEventsData(dimensions);
+    // this.events$.subscribe((response) => {
+    //   if (response) {
+    //     setTimeout(() => {
+    //       this.events = response['events'];
+    //     }, 700);
+    //     setTimeout(() => {
+    //       this.eventLoaded = true;
+    //     }, 2000);
+    //   }
+    // });
+  }
+
+  getTrackedEntityInstanceData(parameters) {
+    console.log('parameters', parameters);
+    this.queryResponseData$ = this.dataService.getTrackedEntityInstances({
+      orgUnit: parameters?.orgUnit,
+      program: parameters?.program,
+    });
+
+    this.eventLoaded = true;
+    this.isListReportSet = true;
   }
 
   toggleEntryAndReport(type) {
@@ -172,5 +194,38 @@ export class ProgramEntryComponent implements OnInit {
         this.isListReportSet = true;
       }, 1500);
     });
+  }
+
+  onSetEdit(e, trackedEntityInstance) {
+    e.stopPropagation();
+    console.log(trackedEntityInstance);
+  }
+
+  onSetDelete(e) {
+    this.dialog
+      .open(ConfirmDeleteModalComponent, {
+        width: '30%',
+        height: '250px',
+        disableClose: false,
+        data: { message: 'Are you sure?', item: '' },
+        panelClass: 'custom-dialog-container',
+      })
+      .afterClosed()
+      .subscribe((confirmed) => {
+        if (confirmed == true) {
+          this.dataService
+            .deleteTrackedEntityInstance(e.action?.id)
+            .subscribe((response) => {
+              if (response) {
+                this.queryResponseData$ = this.dataService.getTrackedEntityInstances(
+                  {
+                    orgUnit: this.orgUnit?.id,
+                    program: this.program?.id,
+                  }
+                );
+              }
+            });
+        }
+      });
   }
 }

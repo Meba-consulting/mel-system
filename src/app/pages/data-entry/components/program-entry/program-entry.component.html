@@ -1,4 +1,7 @@
-<div class="row">
+<div
+  class="row"
+  *ngIf="{ queryResponseData: queryResponseData$ | async } as params"
+>
   <div class="col-12" style="margin-top: 15px">
     <button
       style="float: right; margin-left: 5px"
@@ -93,13 +96,24 @@
     </div>
   </div>
   <div class="col-12" *ngIf="isListReportSet">
-    <div *ngIf="events && eventLoaded" style="width: 100%; overflow: auto">
-      <app-events-report
+    <div *ngIf="eventLoaded" style="width: 100%; overflow: auto">
+      <!-- <app-events-report
         [events]="events"
         [reportElements]="
           program.programStages[0]['programStageSections'][0]['dataElements']
         "
-      ></app-events-report>
+      ></app-events-report> -->
+      <app-tracked-entity-instance-list
+        *ngIf="params?.queryResponseData"
+        [queryResponse]="params?.queryResponseData"
+        (edit)="onSetEdit($event)"
+        (delete)="onSetDelete($event)"
+      ></app-tracked-entity-instance-list>
+
+      <mat-progress-bar
+        mode="indeterminate"
+        *ngIf="!params?.queryResponseData"
+      ></mat-progress-bar>
     </div>
     <div *ngIf="!eventLoaded">
       <mat-progress-bar mode="indeterminate"></mat-progress-bar>
