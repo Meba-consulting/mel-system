@@ -34,7 +34,6 @@ export class TrackedEntrityEntryFormComponent implements OnInit, OnChanges {
       _.map(
         this.trackedEntityType?.trackedEntityTypeAttributes,
         (attribute) => {
-          console.log(attribute);
           if (attribute?.trackedEntityAttribute?.id !== 'C1i3bPWYBRG')
             return {
               id: attribute?.trackedEntityAttribute?.id,
@@ -44,6 +43,9 @@ export class TrackedEntrityEntryFormComponent implements OnInit, OnChanges {
                 attribute?.trackedEntityAttribute?.valueType == 'TEXT' &&
                 !attribute?.trackedEntityAttribute?.optionSet
                   ? 'textbox'
+                  : attribute?.trackedEntityAttribute?.valueType == 'TEXT' &&
+                    !attribute?.trackedEntityAttribute?.optionSet
+                  ? 'textarea'
                   : attribute?.trackedEntityAttribute?.valueType == 'DATE' &&
                     !attribute?.trackedEntityAttribute?.optionSet
                   ? 'date'
@@ -55,8 +57,10 @@ export class TrackedEntrityEntryFormComponent implements OnInit, OnChanges {
                   ? 'number'
                   : 'textbox',
               type:
-                attribute?.trackedEntityAttribute?.valueType ==
-                  'INTEGER_ZERO_OR_POSITIVE' &&
+                (attribute?.trackedEntityAttribute?.valueType ==
+                  'INTEGER_ZERO_OR_POSITIVE' ||
+                  attribute?.trackedEntityAttribute?.valueType ==
+                    'INTEGER_POSITIVE') &&
                 !attribute?.trackedEntityAttribute?.optionSet
                   ? 'number'
                   : null,
@@ -90,7 +94,6 @@ export class TrackedEntrityEntryFormComponent implements OnInit, OnChanges {
       ),
       (field) => field
     );
-    console.log('form fields #########', this.formFields);
   }
 
   onFormUpdate(formValues: FormValue) {

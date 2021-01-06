@@ -2,7 +2,6 @@ import { formatDateToYYMMDD } from '../../data-entry/helpers';
 
 import * as _ from 'lodash';
 export function getClubInfoFromFormValues(values) {
-  console.log('values', values);
   let formattedData = {
     attributeValues: [
       {

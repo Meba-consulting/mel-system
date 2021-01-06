@@ -67,7 +67,7 @@ export class AppComponent implements OnInit {
     this.currentUser$ = this.store.select(getCurrentUser);
     this.currentUser$.subscribe((currentUserInfo) => {
       if (currentUserInfo) {
-        console.log('currentUserInfo', currentUserInfo);
+        // console.log('currentUserInfo', currentUserInfo);
         let currentDashboard = localStorage.getItem(
           'dhis2.dashboard.current.' + currentUserInfo.userCredentials.username
         );

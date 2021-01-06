@@ -33,8 +33,6 @@ export class TrackedEntityInstanceListComponent implements OnInit {
 
     this.displayedColumns = formattedResponse?.displayedColumns;
     this.headers = formattedResponse?.headers;
-    console.log('displayedColumns', this.displayedColumns);
-    console.log('headers', this.headers);
     this.dataSource = new MatTableDataSource(formattedResponse?.data);
 
     this.dataSource.paginator = this.paginator;

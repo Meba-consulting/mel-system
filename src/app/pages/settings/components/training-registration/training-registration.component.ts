@@ -5,6 +5,7 @@ import { filterTrainingPrograms } from '../../helpers';
 import * as _ from 'lodash';
 import { Observable } from 'rxjs';
 import { FormControl } from '@angular/forms';
+import { OuService } from 'src/app/core/services/ou.service';
 
 @Component({
   selector: 'app-training-registration',
@@ -50,25 +51,33 @@ export class TrainingRegistrationComponent implements OnInit {
   savingMessage: string = '';
   trainingsRegistered$: Observable<any>;
   isReportSet: boolean = true;
-  deleting: boolean = false;
-  deleted: boolean = false;
+  hasError: boolean = false;
 
   selectedTab = new FormControl(0);
   currentTabValue = 0;
-  constructor(private dataService: DataService) {}
+  constructor(private dataService: DataService, private ouService: OuService) {}
 
   ngOnInit(): void {
     this.trainingRegistrationPrograms = filterTrainingPrograms(this.programs);
     this.currentProgram = this.trainingRegistrationPrograms[0];
+
+    this.currentTrackedEntityInstanceId = this.systemIds[0];
   }
 
   onToggleReportAndTraining(e) {
     e.stopPropagation();
     this.isReportSet = !this.isReportSet;
+    this.hasError = false;
+    this.savingData = false;
+    this.savedData = false;
+    this.savingMessage = '';
+    this.formData = {};
   }
 
   onFilterUpdate(selections) {
-    console.log(selections);
+    this.savedData = false;
+    this.savingData = false;
+    this.savingMessage = '';
     this.ouFilterIsSet = false;
     this.ouId = selections?.items[0]?.id;
     this.selectedOrgUnits = selections?.items;
@@ -133,62 +142,82 @@ export class TrainingRegistrationComponent implements OnInit {
       }
     });
 
-    this.attributeValues = [
-      ...this.attributeValues,
-      {
-        attribute: 'C1i3bPWYBRG',
-        value: this.selectedOu?.id,
-      },
-    ];
+    this.attributeValues = this.selectedOu?.id
+      ? [
+          ...this.attributeValues,
+          {
+            attribute: 'C1i3bPWYBRG',
+            value: this.selectedOu?.id,
+          },
+        ]
+      : this.attributeValues;
   }
 
   onGetFormValidity(validity) {
     this.isFormValid = validity;
   }
 
-  onSaveData(e) {
+  onSaveData(e, editing, currentTrackedEntityInstanceId, currentProgram) {
     e.stopPropagation();
     this.savingMessage = 'Saving data';
     this.savingData = true;
     this.savedData = false;
-    this.currentTrackedEntityInstanceId = this.systemIds[0];
     let data = {
       orgUnit: 'zs9X8YYBOnK',
-      trackedEntityInstance: this.systemIds[0],
-      trackedEntityType: this.currentProgram?.trackedEntityType?.id,
+      trackedEntityInstance: currentTrackedEntityInstanceId,
+      trackedEntityType: currentProgram.trackedEntityType.id,
       programOwners: [
         {
           ownerOrgUnit: 'zs9X8YYBOnK',
-          program: this.currentProgram?.id,
-          trackedEntityInstance: this.systemIds[0],
+          program: currentProgram?.id,
+          trackedEntityInstance: currentTrackedEntityInstanceId,
         },
       ],
-      enrollments: [
-        {
-          orgUnit: 'zs9X8YYBOnK',
-          program: this.currentProgram?.id,
-          trackedEntityInstance: this.systemIds[0],
-          enrollment: this.systemIds[0],
-          trackedEntityType: this.currentProgram?.trackedEntityType?.id,
-          orgUnitName: 'LHRC Tanzania',
-          events: [],
-        },
-      ],
+      enrollments: !this.editingData
+        ? [
+            {
+              orgUnit: 'zs9X8YYBOnK',
+              program: currentProgram?.id,
+              trackedEntityInstance: currentTrackedEntityInstanceId,
+              enrollment: this.systemIds[1],
+              trackedEntityType: currentProgram?.trackedEntityType?.id,
+              orgUnitName: 'LHRC Tanzania',
+              events: [],
+            },
+          ]
+        : null,
       relationships: [],
       attributes: this.attributeValues,
     };
 
+    data = _.pickBy(data, _.identity);
+
     this.dataService
-      .saveTrackedEntityInstanceAndAssociatedData(data)
+      .saveTrackedEntityInstanceAndAssociatedData(
+        data,
+        editing,
+        currentTrackedEntityInstanceId,
+        currentProgram
+      )
       .subscribe((response) => {
-        if (response) {
+        if (response && response?.status !== 500) {
           this.savingMessage = 'Saved successfully';
           this.savingData = false;
           this.savedData = true;
+          this.hasError = false;
           setTimeout(() => {
             this.savingMessage = '';
             this.editData = true;
           }, 1000);
+          setTimeout(() => {
+            this.isReportSet = true;
+          }, 1200);
+        } else {
+          this.savingMessage =
+            response?.statusText + ', code: (' + response?.status + ')';
+          this.savingData = false;
+          this.savedData = false;
+          this.hasError = true;
         }
       });
   }
@@ -199,31 +228,45 @@ export class TrainingRegistrationComponent implements OnInit {
     this.currentTabValue = val;
   }
 
-  onSetDelete(e) {
-    this.deleting = true;
-    this.deleted = false;
-    this.dataService
-      .deleteTrackedEntityInstance(e.action?.id)
-      .subscribe((response) => {
-        if (response) {
-          this.deleting = false;
-          this.deleted = true;
-        }
-      });
-  }
-
   onSetEdit(trackedEntityInstance, program) {
+    // console.log('trackedEntityInstance', trackedEntityInstance);
+    this.currentTrackedEntityInstanceId = trackedEntityInstance?.action?.id;
     _.map(
       program.trackedEntityType?.trackedEntityTypeAttributes,
       (attribute) => {
         if (attribute?.trackedEntityAttribute?.id !== 'C1i3bPWYBRG') {
           this.formData[attribute?.trackedEntityAttribute?.id] = {
             id: attribute?.trackedEntityAttribute?.id,
-            value: trackedEntityInstance[attribute?.trackedEntityAttribute?.id],
+            value: attribute?.trackedEntityAttribute?.optionSet
+              ? (_.filter(
+                  _.map(
+                    attribute?.trackedEntityAttribute?.optionSet?.options,
+                    (option) => {
+                      return {
+                        id: option?.id,
+                        name: option?.name,
+                        label: option?.name,
+                        key: option?.id,
+                      };
+                    }
+                  ),
+                  {
+                    name:
+                      trackedEntityInstance[
+                        attribute?.trackedEntityAttribute?.id
+                      ],
+                  }
+                ) || [])[0]?.id
+              : trackedEntityInstance[attribute?.trackedEntityAttribute?.id],
+          };
+        } else {
+          this.selectedOu = {
+            name: trackedEntityInstance[attribute?.trackedEntityAttribute?.id],
           };
         }
       }
     );
     this.isReportSet = false;
+    this.editingData = true;
   }
 }

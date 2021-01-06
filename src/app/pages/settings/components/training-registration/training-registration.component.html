@@ -11,11 +11,11 @@
         label="{{ program?.name }}"
       >
         <div class="p-3">
-          <div class="h5 w-100 text-left">{{ program?.name }}</div>
-          <div class="btns w-100 p-2">
+          <!-- <div class="h5 w-100 text-left">{{ program?.name }}</div> -->
+          <div class="control-btn w-100 p-2" style="height: 52px">
             <button
               mat-stroked-button
-              class="mr-2 float-right"
+              class="mr-2 float-left"
               (click)="onToggleReportAndTraining($event)"
             >
               <span *ngIf="isReportSet">New Training</span>
@@ -32,19 +32,26 @@
           <div *ngIf="!isReportSet">
             <div
               class="success-save-message"
-              *ngIf="!savingData && savingMessage != ''"
+              *ngIf="!savingData && savingMessage != '' && !hasError"
+            >
+              {{ savingMessage }}
+            </div>
+
+            <div
+              class="error-save-message"
+              *ngIf="!savingData && savingMessage != '' && hasError"
             >
               {{ savingMessage }}
             </div>
             <div
               style="
-                height: 50vh;
+                height: 70vh;
                 overflow: auto;
                 margin-top: 20px;
                 padding: 8px 15px;
               "
             >
-              <div class="ou-filter">
+              <div class="ou-filter" style="margin-bottom: 15px">
                 <button
                   style="text-align: left; padding: 10px 8px"
                   class="w-100"
@@ -76,7 +83,14 @@
                 class="mr-2 float-left"
                 mat-stroked-button
                 [disabled]="!isFormValid || savedData"
-                (click)="onSaveData($event)"
+                (click)="
+                  onSaveData(
+                    $event,
+                    editingData,
+                    currentTrackedEntityInstanceId,
+                    program
+                  )
+                "
               >
                 <mat-spinner
                   *ngIf="savingData && savingMessage != ''"

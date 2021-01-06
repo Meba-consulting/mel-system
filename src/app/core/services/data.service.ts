@@ -19,8 +19,32 @@ export class DataService {
     );
   }
 
-  saveTrackedEntityInstanceAndAssociatedData(data): Observable<any> {
-    return this.httpClient.post('trackedEntityInstances', data);
+  saveTrackedEntityInstanceAndAssociatedData(
+    data,
+    editing,
+    trackedEntityInstanceId,
+    program
+  ): Observable<any> {
+    if (!editing) {
+      return this.httpClient.post('trackedEntityInstances', data);
+    } else {
+      return this.httpClient
+        .put(
+          'trackedEntityInstances/' +
+            trackedEntityInstanceId +
+            '??program=' +
+            program?.id,
+          data
+        )
+        .pipe(
+          map((response) => {
+            return response;
+          }),
+          catchError((e) => {
+            return of(e);
+          })
+        );
+    }
   }
 
   getTrackedEntityInstanceDetails(id): Observable<any> {
