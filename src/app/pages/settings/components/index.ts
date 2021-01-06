@@ -9,6 +9,7 @@ import { DefaultFormEntryComponent } from './default-form-entry/default-form-ent
 import { DeleteOuComponent } from './delete-ou/delete-ou.component';
 import { MembersListComponent } from './members-list/members-list.component';
 import { TrainingRegistrationComponent } from './training-registration/training-registration.component';
+import { TrainingsListComponent } from './trainings-list/trainings-list.component';
 
 export const settingsComponents: any[] = [
   AddProgramModalComponent,
@@ -22,4 +23,5 @@ export const settingsComponents: any[] = [
   MembersListComponent,
   DeleteOuComponent,
   TrainingRegistrationComponent,
+  TrainingsListComponent,
 ];

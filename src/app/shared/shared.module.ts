@@ -9,5 +9,6 @@ import { sharedComponents } from './components';
   imports: [CommonModule, ...materialModules, ...modules],
   exports: [CommonModule, ...materialModules, ...modules, ...sharedComponents],
   declarations: [...sharedComponents],
+  entryComponents: [...sharedComponents],
 })
 export class SharedModule {}

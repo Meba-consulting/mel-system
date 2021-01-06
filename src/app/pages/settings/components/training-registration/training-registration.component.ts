@@ -4,6 +4,7 @@ import { filterTrainingPrograms } from '../../helpers';
 
 import * as _ from 'lodash';
 import { Observable } from 'rxjs';
+import { FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-training-registration',
@@ -33,7 +34,7 @@ export class TrainingRegistrationComponent implements OnInit {
   ouId: string;
   programId: string;
   currentProgram: any;
-
+  formData: any = {};
   paramersSet: boolean = false;
   selectedOu: any;
 
@@ -47,10 +48,23 @@ export class TrainingRegistrationComponent implements OnInit {
   editData: boolean = false;
   editingData: boolean = false;
   savingMessage: string = '';
+  trainingsRegistered$: Observable<any>;
+  isReportSet: boolean = true;
+  deleting: boolean = false;
+  deleted: boolean = false;
+
+  selectedTab = new FormControl(0);
+  currentTabValue = 0;
   constructor(private dataService: DataService) {}
 
   ngOnInit(): void {
     this.trainingRegistrationPrograms = filterTrainingPrograms(this.programs);
+    this.currentProgram = this.trainingRegistrationPrograms[0];
+  }
+
+  onToggleReportAndTraining(e) {
+    e.stopPropagation();
+    this.isReportSet = !this.isReportSet;
   }
 
   onFilterUpdate(selections) {
@@ -70,8 +84,10 @@ export class TrainingRegistrationComponent implements OnInit {
   }
 
   onFilterClose(selections) {
-    console.log('closing');
     this.ouFilterIsSet = false;
+    this.savedData = false;
+    this.savingData = false;
+    this.savingMessage = '';
   }
 
   getTrackedEntityInstanceData(parameters) {
@@ -79,6 +95,9 @@ export class TrainingRegistrationComponent implements OnInit {
   }
 
   getForm(val) {
+    this.savedData = false;
+    this.savingData = false;
+    this.savingMessage = '';
     this.currentProgram = val;
     this.programId = val?.id;
     if (this.ouId && this.programId) {
@@ -97,12 +116,14 @@ export class TrainingRegistrationComponent implements OnInit {
   }
 
   onGetDataValues(values) {
-    console.log(values);
+    this.savedData = false;
+    this.savingData = false;
     this.attributeValues = _.map(Object.keys(values), (key) => {
       if (values[key]?.options?.length > 0) {
         return {
           attribute: key,
-          value: _.filter(values[key]?.options, { key: values[key]?.value }),
+          value: (_.filter(values[key]?.options, { key: values[key]?.value }) ||
+            [])[0]?.label,
         };
       } else {
         return {
@@ -160,7 +181,6 @@ export class TrainingRegistrationComponent implements OnInit {
     this.dataService
       .saveTrackedEntityInstanceAndAssociatedData(data)
       .subscribe((response) => {
-        console.log(response);
         if (response) {
           this.savingMessage = 'Saved successfully';
           this.savingData = false;
@@ -169,18 +189,41 @@ export class TrainingRegistrationComponent implements OnInit {
             this.savingMessage = '';
             this.editData = true;
           }, 1000);
-
-          this.dataService
-            .getTrackedEntityInstances({
-              orgUnit: 'zs9X8YYBOnK',
-              program: this.currentProgram?.id,
-            })
-            .subscribe((data) => console.log('all data', data));
-
-          this.currentTrackedEntityInstance$ = this.dataService.getTrackedEntityInstanceDetails(
-            this.currentTrackedEntityInstanceId
-          );
         }
       });
+  }
+
+  changeTab(e, val) {
+    e.stopPropagation();
+    this.selectedTab.setValue(val);
+    this.currentTabValue = val;
+  }
+
+  onSetDelete(e) {
+    this.deleting = true;
+    this.deleted = false;
+    this.dataService
+      .deleteTrackedEntityInstance(e.action?.id)
+      .subscribe((response) => {
+        if (response) {
+          this.deleting = false;
+          this.deleted = true;
+        }
+      });
+  }
+
+  onSetEdit(trackedEntityInstance, program) {
+    _.map(
+      program.trackedEntityType?.trackedEntityTypeAttributes,
+      (attribute) => {
+        if (attribute?.trackedEntityAttribute?.id !== 'C1i3bPWYBRG') {
+          this.formData[attribute?.trackedEntityAttribute?.id] = {
+            id: attribute?.trackedEntityAttribute?.id,
+            value: trackedEntityInstance[attribute?.trackedEntityAttribute?.id],
+          };
+        }
+      }
+    );
+    this.isReportSet = false;
   }
 }

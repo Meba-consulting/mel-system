@@ -18,6 +18,7 @@ import { FormValue } from '../../modules/forms/models/form-value.model';
 export class TrackedEntrityEntryFormComponent implements OnInit, OnChanges {
   @Input() trackedEntityType: any;
   formFields: any;
+  @Input() formData: any;
   currentFormData: any;
   @Output() dataValues = new EventEmitter<any>();
   @Output() isFormValid = new EventEmitter<boolean>();
@@ -26,6 +27,7 @@ export class TrackedEntrityEntryFormComponent implements OnInit, OnChanges {
   ngOnInit(): void {}
 
   ngOnChanges(): void {
+    this.currentFormData = this.formData;
     // console.log(this.trackedEntityAttributes);
     // create form fields
     this.formFields = _.filter(

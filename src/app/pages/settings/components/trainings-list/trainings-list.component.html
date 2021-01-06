@@ -1,0 +1,13 @@
+<div *ngIf="{ queryResponseData: queryResponseData$ | async } as params">
+  <app-tracked-entity-instance-list
+    *ngIf="params?.queryResponseData"
+    [queryResponse]="params?.queryResponseData"
+    (edit)="onSetEdit($event)"
+    (delete)="onSetDelete($event)"
+  ></app-tracked-entity-instance-list>
+
+  <mat-progress-bar
+    mode="indeterminate"
+    *ngIf="!params?.queryResponseData"
+  ></mat-progress-bar>
+</div>
