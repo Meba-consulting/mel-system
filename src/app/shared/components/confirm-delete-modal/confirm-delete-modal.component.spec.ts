@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { BatchControlComponent } from './batch-control.component';
+import { ConfirmDeleteModalComponent } from './confirm-delete-modal.component';
 
-describe('BatchControlComponent', () => {
-  let component: BatchControlComponent;
-  let fixture: ComponentFixture<BatchControlComponent>;
+describe('ConfirmDeleteModalComponent', () => {
+  let component: ConfirmDeleteModalComponent;
+  let fixture: ComponentFixture<ConfirmDeleteModalComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ BatchControlComponent ]
+      declarations: [ ConfirmDeleteModalComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(BatchControlComponent);
+    fixture = TestBed.createComponent(ConfirmDeleteModalComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

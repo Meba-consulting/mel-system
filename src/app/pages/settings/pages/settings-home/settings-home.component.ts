@@ -4,7 +4,7 @@ import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { FormValue } from 'src/app/shared/modules/forms/models/form-value.model';
-import { loadAttributes } from 'src/app/store';
+import { getCurrentUser, loadAttributes } from 'src/app/store';
 import { State } from 'src/app/store/reducers';
 import {
   getAttributeByName,
@@ -29,6 +29,7 @@ import { getDatastoreConfigsById } from '../../store/selectors/datastore.selecto
 export class SettingsHomeComponent implements OnInit {
   programsLoadingState$: Observable<any>;
   programs$: Observable<any[]>;
+  currentUser$: Observable<any>;
   currentProgram: any;
   canAdd: boolean = true;
   currentProgramConfigs$: Observable<any>;
@@ -38,6 +39,7 @@ export class SettingsHomeComponent implements OnInit {
   isFormValid: boolean;
   selectedAttribute$: Observable<any>;
   loadedAttributesState$: Observable<boolean>;
+  systemIds$: Observable<any[]>;
   constructor(
     private store: Store<State>,
     private dialog: MatDialog,
@@ -48,12 +50,14 @@ export class SettingsHomeComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.currentUser$ = this.store.select(getCurrentUser);
     this.programsLoadingState$ = this.store.select(getProgramsLoadingState);
     this.selectedAttribute$ = this.store.select(getAttributeByName, {
       name: 'Club Category',
     });
+    this.systemIds$ = this.systemIdsService.getSystemIds(2);
     this.loadedAttributesState$ = this.store.select(getAttributesLoadedState);
-    // this.programs$ = this.store.select(getAllPrograms);
+    this.programs$ = this.store.select(getAllPrograms);
     // this.programs$.subscribe((programs) => {
     //   console.log(programs);
     //   if (programs && programs?.length > 0) {
@@ -117,31 +121,6 @@ export class SettingsHomeComponent implements OnInit {
       width: '60%',
       disableClose: true,
       panelClass: 'custom-dialog-container',
-    });
-  }
-
-  onAddNewProgram(e): void {
-    e.stopPropagation();
-    this.currentFormData = null;
-    this.systemIdsService.getSystemIds(1).subscribe((response) => {
-      if (response) {
-        this.currentFormData = {};
-        console.log(response);
-        this.currentProgram = {
-          id: response[0],
-          name: 'Example name',
-        };
-
-        this.currentFormData['program-name'] = {
-          value: 'Example name',
-          id: response[0],
-        };
-        this.store.dispatch(
-          addLoadedPrograms({
-            programs: [this.currentProgram],
-          })
-        );
-      }
     });
   }
 
