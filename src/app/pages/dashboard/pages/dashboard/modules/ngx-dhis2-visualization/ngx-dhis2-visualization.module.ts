@@ -18,6 +18,8 @@ import { effects } from './store/effects';
 import { reducers } from './store/reducers';
 import { MatCardModule } from '@angular/material/card';
 
+import { MatProgressBarModule } from '@angular/material/progress-bar';
+
 @NgModule({
   imports: [
     CommonModule,
@@ -30,14 +32,15 @@ import { MatCardModule } from '@angular/material/card';
     NgxDhis2TableModule,
     NgxDhis2DictionaryModule,
     NgxDhis2SelectionFiltersModule,
-    ReportsModule
+    ReportsModule,
+    MatProgressBarModule,
   ],
   declarations: [
     ...pipes,
     ...components,
     ...containers,
-    VisualizationWidgetComponent
+    VisualizationWidgetComponent,
   ],
-  exports: [...containers]
+  exports: [...containers],
 })
 export class NgxDhis2VisualizationModule {}

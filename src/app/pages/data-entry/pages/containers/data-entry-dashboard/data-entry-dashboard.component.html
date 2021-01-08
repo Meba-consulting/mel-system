@@ -4,7 +4,7 @@
       <mat-form-field class="w-100" appearance="outline">
         <mat-label>Select form</mat-label>
         <mat-select required (selectionChange)="getForm($event.value)">
-          <mat-option *ngFor="let option of programs" [value]="option">
+          <mat-option *ngFor="let option of formattedPrograms" [value]="option">
             {{ option.name }}
           </mat-option>
         </mat-select>
@@ -30,12 +30,12 @@
         (orgUnitUpdate)="onFilterUpdate($event)"
       ></ngx-dhis2-org-unit-filter>
     </div>
-
     <div *ngIf="paramersSet && currentProgram">
       <app-program-entry
         [program]="currentProgram"
         [orgUnit]="selectedOu"
         [currentUser]="currentUser"
+        [stagesEntryOnly]="currentProgram?.stagesEntryOnly"
       ></app-program-entry>
     </div>
   </div>

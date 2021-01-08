@@ -1,6 +1,6 @@
-import { VisualizationUiConfig } from "../models";
-import { checkIfVisualizationIsNonVisualizable } from "./check-if-visualization-is-non-visualizable.helper";
-import { getVisualizationWidthFromShape } from "./get-visualization-width-from-shape.helper";
+import { VisualizationUiConfig } from '../models';
+import { checkIfVisualizationIsNonVisualizable } from './check-if-visualization-is-non-visualizable.helper';
+import { getVisualizationWidthFromShape } from './get-visualization-width-from-shape.helper';
 
 export function getStandardizedVisualizationUiConfig(
   visualizationItem: any,
@@ -13,9 +13,9 @@ export function getStandardizedVisualizationUiConfig(
   const isFullScreen = currentVisualizationItemId === visualizationItem.id;
   return {
     id: visualizationItem.id,
-    shape: visualizationItem.shape || "NORMAL",
-    height: isFullScreen ? "95vh" : "560px",
-    width: getVisualizationWidthFromShape(visualizationItem.shape || "NORMAL"),
+    shape: visualizationItem.shape || 'NORMAL',
+    height: isFullScreen ? '95vh' : '460px',
+    width: getVisualizationWidthFromShape(visualizationItem.shape || 'NORMAL'),
     showBody: true,
     fullScreen: isFullScreen,
     showFilters: !isNonVisualizable,
@@ -26,6 +26,7 @@ export function getStandardizedVisualizationUiConfig(
     showInterpretionBlock: !isNonVisualizable,
     hideResizeButtons: true,
     showTitleBlock: false,
-    hideOptions: true
+    hideOptions: true,
+    visualizationType: visualizationItem?.chart?.type,
   };
 }

@@ -27,6 +27,14 @@
       [legendSets]="legendSets"
     ></ngx-dhis2-table-list>
   </div>
+
+  <div
+    class="chart-visualization-block"
+    *ngIf="visualizationConfig.currentType === 'SINGLE_VALUE'"
+  >
+    {{ visualizationLayers | json }}
+  </div>
+
   <!--end of table visualization-->
 
   <!--map visualization-->

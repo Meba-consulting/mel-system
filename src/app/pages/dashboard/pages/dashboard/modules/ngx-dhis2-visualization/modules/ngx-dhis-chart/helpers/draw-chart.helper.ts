@@ -18,7 +18,7 @@ export function drawChart(
     colors: getChartColors(),
     plotOptions: getPlotOptions(chartConfiguration),
     tooltip: getTooltipOptions(chartConfiguration),
-    exporting: getChartExportingOptions()
+    exporting: getChartExportingOptions(),
     // legend: getLegendOptions(chartConfiguration)
   };
 
@@ -170,8 +170,8 @@ function extendPieChartOptions(
     chartConfiguration.sortOrder
   );
 
-  const sanitizedSeries = sortedSeries.map(series => {
-    series.data = series.data.map(dataObject => {
+  const sanitizedSeries = sortedSeries.map((series) => {
+    series.data = series.data.map((dataObject) => {
       if (dataObject.y === null) {
         dataObject.y = 0;
       }
@@ -196,7 +196,7 @@ function extendPieChartOptions(
      * @type {{series: any}}
      */
     newChartObject.drilldown = {
-      series: sanitizedSeries
+      series: sanitizedSeries,
     };
   } else {
     /**
@@ -223,21 +223,21 @@ function getDrilldownParentSeries(
       ? 'Organisation unit'
       : 'Categories';
 
-  const seriesData = _.map(yAxisItems, yAxisObject => {
+  const seriesData = _.map(yAxisItems, (yAxisObject) => {
     return {
       name: yAxisObject.name,
       drilldown: yAxisObject.id,
       y: deduceDrilldownParentDataFromChildrenSeries(
         drilldownSeries,
         yAxisObject.id
-      )
+      ),
     };
   });
 
   const newSeriesObject = {
     name: seriesName,
     colorByPoint: true,
-    data: seriesData
+    data: seriesData,
   };
 
   return [newSeriesObject];
@@ -252,7 +252,7 @@ function deduceDrilldownParentDataFromChildrenSeries(
 
   if (correspondingSeriesObject) {
     parentData = _.reduce(
-      _.map(correspondingSeriesObject.data, data => data.y),
+      _.map(correspondingSeriesObject.data, (data) => data.y),
       (sum, n) => {
         const newNumber = !isNaN(n) ? parseInt(n, 10) : 0;
         return parseInt(sum, 10) + newNumber;
@@ -286,18 +286,18 @@ function extendSpeedometerChartOptions(
     {
       from: 0.1,
       to: 50,
-      color: '#DF5353' // red
+      color: '#DF5353', // red
     },
     {
       from: 50,
       to: 80,
-      color: '#DDDF0D' // yellow
+      color: '#DDDF0D', // yellow
     },
     {
       from: 80,
       to: 100,
-      color: '#55BF3B' //  green
-    }
+      color: '#55BF3B', //  green
+    },
   ];
   newChartObject.yAxis = _.assign(
     [],
@@ -402,10 +402,10 @@ function extendOtherChartOptions(
    * Update colors by considering if series has data
    */
   const newColors: any[] = _.filter(
-    _.map(seriesWithAxisOptions, seriesObject =>
+    _.map(seriesWithAxisOptions, (seriesObject) =>
       seriesObject.data[0] ? seriesObject.data[0].color : undefined
     ),
-    color => color
+    (color) => color
   );
 
   return {
@@ -421,7 +421,7 @@ function extendOtherChartOptions(
       chartConfiguration.type
     ),
     colors: newColors.length > 0 ? newColors : initialChartObject.colors,
-    series: seriesWithAxisOptions
+    series: seriesWithAxisOptions,
   };
 }
 
@@ -434,7 +434,7 @@ function updateSeriesWithAxisOptions(
     const newSeriesObject = _.clone(seriesObject);
     const availableAxisOption: any = _.find(multiAxisOptions, [
       'id',
-      newSeriesObject.id
+      newSeriesObject.id,
     ]);
     if (availableAxisOption) {
       newSeriesObject.yAxis = availableAxisOption.axis
@@ -452,15 +452,15 @@ function updateSeriesWithAxisOptions(
         newSeriesObject.lineWidth = 0;
         newSeriesObject.states = {
           hover: {
-            enabled: false
-          }
+            enabled: false,
+          },
         };
       }
 
       /**
        *Also apply colors on chart
        */
-      newSeriesObject.data = _.map(newSeriesObject.data, dataObject => {
+      newSeriesObject.data = _.map(newSeriesObject.data, (dataObject) => {
         const newDataObject = _.clone(dataObject);
         if (availableAxisOption.color !== '') {
           newDataObject.color = availableAxisOption.color;
@@ -485,46 +485,49 @@ function getRefinedXAxisCategories(series: any[]) {
     );
 
     if (seriesDataObjects) {
-      const seriesCategoryNamesArray = _.map(seriesDataObjects, seriesData => {
-        return _.map(seriesData, data => {
-          const nameArray = data.name.split('_');
-          const newCategoryArray = [];
-          if (nameArray) {
-            const reversedNameArray = _.reverse(nameArray);
-            _.times(nameArray.length, (num: number) => {
-              if (num === 0) {
-                newCategoryArray.push({ name: reversedNameArray[num] });
-              } else {
-                const parentCategory: any = _.find(newCategoryArray, [
-                  'name',
-                  reversedNameArray[num - 1]
-                ]);
+      const seriesCategoryNamesArray = _.map(
+        seriesDataObjects,
+        (seriesData) => {
+          return _.map(seriesData, (data) => {
+            const nameArray = data.name.split('_');
+            const newCategoryArray = [];
+            if (nameArray) {
+              const reversedNameArray = _.reverse(nameArray);
+              _.times(nameArray.length, (num: number) => {
+                if (num === 0) {
+                  newCategoryArray.push({ name: reversedNameArray[num] });
+                } else {
+                  const parentCategory: any = _.find(newCategoryArray, [
+                    'name',
+                    reversedNameArray[num - 1],
+                  ]);
 
-                if (parentCategory) {
-                  const parentCategoryIndex = _.findIndex(
-                    newCategoryArray,
-                    parentCategory
-                  );
-                  let newChildrenCategories: any[] = parentCategory.categories
-                    ? parentCategory.categories
-                    : [];
-                  newChildrenCategories = _.concat(
-                    newChildrenCategories,
-                    reversedNameArray[num]
-                  );
-                  parentCategory.categories = _.assign(
-                    [],
-                    newChildrenCategories
-                  );
+                  if (parentCategory) {
+                    const parentCategoryIndex = _.findIndex(
+                      newCategoryArray,
+                      parentCategory
+                    );
+                    let newChildrenCategories: any[] = parentCategory.categories
+                      ? parentCategory.categories
+                      : [];
+                    newChildrenCategories = _.concat(
+                      newChildrenCategories,
+                      reversedNameArray[num]
+                    );
+                    parentCategory.categories = _.assign(
+                      [],
+                      newChildrenCategories
+                    );
 
-                  newCategoryArray[parentCategoryIndex] = parentCategory;
+                    newCategoryArray[parentCategoryIndex] = parentCategory;
+                  }
                 }
-              }
-            });
-          }
-          return newCategoryArray[0];
-        });
-      });
+              });
+            }
+            return newCategoryArray[0];
+          });
+        }
+      );
 
       if (seriesCategoryNamesArray) {
         const groupedCategoryNames = _.groupBy(
@@ -533,7 +536,7 @@ function getRefinedXAxisCategories(series: any[]) {
         );
         const categoryNameGroupKeys = _.map(
           seriesCategoryNamesArray[0],
-          category => category.name
+          (category) => category.name
         );
         const sanitizedCategoryNames: any[] = [];
         _.forEach(categoryNameGroupKeys, (key: any) => {
@@ -550,7 +553,7 @@ function getRefinedXAxisCategories(series: any[]) {
           } else {
             sanitizedCategoryNames.push({
               name: key,
-              categories: categories
+              categories: categories,
             });
           }
         });
@@ -571,22 +574,24 @@ function getSortableSeries(series, sortOrder) {
    * Combine all available series for sorting
    */
   const combinedSeriesData = [
-    ...getCombinedSeriesData(_.map(series, seriesObject => seriesObject.data))
+    ...getCombinedSeriesData(
+      _.map(series, (seriesObject) => seriesObject.data)
+    ),
   ];
 
   if (sortOrder === 1) {
     seriesCategories = _.map(
       _.reverse(_.sortBy(combinedSeriesData, ['y'])),
-      seriesData => seriesData.id
+      (seriesData) => seriesData.id
     );
-    newSeries = _.map(newSeries, seriesObject => {
+    newSeries = _.map(newSeries, (seriesObject) => {
       const newSeriesObject: any = { ...seriesObject };
 
       if (seriesCategories.length > 0) {
         newSeriesObject.data = [
-          ..._.map(seriesCategories, seriesCategory =>
+          ..._.map(seriesCategories, (seriesCategory) =>
             _.find(seriesObject.data, ['id', seriesCategory])
-          )
+          ),
         ];
       }
 
@@ -595,16 +600,16 @@ function getSortableSeries(series, sortOrder) {
   } else if (sortOrder === -1) {
     seriesCategories = _.map(
       _.sortBy(combinedSeriesData, ['y']),
-      seriesData => seriesData.id
+      (seriesData) => seriesData.id
     );
-    newSeries = _.map(series, seriesObject => {
+    newSeries = _.map(series, (seriesObject) => {
       const newSeriesObject: any = { ...seriesObject };
 
       if (seriesCategories.length > 0) {
         newSeriesObject.data = [
-          ..._.map(seriesCategories, seriesCategory =>
+          ..._.map(seriesCategories, (seriesCategory) =>
             _.find(seriesObject.data, ['id', seriesCategory])
-          )
+          ),
         ];
       }
       return newSeriesObject;
@@ -615,11 +620,11 @@ function getSortableSeries(series, sortOrder) {
 
 function getCombinedSeriesData(seriesData: any) {
   let combinedSeriesData = [];
-  seriesData.forEach(seriesDataArray => {
-    seriesDataArray.forEach(seriesDataObject => {
+  seriesData.forEach((seriesDataArray) => {
+    seriesDataArray.forEach((seriesDataObject) => {
       const availableSeriesData = _.find(combinedSeriesData, [
         'id',
-        seriesDataObject.id
+        seriesDataObject.id,
       ]);
       if (!availableSeriesData) {
         combinedSeriesData = [...combinedSeriesData, seriesDataObject];
@@ -633,7 +638,7 @@ function getCombinedSeriesData(seriesData: any) {
         combinedSeriesData = [
           ...combinedSeriesData.slice(0, seriesDataIndex),
           newSeriesObject,
-          ...combinedSeriesData.slice(seriesDataIndex + 1)
+          ...combinedSeriesData.slice(seriesDataIndex + 1),
         ];
       }
     });
@@ -661,7 +666,7 @@ function getChartSeries(
         yAxisItem.id,
         xAxisItems
       ),
-      type: getAllowedChartType(chartConfiguration.type)
+      type: getAllowedChartType(chartConfiguration.type),
     };
   });
 
@@ -705,7 +710,7 @@ function getSeriesData(
   ).join('_');
 
   if (xAxisItems) {
-    xAxisItems.forEach(xAxisItem => {
+    xAxisItems.forEach((xAxisItem) => {
       /**
        * Get the required data depending on xAxis and yAxis
        */
@@ -722,7 +727,7 @@ function getSeriesData(
         id: xAxisItem.id,
         name: xAxisItem.name,
         dataLabels: getDataLabelsOptions(chartConfiguration),
-        y: seriesValue
+        y: seriesValue,
       });
     });
   }
@@ -739,7 +744,7 @@ function getSeriesValue(
   dataIndex
 ) {
   let finalValue = 0;
-  const seriesValues = _.map(analyticsRows, row => {
+  const seriesValues = _.map(analyticsRows, (row) => {
     let seriesValue = 0;
     let xAxisRowId = '';
     _.forEach(xAxisItemIndex.split('_'), (axisIndex: any) => {
@@ -755,17 +760,17 @@ function getSeriesValue(
       seriesValue += value;
     }
     return seriesValue;
-  }).filter(value => value !== 0);
+  }).filter((value) => value !== 0);
 
   if (seriesValues) {
     // Check if series values have non numeric content
-    if (_.some(seriesValues, seriesValue => isNaN(seriesValue))) {
+    if (_.some(seriesValues, (seriesValue) => isNaN(seriesValue))) {
       return '';
     }
     // TODO find best way to identify ratios
     const isRatio = _.some(
       seriesValues,
-      seriesValue => seriesValue.toString().split('.')[1]
+      (seriesValue) => seriesValue.toString().split('.')[1]
     );
 
     const valueSum =
@@ -788,15 +793,16 @@ function getDataLabelsOptions(chartConfiguration: any) {
 
   switch (chartConfiguration.type) {
     case 'pie':
-      dataLabels = {
-        enabled: chartConfiguration.showData,
-        format:
-          '{point.name}<br/> <b>{point.y}</b> ( {point.percentage:.1f} % )'
-      };
+      dataLabels = null;
+      // {
+      //   enabled: chartConfiguration.showData,
+      //   format:
+      //     '{point.name}<br/> <b>{point.y}</b> ( {point.percentage:.1f} % )'
+      // };
       break;
     default:
       dataLabels = {
-        enabled: chartConfiguration.showData
+        enabled: chartConfiguration.showData,
       };
       break;
   }
@@ -817,19 +823,19 @@ function getAxisItemsNew(
       if (axisIndex > 0) {
         const availableItems = _.assign([], items);
         items = [];
-        itemKeys.forEach(itemKey => {
-          availableItems.forEach(item => {
+        itemKeys.forEach((itemKey) => {
+          availableItems.forEach((item) => {
             items.push({
               id: item.id + '_' + itemKey,
-              name: item.name + '_' + metadataNames[itemKey].trim()
+              name: item.name + '_' + metadataNames[itemKey].trim(),
             });
           });
         });
       } else {
-        items = _.map(itemKeys, itemKey => {
+        items = _.map(itemKeys, (itemKey) => {
           return {
             id: itemKey,
-            name: metadataNames[itemKey].trim()
+            name: metadataNames[itemKey].trim(),
           };
         });
       }
@@ -849,10 +855,10 @@ function getAxisItems(
   const itemKeys = analyticsObject.metaData[axisType];
 
   if (itemKeys) {
-    items = _.map(itemKeys, itemKey => {
+    items = _.map(itemKeys, (itemKey) => {
       return {
         id: itemKey,
-        name: metadataNames[itemKey]
+        name: metadataNames[itemKey],
       };
     });
   }
@@ -869,8 +875,8 @@ function getChartTitleObject(chartConfiguration: any): any {
     align: 'center',
     style: {
       fontWeight: '500',
-      fontSize: '16px'
-    }
+      fontSize: '16px',
+    },
   };
 }
 
@@ -883,26 +889,27 @@ function getChartSubtitleObject(chartConfiguration: any): any {
     align: 'center',
     style: {
       fontWeight: '500',
-      fontSize: '12px'
-    }
+      fontSize: '12px',
+    },
   };
 }
 
 function getChartCreditsOptions(): any {
   return {
-    enabled: false
+    enabled: false,
   };
 }
 
 function getChartColors(): any[] {
   return [
+    '#3ea9d9',
+    '#ffda64',
     '#A9BE3B',
-    '#558CC0',
     '#D34957',
     '#FF9F3A',
     '#968F8F',
     '#B7409F',
-    '#FFDA64',
+    '#558CC0',
     '#4FBDAE',
     '#B78040',
     '#676767',
@@ -911,7 +918,7 @@ function getChartColors(): any[] {
     '#434348',
     '#7CB5EC',
     '#F7A35C',
-    '#F15C80'
+    '#F15C80',
   ];
 }
 
@@ -919,9 +926,9 @@ function getChartExportingOptions(): any {
   return {
     buttons: {
       contextButton: {
-        enabled: false
-      }
-    }
+        enabled: false,
+      },
+    },
   };
 }
 
@@ -937,13 +944,13 @@ function getTooltipOptions(chartConfiguration: any) {
     switch (tooltipChartType) {
       case 'solidgauge':
         tooltipObject = {
-          enabled: false
+          enabled: false,
         };
         break;
       case 'pie':
         tooltipObject = {
           pointFormat:
-            '{series.name}<br/> <b>{point.y}</b> ( {point.percentage:.1f} % )'
+            '{series.name}<br/> <b>{point.y}</b> ( {point.percentage:.1f} % )',
         };
         break;
       default:
@@ -952,12 +959,12 @@ function getTooltipOptions(chartConfiguration: any) {
             tooltipObject = {
               headerFormat: '<b>{point.x}</b><br/>',
               pointFormat:
-                '{series.name}: {point.y}<br/>Total: {point.stackTotal}'
+                '{series.name}: {point.y}<br/>Total: {point.stackTotal}',
             };
             break;
           default:
             tooltipObject = {
-              enabled: true
+              enabled: true,
             };
             break;
         }
@@ -978,8 +985,8 @@ function getPlotOptions(chartConfiguration: any) {
           dataLabels: {
             y: 5,
             borderWidth: 0,
-            useHTML: true
-          }
+            useHTML: true,
+          },
         };
         break;
       case 'gauge':
@@ -987,8 +994,8 @@ function getPlotOptions(chartConfiguration: any) {
           dataLabels: {
             y: 5,
             borderWidth: 0,
-            useHTML: true
-          }
+            useHTML: true,
+          },
         };
         break;
       case 'pie':
@@ -996,7 +1003,7 @@ function getPlotOptions(chartConfiguration: any) {
           borderWidth: 0,
           allowPointSelect: true,
           cursor: 'pointer',
-          showInLegend: !chartConfiguration.hideLegend
+          showInLegend: !chartConfiguration.hideLegend,
         };
         break;
       default:
@@ -1004,7 +1011,7 @@ function getPlotOptions(chartConfiguration: any) {
           plotOptionChartType !== '' ? plotOptionChartType : 'series'
         ] = {
           showInLegend: !chartConfiguration.hideLegend,
-          colorByPoint: false
+          colorByPoint: false,
         };
 
         /**
@@ -1027,9 +1034,9 @@ function getPlotOptions(chartConfiguration: any) {
             lineWidth: 0,
             states: {
               hover: {
-                enabled: false
-              }
-            }
+                enabled: false,
+              },
+            },
           };
         }
 
@@ -1043,7 +1050,7 @@ function getChartAttributeOptions(chartConfiguration: any) {
   const chartOptions: any = {
     renderTo: chartConfiguration.renderId,
     zoomType: 'xy',
-    type: getAllowedChartType(chartConfiguration.type)
+    type: getAllowedChartType(chartConfiguration.type),
   };
 
   /**
@@ -1068,7 +1075,7 @@ function getPaneOptions(chartType: string) {
       paneOptions = _.assign(
         {},
         {
-          size: '80%'
+          size: '80%',
         }
       );
       break;
@@ -1085,22 +1092,22 @@ function getPaneOptions(chartType: string) {
                 linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1 },
                 stops: [
                   [0, '#FFF'],
-                  [1, '#333']
-                ]
+                  [1, '#333'],
+                ],
               },
               borderWidth: 0,
-              outerRadius: '109%'
+              outerRadius: '109%',
             },
             {
               backgroundColor: {
                 linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1 },
                 stops: [
                   [0, '#333'],
-                  [1, '#FFF']
-                ]
+                  [1, '#FFF'],
+                ],
               },
               borderWidth: 2,
-              outerRadius: '109%'
+              outerRadius: '109%',
             },
             {
               // default background
@@ -1109,9 +1116,9 @@ function getPaneOptions(chartType: string) {
               backgroundColor: '#DDD',
               borderWidth: 0,
               outerRadius: '107%',
-              innerRadius: '103%'
-            }
-          ]
+              innerRadius: '103%',
+            },
+          ],
         }
       );
       break;
@@ -1127,8 +1134,8 @@ function getPaneOptions(chartType: string) {
             backgroundColor: '#EEE',
             innerRadius: '60%',
             outerRadius: '100%',
-            shape: 'arc'
-          }
+            shape: 'arc',
+          },
         }
       );
       break;
@@ -1150,7 +1157,7 @@ function getLegendOptions(chartConfiguration: any) {
         ? 0
         : chartConfiguration.legendAlign === 'bottom'
         ? 25
-        : 0
+        : 0,
   };
 }
 
@@ -1167,7 +1174,7 @@ function getXAxisOptions(
         {
           categories: xAxisCategories,
           tickmarkPlacement: 'on',
-          lineWidth: 0
+          lineWidth: 0,
         }
       );
       break;
@@ -1187,9 +1194,9 @@ function getXAxisOptions(
             style: {
               color: '#000000',
               fontWeight: 'normal',
-              fontSize: '12px'
-            }
-          }
+              fontSize: '12px',
+            },
+          },
         }
       );
       break;
@@ -1213,11 +1220,11 @@ function getYAxisOptions(chartConfiguration: any, plotBandsByLegend: any[]) {
             style: {
               color: '#000000',
               fontWeight: 'normal',
-              fontSize: '14px'
+              fontSize: '14px',
             },
-            plotBands: plotBandsByLegend
-          }
-        }
+            plotBands: plotBandsByLegend,
+          },
+        },
       ]
     );
   } else {
@@ -1227,9 +1234,9 @@ function getYAxisOptions(chartConfiguration: any, plotBandsByLegend: any[]) {
         max: chartConfiguration.rangeAxisMaxValue,
         title: {
           text: yAxis.name,
-          style: { color: '#000000', fontWeight: 'normal', fontSize: '14px' }
+          style: { color: '#000000', fontWeight: 'normal', fontSize: '14px' },
         },
-        opposite: yAxis.orientation === 'left' ? false : true
+        opposite: yAxis.orientation === 'left' ? false : true,
       };
     });
   }
@@ -1246,7 +1253,7 @@ function getYAxisOptions(chartConfiguration: any, plotBandsByLegend: any[]) {
       case 'solidgauge':
         yAxis['lineWidth'] = 0;
         yAxis['labels'] = {
-          y: 16
+          y: 16,
         };
         yAxis['max'] = 100;
         break;
@@ -1256,13 +1263,16 @@ function getYAxisOptions(chartConfiguration: any, plotBandsByLegend: any[]) {
         yAxis['stackLabels'] = {
           enabled: false,
           style: {
-            fontWeight: 'bold'
-          }
+            fontWeight: 'bold',
+          },
         };
+        break;
+      case 'pie':
+        yAxis['stackLabels'] = null;
         break;
       default:
         yAxis['labels'] = {
-          style: { color: '#000000', fontWeight: 'normal', fontSize: '14px' }
+          style: { color: '#000000', fontWeight: 'normal', fontSize: '14px' },
         };
         yAxis['plotLines'] = [
           {
@@ -1272,8 +1282,8 @@ function getYAxisOptions(chartConfiguration: any, plotBandsByLegend: any[]) {
             width: 2,
             zIndex: 1000,
             label: {
-              text: chartConfiguration.targetLineLabel
-            }
+              text: chartConfiguration.targetLineLabel,
+            },
           },
           {
             color: '#000000',
@@ -1282,9 +1292,9 @@ function getYAxisOptions(chartConfiguration: any, plotBandsByLegend: any[]) {
             zIndex: 1000,
             width: 2,
             label: {
-              text: chartConfiguration.baseLineLabel
-            }
-          }
+              text: chartConfiguration.baseLineLabel,
+            },
+          },
         ];
         break;
     }
@@ -1340,7 +1350,7 @@ function mapAnalyticsToCumulativeFormat(
   if (analyticsObject) {
     const yAxisDimensionArray = analyticsObject.metaData[yAxisType];
     const xAxisDimensionArray = [
-      ..._.reverse([...analyticsObject.metaData[xAxisType]])
+      ..._.reverse([...analyticsObject.metaData[xAxisType]]),
     ];
     const yAxisDimensionIndex = _.findIndex(
       analyticsObject.headers,
@@ -1355,10 +1365,10 @@ function mapAnalyticsToCumulativeFormat(
       _.find(analyticsObject.headers, ['name', 'value'])
     );
     const newRows: any[] = [];
-    yAxisDimensionArray.forEach(yAxisDimensionValue => {
+    yAxisDimensionArray.forEach((yAxisDimensionValue) => {
       let initialValue = 0;
-      xAxisDimensionArray.forEach(xAxisDimensionValue => {
-        analyticsObject.rows.forEach(row => {
+      xAxisDimensionArray.forEach((xAxisDimensionValue) => {
+        analyticsObject.rows.forEach((row) => {
           if (
             row[yAxisDimensionIndex] === yAxisDimensionValue &&
             row[xAxisDimensionIndex] === xAxisDimensionValue
@@ -1385,18 +1395,18 @@ function getSanitizedChartObject(
       _.map(chartConfiguration.dataSelections || [], (dataSelection: any) => {
         return dataSelection.groups;
       }),
-      group => group
+      (group) => group
     )
   );
 
   const dataSelectionGroupMembers = _.flatten(
-    _.map(dataSelectionGroups, group => {
+    _.map(dataSelectionGroups, (group) => {
       return _.map(group.members, (member: any) => `${member.id}_${group.id}`);
     })
   );
 
   // Remove non numeric series data and their categories
-  const dataIndexesArrayToRemove = _.map(chartObject.series, seriesObject => {
+  const dataIndexesArrayToRemove = _.map(chartObject.series, (seriesObject) => {
     return _.filter(
       _.map(seriesObject.data, (dataItem: any, dataIndex: number) =>
         dataItem.y === '' ||
@@ -1428,7 +1438,7 @@ function getSanitizedChartObject(
 
           const associatedGroup = _.find(dataSelectionGroups, [
             'id',
-            splitedDataItemId[1]
+            splitedDataItemId[1],
           ]);
 
           return associatedGroup &&
@@ -1442,7 +1452,7 @@ function getSanitizedChartObject(
         }),
         (dataItem: any, dataIndex: number) =>
           newDataIndexes.indexOf(dataIndex) === -1
-      )
+      ),
     };
   });
 
@@ -1459,7 +1469,7 @@ function getSanitizedChartObject(
           category.categories,
           (innerCategory: any, innerCategoryIndex: number) =>
             newDataIndexes.indexOf(innerCategoryIndex + categoryCount) === -1
-        )
+        ),
       };
 
       categoryCount += category.categories ? category.categories.length : 0;
@@ -1470,6 +1480,6 @@ function getSanitizedChartObject(
   return {
     ...chartObject,
     series: newSeries,
-    xAxis: { ...chartObject.xAxis, categories: newCategories }
+    xAxis: { ...chartObject.xAxis, categories: newCategories },
   };
 }

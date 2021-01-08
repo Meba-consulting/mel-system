@@ -15,14 +15,15 @@ import {
   getDashboardGroupsLoaded,
   getDashboardGroupsLoading,
   getCurrentGlobalDataSelections,
-  getCurrentDashboardVisualizationLoadingProgress
+  getCurrentDashboardVisualizationLoadingProgress,
+  getCurrentDashboardSingleValueVisualizationItems,
 } from '../../../store/selectors';
 import { User, SystemInfo, LegendSet } from '../../../models';
 import { take } from 'rxjs/operators';
 
 import {
   WELCOMING_DESCRIPTION,
-  WELCOMING_TITLE
+  WELCOMING_TITLE,
 } from '../../constants/welcoming-messages.constants';
 import { State, getCurrentUser, getAllLegendSets } from 'src/app/store';
 import { getSystemInfo } from 'src/app/store/selectors/system-info.selectors';
@@ -31,14 +32,14 @@ import {
   ManageDashboardItemAction,
   AddNewUnsavedFavoriteAction,
   SetCurrentVisualizationAction,
-  GlobalFilterChangeAction
+  GlobalFilterChangeAction,
 } from '../../../store/actions';
 
 @Component({
   selector: 'app-current-dashboard',
   templateUrl: './current-dashboard.component.html',
   styleUrls: ['./current-dashboard.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CurrentDashboardComponent implements OnInit {
   currentDashboardVisualizationItems$: Observable<any[]>;
@@ -62,7 +63,12 @@ export class CurrentDashboardComponent implements OnInit {
   welcomingDescription: string;
   emptyVisualizationMessage: string;
 
+  singleValueDashboardItems$: Observable<any[]>;
+
   constructor(private store: Store<State>) {
+    this.singleValueDashboardItems$ = store.select(
+      getCurrentDashboardSingleValueVisualizationItems
+    );
     this.currentDashboardVisualizationItems$ = store.select(
       getCurrentDashboardVisualizationItems
     );
@@ -100,7 +106,7 @@ export class CurrentDashboardComponent implements OnInit {
     this.welcomingTitle = WELCOMING_TITLE;
     this.welcomingDescription = WELCOMING_DESCRIPTION;
     this.emptyVisualizationMessage =
-      'There are no items on this dashboard, search for charts, tables, maps and many more and add them to your dashboard';
+      'There are no items on this dashboard, search for charts, tables and add them to your dashboard';
   }
 
   ngOnInit() {}
@@ -116,7 +122,7 @@ export class CurrentDashboardComponent implements OnInit {
         dashboardDetails.supportBookmark,
         {
           bookmarked: dashboardDetails.bookmarked,
-          bookmarkPending: true
+          bookmarkPending: true,
         }
       )
     );
@@ -151,7 +157,7 @@ export class CurrentDashboardComponent implements OnInit {
   onGlobalFilterChange(globalFilterDetails: any) {
     this.store.dispatch(
       new GlobalFilterChangeAction(globalFilterDetails.id, {
-        globalSelections: globalFilterDetails.globalSelections
+        globalSelections: globalFilterDetails.globalSelections,
       })
     );
   }
@@ -165,7 +171,7 @@ export class CurrentDashboardComponent implements OnInit {
             id: visualizationDetails.visualization.id,
             favorite: visualizationDetails.visualization.favorite,
             deleteFavorite: visualizationDetails.deleteFavorite,
-            isNew: visualizationDetails.visualization.isNew
+            isNew: visualizationDetails.visualization.isNew,
           },
           'DELETE'
         )

@@ -23,7 +23,9 @@ export class ProgramEntryComponent implements OnInit {
   @Input() dataEntryFlow: any;
   @Input() orgUnit: any;
   @Input() currentUser: any;
-  @Input() indicators: any = {};
+  @Input() indicators: any;
+  @Input() stagesEntryOnly: any;
+  attributeValues: any;
   events$: Observable<any>;
   elementsDataValues: any = {};
   dataElements: any[];
@@ -41,6 +43,12 @@ export class ProgramEntryComponent implements OnInit {
   queryResponseData$: Observable<any>;
 
   isFormValid: boolean = false;
+  isFormForEntitiesValid: boolean = false;
+  currentTrackedEntityInstanceId: string;
+
+  eventsData: any = {};
+
+  loadStageData: boolean = false;
 
   constructor(
     private httpClient: NgxDhis2HttpClientService,
@@ -56,36 +64,25 @@ export class ProgramEntryComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log('hereeeeeeeee', this.program);
     this.getTrackedEntityInstanceData({
       orgUnit: this.orgUnit?.id,
       program: this.program?.id,
     });
-    // this.elementsToDisable = [...this.elementsToDisable, this.orgUnit.id];
-    // this.dataElements = getDataElementsFromProgram(
-    //   this.program.programStages[0]['programStageDataElements']
-    // );
-    // this.indicators = formatProgrgamIndicators(this.program.programIndicators);
-    // const dimensions = {
-    //   ou: this.orgUnit.id,
-    //   program: this.program.id,
-    //   programStage: this.program.programStages[0].id,
-    // };
-    // this.events$ = this.dataEntryService.getEventsData(dimensions);
-    // this.events$.subscribe((response) => {
-    //   if (response) {
-    //     setTimeout(() => {
-    //       this.events = response['events'];
-    //     }, 700);
-    //     setTimeout(() => {
-    //       this.eventLoaded = true;
-    //     }, 2000);
-    //   }
-    // });
+
+    this.eventsData = {
+      trackedEntityInstance: '',
+      program: this.program?.id,
+      programStage: '',
+      enrollment: '',
+      orgUnit: this.orgUnit?.id,
+      notes: [],
+      dataValues: [],
+      status: 'ACTIVE',
+      eventDate: '',
+    };
   }
 
   getTrackedEntityInstanceData(parameters) {
-    console.log('parameters', parameters);
     this.queryResponseData$ = this.dataService.getTrackedEntityInstances({
       orgUnit: parameters?.orgUnit,
       program: parameters?.program,
@@ -106,10 +103,13 @@ export class ProgramEntryComponent implements OnInit {
   getDate(date) {
     this.reportingDate = formatDateToYYMMDD(date);
     this.dataValues = [];
+    this.loadStageData = false;
     this.dateChanged = false;
     setTimeout(() => {
       this.dateChanged = true;
+      this.loadStageData = true;
     }, 500);
+    this.eventsData.eventDate = this.reportingDate;
   }
 
   getEvents() {
@@ -143,31 +143,38 @@ export class ProgramEntryComponent implements OnInit {
   }
 
   onGetFormValuesData(data) {
-    console.log(data);
+    let dataValues = [];
+    dataValues = _.filter(
+      _.map(Object.keys(data), (key) => {
+        if (data[key] || data[key] !== '')
+          return {
+            dataElement: key,
+            value: data[key]?.value,
+          };
+      }),
+      (dataValue) => dataValue
+    );
+    console.log(dataValues);
+    this.eventsData.dataValues = dataValues;
+    console.log('eventsData', this.eventsData);
   }
 
-  onGetFormValidity(e) {
-    this.isFormValid = e;
-  }
-
-  onSaveData(e) {
+  onSaveData(e, programStage?) {
     e.stopPropagation();
+    this.loadStageData = false;
+    this.eventsData.programStage = programStage?.id;
+    this.dataService
+      .saveEventsData({ events: [this.eventsData] })
+      .subscribe((response) => {
+        console.log(response);
+        this.loadStageData = true;
+      });
   }
 
   saveData() {
-    const eventData = {
-      status: 'COMPLETED',
-      eventDate: this.reportingDate,
-      notes: [],
-      completedDate: this.reportingDate,
-      program: this.program.id,
-      programStage: this.program.programStages[0].id,
-      orgUnit: this.orgUnit.id,
-      dataValues: this.dataValues,
-    };
     this.eventSaveMessage = 'Saving data................';
     this.eventLoaded = false;
-    this.httpClient.post('events', eventData).subscribe((response) => {
+    this.httpClient.post('events', this.eventsData).subscribe((response) => {
       setTimeout(() => {
         this.eventSaveMessage = 'Saved successful';
       }, 800);
@@ -227,5 +234,52 @@ export class ProgramEntryComponent implements OnInit {
             });
         }
       });
+  }
+
+  onSelectTrackedEntityInstance(trackedEntityInstance) {
+    console.log(trackedEntityInstance);
+    this.loadStageData = false;
+    this.currentTrackedEntityInstanceId = null;
+    this.eventsData.trackedEntityInstance = trackedEntityInstance?.id;
+    this.eventsData.enrollment = trackedEntityInstance?.id;
+    setTimeout(() => {
+      this.currentTrackedEntityInstanceId = trackedEntityInstance?.id;
+      this.loadStageData = true;
+    }, 500);
+  }
+
+  onGetDataValues(values) {
+    this.attributeValues = _.map(Object.keys(values), (key) => {
+      if (values[key]?.options?.length > 0) {
+        return {
+          attribute: key,
+          value: (_.filter(values[key]?.options, { key: values[key]?.value }) ||
+            [])[0]?.label,
+        };
+      } else {
+        return {
+          attribute: key,
+          value: values[key]?.value,
+        };
+      }
+    });
+
+    this.attributeValues = this.orgUnit?.id
+      ? [
+          ...this.attributeValues,
+          {
+            attribute: 'C1i3bPWYBRG',
+            value: this.orgUnit?.id,
+          },
+        ]
+      : this.attributeValues;
+  }
+
+  onGetFormValidity(validity) {
+    this.isFormValid = validity;
+  }
+
+  onGetFormValidityForEntities(validity) {
+    this.isFormForEntitiesValid = validity;
   }
 }

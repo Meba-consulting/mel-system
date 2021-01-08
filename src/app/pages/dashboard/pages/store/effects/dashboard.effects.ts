@@ -10,14 +10,14 @@ import {
   switchMap,
   take,
   tap,
-  withLatestFrom
+  withLatestFrom,
 } from 'rxjs/operators';
 
 import { DashboardVisualization } from '../../dashboard/models';
 import { DashboardSettings } from '../../dashboard/models/dashboard-settings.model';
 import {
   getStandardizedVisualizationObject,
-  getStandardizedVisualizationUiConfig
+  getStandardizedVisualizationUiConfig,
 } from '../../dashboard/modules/ngx-dhis2-visualization/helpers';
 import { VisualizationLayer } from '../../dashboard/modules/ngx-dhis2-visualization/models';
 import {
@@ -27,7 +27,7 @@ import {
   RemoveVisualizationFavoriteAction,
   RemoveVisualizationObjectAction,
   SaveVisualizationFavoriteSuccessAction,
-  VisualizationObjectActionTypes
+  VisualizationObjectActionTypes,
 } from '../../dashboard/modules/ngx-dhis2-visualization/store/actions';
 import { getCurrentVisualizationObjectLayers } from '../../dashboard/modules/ngx-dhis2-visualization/store/selectors';
 import { getActiveDashboardId } from '../../helpers';
@@ -38,7 +38,7 @@ import {
   AddDashboardVisualizationAction,
   AddDashboardVisualizationItemAction,
   LoadDashboardVisualizationsAction,
-  RemoveDashboardVisualizationItemAction
+  RemoveDashboardVisualizationItemAction,
 } from '../actions';
 import {
   AddDashboardAction,
@@ -57,11 +57,12 @@ import {
   ToggleDashboardBookmarkAction,
   ToggleDashboardBookmarkFailAction,
   ToggleDashboardBookmarkSuccessAction,
-  UpdateDashboardAction
+  UpdateDashboardAction,
 } from '../actions/dashboard.actions';
 import {
+  getAllCurrentVisualizationItems,
   getCurrentDashboardVisualizationItems,
-  getDashboardVisualizationById
+  getDashboardVisualizationById,
 } from '../selectors';
 import { getDashboardSettings } from '../selectors/dashboard-settings.selectors';
 import { State, getCurrentUser, getRouteUrl, Go } from 'src/app/store';
@@ -152,8 +153,8 @@ export class DashboardEffects {
       (action: SetCurrentVisualizationAction) =>
         new Go({
           path: [
-            `/dashboards/${action.dashboardId}/fullScreen/${action.visualizationId}`
-          ]
+            `/dashboards/${action.dashboardId}/fullScreen/${action.visualizationId}`,
+          ],
         })
     )
   );
@@ -174,16 +175,16 @@ export class DashboardEffects {
           map(
             () =>
               new ToggleDashboardBookmarkSuccessAction(action.id, {
-                bookmarkPending: false
+                bookmarkPending: false,
               })
           ),
-          catchError(error =>
+          catchError((error) =>
             of(
               new ToggleDashboardBookmarkFailAction(
                 action.id,
                 {
                   bookmarkPending: false,
-                  bookmarked: !action.changes.bookmarked
+                  bookmarked: !action.changes.bookmarked,
                 },
                 error
               )
@@ -234,7 +235,7 @@ export class DashboardEffects {
                       getStandardizedVisualizationObject({
                         ...dashboardResponse.dashboardItem,
                         dashboardId: dashboardResponse.dashboardId,
-                        isOpen: true
+                        isOpen: true,
                       })
                     )
                   );
@@ -244,7 +245,7 @@ export class DashboardEffects {
                       getStandardizedVisualizationUiConfig({
                         ...dashboardResponse.dashboardItem,
                         dashboardId: dashboardResponse.dashboardId,
-                        isOpen: true
+                        isOpen: true,
                       })
                     )
                   );
@@ -274,7 +275,7 @@ export class DashboardEffects {
                 }
               }
             },
-            error => {
+            (error) => {
               this.store.dispatch(new ManageDashboardItemFailAction('', error));
             }
           );
@@ -296,7 +297,7 @@ export class DashboardEffects {
           new AddDashboardAction({
             id,
             name: action.dashboardName,
-            creating: true
+            creating: true,
           })
         );
         return this.dashboardService
@@ -312,8 +313,8 @@ export class DashboardEffects {
                   update: true,
                   read: true,
                   externalize: true,
-                  delete: true
-                }
+                  delete: true,
+                },
               }),
               new AddDashboardVisualizationAction({
                 id,
@@ -321,16 +322,16 @@ export class DashboardEffects {
                 loading: false,
                 hasError: false,
                 error: null,
-                items: []
+                items: [],
               }),
-              new SetCurrentDashboardAction(id)
+              new SetCurrentDashboardAction(id),
             ]),
-            catchError(error =>
+            catchError((error) =>
               of(
                 new UpdateDashboardAction(id, {
                   creating: false,
                   updatedOrCreated: false,
-                  error
+                  error,
                 })
               )
             )
@@ -351,12 +352,12 @@ export class DashboardEffects {
   @Effect({ dispatch: false })
   globalFilterChange$: Observable<any> = this.actions$.pipe(
     ofType(DashboardActionTypes.GlobalFilterChange),
-    withLatestFrom(this.store.select(getCurrentDashboardVisualizationItems)),
+    withLatestFrom(this.store.select(getAllCurrentVisualizationItems)),
     tap(
       ([action, dashboardVisualizations]: [GlobalFilterChangeAction, any[]]) =>
         from(dashboardVisualizations)
           .pipe(
-            mergeMap(dashboardVisualization =>
+            mergeMap((dashboardVisualization) =>
               this.store
                 .select(
                   getCurrentVisualizationObjectLayers(dashboardVisualization.id)
@@ -366,7 +367,7 @@ export class DashboardEffects {
                   map((visualizationLayers: VisualizationLayer[]) => {
                     return {
                       visualizationId: dashboardVisualization.id,
-                      visualizationLayers
+                      visualizationLayers,
                     };
                   })
                 )
@@ -401,8 +402,8 @@ export class DashboardEffects {
             type: action.favoriteType,
             [_.camelCase(action.favoriteType)]: {
               id: action.favoriteDetails.id,
-              displayName: action.favoriteDetails.name
-            }
+              displayName: action.favoriteDetails.name,
+            },
           },
           action.action,
           true

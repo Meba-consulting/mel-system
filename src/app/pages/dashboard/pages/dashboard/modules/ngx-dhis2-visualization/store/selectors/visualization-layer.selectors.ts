@@ -3,17 +3,19 @@ import * as _ from 'lodash';
 import {
   getVisualizationObjectEntities,
   getVisualizationLayerEntities,
-  getVisualizationUiConfigurationEntities
+  getVisualizationUiConfigurationEntities,
+  getVisualizationLayerState,
 } from '../reducers';
 import {
   Visualization,
   VisualizationUiConfig,
-  VisualizationLayer
+  VisualizationLayer,
 } from '../../models';
 import {
   getVisualizationMetadataIdentifiers,
-  getVisualizationLayout
+  getVisualizationLayout,
 } from '../../helpers';
+import { VisualizationLayerState } from '../reducers/visualization-layer.reducer';
 
 export const getCurrentVisualizationObjectLayers = (visualizationId: string) =>
   createSelector(
@@ -50,10 +52,15 @@ export const getCurrentVisualizationObjectLayers = (visualizationId: string) =>
                 ),
                 layout:
                   visualizationLayer.layout ||
-                  getVisualizationLayout(visualizationLayer.dataSelections)
+                  getVisualizationLayout(visualizationLayer.dataSelections),
               };
             }
           )
         : [];
     }
   );
+
+export const getSingleVisualizationReloadCondition = createSelector(
+  getVisualizationLayerState,
+  (state: VisualizationLayerState) => state.singleVisualizationCheckCondition
+);

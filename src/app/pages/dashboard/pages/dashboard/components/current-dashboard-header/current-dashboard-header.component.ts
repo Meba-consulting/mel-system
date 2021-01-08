@@ -4,7 +4,7 @@ import {
   Input,
   ChangeDetectionStrategy,
   Output,
-  EventEmitter
+  EventEmitter,
 } from '@angular/core';
 import * as _ from 'lodash';
 import { Dashboard, DashboardGroups } from '../../models';
@@ -13,12 +13,15 @@ import { User } from '../../../models';
 import { SelectionFilterConfig } from '../../modules/ngx-dhis2-data-selection-filter/models/selected-filter-config.model';
 import { generateUid } from '../../../helpers/generate-uid.helper';
 import { VisualizationDataSelection } from '../../modules/ngx-dhis2-visualization/models';
+import { State } from 'src/app/store';
+import { Store } from '@ngrx/store';
+import { UpdateSingleVisualizationLayersCheckCondition } from '../../modules/ngx-dhis2-visualization/store/actions';
 
 @Component({
   selector: 'app-current-dashboard-header',
   templateUrl: './current-dashboard-header.component.html',
   styleUrls: ['./current-dashboard-header.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CurrentDashboardHeaderComponent implements OnInit {
   @Input()
@@ -76,18 +79,16 @@ export class CurrentDashboardHeaderComponent implements OnInit {
   }>();
 
   @Output()
-  createFavoriteForCurrentDashboard: EventEmitter<string> = new EventEmitter<
-    string
-  >();
+  createFavoriteForCurrentDashboard: EventEmitter<string> = new EventEmitter<string>();
 
   @Output()
   globalFilterChange: EventEmitter<any> = new EventEmitter<any>();
 
-  constructor() {
+  constructor(private store: Store<State>) {
     this.showFavoriteFilter = true;
     this.selectionFilterConfig = {
       showDataFilter: false,
-      showLayout: true
+      showLayout: true,
     };
     this.showSharing = true;
     this.showBookmark = true;
@@ -99,7 +100,7 @@ export class CurrentDashboardHeaderComponent implements OnInit {
     this.toggleCurrentDashboardBookmark.emit({
       id: this.currentDashboard.id,
       supportBookmark: this.currentDashboard.supportBookmark,
-      bookmarked: dashboardBookmarked
+      bookmarked: dashboardBookmarked,
     });
   }
 
@@ -120,19 +121,19 @@ export class CurrentDashboardHeaderComponent implements OnInit {
                 ? [
                     {
                       id: favorite.id,
-                      name: favorite.name
-                    }
+                      name: favorite.name,
+                    },
                   ]
                 : {
                     id: favorite.id,
-                    name: favorite.name
-                  }
+                    name: favorite.name,
+                  },
             }
           : {
               id: generateUid(),
               type: favorite.dashboardTypeDetails.type,
-              appKey: favorite.id
-            }
+              appKey: favorite.id,
+            },
     });
   }
 
@@ -145,8 +146,12 @@ export class CurrentDashboardHeaderComponent implements OnInit {
   onFilterUpdateAction(dataSelections: any[]) {
     this.globalFilterChange.emit({
       id: this.currentDashboard.id,
-      globalSelections: dataSelections
+      globalSelections: dataSelections,
     });
+
+    this.store.dispatch(
+      new UpdateSingleVisualizationLayersCheckCondition(true)
+    );
   }
 
   onPrintDashboard(e) {

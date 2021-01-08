@@ -20,7 +20,7 @@ export class DashboardService {
   ) {
     this.dashboardUrlFields =
       '?fields=id,name,description,publicAccess,access,externalAccess,created,lastUpdated,favorite,' +
-      'user[id,name],dashboardItems[id,type,created,lastUpdated,shape,appKey,chart[id,displayName],' +
+      'user[id,name],dashboardItems[id,type,created,lastUpdated,shape,appKey,chart[id,displayName,type],' +
       'map[id,displayName],reportTable[id,displayName],eventReport[id,displayName],eventChart[id,displayName]]&paging=false';
   }
 
@@ -65,15 +65,15 @@ export class DashboardService {
         let loadedDashboards = [];
         let counter = 0;
 
-        return new Observable(observer => {
+        return new Observable((observer) => {
           from(filteredDashboardIds)
             .pipe(
-              mergeMap(dashboardId =>
+              mergeMap((dashboardId) =>
                 this.httpClient.get(`dataStore/dashboards/${dashboardId}`)
               )
             )
             .subscribe(
-              res => {
+              (res) => {
                 counter++;
                 loadedDashboards = [...loadedDashboards, res];
 
@@ -82,7 +82,7 @@ export class DashboardService {
                   observer.complete();
                 }
               },
-              error => {
+              (error) => {
                 counter++;
                 observer.error(error);
               }
@@ -99,8 +99,9 @@ export class DashboardService {
   ): Observable<Dashboard[]> {
     const dashboardUrl =
       dashboardSettings && dashboardSettings.useDataStoreAsSource
-        ? `dataStore/dashboards/${dashboardSettings.namespace ||
-            dashboardSettings.id}_${id}`
+        ? `dataStore/dashboards/${
+            dashboardSettings.namespace || dashboardSettings.id
+          }_${id}`
         : `dashboards/${id}.json${customFields || this.dashboardUrlFields}`;
     return this.httpClient.get(dashboardUrl);
   }
@@ -158,7 +159,7 @@ export class DashboardService {
       switchMap((dashboard: any) => {
         const newDashboardItem = {
           ...dashboardItem,
-          id: dashboardItem.id || generateUid()
+          id: dashboardItem.id || generateUid(),
         };
 
         const newDashboardItems = this._manageDasboardItems(
@@ -174,7 +175,7 @@ export class DashboardService {
         return this.httpClient
           .put(dashboardUpdateUrl, {
             ...dashboard,
-            dashboardItems: newDashboardItems
+            dashboardItems: newDashboardItems,
           })
           .pipe(
             map(() => {
@@ -197,7 +198,7 @@ export class DashboardService {
       case 'UPDATE': {
         const correspondingDashboardItem = _.find(dashboardItems, [
           'id',
-          incomingDashboardItem.id
+          incomingDashboardItem.id,
         ]);
         const dashboardItemIndex = dashboardItems.indexOf(
           correspondingDashboardItem
@@ -207,14 +208,14 @@ export class DashboardService {
           ? [
               ..._.slice(dashboardItems, 0, dashboardItemIndex),
               incomingDashboardItem,
-              ..._.slice(dashboardItems, dashboardItemIndex + 1)
+              ..._.slice(dashboardItems, dashboardItemIndex + 1),
             ]
           : dashboardItems;
       }
       case 'DELETE': {
         const correspondingDashboardItem = _.find(dashboardItems, [
           'id',
-          incomingDashboardItem.id
+          incomingDashboardItem.id,
         ]);
         const dashboardItemIndex = dashboardItems.indexOf(
           correspondingDashboardItem
@@ -222,7 +223,7 @@ export class DashboardService {
         return dashboardItemIndex !== -1
           ? [
               ..._.slice(dashboardItems, 0, dashboardItemIndex),
-              ..._.slice(dashboardItems, dashboardItemIndex + 1)
+              ..._.slice(dashboardItems, dashboardItemIndex + 1),
             ]
           : dashboardItems;
       }
@@ -252,14 +253,14 @@ export class DashboardService {
               : [...dashboardOption.bookmarks]
             : _.filter(
                 dashboardOption.bookmarks,
-                bookmark => bookmark !== currentUserId
-              )
+                (bookmark) => bookmark !== currentUserId
+              ),
         })
       ),
       catchError(() =>
         this.httpClient.post(`dataStore/dashboards/${dashboardId}`, {
           id: dashboardId,
-          bookmarks: [currentUserId]
+          bookmarks: [currentUserId],
         })
       )
     );

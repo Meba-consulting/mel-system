@@ -3,16 +3,10 @@ import { Store } from '@ngrx/store';
 import { State } from 'src/app/store/reducers';
 
 import * as _ from 'lodash';
-import {
-  getUserGroupsToSeeDataEntryTabs,
-  getDepartmentsFromUserGroups,
-  filterProgramsByDepartments,
-} from '../../../helpers';
-import { loadProgramMetadata } from '../../../store/actions';
 import { Observable } from 'rxjs';
 import { DataService } from 'src/app/core/services/data.service';
-import { ConfirmDeleteModalComponent } from 'src/app/shared/components/confirm-delete-modal/confirm-delete-modal.component';
 import { MatDialog } from '@angular/material/dialog';
+import { formatProgramsForDataEntry } from '../../../helpers';
 
 @Component({
   selector: 'app-data-entry-dashboard',
@@ -23,6 +17,7 @@ export class DataEntryDashboardComponent implements OnInit {
   @Input() currentUser: any;
   @Input() programs: any[];
   @Input() userGroups: any[];
+  formattedPrograms: any = [];
   departments: Array<any>;
   currentDepartment: any;
   filteredProgramsByDepartments: Array<any>;
@@ -59,6 +54,9 @@ export class DataEntryDashboardComponent implements OnInit {
     if (this.programs && this.programs.length > 0) {
       this.showPrograms = true;
     }
+
+    this.formattedPrograms = formatProgramsForDataEntry(this.programs);
+    console.log('this', this.formattedPrograms);
   }
 
   onFilterUpdate(selections) {
@@ -79,11 +77,14 @@ export class DataEntryDashboardComponent implements OnInit {
 
   getForm(val) {
     console.log(val);
-    this.currentProgram = val;
-    this.programId = val?.id;
-    if (this.ouId && this.programId) {
-      this.paramersSet = true;
-    }
+    this.currentProgram = null;
+    setTimeout(() => {
+      this.currentProgram = val;
+      this.programId = val?.id;
+      if (this.ouId && this.programId) {
+        this.paramersSet = true;
+      }
+    }, 600);
   }
 
   toggleSubItems() {

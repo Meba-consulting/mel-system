@@ -16,11 +16,9 @@ export class ProgramStageDataEntryComponent implements OnInit {
   constructor() {}
 
   ngOnInit(): void {
-    console.log('programStateDataElements', this.programStateDataElements);
     this.formFields = createFormFieldsFromProgramStageDataElement(
       this.programStateDataElements
     );
-    console.log('formFields', this.formFields);
   }
 
   onFormUpdate(formValues: FormValue) {

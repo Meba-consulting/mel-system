@@ -1,0 +1,13 @@
+<div *ngIf="{ response: response$ | async } as params">
+  <app-render-program-stage-data
+    *ngIf="params?.response"
+    [data]="params?.response"
+    [programStage]="programStage"
+    [program]="program"
+  ></app-render-program-stage-data>
+
+  <mat-progress-bar
+    mode="indeterminate"
+    *ngIf="!params?.response"
+  ></mat-progress-bar>
+</div>

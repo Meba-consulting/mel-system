@@ -1,39 +1,39 @@
 export const DASHBOARD_TYPES: { [name: string]: any } = {
   users: {
     type: 'USERS',
-    isArray: true
+    isArray: true,
   },
   reports: {
     type: 'REPORTS',
-    isArray: true
+    isArray: true,
   },
   resources: {
     type: 'RESOURCES',
-    isArray: true
+    isArray: true,
   },
   apps: {
     type: 'APP',
     isArray: false,
-    isWidget: true
+    isWidget: true,
   },
   charts: {
     type: 'CHART',
-    isArray: false
+    isArray: false,
   },
   eventCharts: {
     type: 'EVENT_CHART',
-    isArray: false
+    isArray: false,
   },
   eventReports: {
     type: 'EVENT_REPORT',
-    isArray: false
+    isArray: false,
   },
   maps: {
     type: 'MAP',
-    isArray: false
+    isArray: false,
   },
   reportTables: {
     type: 'REPORT_TABLE',
-    isArray: false
-  }
+    isArray: false,
+  },
 };

@@ -7,14 +7,16 @@ import { VisualizationLayer } from '../../models';
 import { VisualizationLayerActionTypes } from '../actions';
 
 export interface VisualizationLayerState
-  extends EntityState<VisualizationLayer> {}
+  extends EntityState<VisualizationLayer> {
+  singleVisualizationCheckCondition: boolean;
+}
 
-export const visualizationLayerAdapter: EntityAdapter<
-  VisualizationLayer
-> = createEntityAdapter<VisualizationLayer>();
+export const visualizationLayerAdapter: EntityAdapter<VisualizationLayer> = createEntityAdapter<VisualizationLayer>();
 
 const initialState: VisualizationLayerState = visualizationLayerAdapter.getInitialState(
-  {}
+  {
+    singleVisualizationCheckCondition: false,
+  }
 );
 
 export function visualizationLayerReducer(
@@ -44,6 +46,14 @@ export function visualizationLayerReducer(
     }
     case VisualizationLayerActionTypes.RemoveVisualizationLayer: {
       return visualizationLayerAdapter.removeOne(action.id, state);
+    }
+
+    case VisualizationLayerActionTypes.UpdateSingleVisualizationCheck: {
+      return {
+        ...state,
+        singleVisualizationCheckCondition:
+          action.singleVisualizationLayersCheckCondition,
+      };
     }
   }
   return state;

@@ -1,0 +1,16 @@
+<div>
+  <mat-form-field class="w-100" appearance="outline">
+    <mat-label>Select</mat-label>
+    <mat-select
+      required
+      (selectionChange)="getTrackedEntityInstance($event.value)"
+    >
+      <mat-option
+        *ngFor="let option of trackedEntityInstances"
+        [value]="option"
+      >
+        {{ option.name }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+</div>

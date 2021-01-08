@@ -6,7 +6,7 @@ import {
   OnInit,
   Output,
   EventEmitter,
-  ViewChild
+  ViewChild,
 } from '@angular/core';
 import { VisualizationLayer } from '../../models/visualization-layer.model';
 import { VisualizationInputs } from '../../models/visualization-inputs.model';
@@ -21,40 +21,45 @@ import { Store } from '@ngrx/store';
 import {
   InitializeVisualizationObjectAction,
   UpdateVisualizationObjectAction,
-  SaveVisualizationFavoriteAction
+  SaveVisualizationFavoriteAction,
 } from '../../store/actions/visualization-object.actions';
 import {
   getCurrentVisualizationProgress,
-  getVisualizationObjectById
+  getVisualizationObjectById,
 } from '../../store/selectors/visualization-object.selectors';
-import { getCurrentVisualizationObjectLayers } from '../../store/selectors/visualization-layer.selectors';
+import {
+  getCurrentVisualizationObjectLayers,
+  getSingleVisualizationReloadCondition,
+} from '../../store/selectors/visualization-layer.selectors';
 import {
   getCurrentVisualizationUiConfig,
-  getFocusedVisualization
+  getFocusedVisualization,
 } from '../../store/selectors/visualization-ui-configuration.selectors';
 import { getCurrentVisualizationConfig } from '../../store/selectors/visualization-configuration.selectors';
 import {
   ShowOrHideVisualizationBodyAction,
   ToggleFullScreenAction,
-  ToggleVisualizationFocusAction
+  ToggleVisualizationFocusAction,
 } from '../../store/actions/visualization-ui-configuration.actions';
 import { UpdateVisualizationConfigurationAction } from '../../store/actions/visualization-configuration.actions';
 import {
   LoadVisualizationAnalyticsAction,
-  UpdateVisualizationLayerAction
+  UpdateVisualizationLayerAction,
 } from '../../store/actions/visualization-layer.actions';
 import { take } from 'rxjs/operators';
 import { openAnimation } from '../../../../../animations';
 import { VisualizationBodySectionComponent } from '../../components/visualization-body-section/visualization-body-section';
+import { getCurrentGlobalDataSelections } from 'src/app/pages/dashboard/pages/store/selectors';
 
 @Component({
   selector: 'ngx-dhis2-visualization',
   templateUrl: './visualization.component.html',
   styleUrls: ['./visualization.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  animations: [openAnimation]
+  animations: [openAnimation],
 })
 export class VisualizationComponent implements OnInit, OnChanges {
+  @Input() dashboardType: string;
   @Input()
   id: string;
   @Input()
@@ -92,44 +97,49 @@ export class VisualizationComponent implements OnInit, OnChanges {
   visualizationProgress$: Observable<VisualizationProgress>;
   visualizationConfig$: Observable<VisualizationConfig>;
   focusedVisualization$: Observable<string>;
+  globalSelections$: Observable<any>;
+  loadSingleValueAnalytics: boolean = false;
+  singleVisualizationReloadCondition$: Observable<boolean>;
 
   constructor(private store: Store<VisualizationState>) {
     this.cardFocused = false;
     this.type = 'REPORT_TABLE';
-    this._visualizationInputs$.asObservable().subscribe(visualizationInputs => {
-      if (visualizationInputs) {
-        // initialize visualization object
-        this.store.dispatch(
-          new InitializeVisualizationObjectAction(
-            visualizationInputs.id,
-            visualizationInputs.name,
-            visualizationInputs.type,
-            visualizationInputs.visualizationLayers,
-            visualizationInputs.currentUser,
-            visualizationInputs.systemInfo
-          )
-        );
+    this._visualizationInputs$
+      .asObservable()
+      .subscribe((visualizationInputs) => {
+        if (visualizationInputs) {
+          // initialize visualization object
+          this.store.dispatch(
+            new InitializeVisualizationObjectAction(
+              visualizationInputs.id,
+              visualizationInputs.name,
+              visualizationInputs.type,
+              visualizationInputs.visualizationLayers,
+              visualizationInputs.currentUser,
+              visualizationInputs.systemInfo
+            )
+          );
 
-        // Get selectors
-        this.visualizationObject$ = this.store.select(
-          getVisualizationObjectById(visualizationInputs.id)
-        );
-        this.visualizationLayers$ = this.store.select(
-          getCurrentVisualizationObjectLayers(visualizationInputs.id)
-        );
-        this.visualizationUiConfig$ = this.store.select(
-          getCurrentVisualizationUiConfig(visualizationInputs.id)
-        );
-        this.visualizationProgress$ = this.store.select(
-          getCurrentVisualizationProgress(visualizationInputs.id)
-        );
-        this.visualizationConfig$ = this.store.select(
-          getCurrentVisualizationConfig(visualizationInputs.id)
-        );
+          // Get selectors
+          this.visualizationObject$ = this.store.select(
+            getVisualizationObjectById(visualizationInputs.id)
+          );
+          this.visualizationLayers$ = this.store.select(
+            getCurrentVisualizationObjectLayers(visualizationInputs.id)
+          );
+          this.visualizationUiConfig$ = this.store.select(
+            getCurrentVisualizationUiConfig(visualizationInputs.id)
+          );
+          this.visualizationProgress$ = this.store.select(
+            getCurrentVisualizationProgress(visualizationInputs.id)
+          );
+          this.visualizationConfig$ = this.store.select(
+            getCurrentVisualizationConfig(visualizationInputs.id)
+          );
 
-        this.focusedVisualization$ = store.select(getFocusedVisualization);
-      }
-    });
+          this.focusedVisualization$ = store.select(getFocusedVisualization);
+        }
+      });
   }
 
   ngOnChanges() {
@@ -139,8 +149,13 @@ export class VisualizationComponent implements OnInit, OnChanges {
       visualizationLayers: this.visualizationLayers,
       name: this.name,
       currentUser: this.currentUser,
-      systemInfo: this.systemInfo
+      systemInfo: this.systemInfo,
     });
+
+    this.globalSelections$ = this.store.select(getCurrentGlobalDataSelections);
+    this.singleVisualizationReloadCondition$ = this.store.select(
+      getSingleVisualizationReloadCondition
+    );
   }
 
   ngOnInit() {}
@@ -148,7 +163,7 @@ export class VisualizationComponent implements OnInit, OnChanges {
   onToggleVisualizationBody(uiConfig) {
     this.store.dispatch(
       new ShowOrHideVisualizationBodyAction(uiConfig.id, {
-        showBody: uiConfig.showBody
+        showBody: uiConfig.showBody,
       })
     );
   }
@@ -161,7 +176,7 @@ export class VisualizationComponent implements OnInit, OnChanges {
           new UpdateVisualizationConfigurationAction(
             visualizationTypeObject.id,
             {
-              currentType: visualizationTypeObject.type
+              currentType: visualizationTypeObject.type,
             }
           )
         );
@@ -192,7 +207,7 @@ export class VisualizationComponent implements OnInit, OnChanges {
     this.toggleFullScreen.emit({
       id: this.id,
       dashboardId: this.dashboardId,
-      fullScreen: event.fullScreen
+      fullScreen: event.fullScreen,
     });
     this.store.dispatch(new ToggleFullScreenAction(event.uiConfigId));
   }
@@ -206,7 +221,7 @@ export class VisualizationComponent implements OnInit, OnChanges {
   onVisualizationLayerConfigUpdate(visualizationLayer: VisualizationLayer) {
     this.store.dispatch(
       new UpdateVisualizationLayerAction(visualizationLayer.id, {
-        config: visualizationLayer.config
+        config: visualizationLayer.config,
       })
     );
   }
@@ -231,7 +246,7 @@ export class VisualizationComponent implements OnInit, OnChanges {
             new ToggleVisualizationFocusAction(visualizationUiConfig.id, {
               hideFooter: !focused,
               hideResizeButtons: !focused,
-              hideOptions: !focused
+              hideOptions: !focused,
             })
           );
           this.cardFocused = focused;
@@ -245,15 +260,15 @@ export class VisualizationComponent implements OnInit, OnChanges {
       .subscribe((visualization: Visualization) => {
         this.deleteVisualization.emit({
           visualization,
-          deleteFavorite: options.deleteFavorite
+          deleteFavorite: options.deleteFavorite,
         });
 
         this.store.dispatch(
           new UpdateVisualizationObjectAction(this.id, {
             notification: {
               message: 'Removing dasboard item...',
-              type: 'progress'
-            }
+              type: 'progress',
+            },
           })
         );
       });

@@ -12,6 +12,11 @@ export function getStandardizedDashboardVisualization(
     loaded: !initialStage,
     hasError: false,
     error: null,
-    items: dashboardItems.map(({ id, shape, height }) => ({ id, width: getVisualizationWidthFromShape(shape), height }))
+    items: dashboardItems.map(({ id, shape, height, chart }) => ({
+      id,
+      width: getVisualizationWidthFromShape(shape),
+      height,
+      chart,
+    })),
   };
 }

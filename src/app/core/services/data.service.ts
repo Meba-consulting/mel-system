@@ -51,6 +51,16 @@ export class DataService {
     return this.httpClient.get('trackedEntityInstances/' + id);
   }
 
+  getTrackedEntityInstanceDetailsByProgram(id, program): Observable<any> {
+    return this.httpClient.get(
+      'trackedEntityInstances/' +
+        id +
+        '.json?program=' +
+        program?.id +
+        '&fields=*'
+    );
+  }
+
   getTrackedEntityInstances(parameters): Observable<any> {
     return this.httpClient.get(
       'trackedEntityInstances/query.json?ou=' +
@@ -64,6 +74,17 @@ export class DataService {
   deleteTrackedEntityInstance(id): Observable<any> {
     console.log('id for deleting', id);
     return this.httpClient.delete('trackedEntityInstances/' + id).pipe(
+      map((response) => {
+        return response;
+      }),
+      catchError((e) => {
+        return of(e);
+      })
+    );
+  }
+
+  saveEventsData(data): Observable<any> {
+    return this.httpClient.post('events.json', data).pipe(
       map((response) => {
         return response;
       }),

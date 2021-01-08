@@ -7,7 +7,7 @@ import {
   DashboardVisualizationActionTypes,
   LoadDashboardVisualizationsAction,
   LoadDashboardVisualizationsSuccessAction,
-  AddDashboardVisualizationAction
+  AddDashboardVisualizationAction,
 } from '../actions/dashboard-visualization.actions';
 
 import { LoadDashboardSettingsFailAction } from '../actions/dashboard-settings.action';
@@ -18,7 +18,7 @@ import {
   take,
   map,
   catchError,
-  tap
+  tap,
 } from 'rxjs/operators';
 import { getDashboardSettings } from '../selectors';
 import { DashboardSettings } from '../../dashboard/models/dashboard-settings.model';
@@ -27,11 +27,11 @@ import { DashboardVisualization } from '../../dashboard/models';
 import { Visualization } from '../../dashboard/modules/ngx-dhis2-visualization/models';
 import {
   getStandardizedVisualizationObject,
-  getStandardizedVisualizationUiConfig
+  getStandardizedVisualizationUiConfig,
 } from '../../dashboard/modules/ngx-dhis2-visualization/helpers';
 import {
   AddVisualizationObjectsAction,
-  AddVisualizationUiConfigurationsAction
+  AddVisualizationUiConfigurationsAction,
 } from '../../dashboard/modules/ngx-dhis2-visualization/store/actions';
 import { State } from 'src/app/store';
 
@@ -68,10 +68,11 @@ export class DashboardVisualizationEffects {
                   return {
                     ...dashboardItem,
                     isOpen: true,
-                    dashboardId: action.dashboardId
+                    dashboardId: action.dashboardId,
                   };
                 }
               );
+              // console.log('dashboardVisualizations', dashboardVisualizations);
               return new LoadDashboardVisualizationsSuccessAction(
                 action.dashboardId,
                 dashboardVisualizations,
@@ -95,8 +96,10 @@ export class DashboardVisualizationEffects {
       // Deduce visualization objects from dashboard items and add them to visualization store
       const visualizationObjects: Visualization[] = _.map(
         action.dashboardItems || [],
-        dashboardItem => getStandardizedVisualizationObject(dashboardItem)
+        (dashboardItem) => getStandardizedVisualizationObject(dashboardItem)
       );
+
+      // console.log('visualizationObjects', visualizationObjects);
 
       this.store.dispatch(
         new AddVisualizationObjectsAction(visualizationObjects)
@@ -105,7 +108,7 @@ export class DashboardVisualizationEffects {
       // Deduce visualization Ui configuration from dashboard items and addd them to visualization ui store
       const visualizationUiConfigs: any[] = _.map(
         action.dashboardItems || [],
-        dashboardItem =>
+        (dashboardItem) =>
           getStandardizedVisualizationUiConfig(
             dashboardItem,
             action.currentVisualizationId

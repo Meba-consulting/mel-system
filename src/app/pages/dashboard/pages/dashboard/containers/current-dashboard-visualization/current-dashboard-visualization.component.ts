@@ -4,7 +4,7 @@ import {
   getCurrentVisualizationId,
   getCurrentDashboardId,
   getCurrentDashboardVisualizationLoading,
-  getCurrentDashboardVisualizationLoaded
+  getCurrentDashboardVisualizationLoaded,
 } from '../../../store/selectors';
 import { Observable } from 'rxjs';
 import { User, SystemInfo } from '../../../models';
@@ -15,7 +15,7 @@ import { SetCurrentDashboardAction } from '../../../store/actions';
 @Component({
   selector: 'app-current-dashboard-visualization',
   templateUrl: './current-dashboard-visualization.component.html',
-  styleUrls: ['./current-dashboard-visualization.component.scss']
+  styleUrls: ['./current-dashboard-visualization.component.scss'],
 })
 export class CurrentDashboardVisualizationComponent implements OnInit {
   currentVisualizationId$: Observable<string>;

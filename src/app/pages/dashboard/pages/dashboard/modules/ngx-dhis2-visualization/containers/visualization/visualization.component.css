@@ -6,8 +6,8 @@
 }
 .visualization-card-full-screen {
   position: fixed;
-  top: 0;
-  height: 100vh;
+  top: 5vh;
+  height: 95vh;
   width: 100%;
   bottom: 0;
   right: 0;

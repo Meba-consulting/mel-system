@@ -52,27 +52,57 @@
         background-color: #eeeeee69;
         overflow: auto;
       "
-      *ngIf="reportingDate && dateChanged && (events$ | async)"
+      *ngIf="reportingDate && dateChanged"
     >
-      <app-tracked-entrity-entry-form
-        [trackedEntityType]="program?.trackedEntityType"
-      ></app-tracked-entrity-entry-form>
+      <div *ngIf="stagesEntryOnly">
+        <div class="tracked-entity-intances">
+          <app-tracked-entity-instance-selector
+            [queryData]="params?.queryResponseData"
+            (trackedEntityInstance)="onSelectTrackedEntityInstance($event)"
+          ></app-tracked-entity-instance-selector>
+        </div>
+      </div>
+      <div *ngIf="!stagesEntryOnly">
+        <app-tracked-entrity-entry-form
+          [trackedEntityType]="program?.trackedEntityType"
+          [formData]="formData"
+          (dataValues)="onGetDataValues($event)"
+          (isFormValid)="onGetFormValidityForEntities($event)"
+        ></app-tracked-entrity-entry-form>
+      </div>
 
-      <mat-tab-group>
+      <mat-tab-group *ngIf="currentTrackedEntityInstanceId && stagesEntryOnly">
         <mat-tab
           *ngFor="let stage of program?.programStages"
           label="{{ stage?.name }}"
         >
           <div class="p-3">
-            <app-program-stage-data-entry
-              [programStateDataElements]="stage?.programStageDataElements"
-              (formValuesData)="onGetFormValuesData($event)"
-              (isFormValid)="onGetFormValidity($event)"
-            ></app-program-stage-data-entry>
+            <mat-tab-group>
+              <mat-tab label="Entry">
+                <div class="p-3">
+                  <app-program-stage-data-entry
+                    [programStateDataElements]="stage?.programStageDataElements"
+                    (formValuesData)="onGetFormValuesData($event)"
+                    (isFormValid)="onGetFormValidity($event)"
+                  ></app-program-stage-data-entry>
+                </div>
+              </mat-tab>
+              <mat-tab label="Data">
+                <div class="p-3">
+                  <app-program-stage-data
+                    *ngIf="loadStageData"
+                    [program]="program"
+                    [trackedEntityInstanceId]="currentTrackedEntityInstanceId"
+                    [programStage]="stage"
+                  ></app-program-stage-data>
+                </div>
+              </mat-tab>
+            </mat-tab-group>
+
             <button
               mat-stroked-button
               class="mr-2"
-              (click)="onSaveData($event)"
+              (click)="onSaveData($event, stage)"
               [disabled]="!isFormValid"
             >
               Save
@@ -80,6 +110,49 @@
           </div>
         </mat-tab>
       </mat-tab-group>
+      <mat-tab-group *ngIf="!stagesEntryOnly">
+        <mat-tab
+          *ngFor="let stage of program?.programStages"
+          label="{{ stage?.name }}"
+        >
+          <div class="p-3">
+            <mat-tab-group>
+              <mat-tab label="Entry">
+                <div class="p-3">
+                  <app-program-stage-data-entry
+                    [programStateDataElements]="stage?.programStageDataElements"
+                    (formValuesData)="onGetFormValuesData($event)"
+                    (isFormValid)="onGetFormValidity($event)"
+                  ></app-program-stage-data-entry>
+                </div>
+              </mat-tab>
+              <mat-tab label="Data">
+                <div class="p-3">
+                  <app-program-stage-data
+                    [program]="program"
+                    [trackedEntityInstanceId]="currentTrackedEntityInstanceId"
+                    [programStage]="stage"
+                  ></app-program-stage-data>
+                </div>
+              </mat-tab>
+            </mat-tab-group>
+
+            <button
+              mat-stroked-button
+              class="mr-2"
+              (click)="onSaveData($event, stage)"
+              [disabled]="!isFormValid"
+            >
+              Save
+            </button>
+          </div>
+        </mat-tab>
+      </mat-tab-group>
+
+      <!-- <mat-progress-bar
+        mode="indeterminate"
+        *ngIf="!currentTrackedEntityInstanceId"
+      ></mat-progress-bar> -->
       <!-- <app-data-entry
         [dataEntryForm]="program['programStages'][0]['dataEntryForm']"
         [formName]="program['name']"

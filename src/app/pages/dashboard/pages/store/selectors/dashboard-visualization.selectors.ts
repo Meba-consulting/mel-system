@@ -1,23 +1,23 @@
 import {
   createSelector,
   MemoizedSelector,
-  createFeatureSelector
+  createFeatureSelector,
 } from '@ngrx/store';
 import * as _ from 'lodash';
 import { getCurrentDashboardId } from './dashboard.selectors';
 import {
   getDashboardVisualizationEntitiesState,
-  DashboardVisualizationState
+  DashboardVisualizationState,
 } from '../reducers/dashboard-visualization.reducer';
 import { DashboardVisualization } from '../../dashboard/models';
 import {
   getVisualizationObjectEntities,
-  getVisualizationLayerEntities
+  getVisualizationLayerEntities,
 } from '../../dashboard/modules/ngx-dhis2-visualization/store';
 import {
   VisualizationLayer,
   VisualizationDataSelection,
-  Visualization
+  Visualization,
 } from '../../dashboard/modules/ngx-dhis2-visualization/models';
 import { getSelectionDimensionsFromAnalytics } from '../../dashboard/modules/ngx-dhis2-visualization/helpers';
 
@@ -38,14 +38,44 @@ export const getDashboardVisualizationEntities = createSelector(
 export const getCurrentDashboardVisualization = createSelector(
   getDashboardVisualizationEntities,
   getCurrentDashboardId,
-  (dashboardVisualizationEntities, currentDashboardId) =>
-    dashboardVisualizationEntities[currentDashboardId]
+  (dashboardVisualizationEntities, currentDashboardId) => {
+    return dashboardVisualizationEntities[currentDashboardId];
+  }
+);
+
+export const getAllCurrentVisualizationItems = createSelector(
+  getCurrentDashboardVisualization,
+  (currentDashboardVisualization: DashboardVisualization) => {
+    return currentDashboardVisualization
+      ? currentDashboardVisualization.items
+      : [];
+  }
 );
 
 export const getCurrentDashboardVisualizationItems = createSelector(
   getCurrentDashboardVisualization,
-  (currentDashboardVisualization: DashboardVisualization) =>
-    currentDashboardVisualization ? currentDashboardVisualization.items : []
+  (currentDashboardVisualization: DashboardVisualization) => {
+    return currentDashboardVisualization
+      ? _.filter(currentDashboardVisualization.items, (item) => {
+          if (item?.chart?.type !== 'SINGLE_VALUE') {
+            return item;
+          }
+        }) || []
+      : [];
+  }
+);
+
+export const getCurrentDashboardSingleValueVisualizationItems = createSelector(
+  getCurrentDashboardVisualization,
+  (currentDashboardVisualization: DashboardVisualization) => {
+    return currentDashboardVisualization
+      ? _.filter(currentDashboardVisualization.items, (item) => {
+          if (item?.chart?.type == 'SINGLE_VALUE') {
+            return item;
+          }
+        }) || []
+      : [];
+  }
 );
 
 export const getCurrentDashboardVisualizationLoading = createSelector(
@@ -60,10 +90,10 @@ export const getCurrentDashboardVisualizationLoaded = createSelector(
     currentDashboardVisualization ? currentDashboardVisualization.loaded : false
 );
 
-export const getDashboardVisualizationById = id =>
+export const getDashboardVisualizationById = (id) =>
   createSelector(
     getDashboardVisualizationEntities,
-    dashboardVisualizationEntities => dashboardVisualizationEntities[id]
+    (dashboardVisualizationEntities) => dashboardVisualizationEntities[id]
   );
 
 export const getVisualizationReady = createSelector(
@@ -90,10 +120,10 @@ export const getCurrentGlobalDataSelections = createSelector(
                 visualizationObjectEntities[dashboardVisualizationItem.id]
             )
           ),
-          visualization => (visualization ? visualization.layers : [])
+          (visualization) => (visualization ? visualization.layers : [])
         )
       ),
-      layerId => visualizationLayerEntities[layerId]
+      (layerId) => visualizationLayerEntities[layerId]
     );
 
     const globalDataSelectionsArray = _.map(
@@ -117,7 +147,7 @@ export const getCurrentGlobalDataSelections = createSelector(
         _.each(dataSelections, (dataSelection: VisualizationDataSelection) => {
           const availableDataSelection = _.find(mergedDataSelections, [
             'dimension',
-            dataSelection.dimension
+            dataSelection.dimension,
           ]);
           if (availableDataSelection) {
             const avaialableDataSelectionIndex = mergedDataSelections.indexOf(
@@ -131,9 +161,12 @@ export const getCurrentGlobalDataSelections = createSelector(
                 items: _.uniqBy(
                   [...availableDataSelection.items, ...dataSelection.items],
                   'id'
-                )
+                ),
               },
-              ..._.slice(mergedDataSelections, avaialableDataSelectionIndex + 1)
+              ..._.slice(
+                mergedDataSelections,
+                avaialableDataSelectionIndex + 1
+              ),
             ];
           } else {
             mergedDataSelections = [...mergedDataSelections, dataSelection];
@@ -191,7 +224,7 @@ export const getCurrentDashboardVisualizationLoadingProgress = createSelector(
         : 'Discovering visualization items...',
       percent: ((loadedPercent / totalPercent || 0) * 100).toFixed(0),
       loadedItems: loadedVisualizationObjects.length,
-      totalItems: visualizationObjects.length
+      totalItems: visualizationObjects.length,
     };
   }
 );

@@ -14,6 +14,7 @@ export function getStandardizedVisualizationObject(
     title: getVisualizationTitle(visualizationItem),
     name: getVisualizationName(visualizationItem),
     type: visualizationItem.type,
+    visualizationType: visualizationItem?.chart?.type,
     favorite: getFavoriteDetails(visualizationItem),
     created: visualizationItem.created,
     appKey: visualizationItem.appKey,
@@ -24,9 +25,9 @@ export function getStandardizedVisualizationObject(
       statusCode: 200,
       statusText: 'OK',
       percent: 0,
-      message: 'Loading..'
+      message: 'Loading..',
     },
-    layers: getVisualizationLayers(visualizationItem)
+    layers: getVisualizationLayers(visualizationItem),
   };
   return visualizationObject;
 }
@@ -96,7 +97,7 @@ function getFavoriteDetails(visualizationItem: any) {
         type: _.camelCase(visualizationItem.type),
         name: getVisualizationName(visualizationItem),
         useTypeAsBase: true,
-        requireAnalytics: true
+        requireAnalytics: true,
       }
     : null;
 }

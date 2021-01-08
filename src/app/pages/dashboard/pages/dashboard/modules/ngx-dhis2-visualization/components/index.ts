@@ -9,6 +9,7 @@ import { VisualizationBodySectionComponent } from './visualization-body-section/
 import { VisualizationManagementSectionComponent } from './visualization-management-section/visualization-management-section.component';
 import { VisualizationWidgetComponent } from './visualization-widget/visualization-widget.component';
 import { VisualizationDownloadsSectionComponent } from './visualization-downloads-section/visualization-downloads-section.component';
+import { SignleValueVisualizationComponent } from './signle-value-visualization/signle-value-visualization.component';
 
 export const components: any[] = [
   VisualizationTitleSectionComponent,
@@ -21,5 +22,6 @@ export const components: any[] = [
   VisualizationBodySectionComponent,
   VisualizationManagementSectionComponent,
   VisualizationWidgetComponent,
-  VisualizationDownloadsSectionComponent
+  VisualizationDownloadsSectionComponent,
+  SignleValueVisualizationComponent,
 ];
