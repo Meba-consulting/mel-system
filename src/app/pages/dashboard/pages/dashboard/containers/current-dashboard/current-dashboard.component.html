@@ -81,13 +81,17 @@
   <!-- Dashboard single values -->
 
   <div
-    *ngIf="currentDashboardVisualizationLoaded$ | async"
+    *ngIf="
+      (currentDashboardVisualizationLoaded$ | async) &&
+      (singleValueDashboardItems$ | async)?.length > 0
+    "
     style="margin: 20px 0 20px 0"
   >
     <!-- {{ singleValueDashboardItems$ | async | json }} -->
     <div class="row">
       <div
         class="col-md-3"
+        style="padding-right: 0 !important"
         *ngFor="let visualization of singleValueDashboardItems$ | async"
       >
         <ngx-dhis2-visualization
