@@ -16,8 +16,6 @@ export class RenderProgramStageDataComponent implements OnInit {
   constructor() {}
 
   ngOnInit(): void {
-    console.log(this.program);
-    console.log(this.data);
     const dataElements = _.keyBy(
       _.map(
         this.programStage?.programStageDataElements,
@@ -37,7 +35,6 @@ export class RenderProgramStageDataComponent implements OnInit {
       ),
       'dataElement'
     );
-    console.log(dataElements);
     _.map(
       _.filter(this.data?.enrollments[0]?.events, {
         programStage: this.programStage?.id,

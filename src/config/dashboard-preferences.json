@@ -1,6 +1,6 @@
 {
-  "namespace": "nmcp-malaria",
-  "id": "nmcp-malaria",
+  "namespace": "lhrc",
+  "id": "lhrc",
   "useDataStoreAsSource": false,
   "allowAdditionalAttributes": true,
   "additionalAttributes": ["globalSelections"]

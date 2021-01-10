@@ -49,6 +49,10 @@ export class ProgramEntryComponent implements OnInit {
   eventsData: any = {};
 
   loadStageData: boolean = false;
+  savingProgramData: boolean = false;
+  showStageDataEntry: boolean = true;
+
+  savingMessage: string = '';
 
   constructor(
     private httpClient: NgxDhis2HttpClientService,
@@ -161,13 +165,24 @@ export class ProgramEntryComponent implements OnInit {
 
   onSaveData(e, programStage?) {
     e.stopPropagation();
+    this.savingMessage = 'Saving data';
+    this.savingProgramData = true;
     this.loadStageData = false;
     this.eventsData.programStage = programStage?.id;
     this.dataService
       .saveEventsData({ events: [this.eventsData] })
       .subscribe((response) => {
+        this.savingMessage = 'Saved data successfully';
+        this.savingProgramData = false;
         console.log(response);
         this.loadStageData = true;
+        setTimeout(() => {
+          this.savingMessage = '';
+          this.showStageDataEntry = false;
+        }, 1000);
+        setTimeout(() => {
+          this.showStageDataEntry = true;
+        }, 1300);
       });
   }
 

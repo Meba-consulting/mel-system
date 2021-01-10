@@ -80,11 +80,21 @@
             <mat-tab-group>
               <mat-tab label="Entry">
                 <div class="p-3">
-                  <app-program-stage-data-entry
-                    [programStateDataElements]="stage?.programStageDataElements"
-                    (formValuesData)="onGetFormValuesData($event)"
-                    (isFormValid)="onGetFormValidity($event)"
-                  ></app-program-stage-data-entry>
+                  <div
+                    class="success-save-message"
+                    *ngIf="savingMessage !== ''"
+                  >
+                    {{ savingMessage }}
+                  </div>
+                  <div *ngIf="showStageDataEntry">
+                    <app-program-stage-data-entry
+                      [programStateDataElements]="
+                        stage?.programStageDataElements
+                      "
+                      (formValuesData)="onGetFormValuesData($event)"
+                      (isFormValid)="onGetFormValidity($event)"
+                    ></app-program-stage-data-entry>
+                  </div>
                 </div>
               </mat-tab>
               <mat-tab label="Data">
@@ -105,6 +115,13 @@
               (click)="onSaveData($event, stage)"
               [disabled]="!isFormValid"
             >
+              <mat-spinner
+                *ngIf="savingProgramData"
+                color="accent"
+                [diameter]="20"
+                style="display: inline-block !important; margin-right: 4px"
+              >
+              </mat-spinner>
               Save
             </button>
           </div>
@@ -119,11 +136,21 @@
             <mat-tab-group>
               <mat-tab label="Entry">
                 <div class="p-3">
-                  <app-program-stage-data-entry
-                    [programStateDataElements]="stage?.programStageDataElements"
-                    (formValuesData)="onGetFormValuesData($event)"
-                    (isFormValid)="onGetFormValidity($event)"
-                  ></app-program-stage-data-entry>
+                  <div
+                    class="success-save-message"
+                    *ngIf="savingMessage !== ''"
+                  >
+                    {{ savingMessage }}
+                  </div>
+                  <div *ngIf="showStageDataEntry">
+                    <app-program-stage-data-entry
+                      [programStateDataElements]="
+                        stage?.programStageDataElements
+                      "
+                      (formValuesData)="onGetFormValuesData($event)"
+                      (isFormValid)="onGetFormValidity($event)"
+                    ></app-program-stage-data-entry>
+                  </div>
                 </div>
               </mat-tab>
               <mat-tab label="Data">
@@ -143,39 +170,22 @@
               (click)="onSaveData($event, stage)"
               [disabled]="!isFormValid"
             >
-              Save
+              <mat-spinner
+                *ngIf="savingProgramData"
+                color="accent"
+                [diameter]="20"
+                style="display: inline-block !important; margin-right: 4px"
+              >
+              </mat-spinner>
+              Save {{ savingProgramData }}
             </button>
           </div>
         </mat-tab>
       </mat-tab-group>
-
-      <!-- <mat-progress-bar
-        mode="indeterminate"
-        *ngIf="!currentTrackedEntityInstanceId"
-      ></mat-progress-bar> -->
-      <!-- <app-data-entry
-        [dataEntryForm]="program['programStages'][0]['dataEntryForm']"
-        [formName]="program['name']"
-        [formId]="program['id']"
-        [dataElements]="dataElements"
-        [indicators]="indicators"
-        [events]="events"
-        [elementsToDisable]="elementsToDisable"
-        [formType]="'event'"
-        [elementsDataValues]="elementsDataValues"
-        (entryInfo)="onEntryInfoChange($event)"
-      >
-      </app-data-entry> -->
     </div>
   </div>
   <div class="col-12" *ngIf="isListReportSet">
     <div *ngIf="eventLoaded" style="width: 100%; overflow: auto">
-      <!-- <app-events-report
-        [events]="events"
-        [reportElements]="
-          program.programStages[0]['programStageSections'][0]['dataElements']
-        "
-      ></app-events-report> -->
       <app-tracked-entity-instance-list
         *ngIf="params?.queryResponseData"
         [queryResponse]="params?.queryResponseData"
@@ -192,17 +202,4 @@
       <mat-progress-bar mode="indeterminate"></mat-progress-bar>
     </div>
   </div>
-  <!-- <div class="col-12" style="margin-top: 15px" *ngIf="!isListReportSet">
-    <p>{{ eventSaveMessage }}</p>
-  </div>
-  <div class="col-12" *ngIf="!isListReportSet">
-    <button
-      style="float: left; margin-top: 15px"
-      mat-stroked-button
-      [disabled]="!dataValues || dataValues.length == 0"
-      (click)="saveData()"
-    >
-      Save
-    </button>
-  </div> -->
 </div>
