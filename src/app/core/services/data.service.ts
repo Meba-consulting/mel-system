@@ -93,4 +93,39 @@ export class DataService {
       })
     );
   }
+
+  updateEventData(id, data): Observable<any> {
+    return this.httpClient.put('events/' + id + '.json', data).pipe(
+      map((response) => {
+        return response;
+      }),
+      catchError((e) => {
+        return of(e);
+      })
+    );
+  }
+
+  getSavedUserDataStoreProgramConfigurations(id): Observable<any> {
+    return this.httpClient
+      .get('userDataStore/trackerCaptureGridColumns/' + id)
+      .pipe(
+        map((response) => {
+          return response;
+        }),
+        catchError((e) => {
+          return of(e);
+        })
+      );
+  }
+
+  deleteEvent(id): Observable<any> {
+    return this.httpClient.delete('events/' + id).pipe(
+      map((response) => {
+        return response;
+      }),
+      catchError((e) => {
+        return of(e);
+      })
+    );
+  }
 }

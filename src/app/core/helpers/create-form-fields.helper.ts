@@ -47,7 +47,7 @@ export function createFormFieldsFromProgramStageDataElement(stageDataElements) {
           })
         : [],
       name: stageDataElement?.dataElement?.name,
-      required: true,
+      required: stageDataElement?.compulsory,
     };
   });
 }

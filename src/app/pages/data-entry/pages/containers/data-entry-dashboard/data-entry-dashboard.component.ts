@@ -62,12 +62,16 @@ export class DataEntryDashboardComponent implements OnInit {
   onFilterUpdate(selections) {
     console.log(selections);
     this.ouFilterIsSet = false;
+    this.paramersSet = false;
+
     this.ouId = selections?.items[0]?.id;
     this.selectedOrgUnits = selections?.items;
     this.selectedOu = selections?.items[0];
-    if (this.ouId && this.programId) {
-      this.paramersSet = true;
-    }
+    setTimeout(() => {
+      if (this.ouId && this.programId) {
+        this.paramersSet = true;
+      }
+    }, 600);
   }
 
   onFilterClose(selections) {
@@ -76,8 +80,8 @@ export class DataEntryDashboardComponent implements OnInit {
   }
 
   getForm(val) {
-    console.log(val);
     this.currentProgram = null;
+    this.paramersSet = false;
     setTimeout(() => {
       this.currentProgram = val;
       this.programId = val?.id;

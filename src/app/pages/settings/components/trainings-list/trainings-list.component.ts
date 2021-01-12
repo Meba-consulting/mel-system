@@ -3,6 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { Observable, of } from 'rxjs';
 import { DataService } from 'src/app/core/services/data.service';
 import { ConfirmDeleteModalComponent } from 'src/app/shared/components/confirm-delete-modal/confirm-delete-modal.component';
+import { SetColumnsModalComponent } from 'src/app/shared/components/set-columns-modal/set-columns-modal.component';
 
 @Component({
   selector: 'app-trainings-list',
@@ -14,6 +15,7 @@ export class TrainingsListComponent implements OnInit {
   @Input() ouId: string;
   @Output() edit = new EventEmitter<any>();
   queryResponseData$: Observable<any>;
+  savedUserDataStore$: Observable<any>;
   constructor(private dataService: DataService, private dialog: MatDialog) {}
 
   ngOnInit(): void {
@@ -21,6 +23,10 @@ export class TrainingsListComponent implements OnInit {
       orgUnit: this.ouId,
       program: this.program?.id,
     });
+
+    this.savedUserDataStore$ = this.dataService.getSavedUserDataStoreProgramConfigurations(
+      this.program?.id
+    );
   }
 
   onSetDelete(e) {
@@ -53,5 +59,29 @@ export class TrainingsListComponent implements OnInit {
 
   onSetEdit(e) {
     this.edit.emit(e);
+  }
+
+  onOpenDialogForSettingClomnsData(columnsInfo) {
+    this.dialog
+      .open(SetColumnsModalComponent, {
+        width: '40%',
+        height: '650px',
+        disableClose: false,
+        data: { columnsInfo: columnsInfo, programId: this.program?.id },
+        panelClass: 'custom-dialog-container',
+      })
+      .afterClosed()
+      .subscribe((savedData) => {
+        if (savedData) {
+          this.queryResponseData$ = this.dataService.getTrackedEntityInstances({
+            orgUnit: this.ouId,
+            program: this.program?.id,
+          });
+
+          this.savedUserDataStore$ = this.dataService.getSavedUserDataStoreProgramConfigurations(
+            this.program?.id
+          );
+        }
+      });
   }
 }

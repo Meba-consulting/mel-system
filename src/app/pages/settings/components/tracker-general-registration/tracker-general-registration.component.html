@@ -14,7 +14,7 @@
         *ngFor="let program of trainingRegistrationPrograms; let count = index"
         label="{{ program?.name }}"
       >
-        <div class="p-3" *ngIf="count == selectedTab.value">
+        <div class="p-3">
           <!-- <div class="h5 w-100 text-left">{{ program?.name }}</div> -->
           <div class="control-btn w-100 p-2" style="height: 52px">
             <button
@@ -22,8 +22,8 @@
               class="mr-2 float-left"
               (click)="onToggleReportAndTraining($event)"
             >
-              <span *ngIf="isReportSet">New Training</span>
-              <span *ngIf="!isReportSet">Registered trainings</span>
+              <span *ngIf="isReportSet">New</span>
+              <span *ngIf="!isReportSet">Registered</span>
             </button>
           </div>
           <div *ngIf="isReportSet" class="w-100">
@@ -49,32 +49,13 @@
             </div>
             <div
               style="
-                height: 70vh;
+                max-height: 70vh;
                 overflow: auto;
+                min-height: 40vh;
                 margin-top: 20px;
                 padding: 8px 15px;
               "
             >
-              <div class="ou-filter" style="margin-bottom: 15px">
-                <button
-                  style="text-align: left; padding: 10px 8px"
-                  class="w-100"
-                  (click)="onToggleOuFilter($event)"
-                  mat-stroked-button
-                >
-                  Location
-                  <span *ngIf="selectedOu && !ouFilterIsSet"
-                    >: {{ selectedOu?.name }}</span
-                  >
-                </button>
-                <ngx-dhis2-org-unit-filter
-                  *ngIf="ouFilterIsSet"
-                  [selectedOrgUnitItems]="selectedOrgUnits"
-                  [orgUnitFilterConfig]="orgUnitFilterConfig"
-                  (orgUnitClose)="onFilterClose($event)"
-                  (orgUnitUpdate)="onFilterUpdate($event)"
-                ></ngx-dhis2-org-unit-filter>
-              </div>
               <app-tracked-entrity-entry-form
                 [trackedEntityType]="program?.trackedEntityType"
                 [formData]="formData"
@@ -110,20 +91,6 @@
         </div>
       </mat-tab>
     </mat-tab-group>
-
-    <!-- <div class="forms">
-      <mat-form-field class="w-100" appearance="outline">
-        <mat-label>Select form</mat-label>
-        <mat-select required (selectionChange)="getForm($event.value)">
-          <mat-option
-            *ngFor="let option of trainingRegistrationPrograms"
-            [value]="option"
-          >
-            {{ option.name }}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
-    </div> -->
   </div>
   <div [ngClass]="{ 'col-md-4': !isReportSet, '': isReportSet }"></div>
 </div>

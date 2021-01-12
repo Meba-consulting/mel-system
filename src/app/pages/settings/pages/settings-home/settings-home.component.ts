@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormControl } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
@@ -40,6 +41,9 @@ export class SettingsHomeComponent implements OnInit {
   selectedAttribute$: Observable<any>;
   loadedAttributesState$: Observable<boolean>;
   systemIds$: Observable<any[]>;
+
+  selectedTab = new FormControl(0);
+  currentTabValue = 0;
   constructor(
     private store: Store<State>,
     private dialog: MatDialog,
@@ -87,6 +91,12 @@ export class SettingsHomeComponent implements OnInit {
         required: true,
       },
     ];
+  }
+
+  changeTab(e, val) {
+    e.stopPropagation();
+    this.selectedTab.setValue(val);
+    this.currentTabValue = val;
   }
 
   onSetCurrentProgram(e, program): void {

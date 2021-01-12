@@ -10,3 +10,14 @@ export function filterTrainingPrograms(programs) {
     }
   });
 }
+
+export function filterBillingLawsAndPoliciesPrograms(programs) {
+  return _.filter(programs, (program) => {
+    if (
+      (_.filter(program?.userGroupAccesses, { id: 'EJlv9Z2mZu2' }) || [])
+        ?.length > 0
+    ) {
+      return program;
+    }
+  });
+}

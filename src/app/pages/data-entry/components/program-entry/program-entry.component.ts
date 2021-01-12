@@ -12,6 +12,8 @@ import { DataEntryService } from '../../services/data-entry.service';
 import { ConfirmDeleteModalComponent } from 'src/app/shared/components/confirm-delete-modal/confirm-delete-modal.component';
 import { MatDialog } from '@angular/material/dialog';
 import { DataService } from 'src/app/core/services/data.service';
+import { SetColumnsModalComponent } from 'src/app/shared/components/set-columns-modal/set-columns-modal.component';
+import { FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-program-entry',
@@ -41,6 +43,7 @@ export class ProgramEntryComponent implements OnInit {
   elementsToDisable: string[] = [];
 
   queryResponseData$: Observable<any>;
+  savedUserDataStore$: Observable<any>;
 
   isFormValid: boolean = false;
   isFormForEntitiesValid: boolean = false;
@@ -53,6 +56,15 @@ export class ProgramEntryComponent implements OnInit {
   showStageDataEntry: boolean = true;
 
   savingMessage: string = '';
+
+  selectedTab = new FormControl(0);
+  selectedTabForDataSection = new FormControl(0);
+  currentTabValue = 0;
+
+  programStageFormData: any = {};
+
+  isEditSet: boolean = false;
+  currentEventToEdit: any;
 
   constructor(
     private httpClient: NgxDhis2HttpClientService,
@@ -82,8 +94,22 @@ export class ProgramEntryComponent implements OnInit {
       notes: [],
       dataValues: [],
       status: 'ACTIVE',
-      eventDate: '',
+      eventDate: null,
     };
+
+    this.savedUserDataStore$ = this.dataService.getSavedUserDataStoreProgramConfigurations(
+      this.program?.id
+    );
+  }
+
+  changeTab(e, val) {
+    e.stopPropagation();
+    this.selectedTab.setValue(val);
+  }
+
+  changeTabForData(e, val) {
+    e.stopPropagation();
+    this.selectedTabForDataSection.setValue(val);
   }
 
   getTrackedEntityInstanceData(parameters) {
@@ -146,14 +172,23 @@ export class ProgramEntryComponent implements OnInit {
         });
   }
 
-  onGetFormValuesData(data) {
+  onGetFormValuesData(data, programStageDataElements) {
+    let keyedDataElements = {};
+    _.map(programStageDataElements, (programStageDataElement) => {
+      keyedDataElements[programStageDataElement?.dataElement?.id] =
+        programStageDataElement?.dataElement;
+    });
     let dataValues = [];
     dataValues = _.filter(
       _.map(Object.keys(data), (key) => {
         if (data[key] || data[key] !== '')
           return {
             dataElement: key,
-            value: data[key]?.value,
+            value: !keyedDataElements[key]?.optionSet
+              ? data[key]?.value
+              : (_.filter(keyedDataElements[key]?.optionSet?.options, {
+                  id: data[key]?.value,
+                }) || [])[0]?.name,
           };
       }),
       (dataValue) => dataValue
@@ -161,29 +196,52 @@ export class ProgramEntryComponent implements OnInit {
     console.log(dataValues);
     this.eventsData.dataValues = dataValues;
     console.log('eventsData', this.eventsData);
+    this.eventsData.eventDate = !this.eventsData?.eventDate
+      ? formatDateToYYMMDD(new Date())
+      : this.eventsData?.eventDate;
   }
 
-  onSaveData(e, programStage?) {
+  onSaveData(e, programStage, editSet) {
     e.stopPropagation();
     this.savingMessage = 'Saving data';
     this.savingProgramData = true;
     this.loadStageData = false;
     this.eventsData.programStage = programStage?.id;
-    this.dataService
-      .saveEventsData({ events: [this.eventsData] })
-      .subscribe((response) => {
-        this.savingMessage = 'Saved data successfully';
-        this.savingProgramData = false;
-        console.log(response);
-        this.loadStageData = true;
-        setTimeout(() => {
-          this.savingMessage = '';
-          this.showStageDataEntry = false;
-        }, 1000);
-        setTimeout(() => {
-          this.showStageDataEntry = true;
-        }, 1300);
-      });
+    !editSet
+      ? this.dataService
+          .saveEventsData({ events: [this.eventsData] })
+          .subscribe((response) => {
+            this.savingMessage = 'Saved data successfully';
+            this.savingProgramData = false;
+            console.log(response);
+            this.loadStageData = true;
+            setTimeout(() => {
+              this.savingMessage = '';
+              this.showStageDataEntry = false;
+            }, 1000);
+            setTimeout(() => {
+              this.showStageDataEntry = true;
+            }, 1300);
+          })
+      : this.dataService
+          .updateEventData(this.currentEventToEdit?.event, this.eventsData)
+          .subscribe((response) => {
+            this.savingMessage = 'Saved data successfully';
+            this.savingProgramData = false;
+            console.log(response);
+            this.loadStageData = true;
+            this.programStageFormData = {};
+            this.currentEventToEdit = null;
+            this.isEditSet = false;
+            this.selectedTabForDataSection.setValue(1);
+            setTimeout(() => {
+              this.savingMessage = '';
+              this.showStageDataEntry = false;
+            }, 1000);
+            setTimeout(() => {
+              this.showStageDataEntry = true;
+            }, 1300);
+          });
   }
 
   saveData() {
@@ -252,7 +310,6 @@ export class ProgramEntryComponent implements OnInit {
   }
 
   onSelectTrackedEntityInstance(trackedEntityInstance) {
-    console.log(trackedEntityInstance);
     this.loadStageData = false;
     this.currentTrackedEntityInstanceId = null;
     this.eventsData.trackedEntityInstance = trackedEntityInstance?.id;
@@ -296,5 +353,75 @@ export class ProgramEntryComponent implements OnInit {
 
   onGetFormValidityForEntities(validity) {
     this.isFormForEntitiesValid = validity;
+  }
+
+  onOpenDialogForSettingClomnsData(columnsInfo) {
+    this.dialog
+      .open(SetColumnsModalComponent, {
+        width: '40%',
+        height: '650px',
+        disableClose: false,
+        data: { columnsInfo: columnsInfo, programId: this.program?.id },
+        panelClass: 'custom-dialog-container',
+      })
+      .afterClosed()
+      .subscribe((savedData) => {
+        if (savedData) {
+          this.queryResponseData$ = this.dataService.getTrackedEntityInstances({
+            orgUnit: this.orgUnit?.id,
+            program: this.program?.id,
+          });
+
+          this.savedUserDataStore$ = this.dataService.getSavedUserDataStoreProgramConfigurations(
+            this.program?.id
+          );
+        }
+      });
+  }
+
+  onDeleteEvent(e) {
+    this.dialog
+      .open(ConfirmDeleteModalComponent, {
+        width: '30%',
+        height: '250px',
+        disableClose: false,
+        data: { message: 'Are you sure?', item: '' },
+        panelClass: 'custom-dialog-container',
+      })
+      .afterClosed()
+      .subscribe((confirmed) => {
+        if (confirmed == true) {
+          this.loadStageData = false;
+          this.dataService.deleteEvent(e.event).subscribe((response) => {
+            if (response) {
+              this.queryResponseData$ = this.dataService.getTrackedEntityInstances(
+                {
+                  orgUnit: this.orgUnit?.id,
+                  program: this.program?.id,
+                }
+              );
+            }
+          });
+          setTimeout(() => {
+            this.loadStageData = true;
+          }, 500);
+        }
+      });
+  }
+
+  onEditEvent(e) {
+    console.log(e);
+    this.currentEventToEdit = e;
+    _.map(e.dataValues, (dataValue) => {
+      this.programStageFormData[dataValue?.dataElement] = {
+        id: dataValue?.dataElement,
+        value: dataValue?.value,
+      };
+    });
+    this.selectedTabForDataSection.setValue(0);
+  }
+
+  onSetEditEvent(e) {
+    this.isEditSet = e;
   }
 }

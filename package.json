@@ -7,6 +7,7 @@
     "build": "ng build --prod --aot && cd dist/mel-system && zip -r -D mel-system.zip .",
     "test": "ng test",
     "lint": "ng lint",
+    "install": "cd dist/mel-system && curl -X POST -u meba:Meba@2020 -F file=@mel-system.zip http://209.133.201.154:8090/mel/api/apps",
     "e2e": "ng e2e",
     "compodoc": "./node_modules/.bin/compodoc -p src/tsconfig.app.json -w -s",
     "serve-docs": "./node_modules/.bin/compodoc -s -d docs"

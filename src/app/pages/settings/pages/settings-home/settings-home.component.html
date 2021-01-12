@@ -8,9 +8,12 @@
   } as params"
 >
   <div class="h4 p-3">General Registration</div>
-  <mat-tab-group>
-    <mat-tab label="Club Registration">
-      <div class="p-3">
+  <mat-tab-group
+    [selectedIndex]="selectedTab.value"
+    (selectedIndexChange)="selectedTab.setValue($event)"
+  >
+    <mat-tab label="Club Registration" (click)="changeTab(0)">
+      <div class="p-3" *ngIf="selectedTab.value == 0">
         <app-create-organisation-unit
           *ngIf="params?.loadedAttributesState"
           [clubCategories]="params?.selectedAttribute?.optionSet?.options"
@@ -22,8 +25,8 @@
         ></mat-progress-bar>
       </div>
     </mat-tab>
-    <mat-tab label="Trainings">
-      <div class="p-3">
+    <mat-tab label="Trainings" (click)="changeTab(1)">
+      <div class="p-3" *ngIf="selectedTab.value == 1">
         <app-training-registration
           *ngIf="params?.programs && params?.currentUser && params?.systemIds"
           [programs]="params?.programs"
@@ -40,12 +43,30 @@
       </div>
     </mat-tab>
 
-    <mat-tab label="Media Awareness Programs">
-      <div class="p-3">
+    <mat-tab label="Bills, Laws & Policies" (click)="changeTab(2)">
+      <div class="p-3" *ngIf="selectedTab.value == 2">
+        <app-tracker-general-registration
+          *ngIf="params?.programs && params?.currentUser && params?.systemIds"
+          [programs]="params?.programs"
+          [currentUser]="params?.currentUser"
+          [systemIds]="params?.systemIds"
+        ></app-tracker-general-registration>
+
+        <mat-progress-bar
+          mode="indeterminate"
+          *ngIf="
+            !params?.programs || !params?.currentUser || !params?.systemIds
+          "
+        ></mat-progress-bar>
+      </div>
+    </mat-tab>
+
+    <mat-tab label="Media Awareness Programs" (click)="changeTab(3)">
+      <div class="p-3" *ngIf="selectedTab.value == 3">
         <p>Register a program</p>
       </div>
     </mat-tab>
-    <mat-tab label="User groups"></mat-tab>
-    <mat-tab label="Roles"></mat-tab>
+    <mat-tab label="User groups" (click)="changeTab(4)"></mat-tab>
+    <mat-tab label="Roles" (click)="changeTab(5)"></mat-tab>
   </mat-tab-group>
 </div>

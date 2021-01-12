@@ -4,6 +4,8 @@
     [data]="params?.response"
     [programStage]="programStage"
     [program]="program"
+    (edit)="onEdit($event)"
+    (delete)="onDelete($event)"
   ></app-render-program-stage-data>
 
   <mat-progress-bar
