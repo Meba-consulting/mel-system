@@ -77,13 +77,14 @@ body {
 .mat-tab-body-content {
   height: auto !important;
   overflow: auto;
+  padding: 15px !important;
 }
 
 .mat-flat-button.mat-primary,
 .mat-raised-button.mat-primary,
 .mat-fab.mat-primary,
 .mat-mini-fab.mat-primary {
-  background-color: #ca8c63;
+  background-color: #3ea9d9;
 }
 
 .modal-header {

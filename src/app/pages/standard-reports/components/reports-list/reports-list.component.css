@@ -29,3 +29,11 @@
 th.mat-sort-header-sorted {
   color: black;
 }
+
+button:hover {
+  outline: none !important;
+}
+
+button {
+  outline: none !important;
+}

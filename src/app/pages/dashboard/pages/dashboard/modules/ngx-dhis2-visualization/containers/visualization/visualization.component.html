@@ -185,12 +185,14 @@
       [visualizationLayers]="visualizationLayers$ | async"
     ></app-signle-value-visualization>
   </div>
-  <mat-progress-bar
-    mode="indeterminate"
+  <div
+    style="height: 90px"
     *ngIf="
       !(visualizationProgress$ | async) ||
       (visualizationProgress$ | async).percent !== 100 ||
       (visualizationProgress$ | async).statusCode !== 200
     "
-  ></mat-progress-bar>
+  >
+    <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+  </div>
 </mat-card>

@@ -2,15 +2,21 @@
   <mat-progress-bar mode="indeterminate"></mat-progress-bar>
 </div>
 <div
-  style="height: 100%;background-color: #FFF;"
+  style="height: 100%; background-color: #fff"
   class="row"
   *ngIf="currentUser$ | async"
 >
   <div class="col-md-12">
-    <mat-tab-group mat-align-tabs="start">
-      <mat-tab label="Standard reports">
-        <div style="background-color: transparent;">
-          <div class="row" style="padding: 10px 30px">
+    <mat-tab-group
+      [selectedIndex]="selectedTab.value"
+      (selectedIndexChange)="selectedTab.setValue($event)"
+    >
+      <mat-tab label="Standard reports" (click)="changeTab(0)">
+        <div
+          style="background-color: transparent"
+          *ngIf="selectedTab.value == 0"
+        >
+          <div class="row p-2">
             <div class="col-md-3">
               <div *ngIf="currentUser$ | async">
                 <app-report-groups
@@ -52,13 +58,15 @@
           </div>
         </div>
       </mat-tab>
-      <mat-tab label="Uploaded reports">
-        <app-uploaded-reports></app-uploaded-reports>
+      <mat-tab label="Uploaded reports" (click)="changeTab(1)">
+        <div class="p-2" *ngIf="selectedTab.value == 1">
+          <app-uploaded-reports></app-uploaded-reports>
+        </div>
       </mat-tab>
-      <mat-tab label="Analysis tools">
+      <!-- <mat-tab label="Analysis tools" *ngIf="selectedTab.value == 2">
         <div style="float: left">
           <button
-            style="padding: 0px; float: left;"
+            style="padding: 0px; float: left"
             mat-stroked-button
             style="border: none"
           >
@@ -70,7 +78,7 @@
             >
           </button>
           <button
-            style="padding: 0px; float: left;"
+            style="padding: 0px; float: left"
             mat-stroked-button
             style="border: none"
           >
@@ -82,7 +90,7 @@
             >
           </button>
         </div>
-      </mat-tab>
+      </mat-tab> -->
     </mat-tab-group>
   </div>
 </div>

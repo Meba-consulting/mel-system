@@ -6,7 +6,7 @@ export function formatReportsForDataTable(items, reportGroup) {
     if (
       item.userGroupAccesses.length > 0 &&
       _.filter(item.userGroupAccesses, {
-        id: reportGroup.id
+        id: reportGroup.id,
       }).length > 0
     ) {
       formattedItems.push({
@@ -17,8 +17,8 @@ export function formatReportsForDataTable(items, reportGroup) {
         action: {
           id: item.id,
           canView: true,
-          type: item.type ? item.type : 'reports'
-        }
+          type: item.type ? item.type : 'reports',
+        },
       });
     }
   });
@@ -27,10 +27,11 @@ export function formatReportsForDataTable(items, reportGroup) {
 
 export function getReportGroups(userGroups) {
   let groups = [];
-  _.each(userGroups, userGroup => {
+  _.each(userGroups, (userGroup) => {
     if (
       userGroup.name.toLowerCase().indexOf('_report') > -1 &&
-      userGroup.name.toLowerCase().indexOf('_reports_') == -1
+      userGroup.name.toLowerCase().indexOf('_reports_') == -1 &&
+      userGroup.name.toLowerCase() !== '_reports'
     ) {
       groups.push({
         id: userGroup.id,
@@ -38,7 +39,7 @@ export function getReportGroups(userGroups) {
           .replace('_REPORTS ', '')
           .replace('_reports ', '')
           .replace('_REPORT ', '')
-          .replace('_report ', '')
+          .replace('_report ', ''),
       });
     }
   });

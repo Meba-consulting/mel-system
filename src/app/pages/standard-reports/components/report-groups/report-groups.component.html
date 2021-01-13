@@ -1,6 +1,9 @@
 <div *ngIf="currentUser && reportGroups && reportGroups.length > 0">
   <ul class="list-group">
-    <li class="list-group-item-header" style="border: none !important;">
+    <li
+      class="list-group-item-header"
+      style="border: none !important; margin-left: -15px"
+    >
       Report groups
     </li>
     <li
@@ -16,7 +19,10 @@
       >
         <div
           class="col-1"
-          style="padding: 10px 0px 10px 2px !important;max-width: 1.8% !important"
+          style="
+            padding: 10px 0px 10px 2px !important;
+            max-width: 1.8% !important;
+          "
           [ngClass]="{
             'selected-item': currentGroup.id == reportGroup.id,
             '': currentGroup.id != reportGroup.id

@@ -5,14 +5,15 @@ import { Observable } from 'rxjs';
 import { loadStdReportsList } from '../../store/actions';
 import {
   getOldReportsList,
-  getCountOfLoadedReportTypes
+  getCountOfLoadedReportTypes,
 } from '../../store/selectors';
 import { getCurrentUser } from 'src/app/store';
+import { FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
-  styleUrls: ['./home.component.css']
+  styleUrls: ['./home.component.css'],
 })
 export class HomeComponent implements OnInit {
   reportsList$: Observable<any>;
@@ -20,16 +21,14 @@ export class HomeComponent implements OnInit {
   reportTypes: any[] = [
     {
       type: 'reports',
-      url: 'reports.json?paging=false&fields=*'
+      url: 'reports.json?paging=false&fields=*',
     },
-    {
-      type: 'interactive-reports',
-      url: 'dataStore/report-templates/reportsList'
-    }
   ];
   currentUser$: Observable<any>;
   currentReportGroup: any;
   isReportGroupSet: boolean = false;
+
+  selectedTab = new FormControl(0);
   constructor(private store: Store<State>) {}
 
   ngOnInit(): void {
@@ -47,5 +46,10 @@ export class HomeComponent implements OnInit {
     setTimeout(() => {
       this.isReportGroupSet = true;
     }, 50);
+  }
+
+  changeTab(e, val) {
+    e.stopPropagation();
+    this.selectedTab.setValue(val);
   }
 }

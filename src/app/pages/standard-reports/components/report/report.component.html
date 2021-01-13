@@ -2,10 +2,10 @@
   <mat-progress-bar mode="indeterminate"></mat-progress-bar>
 </div>
 
-<div style="height:100%;background-color: #FFF;">
+<div style="height: 100%; background-color: #fff">
   <div class="row" style="padding: 10px" *ngIf="reportMetadata$ | async">
     <div class="col-12" style="margin-bottom: 15px">
-      <div class="col-12 d-flex align-items-center mb-3  no-print">
+      <div class="col-12 d-flex align-items-center mb-3 no-print">
         <button color="primary" mat-flat-button routerLink="/reports">
           <mat-icon>arrow_back</mat-icon>
           <span class="ml-2">BACK TO REPORTS LIST</span>
@@ -28,7 +28,7 @@
     </div> -->
     <div
       class="col-12"
-      style="width: 100% !important;"
+      style="width: 100% !important"
       *ngIf="reportMetadata$ | async"
     >
       <div style="margin-bottom: 10px"></div>
