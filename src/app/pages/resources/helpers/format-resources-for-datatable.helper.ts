@@ -5,10 +5,10 @@ export function formatResourcesForDataTable(items, currentUser) {
   _.each(_.orderBy(items, ['name'], ['asc']), (item, index) => {
     // control access for the current user
     if (item.userGroupAccesses) {
-      _.each(item.userGroupAccesses, userGroup => {
+      _.each(item.userGroupAccesses, (userGroup) => {
         if (
-          _.filter(currentUser.userGroups, { name: '_MAINTENANCE IMS' })
-            .length > 0 ||
+          _.filter(currentUser.userGroups, { name: 'MAINTENANCE' }).length >
+            0 ||
           (userGroup.displayName.toLowerCase().indexOf('_view_doc') > -1 &&
             _.filter(currentUser.userGroups, { id: userGroup.userGroupUid }) &&
             _.filter(currentUser.userGroups, { id: userGroup.userGroupUid })
@@ -34,21 +34,21 @@ export function formatResourcesForDataTable(items, currentUser) {
                 id: item.id,
                 canDelete:
                   _.filter(currentUser.userGroups, {
-                    name: '_MAINTENANCE IMS'
+                    name: 'MAINTENANCE',
                   }) &&
-                  _.filter(currentUser.userGroups, { name: '_MAINTENANCE IMS' })
+                  _.filter(currentUser.userGroups, { name: 'MAINTENANCE' })
                     .length > 0
                     ? true
                     : false,
                 canShare:
                   _.filter(currentUser.userGroups, {
-                    name: '_MAINTENANCE IMS'
+                    name: 'MAINTENANCE',
                   }) &&
-                  _.filter(currentUser.userGroups, { name: '_MAINTENANCE IMS' })
+                  _.filter(currentUser.userGroups, { name: 'MAINTENANCE' })
                     .length > 0
                     ? true
-                    : false
-              }
+                    : false,
+              },
             });
           }
         }

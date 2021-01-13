@@ -80,6 +80,12 @@ body {
   padding: 15px !important;
 }
 
+.standard-reports-home-page .mat-tab-body-content {
+  height: auto !important;
+  overflow: auto;
+  padding: 15px !important;
+  min-height: 70vh !important;
+}
 .mat-flat-button.mat-primary,
 .mat-raised-button.mat-primary,
 .mat-fab.mat-primary,

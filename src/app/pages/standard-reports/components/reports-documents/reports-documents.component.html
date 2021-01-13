@@ -2,7 +2,10 @@
   <div class="row" *ngIf="reportGroups">
     <div class="col-md-3">
       <ul class="list-group">
-        <li class="list-group-item-header" style="border: none !important;">
+        <li
+          class="list-group-item-header"
+          style="border: none !important; margin-left: -15px"
+        >
           Report groups
         </li>
         <li
@@ -18,7 +21,10 @@
           >
             <div
               class="col-1"
-              style="padding: 10px 0px 10px 2px !important;max-width: 1.8% !important"
+              style="
+                padding: 10px 0px 10px 2px !important;
+                max-width: 1.8% !important;
+              "
               [ngClass]="{
                 'selected-item': currentResourceGroup.id == reportGroup.id,
                 '': currentResourceGroup.id != reportGroup.id

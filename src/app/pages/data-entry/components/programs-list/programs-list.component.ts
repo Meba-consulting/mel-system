@@ -14,7 +14,7 @@ import { ResourcesService } from 'src/app/pages/resources/services/resources.ser
 @Component({
   selector: 'app-programs-list',
   templateUrl: './programs-list.component.html',
-  styleUrls: ['./programs-list.component.css']
+  styleUrls: ['./programs-list.component.css'],
 })
 export class ProgramsListComponent implements OnInit {
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
@@ -29,7 +29,7 @@ export class ProgramsListComponent implements OnInit {
     'name',
     'department',
     'type',
-    'action'
+    'action',
   ];
   dataSource: any;
   userGroups$: Observable<any>;
@@ -61,8 +61,8 @@ export class ProgramsListComponent implements OnInit {
       filterProgramsForDataTable(this.programs, this.department)
     );
     this.dataSource.paginator = this.paginator;
-    _.each(this.currentUser.userGroups, userGroup => {
-      if (userGroup.name.indexOf('_MAINTENANCE') > -1) {
+    _.each(this.currentUser.userGroups, (userGroup) => {
+      if (userGroup.name.indexOf('MAINTENANCE') > -1) {
         this.canPerformMaintenance = true;
       }
     });
@@ -80,7 +80,7 @@ export class ProgramsListComponent implements OnInit {
       getCurrentProgramDataEntryFlowConfigs,
       { id: program.id }
     );
-    this.programConfigs$.subscribe(configs => {
+    this.programConfigs$.subscribe((configs) => {
       if (configs) {
         this.configuredGroups = configs.groups;
         console.log('configuredGroups', this.configuredGroups);
@@ -105,7 +105,7 @@ export class ProgramsListComponent implements OnInit {
     this.programMetadata$ = this.httpClient.get(
       'programs/' + metadata.id + '.json'
     );
-    this.programMetadata$.subscribe(response => {
+    this.programMetadata$.subscribe((response) => {
       if (response) {
         this.programMetadata = response;
       }
@@ -118,14 +118,14 @@ export class ProgramsListComponent implements OnInit {
     const formattedGroup = {
       id: group.id,
       name: group.name,
-      order: this.level
+      order: this.level,
     };
     this.configuredGroups = [...this.configuredGroups, formattedGroup];
   }
 
   removeGroup(group) {
     this.setRemove = false;
-    const groups = _.filter(this.configuredGroups, configuredGroup => {
+    const groups = _.filter(this.configuredGroups, (configuredGroup) => {
       if (configuredGroup.id != group.id) {
         return configuredGroup;
       }
@@ -140,12 +140,12 @@ export class ProgramsListComponent implements OnInit {
     const data = {
       id: this.currentProgram.id,
       name: this.currentProgram.name,
-      groups: this.configuredGroups
+      groups: this.configuredGroups,
     };
     this.message = 'Saving configurations......';
     this.httpClient
       .put('dataStore/data-entry/' + this.currentProgram.id, data)
-      .subscribe(eventResponse => {
+      .subscribe((eventResponse) => {
         setTimeout(() => {
           this.message = 'Saved successfuly!';
         }, 500);
@@ -165,7 +165,7 @@ export class ProgramsListComponent implements OnInit {
     if (shouldDelete) {
       this.deleteMessage = 'Deleting ' + program.name;
       this.httpClient.delete('programs/' + program.id).subscribe(
-        response => {
+        (response) => {
           if (response) {
             setTimeout(() => {
               this.deleteMessage = 'Deleted';
@@ -176,7 +176,7 @@ export class ProgramsListComponent implements OnInit {
             }, 2000);
           }
         },
-        error => {
+        (error) => {
           setTimeout(() => {
             this.deleteMessage = error.message;
           }, 1000);
@@ -198,7 +198,7 @@ export class ProgramsListComponent implements OnInit {
     let sharingSettingsData = {
       meta: {
         allowPublicAccess: true,
-        allowExternalAccess: true
+        allowExternalAccess: true,
       },
       object: {
         id: resource.id,
@@ -206,14 +206,14 @@ export class ProgramsListComponent implements OnInit {
         displayName: resource.name,
         publicAccess: 'rwrw----',
         externalAccess: false,
-        userGroupAccesses: []
-      }
+        userGroupAccesses: [],
+      },
     };
     userGroupAccesses.push({
       id: userGroup.id,
       name: userGroup.name,
       displayName: userGroup.name,
-      access: 'rwrw----'
+      access: 'rwrw----',
     });
     userGroupAccesses = [...userGroupAccesses, ...resource.userGroupAccesses];
     sharingSettingsData.object.userGroupAccesses = _.uniqBy(
@@ -224,7 +224,7 @@ export class ProgramsListComponent implements OnInit {
     this.resourceService
       .saveSharingSettingsForPrograms(sharingSettingsData)
       .subscribe(
-        sharingResponse => {
+        (sharingResponse) => {
           this.sharingSettingsMessage = 'Sharing settings saved!';
           setTimeout(() => {
             this.sharingSettingsMessage = '';
@@ -233,7 +233,7 @@ export class ProgramsListComponent implements OnInit {
             }, 1000);
           }, 2000);
         },
-        error => {
+        (error) => {
           setTimeout(() => {
             this.sharingSettingsMessage = error.message;
             setTimeout(() => {
@@ -249,7 +249,7 @@ export class ProgramsListComponent implements OnInit {
     let sharingSettingsData = {
       meta: {
         allowPublicAccess: true,
-        allowExternalAccess: true
+        allowExternalAccess: true,
       },
       object: {
         id: resource.id,
@@ -257,10 +257,10 @@ export class ProgramsListComponent implements OnInit {
         displayName: resource.name,
         publicAccess: 'rwrw----',
         externalAccess: false,
-        userGroupAccesses: []
-      }
+        userGroupAccesses: [],
+      },
     };
-    userGroupAccesses = _.filter(resource.userGroupAccesses, userGroup => {
+    userGroupAccesses = _.filter(resource.userGroupAccesses, (userGroup) => {
       if (userGroup.id != userGroupToRemove.id) {
         return userGroup;
       }
@@ -274,7 +274,7 @@ export class ProgramsListComponent implements OnInit {
     this.resourceService
       .saveSharingSettingsForPrograms(sharingSettingsData)
       .subscribe(
-        sharingResponse => {
+        (sharingResponse) => {
           this.sharingSettingsMessage = 'Changes saved!';
           setTimeout(() => {
             this.sharingSettingsMessage = '';
@@ -283,7 +283,7 @@ export class ProgramsListComponent implements OnInit {
             // }, 1000);
           }, 2000);
         },
-        error => {
+        (error) => {
           setTimeout(() => {
             this.sharingSettingsMessage = error.message;
             // setTimeout(() => {

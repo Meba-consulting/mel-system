@@ -73,7 +73,7 @@ export class AppComponent implements OnInit {
         );
         this.currentDashboardId = currentDashboard;
         _.each(currentUserInfo.userGroups, (userGroup) => {
-          if (userGroup.name.indexOf('_MAINTENANCE') > -1) {
+          if (userGroup.name.indexOf('MAINTENANCE') > -1) {
             this.viewMaintenance = true;
           }
         });

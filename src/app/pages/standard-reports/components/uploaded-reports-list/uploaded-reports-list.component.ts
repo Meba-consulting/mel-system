@@ -10,7 +10,7 @@ import * as _ from 'lodash';
 @Component({
   selector: 'app-uploaded-reports-list',
   templateUrl: './uploaded-reports-list.component.html',
-  styleUrls: ['./uploaded-reports-list.component.css']
+  styleUrls: ['./uploaded-reports-list.component.css'],
 })
 export class UploadedReportsListComponent implements OnInit {
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
@@ -40,8 +40,8 @@ export class UploadedReportsListComponent implements OnInit {
       formatResourcesForDataTable(this.resources, this.currentUser)
     );
     this.dataSource.paginator = this.paginator;
-    _.each(this.currentUser.userGroups, userGroup => {
-      if (userGroup.name.indexOf('_MAINTENANCE') > -1) {
+    _.each(this.currentUser.userGroups, (userGroup) => {
+      if (userGroup.name.indexOf('MAINTENANCE') > -1) {
         this.canAddResource = true;
       }
     });
@@ -70,11 +70,11 @@ export class UploadedReportsListComponent implements OnInit {
     this.confirmDeletion = true;
     this.resourceIdToDelete = id;
     if (confirmDelete) {
-      this.resourceService.deleteResource(id).subscribe(response => {
+      this.resourceService.deleteResource(id).subscribe((response) => {
         console.log(response);
         this.router.navigateByUrl('/', { skipLocationChange: true }).then(() =>
           this.router.navigate(['resources/documents'], {
-            queryParams: { status: 'delete' }
+            queryParams: { status: 'delete' },
           })
         );
         // this.redirectTo('resources/documents');
@@ -91,7 +91,7 @@ export class UploadedReportsListComponent implements OnInit {
     let sharingSettingsData = {
       meta: {
         allowPublicAccess: true,
-        allowExternalAccess: true
+        allowExternalAccess: true,
       },
       object: {
         id: resource.id,
@@ -99,14 +99,14 @@ export class UploadedReportsListComponent implements OnInit {
         displayName: resource.name,
         publicAccess: 'r-------',
         externalAccess: false,
-        userGroupAccesses: []
-      }
+        userGroupAccesses: [],
+      },
     };
     userGroupAccesses.push({
       id: userGroup.id,
       name: userGroup.name,
       displayName: userGroup.name,
-      access: 'r-------'
+      access: 'r-------',
     });
     userGroupAccesses = [...userGroupAccesses, ...resource.userGroupAccesses];
     sharingSettingsData.object.userGroupAccesses = _.uniqBy(
@@ -117,7 +117,7 @@ export class UploadedReportsListComponent implements OnInit {
     this.resourceService
       .saveSharingSettingsForDocuments(sharingSettingsData)
       .subscribe(
-        sharingResponse => {
+        (sharingResponse) => {
           this.sharingSettingsMessage = 'Sharing settings saved!';
           setTimeout(() => {
             this.sharingSettingsMessage = '';
@@ -126,7 +126,7 @@ export class UploadedReportsListComponent implements OnInit {
             }, 1000);
           }, 2000);
         },
-        error => {
+        (error) => {
           console.log(error);
           setTimeout(() => {
             this.sharingSettingsMessage = error.message;
@@ -143,7 +143,7 @@ export class UploadedReportsListComponent implements OnInit {
     let sharingSettingsData = {
       meta: {
         allowPublicAccess: true,
-        allowExternalAccess: true
+        allowExternalAccess: true,
       },
       object: {
         id: resource.id,
@@ -151,10 +151,10 @@ export class UploadedReportsListComponent implements OnInit {
         displayName: resource.name,
         publicAccess: 'r-------',
         externalAccess: false,
-        userGroupAccesses: []
-      }
+        userGroupAccesses: [],
+      },
     };
-    userGroupAccesses = _.filter(resource.userGroupAccesses, userGroup => {
+    userGroupAccesses = _.filter(resource.userGroupAccesses, (userGroup) => {
       if (userGroup.id != userGroupToRemove.id) {
         return userGroup;
       }
@@ -168,7 +168,7 @@ export class UploadedReportsListComponent implements OnInit {
     this.resourceService
       .saveSharingSettingsForDocuments(sharingSettingsData)
       .subscribe(
-        sharingResponse => {
+        (sharingResponse) => {
           this.sharingSettingsMessage = 'Changes saved!';
           setTimeout(() => {
             this.sharingSettingsMessage = '';
@@ -177,7 +177,7 @@ export class UploadedReportsListComponent implements OnInit {
             // }, 1000);
           }, 2000);
         },
-        error => {
+        (error) => {
           console.log(error);
           setTimeout(() => {
             this.sharingSettingsMessage = error.message;
