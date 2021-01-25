@@ -16,6 +16,8 @@ export class TrackerGeneralRegistrationComponent implements OnInit {
   @Input() currentUser: any;
   @Input() programs: any[];
   @Input() systemIds: string[];
+  @Input() selectedGroup: any;
+  @Input() userGroups: any;
 
   trainingRegistrationPrograms: any[];
 
@@ -59,14 +61,17 @@ export class TrackerGeneralRegistrationComponent implements OnInit {
 
   ngOnInit(): void {
     this.trainingRegistrationPrograms = filterBillingLawsAndPoliciesPrograms(
-      this.programs
+      this.programs,
+      this.currentUser,
+      this.userGroups,
+      this.selectedGroup
     );
     this.currentProgram = this.trainingRegistrationPrograms[0];
 
     this.currentTrackedEntityInstanceId = this.systemIds[0];
   }
 
-  onToggleReportAndTraining(e) {
+  onToggleReport(e) {
     e.stopPropagation();
     this.isReportSet = !this.isReportSet;
     this.hasError = false;

@@ -4,11 +4,37 @@
     loadedAttributesState: loadedAttributesState$ | async,
     programs: programs$ | async,
     currentUser: currentUser$ | async,
-    systemIds: systemIds$ | async
+    systemIds: systemIds$ | async,
+    userGroups: userGroups$ | async
   } as params"
 >
   <div class="h4 p-3">General Registration</div>
-  <mat-tab-group
+
+  <mat-progress-bar
+    mode="indeterminate"
+    *ngIf="
+      !params?.userGroups ||
+      !params?.programs ||
+      !params?.loadedAttributesState ||
+      !params?.currentUser ||
+      !params?.systemIds
+    "
+  ></mat-progress-bar>
+  <app-home-tabs
+    *ngIf="
+      params?.userGroups &&
+      params?.programs &&
+      params?.loadedAttributesState &&
+      params?.currentUser &&
+      params?.systemIds
+    "
+    [programs]="params?.programs"
+    [userGroups]="params?.userGroups"
+    [currentUser]="params?.currentUser"
+    [selectedAttribute]="params?.selectedAttribute"
+    [systemIds]="params?.systemIds"
+  ></app-home-tabs>
+  <!-- <mat-tab-group
     [selectedIndex]="selectedTab.value"
     (selectedIndexChange)="selectedTab.setValue($event)"
   >
@@ -68,5 +94,5 @@
     </mat-tab>
     <mat-tab label="User groups" (click)="changeTab(4)"></mat-tab>
     <mat-tab label="Roles" (click)="changeTab(5)"></mat-tab>
-  </mat-tab-group>
+  </mat-tab-group> -->
 </div>

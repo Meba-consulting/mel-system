@@ -11,13 +11,27 @@ export function filterTrainingPrograms(programs) {
   });
 }
 
-export function filterBillingLawsAndPoliciesPrograms(programs) {
-  return _.filter(programs, (program) => {
-    if (
-      (_.filter(program?.userGroupAccesses, { id: 'EJlv9Z2mZu2' }) || [])
-        ?.length > 0
-    ) {
-      return program;
-    }
-  });
+export function filterBillingLawsAndPoliciesPrograms(
+  programs,
+  currentUser,
+  userGroups,
+  selectedGroup
+) {
+  let tabGroupForProgram = (_.filter(userGroups, { id: selectedGroup?.id }) ||
+    [])[0]?.managedGroups[0];
+  if (tabGroupForProgram) {
+    return _.filter(programs, (program) => {
+      if (
+        (
+          _.filter(program?.userGroupAccesses, {
+            id: tabGroupForProgram?.id,
+          }) || []
+        )?.length > 0
+      ) {
+        return program;
+      }
+    });
+  } else {
+    return [];
+  }
 }

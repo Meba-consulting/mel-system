@@ -18,6 +18,10 @@ export class UserService {
   }
 
   getUserGroup(id): Observable<any> {
-    return this.httpClient.get('userGroups/' + id + '.json?fields=*');
+    return this.httpClient.get(
+      'userGroups/' +
+        id +
+        '.json?fields=id,name,displayName,managedGroups[id,name]'
+    );
   }
 }

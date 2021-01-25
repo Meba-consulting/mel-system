@@ -4,7 +4,7 @@ import {
   Output,
   EventEmitter,
   ChangeDetectionStrategy,
-  ViewChild
+  ViewChild,
 } from '@angular/core';
 import * as _ from 'lodash';
 import { VisualizationConfig } from '../../models/visualization-config.model';
@@ -18,7 +18,7 @@ import { ChartListComponent } from '../../modules/ngx-dhis-chart/components/char
   selector: 'visualization-body-section',
   templateUrl: 'visualization-body-section.html',
   styleUrls: ['./visualization-body-section.css'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class VisualizationBodySectionComponent {
   @Input()
@@ -55,7 +55,7 @@ export class VisualizationBodySectionComponent {
   get metadataIdentifiers() {
     return _.uniq(
       _.flatten(
-        _.map(this.visualizationLayers, layer => layer.metadataIdentifiers)
+        _.map(this.visualizationLayers, (layer) => layer.metadataIdentifiers)
       )
     );
   }

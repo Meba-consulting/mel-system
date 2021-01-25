@@ -5,7 +5,11 @@ import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { FormValue } from 'src/app/shared/modules/forms/models/form-value.model';
-import { getCurrentUser, loadAttributes } from 'src/app/store';
+import {
+  getAllUserGroups,
+  getCurrentUser,
+  loadAttributes,
+} from 'src/app/store';
 import { State } from 'src/app/store/reducers';
 import {
   getAttributeByName,
@@ -31,6 +35,7 @@ export class SettingsHomeComponent implements OnInit {
   programsLoadingState$: Observable<any>;
   programs$: Observable<any[]>;
   currentUser$: Observable<any>;
+  userGroups$: Observable<any>;
   currentProgram: any;
   canAdd: boolean = true;
   currentProgramConfigs$: Observable<any>;
@@ -62,6 +67,7 @@ export class SettingsHomeComponent implements OnInit {
     this.systemIds$ = this.systemIdsService.getSystemIds(2);
     this.loadedAttributesState$ = this.store.select(getAttributesLoadedState);
     this.programs$ = this.store.select(getAllPrograms);
+    this.userGroups$ = this.store.select(getAllUserGroups);
     // this.programs$.subscribe((programs) => {
     //   console.log(programs);
     //   if (programs && programs?.length > 0) {

@@ -4,6 +4,7 @@
     class="chart-visualization-block"
     *ngIf="visualizationConfig.currentType === 'CHART'"
   >
+    <!-- {{visualizationConfig | json}} -->
     <ngx-dhis2-chart-list
       [visualizationId]="id"
       [visualizationLayers]="visualizationLayers"
@@ -32,7 +33,7 @@
     class="chart-visualization-block"
     *ngIf="visualizationConfig.currentType === 'SINGLE_VALUE'"
   >
-    {{ visualizationLayers | json }}
+    <!-- {{ visualizationLayers | json }} -->
   </div>
 
   <!--end of table visualization-->
