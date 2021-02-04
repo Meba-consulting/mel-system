@@ -6,6 +6,8 @@ import { SetColumnsModalComponent } from './set-columns-modal/set-columns-modal.
 import { TrackedEntityInstanceListComponent } from './tracked-entity-instance-list/tracked-entity-instance-list.component';
 import { TrackedEntityInstanceSelectorComponent } from './tracked-entity-instance-selector/tracked-entity-instance-selector.component';
 import { TrackedEntrityEntryFormComponent } from './tracked-entrity-entry-form/tracked-entrity-entry-form.component';
+import { UserProfileComponent } from './user-profile/user-profile.component';
+import { UserSettingsComponent } from './user-settings/user-settings.component';
 
 export const sharedComponents: any[] = [
   TrackedEntrityEntryFormComponent,
@@ -16,4 +18,6 @@ export const sharedComponents: any[] = [
   ProgramStageDataComponent,
   RenderProgramStageDataComponent,
   SetColumnsModalComponent,
+  UserSettingsComponent,
+  UserProfileComponent
 ];

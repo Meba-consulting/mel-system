@@ -41,7 +41,7 @@
               <mat-icon>edit</mat-icon>
               Edit profile
             </button>
-            <button mat-menu-item>
+            <button mat-menu-item (click)="onOpenUserSettings($event, params?.currentUser)">
               <mat-icon>settings</mat-icon>
               Change password
             </button>

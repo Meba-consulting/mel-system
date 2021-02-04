@@ -7,7 +7,7 @@ import {
 import { Store } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
 import { of, Observable } from 'rxjs';
-import { catchError, window } from 'rxjs/operators';
+import { catchError, take, window } from 'rxjs/operators';
 import { Fn } from '@iapps/function-analytics';
 
 import {
@@ -22,6 +22,8 @@ import {
 import { ActivatedRoute } from '@angular/router';
 import * as _ from 'lodash';
 import { HttpClient } from '@angular/common/http';
+import { UserSettingsComponent } from './shared/components/user-settings/user-settings.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-root',
@@ -46,7 +48,8 @@ export class AppComponent implements OnInit {
     private titleService: Title,
     private httpClient: NgxDhis2HttpClientService,
     private route: ActivatedRoute,
-    private coreAngularHttp: HttpClient
+    private coreAngularHttp: HttpClient,
+    private dialog: MatDialog
   ) {
     this.searchInput = '';
   }
@@ -129,5 +132,22 @@ export class AppComponent implements OnInit {
 
     location.reload();
     location.reload();
+  }
+
+  onOpenUserSettings(e, user) {
+    e.stopPropagation();
+    this.dialog.open(UserSettingsComponent, {
+      width: '40%',
+      height: '470px',
+      disableClose: true,
+      data: { user: user },
+      panelClass: 'custom-dialog-container',
+    }).afterClosed().pipe(take(1)).subscribe(res => {
+      if (res && res == true) {
+        // go to login
+      } else {
+        // No need to move to login
+      }
+    })
   }
 }
