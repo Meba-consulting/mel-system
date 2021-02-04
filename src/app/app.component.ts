@@ -24,6 +24,7 @@ import * as _ from 'lodash';
 import { HttpClient } from '@angular/common/http';
 import { UserSettingsComponent } from './shared/components/user-settings/user-settings.component';
 import { MatDialog } from '@angular/material/dialog';
+import { UserProfileComponent } from './shared/components/user-profile/user-profile.component';
 
 @Component({
   selector: 'app-root',
@@ -148,6 +149,18 @@ export class AppComponent implements OnInit {
       } else {
         // No need to move to login
       }
+    })
+  }
+
+  onEditUser(e, user) {
+    e.stopPropagation()
+    // console.log(user)
+    this.dialog.open(UserProfileComponent, {
+      width: '50%',
+      height: '770px',
+      disableClose: true,
+      data: { user: user },
+      panelClass: 'custom-dialog-container',
     })
   }
 }

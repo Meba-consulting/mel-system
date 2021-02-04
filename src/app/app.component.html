@@ -37,7 +37,7 @@
               >
             </button>
 
-            <button mat-menu-item>
+            <button mat-menu-item (click)="onEditUser($event, params?.currentUser)">
               <mat-icon>edit</mat-icon>
               Edit profile
             </button>

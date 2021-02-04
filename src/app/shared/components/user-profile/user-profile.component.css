@@ -1,0 +1,11 @@
+input {
+    outline: none !important;
+}
+
+input:hover {
+    outline: none !important;
+}
+
+.form-input {
+    width: 100% !important;
+}

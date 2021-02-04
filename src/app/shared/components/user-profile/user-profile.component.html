@@ -1,1 +1,142 @@
-<p>user-profile works!</p>
+<div class="user-profile p-3">
+    <div class="row">
+        <div class="col-12">
+            <div class="p-3">
+                <div class="h3 text-center">User profile</div>
+                <hr />
+            </div>
+        </div>
+        <div class="col-12">
+            <div class="p-3">
+                <div class="p-3" style="border: solid 1px #eee; height: 500px; overflow: auto;">
+                    <div class="p-1">
+                        <div style="padding:15px">
+                            <input
+                                type="file"
+                                style="border: none; border-bottom: solid 1px #2e2e2e; border-radius: 0; padding: 4px;" class="form-input"
+                                name="file"
+                                accept=".png"
+                                id="fileSelector"
+                                (change)="onSaveItem($event, 'avatar')"
+                                />
+                        </div>
+                        <div style="padding:15px">
+                            <input placeholder="Firstname" [(ngModel)]="firstName" style="border: none; border-bottom: solid 1px #2e2e2e; border-radius: 0; padding: 4px;" class="form-input" name="firstName" (change)="onSaveItem($event, 'firstName')" />
+                            <mat-progress-bar
+                                mode="indeterminate"
+                                *ngIf="keyBeingEdited == 'firstName'"
+                            ></mat-progress-bar>
+                        </div>
+                        <div style="padding:15px">
+                            <input placeholder="Surname" [(ngModel)]="surname" style="border: none; border-bottom: solid 1px #2e2e2e; border-radius: 0; padding: 4px" class="form-input" name="surname" (change)="onSaveItem($event, 'surname')" />
+                            <mat-progress-bar
+                                mode="indeterminate"
+                                *ngIf="keyBeingEdited == 'surname'"
+                            ></mat-progress-bar>
+                        </div>
+                        <div style="padding:15px">
+                            <input placeholder="Email" [(ngModel)]="email" style="border: none; border-bottom: solid 1px #2e2e2e; border-radius: 0; padding: 4px" class="form-input" name="email" (change)="onSaveItem($event, 'email')" />
+                            <mat-progress-bar
+                                mode="indeterminate"
+                                *ngIf="keyBeingEdited == 'email'"
+                            ></mat-progress-bar>
+                        </div>
+                        <div style="padding:15px">
+                            <input placeholder="Phone number" [(ngModel)]="phoneNumber" style="border: none; border-bottom: solid 1px #2e2e2e; border-radius: 0; padding: 4px" class="form-input" name="phoneNumber" (change)="onSaveItem($event, 'phoneNumber')" />
+                            <mat-progress-bar
+                                mode="indeterminate"
+                                *ngIf="keyBeingEdited == 'phoneNumber'"
+                            ></mat-progress-bar>
+                        </div>
+    
+                        <div style="padding:15px">
+                            <input placeholder="gender" id="gender_male" value='gender_male' type="radio" [(ngModel)]="gender" name="gender_male" (change)="onSaveItem($event, 'gender')" />
+                            <label style="margin-left: 6px" for="gender_male">Male</label>
+                            <input style="margin-left: 20px;" placeholder="gender" id="gender_female" value='gender_female' type="radio" [(ngModel)]="gender" name="gender_female" (change)="onSaveItem($event, 'gender')" />
+                            <label style="margin-left: 6px" for="gender_female">Female</label>
+                            <mat-progress-bar
+                                mode="indeterminate"
+                                *ngIf="keyBeingEdited == 'gender'"
+                            ></mat-progress-bar>
+                        </div>
+    
+    
+                        <div style="padding:15px">
+                            <input placeholder="Job title" [(ngModel)]="jobTitle" style="border: none; border-bottom: solid 1px #2e2e2e; border-radius: 0; padding: 4px" class="form-input" name="jobTitle" (change)="onSaveItem($event, 'jobTitle')" />
+                            <mat-progress-bar
+                                mode="indeterminate"
+                                *ngIf="keyBeingEdited == 'jobTitle'"
+                            ></mat-progress-bar>
+                        </div>
+    
+    
+                        <div style="padding:15px">
+                            <input placeholder="Nationality" [(ngModel)]="nationality" style="border: none; border-bottom: solid 1px #2e2e2e; border-radius: 0; padding: 4px" class="form-input" name="nationality" (change)="onSaveItem($event, 'nationality')" />
+                            <mat-progress-bar
+                                mode="indeterminate"
+                                *ngIf="keyBeingEdited == 'nationality'"
+                            ></mat-progress-bar>
+                        </div>
+                    </div>
+                </div>
+                <!-- <form style="height: 600px; overflow: auto;" [formGroup]="userProfile" class="p-3">
+                    <input style="margin-bottom: 8px;"
+                      class="form-control"
+                      [value]="userDetails?.userCredentials?.username"
+                      [disabled]="true"
+                    />
+                    <mat-form-field class="w-100">
+                      <input
+                        matInput
+                        [type]="'text'"
+                        placeholder="Firstname"
+                        formControlName="firstName"
+                        required
+                      />
+                      <mat-hint *ngIf="!firstName.value">Name</mat-hint>
+                    </mat-form-field>
+                    <mat-form-field class="w-100">
+                        <input
+                          matInput
+                          [type]="'text'"
+                          placeholder="Surname"
+                          formControlName="surname"
+                          required
+                        />
+                      </mat-form-field>
+
+                      <mat-form-field class="w-100">
+                        <input
+                          matInput
+                          [type]="'email'"
+                          placeholder="Email"
+                          formControlName="email"
+                          required
+                        />
+                      </mat-form-field>
+                  </form> -->
+                <div style="margin-top: 10px;">
+
+
+                    <div class="p-2">
+                        <div *ngIf="(updateResponse$ | async) && (updateResponse$ | async)?.lastUpdated">
+                            <p class="text-center text-success">Updated successfully</p>
+                        </div>
+                        <div *ngIf="(updateResponse$ | async) && (updateResponse$ | async)?.status == 409">
+                            <p class="text-center text-danger">{{(updateResponse$ | async)?.message}}</p>
+                        </div>
+                    </div>
+                    <!-- <button
+                    [disabled]="userProfile?.status !='VALID'"
+                    mat-stroked-button
+                    class="mr-2 float-left"
+                    (click)="onSave($event, userProfile?.value)"
+                    >
+                    Save
+                    </button> -->
+                    <button mat-stroked-button class="mr-2 float-right" (click)="onClose($event)">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
