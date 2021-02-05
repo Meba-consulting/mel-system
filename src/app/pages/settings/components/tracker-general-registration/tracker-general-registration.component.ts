@@ -170,12 +170,12 @@ export class TrackerGeneralRegistrationComponent implements OnInit {
     this.savingData = true;
     this.savedData = false;
     let data = {
-      orgUnit: 'zs9X8YYBOnK',
+      orgUnit: this.selectedOrgUnits[0]?.id,
       trackedEntityInstance: currentTrackedEntityInstanceId,
       trackedEntityType: currentProgram.trackedEntityType.id,
       programOwners: [
         {
-          ownerOrgUnit: 'zs9X8YYBOnK',
+          ownerOrgUnit: this.selectedOrgUnits[0]?.id,
           program: currentProgram?.id,
           trackedEntityInstance: currentTrackedEntityInstanceId,
         },
@@ -183,7 +183,7 @@ export class TrackerGeneralRegistrationComponent implements OnInit {
       enrollments: !this.editingData
         ? [
             {
-              orgUnit: 'zs9X8YYBOnK',
+              orgUnit: this.selectedOrgUnits[0]?.id,
               program: currentProgram?.id,
               trackedEntityInstance: currentTrackedEntityInstanceId,
               enrollment: this.systemIds[1],

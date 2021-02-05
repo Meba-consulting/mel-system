@@ -56,6 +56,30 @@
                 padding: 8px 15px;
               "
             >
+              <div>
+                <button
+                  class="w-100 text-left p-2"
+                  (click)="onToggleOuFilter($event)"
+                  mat-stroked-button
+                >
+                  Location:
+                  <b>
+                    <span
+                      *ngIf="selectedOrgUnits && selectedOrgUnits?.length > 0"
+                      >{{ selectedOrgUnits[0]?.name }}</span
+                    >
+                  </b>
+                </button>
+                <div *ngIf="ouFilterIsSet">
+                  <ngx-dhis2-org-unit-filter
+                    [selectedOrgUnitItems]="selectedOrgUnits"
+                    [orgUnitFilterConfig]="orgUnitFilterConfig"
+                    (orgUnitClose)="onFilterClose($event)"
+                    (orgUnitUpdate)="onFilterUpdate($event)"
+                  ></ngx-dhis2-org-unit-filter>
+                </div>
+              </div>
+
               <app-tracked-entrity-entry-form
                 [trackedEntityType]="program?.trackedEntityType"
                 [formData]="formData"
@@ -67,7 +91,9 @@
               <button
                 class="mr-2 float-left"
                 mat-stroked-button
-                [disabled]="!isFormValid || savedData"
+                [disabled]="
+                  !isFormValid || savedData || selectedOrgUnits[0].length == 0
+                "
                 (click)="
                   onSaveData(
                     $event,
