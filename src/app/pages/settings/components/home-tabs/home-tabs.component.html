@@ -13,6 +13,8 @@
         *ngIf="selectedTab.value == count && tab?.id == 'ExyDMkddChQ'"
       >
         <app-create-organisation-unit
+          [selectedGroup]="tab"
+          [programs]="programs"
           [clubCategories]="selectedAttribute?.optionSet?.options"
         ></app-create-organisation-unit>
       </div>

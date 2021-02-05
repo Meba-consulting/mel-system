@@ -9,6 +9,8 @@ import { DefaultFormEntryComponent } from './default-form-entry/default-form-ent
 import { DeleteOuComponent } from './delete-ou/delete-ou.component';
 import { HomeTabsComponent } from './home-tabs/home-tabs.component';
 import { MembersListComponent } from './members-list/members-list.component';
+import { OuListComponent } from './ou-list/ou-list.component';
+import { OuRegistrationComponent } from './ou-registration/ou-registration.component';
 import { TrackerGeneralRegistrationComponent } from './tracker-general-registration/tracker-general-registration.component';
 import { TrainingRegistrationComponent } from './training-registration/training-registration.component';
 import { TrainingsListComponent } from './trainings-list/trainings-list.component';
@@ -28,4 +30,6 @@ export const settingsComponents: any[] = [
   TrainingRegistrationComponent,
   TrainingsListComponent,
   TrackerGeneralRegistrationComponent,
+  OuRegistrationComponent,
+  OuListComponent
 ];

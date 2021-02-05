@@ -1,0 +1,74 @@
+<div
+  *ngIf="{
+    ou: {}
+  } as params"
+>
+  <mat-toolbar class="modal-header">Register</mat-toolbar>
+
+  <div class="p-5">
+    <div
+      class="success-save-message"
+      *ngIf="
+        (savingMessage)
+      "
+    >
+      {{ savingMessage }}
+    </div>
+    <div style="max-height: 550px; overflow: auto;">
+      <div>
+        <button
+          class="w-100 text-left p-2"
+          (click)="onToggleOuFilter($event)"
+          mat-stroked-button
+        >
+          Location:
+          <b>
+            <span *ngIf="selectedOrgUnits && selectedOrgUnits?.length > 0">{{
+              selectedOrgUnits[0]?.name
+            }}</span>
+          </b>
+        </button>
+        <div *ngIf="ouFilterIsSet">
+          <ngx-dhis2-org-unit-filter
+            [selectedOrgUnitItems]="selectedOrgUnits"
+            [orgUnitFilterConfig]="orgUnitFilterConfig"
+            (orgUnitClose)="onFilterClose($event)"
+            (orgUnitUpdate)="onFilterUpdate($event)"
+          ></ngx-dhis2-org-unit-filter>
+        </div>
+      </div>
+      <div *ngIf="selectedOrgUnits && selectedOrgUnits?.length > 0 && formFields">
+        <app-form
+          [fields]="formFields"
+          [fieldsData]="currentFormData"
+          (formUpdate)="onFormUpdate($event)"
+        >
+        </app-form>
+      </div>
+    </div>
+    <div class="p-2">
+      <button
+        mat-stroked-button
+        (click)="onClose($event)"
+        class="mr-2 float-right"
+      >
+        Close
+      </button>
+      <button
+        [disabled]="!isFormValid"
+        class="mr-2 float-right"
+        mat-stroked-button
+        (click)="onSave($event)"
+      >
+        <mat-spinner
+          *ngIf="saving"
+          color="accent"
+          [diameter]="20"
+          style="display: inline-block !important; margin-right: 4px"
+        >
+        </mat-spinner>
+        Save
+      </button>
+    </div>
+  </div>
+</div>

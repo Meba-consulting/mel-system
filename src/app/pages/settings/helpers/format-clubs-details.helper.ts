@@ -22,8 +22,6 @@ export function getClubInfoFromFormValues(values) {
     },
     phoneNumber: values?.phonenumber?.value,
   };
-
-  // console.log(formattedData);
   return formattedData;
 }
 

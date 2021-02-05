@@ -10,7 +10,7 @@ export class UserGroupsService {
 
   loadUserGroups(): Observable<any> {
     return this.httpClient.get(
-      'userGroups.json?fields=*,managedGroups[id,name]&paging=false'
+      'userGroups.json?fields=*,managedGroups[id,name,managedGroups[id,name]]&paging=false'
     );
   }
 }

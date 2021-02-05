@@ -40,14 +40,26 @@ export class OuService {
     );
   }
 
-  getClubsFromSQLVIEW(): Observable<any> {
-    return this.httpClient.get('sqlViews/XdKuQ1Z92PC/data?paging=false').pipe(
-      map((response) => {
-        return response;
-      }),
-      catchError((error) => {
-        return of(error);
-      })
-    );
+  getClubsFromSQLVIEW(id): Observable<any> {
+    if (id == 'GOMCSNn5OdW') {
+      return this.httpClient.get('sqlViews/XdKuQ1Z92PC/data?paging=false').pipe(
+        map((response) => {
+          return response;
+        }),
+        catchError((error) => {
+          return of(error);
+        })
+      );
+    } else {
+      return this.httpClient.get('sqlViews/jjP5V2dOLuX/data?paging=false').pipe(
+        map((response) => {
+          return response;
+        }),
+        catchError((error) => {
+          return of(error);
+        })
+      );
+    }
+    
   }
 }
