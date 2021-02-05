@@ -30,6 +30,7 @@
       [dashboardGroups]="dashboardGroups$ | async"
       [activeDashboardGroupId]="currentDashboardGroupId$ | async"
       (setActiveDashboardGroup)="onSetActiveDashboardGroupAction($event)"
+      (editDashboard)="onEditDashboard($event)"
     ></app-dashboard-menu>
   </div>
   <!-- end of dashboard menu -->

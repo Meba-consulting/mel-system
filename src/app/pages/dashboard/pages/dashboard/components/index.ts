@@ -10,6 +10,7 @@ import { CurrentDashboardItemSearchComponent } from './current-dashboard-item-se
 import { AddDashboardComponent } from './add-dashboard/add-dashboard.component';
 import { DashboardProgressComponent } from './dashboard-progress/dashboard-progress.component';
 import { DashboardVisualizationProgressComponent } from './dashboard-visualization-progress/dashboard-visualization-progress.component';
+import { DashboardItemEditComponent } from './dashboard-item-edit/dashboard-item-edit.component';
 
 export const components: any[] = [
   DashboardMenuComponent,
@@ -23,5 +24,6 @@ export const components: any[] = [
   CurrentDashboardItemSearchComponent,
   AddDashboardComponent,
   DashboardProgressComponent,
-  DashboardVisualizationProgressComponent
+  DashboardVisualizationProgressComponent,
+  DashboardItemEditComponent
 ];

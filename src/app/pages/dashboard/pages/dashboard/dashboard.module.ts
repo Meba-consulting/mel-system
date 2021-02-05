@@ -17,6 +17,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { EffectsModule } from '@ngrx/effects';
 import { dashboardReducers } from '../store/reducers';
 import { effects } from '../store/effects';
+import { materialModules } from 'src/app/shared/materials-modules';
+import { DashboardItemEditComponent } from './components/dashboard-item-edit/dashboard-item-edit.component';
 
 @NgModule({
   imports: [
@@ -30,8 +32,10 @@ import { effects } from '../store/effects';
     SharingFilterModule,
     FavoriteFilterModule,
     ...dashboardReducers,
+    ...materialModules,
     EffectsModule.forFeature(effects)
   ],
-  declarations: [...containers, ...components, ...pipes]
+  declarations: [...containers, ...components, ...pipes],
+  entryComponents: [DashboardItemEditComponent]
 })
 export class DashboardModule {}

@@ -36,6 +36,7 @@ export class DashboardMenuItemComponent implements OnInit {
     supportBookmark: boolean;
   }> = new EventEmitter();
 
+  @Output() dashboardToEdit: EventEmitter<any> = new EventEmitter<any>();
   enableBookButton: boolean;
 
   showBookmarkButton: boolean;
@@ -77,5 +78,10 @@ export class DashboardMenuItemComponent implements OnInit {
   onBlur(e) {
     e.stopPropagation();
     this.showBookmarkButton = false;
+  }
+
+  onSetEditDashboard(e, item) {
+    e.stopPropagation();
+    this.dashboardToEdit.emit(item)
   }
 }

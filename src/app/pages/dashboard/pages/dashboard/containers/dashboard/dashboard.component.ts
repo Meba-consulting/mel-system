@@ -30,6 +30,9 @@ import {
 } from '../../../store/actions';
 import { loadOrgUnitLevels } from 'src/app/shared/modules/org-unit-filter/store/actions/org-unit-level.actions';
 import { loadOrgUnitGroups } from 'src/app/shared/modules/org-unit-filter/store/actions/org-unit-group.actions';
+import { MatDialog } from '@angular/material/dialog';
+import { DashboardItemEditComponent } from '../../components/dashboard-item-edit/dashboard-item-edit.component';
+import { NgxDhis2HttpClientService } from '@iapps/ngx-dhis2-http-client';
 
 @Component({
   selector: 'app-dashboard',
@@ -66,7 +69,9 @@ export class DashboardComponent implements OnInit {
   constructor(
     private store: Store<State>,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private dialog: MatDialog,
+    private httpClient: NgxDhis2HttpClientService
   ) {}
 
   ngOnInit() {
@@ -127,5 +132,24 @@ export class DashboardComponent implements OnInit {
         }
       )
     );
+  }
+
+  onEditDashboard(dashboard) {
+    this.httpClient.get('dashboards/' + dashboard?.id + '.json?fields=id,name,description,favorites[id],dashboardItems[id,type,chart[id,name,description,type]],userGroupAccesses,userAccesses').subscribe(response => {
+      if (response) {
+        this.dialog.open(DashboardItemEditComponent, {
+          width: '50%',
+          height: '370px',
+          disableClose: true,
+          data: { dashboard: response },
+          panelClass: 'custom-dialog-container',
+        }).afterClosed().subscribe(res => {
+          if (res) {
+            window.location.reload()
+          }
+        })
+      }
+    })
+    
   }
 }

@@ -3,5 +3,19 @@
     class="data-selection-summary"
     [innerHTML]="globalSelectionSummary"
   ></div>
-  <div>{{ dashboardDescription }}</div>
+  <!-- <div>{{ dashboardDescription }}</div> -->
+  <mat-accordion *ngIf="dashboardDescription">
+    <mat-expansion-panel
+      [expanded]="false"
+    >
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          Description
+        </mat-panel-title>
+        <mat-panel-description>
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+      {{dashboardDescription}}
+    </mat-expansion-panel>
+  </mat-accordion>
 </div>

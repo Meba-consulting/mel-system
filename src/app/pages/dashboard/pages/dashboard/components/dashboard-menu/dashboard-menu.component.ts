@@ -41,6 +41,9 @@ export class DashboardMenuComponent {
     bookmarked: boolean;
     supportBookmark;
   }> = new EventEmitter();
+
+
+  @Output() editDashboard = new EventEmitter<any>()
   constructor() {}
 
   onSetCurrentDashboard(dashboardId: string) {
@@ -57,5 +60,9 @@ export class DashboardMenuComponent {
 
   onCreateDashboard(dashboardName: string) {
     this.createDashboard.emit(dashboardName);
+  }
+
+  onSetEditDashboard(dashboard) {
+    this.editDashboard.emit(dashboard)
   }
 }
