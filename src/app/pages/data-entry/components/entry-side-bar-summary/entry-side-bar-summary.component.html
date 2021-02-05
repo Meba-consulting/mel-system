@@ -24,6 +24,27 @@
                   <p>No indicators defined</p>
               </div>
             </mat-expansion-panel>
+            <mat-expansion-panel
+              [expanded]="false"
+            >
+              <mat-expansion-panel-header>
+                <mat-panel-title>
+                  Quick reference
+                </mat-panel-title>
+                <mat-panel-description>
+                </mat-panel-description>
+              </mat-expansion-panel-header>
+              <div *ngIf="configs?.instructions">
+                 <p *ngFor="let instruction of configs?.instructions; let count= index">
+                     <span><b>{{count+1}}.</b></span>
+                     <span style="margin-left: 6px;">{{instruction}}</span>
+                 </p>
+              </div>
+              <div *ngIf="!configs?.instructions">
+                <p class="text-center"> No defined instructions
+                </p>
+             </div>
+            </mat-expansion-panel>
         </mat-accordion>
     </div>
     <mat-progress-bar
