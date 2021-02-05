@@ -29,10 +29,12 @@ import { ProgramEntryComponent } from './components/program-entry/program-entry.
 import { FilterUserGroupPipe } from './pipes/filter-user-group.pipe';
 import { EventsReportComponent } from './components/events-report/events-report.component';
 import { EventsReportListComponent } from './components/events-report-list/events-report-list.component';
+import { entryComponents } from './components';
 
 @NgModule({
   declarations: [
     ...pages,
+    ...entryComponents,
     DataEntryComponent,
     RenderEventsComponent,
     EventTableComponent,

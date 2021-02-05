@@ -7,6 +7,7 @@ import { Observable } from 'rxjs';
 import { DataService } from 'src/app/core/services/data.service';
 import { MatDialog } from '@angular/material/dialog';
 import { formatProgramsForDataEntry } from '../../../helpers';
+import { NgxDhis2HttpClientService } from '@iapps/ngx-dhis2-http-client';
 
 @Component({
   selector: 'app-data-entry-dashboard',
@@ -44,10 +45,12 @@ export class DataEntryDashboardComponent implements OnInit {
   selectedOu: any;
 
   queryResponseData$: Observable<any>;
+  programDataStoreConfigs$: Observable<any>
   constructor(
     private store: Store<State>,
     private dataService: DataService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private httpClient: NgxDhis2HttpClientService
   ) {}
 
   ngOnInit() {
@@ -57,6 +60,8 @@ export class DataEntryDashboardComponent implements OnInit {
 
     this.formattedPrograms = formatProgramsForDataEntry(this.programs);
     console.log('this', this.formattedPrograms);
+    this.currentProgram = this.programs[0];
+    this.programDataStoreConfigs$ = this.httpClient.get('dataStore/programs/' + this.currentProgram?.id);
   }
 
   onFilterUpdate(selections) {
@@ -84,6 +89,7 @@ export class DataEntryDashboardComponent implements OnInit {
     this.paramersSet = false;
     setTimeout(() => {
       this.currentProgram = val;
+      this.programDataStoreConfigs$ = this.httpClient.get('dataStore/programs/' + this.currentProgram?.id);
       this.programId = val?.id;
       if (this.ouId && this.programId) {
         this.paramersSet = true;
