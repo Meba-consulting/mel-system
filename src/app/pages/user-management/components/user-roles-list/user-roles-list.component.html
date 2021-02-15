@@ -41,7 +41,7 @@
           <mat-icon>more_vert</mat-icon>
         </button>
         <mat-menu #menu="matMenu" class="menu-options">
-          <button (click)="onEditUserGroup($event, element)" mat-menu-item>
+          <button (click)="onEditUserRole($event, element)" mat-menu-item>
             <mat-icon>edit</mat-icon>
             <span>Edit</span>
           </button>
@@ -60,7 +60,7 @@
 </div>
 <div>
   <button
-    (click)="onAddNewUserGroup($event)"
+    (click)="onAddNewUserRole($event)"
     tabindex="0"
     type="button"
     title="Add new user"
