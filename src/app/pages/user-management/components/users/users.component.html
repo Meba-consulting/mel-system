@@ -1,0 +1,10 @@
+<div class="users" *ngIf="{ users: users$ | async } as userParams">
+  <div *ngIf="userParams?.users">
+    <app-user-list [users]="userParams?.users?.users"></app-user-list>
+  </div>
+
+  <mat-progress-bar
+    *ngIf="!userParams?.users"
+    mode="indeterminate"
+  ></mat-progress-bar>
+</div>

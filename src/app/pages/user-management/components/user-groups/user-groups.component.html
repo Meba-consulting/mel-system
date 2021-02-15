@@ -1,0 +1,15 @@
+<div
+  class="user-groups"
+  *ngIf="{ userGroups: userGroups$ | async } as userParams"
+>
+  <div *ngIf="userParams?.userGroups">
+    <app-user-groups-list
+      [userGroups]="userParams?.userGroups?.userGroups"
+    ></app-user-groups-list>
+  </div>
+
+  <mat-progress-bar
+    *ngIf="!userParams?.userGroups"
+    mode="indeterminate"
+  ></mat-progress-bar>
+</div>
