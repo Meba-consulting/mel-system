@@ -14,6 +14,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { DataService } from 'src/app/core/services/data.service';
 import { SetColumnsModalComponent } from 'src/app/shared/components/set-columns-modal/set-columns-modal.component';
 import { FormControl } from '@angular/forms';
+import { StageEntryUpdatesModelComponent } from '../stage-entry-updates-model/stage-entry-updates-model.component';
 
 @Component({
   selector: 'app-program-entry',
@@ -310,14 +311,28 @@ export class ProgramEntryComponent implements OnInit {
   }
 
   onSelectTrackedEntityInstance(trackedEntityInstance) {
+    console.log('trackedEntityInstance', trackedEntityInstance);
     this.loadStageData = false;
     this.currentTrackedEntityInstanceId = null;
-    this.eventsData.trackedEntityInstance = trackedEntityInstance?.id;
-    this.eventsData.enrollment = trackedEntityInstance?.id;
-    setTimeout(() => {
-      this.currentTrackedEntityInstanceId = trackedEntityInstance?.id;
-      this.loadStageData = true;
-    }, 500);
+    this.eventsData.trackedEntityInstance = trackedEntityInstance[0]?.id;
+    this.eventsData.enrollment = trackedEntityInstance[0]?.id;
+    // setTimeout(() => {
+    //   this.currentTrackedEntityInstanceId = trackedEntityInstance[0]?.id;
+    //   this.loadStageData = true;
+    // }, 500);
+
+    this.dialog.open(StageEntryUpdatesModelComponent, {
+      width: '100%',
+      height: '650px',
+      maxWidth: '90vw',
+      disableClose: false,
+      data: {
+        program: this.program,
+        orgUnit: this.orgUnit,
+        currentTrackedEntityInstanceId: trackedEntityInstance[0]?.id,
+      },
+      panelClass: 'custom-dialog-container',
+    });
   }
 
   onGetDataValues(values) {

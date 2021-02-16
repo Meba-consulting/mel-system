@@ -67,5 +67,6 @@ import { entryComponents } from './components';
     StoreModule.forFeature('dataEntryFlowConfigs', dataEntryFlowReducer),
     StoreModule.forFeature('events', eventsReducer),
   ],
+  entryComponents: [...entryComponents],
 })
 export class DataEntryModule {}

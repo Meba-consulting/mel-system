@@ -1,5 +1,5 @@
 <div>
-  <mat-form-field class="w-100" appearance="outline">
+  <!-- <mat-form-field class="w-100" appearance="outline">
     <mat-label>Select</mat-label>
     <mat-select
       required
@@ -12,5 +12,30 @@
         {{ option.name }}
       </mat-option>
     </mat-select>
-  </mat-form-field>
+  </mat-form-field> -->
+  <div class="row">
+    <div class="col-4" *ngFor="let item of cardData">
+      <mat-card class="example-card">
+        <!-- <mat-card-header>
+          <div mat-card-avatar class="example-header-image"></div>
+          <mat-card-title>Shiba Inu</mat-card-title>
+          <mat-card-subtitle>Dog Breed</mat-card-subtitle>
+        </mat-card-header> -->
+        <!-- <img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="Photo of a Shiba Inu"> -->
+        <mat-card-content>
+          <div style="height: 150px; overflow: auto">
+            <p *ngFor="let data of item">
+              <b>{{ data?.name }}:</b> {{ data?.value }}
+            </p>
+          </div>
+        </mat-card-content>
+        <mat-card-actions>
+          <button mat-button (click)="getTrackedEntityInstance($event, item)">
+            Open
+          </button>
+          <!-- <button mat-button>SHARE</button> -->
+        </mat-card-actions>
+      </mat-card>
+    </div>
+  </div>
 </div>

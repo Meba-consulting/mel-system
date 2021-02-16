@@ -1,0 +1,67 @@
+<div class="stages-updates" class="p-3">
+  <mat-tab-group
+    [selectedIndex]="selectedTab.value"
+    (selectedIndexChange)="selectedTab.setValue($event)"
+    *ngIf="currentTrackedEntityInstanceId && stagesEntryOnly"
+  >
+    <mat-tab
+      *ngFor="let stage of program?.programStages; let count = index"
+      label="{{ stage?.name }}"
+      (click)="changeTab(count)"
+    >
+      <div class="p-3" *ngIf="count == selectedTab.value">
+        <mat-tab-group
+          [selectedIndex]="selectedTabForDataSection.value"
+          (selectedIndexChange)="selectedTabForDataSection.setValue($event)"
+        >
+          <mat-tab label="Entry" (click)="changeTabForData(0)">
+            <div class="p-3" *ngIf="selectedTabForDataSection.value == 0">
+              <div class="success-save-message" *ngIf="savingMessage !== ''">
+                {{ savingMessage }}
+              </div>
+              <div *ngIf="showStageDataEntry">
+                <app-program-stage-data-entry
+                  [programStateDataElements]="stage?.programStageDataElements"
+                  [programStageFormData]="programStageFormData"
+                  (formValuesData)="
+                    onGetFormValuesData($event, stage?.programStageDataElements)
+                  "
+                  (isFormValid)="onGetFormValidity($event)"
+                  (editIsSet)="onSetEditEvent($event)"
+                ></app-program-stage-data-entry>
+              </div>
+            </div>
+          </mat-tab>
+          <mat-tab label="Data" (click)="changeTabForData(1)">
+            <div class="p-3" *ngIf="selectedTabForDataSection.value == 1">
+              <app-program-stage-data
+                *ngIf="loadStageData"
+                [program]="program"
+                [trackedEntityInstanceId]="currentTrackedEntityInstanceId"
+                [programStage]="stage"
+                (edit)="onEditEvent($event)"
+                (delete)="onDeleteEvent($event)"
+              ></app-program-stage-data>
+            </div>
+          </mat-tab>
+        </mat-tab-group>
+
+        <button
+          mat-stroked-button
+          class="mr-2"
+          (click)="onSaveData($event, stage, isEditSet)"
+          [disabled]="!isFormValid"
+        >
+          <mat-spinner
+            *ngIf="savingProgramData"
+            color="accent"
+            [diameter]="20"
+            style="display: inline-block !important; margin-right: 4px"
+          >
+          </mat-spinner>
+          Save
+        </button>
+      </div>
+    </mat-tab>
+  </mat-tab-group>
+</div>
