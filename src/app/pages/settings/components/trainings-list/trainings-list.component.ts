@@ -19,9 +19,9 @@ export class TrainingsListComponent implements OnInit {
   constructor(private dataService: DataService, private dialog: MatDialog) {}
 
   ngOnInit(): void {
-    if (this.program.id == 'aEGnQxdU1Ok') {
-      this.ouId = 'STY2sqTBLiV';
-    }
+    // if (this.program.id == 'aEGnQxdU1Ok') {
+    //   this.ouId = 'STY2sqTBLiV';
+    // }
     this.queryResponseData$ = this.dataService.getTrackedEntityInstances({
       orgUnit: this.ouId,
       program: this.program?.id,

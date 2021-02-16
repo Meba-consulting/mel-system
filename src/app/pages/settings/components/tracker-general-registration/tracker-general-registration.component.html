@@ -15,8 +15,36 @@
         label="{{ program?.name }}"
       >
         <div class="p-3">
+          <button
+            class="w-100 text-left p-2"
+            (click)="onToggleRegisteringUnitFilter($event)"
+            mat-stroked-button
+          >
+            Register at:
+            <b>
+              <span
+                *ngIf="
+                  selectedRegisteringUnits &&
+                  selectedRegisteringUnits?.length > 0
+                "
+                >{{ selectedRegisteringUnits[0]?.name }}</span
+              >
+            </b>
+          </button>
+          <div *ngIf="registeringUnitFilterIsSet">
+            <ngx-dhis2-org-unit-filter
+              [selectedOrgUnitItems]="selectedRegisteringUnits"
+              [orgUnitFilterConfig]="orgUnitFilterConfig"
+              (orgUnitClose)="onFilterClose($event)"
+              (orgUnitUpdate)="onOuUpdate($event)"
+            ></ngx-dhis2-org-unit-filter>
+          </div>
           <!-- <div class="h5 w-100 text-left">{{ program?.name }}</div> -->
-          <div class="control-btn w-100 p-2" style="height: 52px">
+          <div
+            class="control-btn w-100 p-2"
+            style="height: 52px"
+            *ngIf="selectedRegisteringUnits?.length > 0"
+          >
             <button
               mat-stroked-button
               class="mr-2 float-left"
@@ -26,14 +54,17 @@
               <span *ngIf="!isReportSet">Registered</span>
             </button>
           </div>
-          <div *ngIf="isReportSet" class="w-100">
+          <div
+            *ngIf="isReportSet && selectedRegisteringUnits?.length > 0"
+            class="w-100"
+          >
             <app-trainings-list
               [program]="program"
-              [ouId]="'zs9X8YYBOnK'"
+              [ouId]="selectedRegisteringUnits[0]?.id"
               (edit)="onSetEdit($event, program)"
             ></app-trainings-list>
           </div>
-          <div *ngIf="!isReportSet">
+          <div *ngIf="!isReportSet && selectedRegisteringUnits?.length > 0">
             <div
               class="success-save-message"
               *ngIf="!savingData && savingMessage != '' && !hasError"
@@ -56,7 +87,7 @@
                 padding: 8px 15px;
               "
             >
-              <div>
+              <div style="margin-bottom: 10px">
                 <button
                   class="w-100 text-left p-2"
                   (click)="onToggleOuFilter($event)"
@@ -111,6 +142,19 @@
                 >
                 </mat-spinner>
                 Save
+              </button>
+              <button
+                *ngIf="program?.updateStages"
+                mat-stroked-button
+                (click)="
+                  onUpdateStages(
+                    $event,
+                    program,
+                    currentTrackedEntityInstanceId
+                  )
+                "
+              >
+                Update stages data
               </button>
             </div>
           </div>

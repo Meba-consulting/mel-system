@@ -6,6 +6,8 @@ import * as _ from 'lodash';
 import { Observable } from 'rxjs';
 import { FormControl } from '@angular/forms';
 import { OuService } from 'src/app/core/services/ou.service';
+import { MatDialog } from '@angular/material/dialog';
+import { StagesEntryModalComponent } from '../stages-entry-modal/stages-entry-modal.component';
 
 @Component({
   selector: 'app-tracker-general-registration',
@@ -32,6 +34,7 @@ export class TrackerGeneralRegistrationComponent implements OnInit {
     batchSize: 400,
     selectedOrgUnitItems: [],
   };
+  selectedRegisteringUnits: Array<any> = [];
   selectedOrgUnits: Array<any> = [];
   ouFilterIsSet: boolean = false;
   ouId: string;
@@ -52,12 +55,18 @@ export class TrackerGeneralRegistrationComponent implements OnInit {
   editingData: boolean = false;
   savingMessage: string = '';
   trainingsRegistered$: Observable<any>;
-  isReportSet: boolean = true;
+  isReportSet: boolean = false;
   hasError: boolean = false;
 
   selectedTab = new FormControl(0);
   currentTabValue = 0;
-  constructor(private dataService: DataService, private ouService: OuService) {}
+
+  registeringUnitFilterIsSet: boolean = false;
+  constructor(
+    private dataService: DataService,
+    private ouService: OuService,
+    private dialog: MatDialog
+  ) {}
 
   ngOnInit(): void {
     this.trainingRegistrationPrograms = filterBillingLawsAndPoliciesPrograms(
@@ -79,6 +88,12 @@ export class TrackerGeneralRegistrationComponent implements OnInit {
     this.savedData = false;
     this.savingMessage = '';
     this.formData = {};
+  }
+
+  onOuUpdate(selections) {
+    this.selectedRegisteringUnits = selections?.items;
+    this.registeringUnitFilterIsSet = false;
+    this.isReportSet = true;
   }
 
   onFilterUpdate(selections) {
@@ -129,6 +144,11 @@ export class TrackerGeneralRegistrationComponent implements OnInit {
   onToggleOuFilter(e) {
     e.stopPropagation();
     this.ouFilterIsSet = !this.ouFilterIsSet;
+  }
+
+  onToggleRegisteringUnitFilter(e) {
+    e.stopPropagation();
+    this.registeringUnitFilterIsSet = !this.registeringUnitFilterIsSet;
   }
 
   onGetDataValues(values) {
@@ -216,9 +236,33 @@ export class TrackerGeneralRegistrationComponent implements OnInit {
             this.savingMessage = '';
             this.editData = true;
           }, 1000);
-          setTimeout(() => {
-            this.isReportSet = true;
-          }, 1200);
+          console.log('program', currentProgram);
+          // Check if the program has to accommodate stages entry
+          if (
+            (
+              _.filter(currentProgram?.userGroupAccesses, {
+                id: 'H3LCJNIfB0h',
+              }) || []
+            )?.length > 0
+          ) {
+            this.dialog.open(StagesEntryModalComponent, {
+              maxWidth: '90vw',
+              width: '100%',
+              height: '650px',
+              disableClose: false,
+              data: {
+                program: currentProgram,
+                currentTrackedEntityInstanceId:
+                  response?.response?.importSummaries[0]?.reference,
+                orgUnit: this.selectedRegisteringUnits[0],
+              },
+              panelClass: 'custom-dialog-container',
+            });
+          } else {
+            setTimeout(() => {
+              this.isReportSet = true;
+            }, 1200);
+          }
         } else {
           this.savingMessage =
             response?.statusText + ', code: (' + response?.status + ')';
@@ -227,6 +271,22 @@ export class TrackerGeneralRegistrationComponent implements OnInit {
           this.hasError = true;
         }
       });
+  }
+
+  onUpdateStages(e, program, currentTrackedEntityInstanceId) {
+    e.stopPropagation();
+    this.dialog.open(StagesEntryModalComponent, {
+      maxWidth: '90vw',
+      width: '100%',
+      height: '650px',
+      disableClose: false,
+      data: {
+        program: program,
+        currentTrackedEntityInstanceId: currentTrackedEntityInstanceId,
+        orgUnit: this.selectedRegisteringUnits[0],
+      },
+      panelClass: 'custom-dialog-container',
+    });
   }
 
   changeTab(e, val) {
