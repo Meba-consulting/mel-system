@@ -8,6 +8,7 @@ import { FormControl } from '@angular/forms';
 import { OuService } from 'src/app/core/services/ou.service';
 import { MatDialog } from '@angular/material/dialog';
 import { StagesEntryModalComponent } from '../stages-entry-modal/stages-entry-modal.component';
+import { NgxDhis2HttpClientService } from '@iapps/ngx-dhis2-http-client';
 
 @Component({
   selector: 'app-tracker-general-registration',
@@ -62,6 +63,7 @@ export class TrackerGeneralRegistrationComponent implements OnInit {
   currentTabValue = 0;
 
   registeringUnitFilterIsSet: boolean = false;
+
   constructor(
     private dataService: DataService,
     private ouService: OuService,

@@ -1,0 +1,8 @@
+<div *ngIf="formFields && formFields?.length > 0">
+  <app-form
+    [fields]="formFields"
+    [fieldsData]="currentFormData"
+    (formUpdate)="onFormUpdate($event)"
+  >
+  </app-form>
+</div>

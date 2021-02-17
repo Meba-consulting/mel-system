@@ -1,6 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { NgxDhis2HttpClientService } from '@iapps/ngx-dhis2-http-client';
 import { Observable } from 'rxjs';
 import { DataService } from 'src/app/core/services/data.service';
 
@@ -27,14 +28,19 @@ export class StagesEntryModalComponent implements OnInit {
   eventsData: any = {};
   eventLoaded: boolean = false;
   isListReportSet: boolean = false;
+  programDataStoreConfigs$: Observable<any>;
   constructor(
     private dialogRef: MatDialogRef<StagesEntryModalComponent>,
     @Inject(MAT_DIALOG_DATA) data,
-    private dataService: DataService
+    private dataService: DataService,
+    private httpClient: NgxDhis2HttpClientService
   ) {
     this.program = data?.program;
     this.currentTrackedEntityInstanceId = data?.currentTrackedEntityInstanceId;
     this.orgUnit = data?.orgUnit;
+    this.programDataStoreConfigs$ = this.httpClient.get(
+      'dataStore/programs/' + this.program?.id
+    );
   }
 
   ngOnInit(): void {

@@ -15,6 +15,7 @@
       [disabled]="true"
       [placeholder]="field?.placeholder"
       [type]="field?.type"
+      [disabled]="field?.disabled"
       matInput
       (keyup)="onFieldUpdate()"
     />
@@ -28,6 +29,7 @@
       [disabled]="true"
       [placeholder]="field?.placeholder"
       [type]="field?.type"
+      [disabled]="field?.disabled"
       matInput
       (keyup)="onFieldUpdate()"
     />
@@ -39,6 +41,7 @@
       *ngSwitchCase="'dropdown'"
       [placeholder]="field?.placeholder"
       [formControlName]="field?.key"
+      [disabled]="field?.disabled"
       (selectionChange)="onFieldUpdate()"
     >
       <mat-option *ngFor="let option of field?.options" [value]="option?.key">{{
@@ -75,6 +78,7 @@
       matInput
       [id]="field?.key"
       [matDatepicker]="fieldId"
+      [disabled]="field?.disabled"
       [placeholder]="field?.placeholder"
       [formControlName]="field?.key"
       (dateChange)="onFieldUpdate()"

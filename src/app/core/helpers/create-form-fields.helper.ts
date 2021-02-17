@@ -1,6 +1,10 @@
 import * as _ from 'lodash';
 
-export function createFormFieldsFromProgramStageDataElement(stageDataElements) {
+export function createFormFieldsFromProgramStageDataElement(
+  stageDataElements,
+  configs?,
+  stage?
+) {
   return _.map(stageDataElements, (stageDataElement) => {
     return {
       id: stageDataElement?.dataElement?.id,
@@ -48,6 +52,12 @@ export function createFormFieldsFromProgramStageDataElement(stageDataElements) {
         : [],
       name: stageDataElement?.dataElement?.name,
       required: stageDataElement?.compulsory,
+      disabled:
+        configs &&
+        configs?.stagesConfigs &&
+        configs?.stagesConfigs[stage?.id][stageDataElement?.dataElement?.id]
+          ? true
+          : false,
     };
   });
 }

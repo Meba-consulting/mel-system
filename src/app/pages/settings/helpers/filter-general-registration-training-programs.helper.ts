@@ -33,8 +33,21 @@ export function filterBillingLawsAndPoliciesPrograms(
         }
       }),
       (prog) => {
+        console.log(prog);
         return {
           ...prog,
+          programStages: _.map(prog?.programStages, (stage) => {
+            return {
+              ...stage,
+              repeatable:
+                (
+                  _.filter(stage?.userGroupAccesses, { id: 'lyufq6SM1vQ' }) ||
+                  []
+                )?.length > 0
+                  ? true
+                  : false,
+            };
+          }),
           updateStages:
             (
               _.filter(prog?.userGroupAccesses, {

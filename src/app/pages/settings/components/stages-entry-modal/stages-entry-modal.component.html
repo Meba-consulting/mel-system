@@ -1,15 +1,25 @@
-<div class="stages-updates" class="p-3">
+<div
+  class="stages-updates"
+  class="p-3"
+  *ngIf="{
+    programDataStoreConfigs: programDataStoreConfigs$ | async
+  } as params"
+>
+  <mat-progress-bar
+    mode="indeterminate"
+    *ngIf="!params?.programDataStoreConfigs"
+  ></mat-progress-bar>
   <mat-tab-group
     [selectedIndex]="selectedTab.value"
     (selectedIndexChange)="selectedTab.setValue($event)"
-    *ngIf="currentTrackedEntityInstanceId"
+    *ngIf="currentTrackedEntityInstanceId && params?.programDataStoreConfigs"
   >
     <mat-tab
       *ngFor="let stage of program?.programStages; let count = index"
       label="{{ stage?.name }}"
       (click)="changeTab(count)"
     >
-      <div class="p-3" *ngIf="count == selectedTab.value">
+      <div class="p-3" *ngIf="count == selectedTab.value && stage?.repeatable">
         <mat-tab-group
           [selectedIndex]="selectedTabForDataSection.value"
           (selectedIndexChange)="selectedTabForDataSection.setValue($event)"
@@ -60,6 +70,13 @@
           </mat-spinner>
           Save
         </button>
+      </div>
+      <div class="p-3" *ngIf="count == selectedTab.value && !stage?.repeatable">
+        <!-- {{ stage | json }} -->
+        <app-non-repeatable-entry
+          [stage]="stage"
+          [programDataStoreConfigs]="params?.programDataStoreConfigs"
+        ></app-non-repeatable-entry>
       </div>
     </mat-tab>
   </mat-tab-group>
