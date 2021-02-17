@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { createFormFieldsFromProgramStageDataElement } from 'src/app/core/helpers/create-form-fields.helper';
 import { FormValue } from 'src/app/shared/modules/forms/models/form-value.model';
 
@@ -12,23 +12,45 @@ import * as _ from 'lodash';
 export class NonRepeatableEntryComponent implements OnInit {
   @Input() programDataStoreConfigs: any;
   @Input() stage: any;
-  programStateDataElements: any[];
+  @Input() programStateDataElements: any[];
+  @Input() data: any;
   programStageFormData: any;
   formFields: any[];
   currentFormData: any = {};
-  isFormValid: boolean = false;
-  // @Output() formValuesData = new EventEmitter<any>();
-  // @Output() isFormValid = new EventEmitter<boolean>();
+  @Output() formValuesData = new EventEmitter<any>();
+  @Output() isFormValid = new EventEmitter<boolean>();
   // @Output() editIsSet = new EventEmitter<boolean>();
   isEditSet: boolean = false;
   constructor() {}
 
   ngOnInit(): void {
+    this.programStageFormData = {};
+    if (this.data?.enrollments[0]?.events?.length > 0) {
+      _.map(
+        _.filter(this.data?.enrollments[0]?.events, {
+          programStage: this.stage?.id,
+        }) || [],
+        (event) => {
+          _.each(event?.dataValues, (dataValue: any) => {
+            this.programStageFormData[dataValue?.dataElement] = {
+              value: dataValue?.value,
+              id: dataValue?.dataElement,
+            };
+          });
+        }
+      );
+    }
+
+    console.log(
+      'programStageFormDataprogramStageFormData',
+      this.programStageFormData
+    );
     this.programStateDataElements = this.stage.programStageDataElements;
     this.formFields = createFormFieldsFromProgramStageDataElement(
       this.programStateDataElements,
       this.programDataStoreConfigs,
-      this.stage
+      this.stage,
+      this.programStageFormData
     );
 
     let keyedProgramStageDataElements = {};
@@ -37,11 +59,12 @@ export class NonRepeatableEntryComponent implements OnInit {
       keyedProgramStageDataElements[programStateDataElement?.dataElement?.id] =
         programStateDataElement?.dataElement;
     });
-
-    console.log('programStageFormData', this.programStageFormData);
     if (
       this.programDataStoreConfigs?.stagesConfigs &&
-      this.programDataStoreConfigs?.stagesConfigs[this.stage?.id]
+      this.programDataStoreConfigs?.stagesConfigs[this.stage?.id] &&
+      !this.programStageFormData[
+        this.programDataStoreConfigs?.stagesConfigs[this.stage?.id]?.id
+      ]
     ) {
       this.currentFormData[
         this.programDataStoreConfigs?.stagesConfigs[this.stage?.id]?.id
@@ -72,8 +95,8 @@ export class NonRepeatableEntryComponent implements OnInit {
   }
 
   onFormUpdate(formValues: FormValue) {
-    this.isFormValid = formValues.isValid;
-    // this.formValuesData.emit(formValues.getValues());
+    this.isFormValid.emit(formValues.isValid);
+    this.formValuesData.emit(formValues.getValues());
     // this.editIsSet.emit(this.isEditSet);
   }
 }

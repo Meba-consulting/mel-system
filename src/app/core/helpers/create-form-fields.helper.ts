@@ -3,9 +3,12 @@ import * as _ from 'lodash';
 export function createFormFieldsFromProgramStageDataElement(
   stageDataElements,
   configs?,
-  stage?
+  stage?,
+  programStageFormData?
 ) {
   return _.map(stageDataElements, (stageDataElement) => {
+    console.log('##############programStageFormData', programStageFormData);
+    console.log(stageDataElement?.dataElement);
     return {
       id: stageDataElement?.dataElement?.id,
       label: stageDataElement?.dataElement?.name,
@@ -53,9 +56,13 @@ export function createFormFieldsFromProgramStageDataElement(
       name: stageDataElement?.dataElement?.name,
       required: stageDataElement?.compulsory,
       disabled:
-        configs &&
-        configs?.stagesConfigs &&
-        configs?.stagesConfigs[stage?.id][stageDataElement?.dataElement?.id]
+        (configs &&
+          configs?.stagesConfigs &&
+          configs?.stagesConfigs[stage?.id][
+            stageDataElement?.dataElement?.id
+          ]) ||
+        (programStageFormData &&
+          programStageFormData[stageDataElement?.dataElement?.id])
           ? true
           : false,
     };

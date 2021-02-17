@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {
   getDashboardObjectLoading,
-  getDashboardObjectLoaded
+  getDashboardObjectLoaded,
 } from '../../../store/selectors';
 import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
@@ -10,7 +10,7 @@ import { State } from 'src/app/store';
 @Component({
   selector: 'app-dashboard-home',
   templateUrl: './dashboard-home.component.html',
-  styleUrls: ['./dashboard-home.component.scss']
+  styleUrls: ['./dashboard-home.component.scss'],
 })
 export class DashboardHomeComponent implements OnInit {
   dashboardsLoading$: Observable<boolean>;
@@ -24,22 +24,17 @@ export class DashboardHomeComponent implements OnInit {
     this.dashboardsLoaded$ = store.select(getDashboardObjectLoaded);
     this.welcomingMessageObject = {
       0: {
-        title: 'Intuitive design patterns',
-        description: 'Enjoy simple, elegant and improved look and feel'
+        title: 'Data at your view and ready for analysis',
+        description: 'Enjoy the simple look and feel',
       },
       1: {
-        title: 'Impressive data visualizations',
-        description:
-          'Interactively visualize you data in charts, table and maps'
+        title: 'Data at your view and ready for analysis',
+        description: 'Enjoy the simple look and feel',
       },
-      2: {
-        title: 'Impressive data dictionary',
-        description: 'Do not just look on your data, know more about your data'
-      }
     };
 
     this.welcomingMessage = this.welcomingMessageObject[
-      this.getRandomInt(0, 2)
+      this.getRandomInt(0, 1)
     ];
   }
 

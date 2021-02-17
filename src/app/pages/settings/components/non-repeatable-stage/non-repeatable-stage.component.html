@@ -1,1 +1,17 @@
-<p>non-repeatable-stage works!</p>
+<div *ngIf="{ data: data$ | async } as params">
+  <app-non-repeatable-entry
+    *ngIf="params?.data"
+    [programDataStoreConfigs]="programDataStoreConfigs"
+    [stage]="stage"
+    [data]="params?.data"
+    (formValuesData)="
+      onGetFormValuesData($event, stage?.programStageDataElements)
+    "
+    (isFormValid)="onGetFormValidity($event)"
+  ></app-non-repeatable-entry>
+
+  <mat-progress-bar
+    mode="indeterminate"
+    *ngIf="!params?.data"
+  ></mat-progress-bar>
+</div>

@@ -5,7 +5,7 @@ import { FavoriteFilterState } from '../../store/reducers/favorite-filter.reduce
 import {
   LoadFavoriteFiltersAction,
   ToggleFavoriteFiltersHeaderAction,
-  SetFavoriteOnwershipAction
+  SetFavoriteOnwershipAction,
 } from '../../store/actions/favorite-filter.actions';
 import { Observable } from 'rxjs';
 import { FavoriteFilter } from '../../models/favorite-filter.model';
@@ -17,7 +17,7 @@ import {
   getFavoriteFiltersBasedType,
   getFavoriteFilterLoaded,
   getFavoriteFilterLoading,
-  getSelectedFavoriteOwnership
+  getSelectedFavoriteOwnership,
 } from '../../store/selectors/favorite-filter.selectors';
 import { openAnimation } from '../../../../../animations';
 
@@ -25,7 +25,7 @@ import { openAnimation } from '../../../../../animations';
   selector: 'app-favorite-filter',
   templateUrl: './favorite-filter.component.html',
   styleUrls: ['./favorite-filter.component.scss'],
-  animations: [openAnimation]
+  animations: [openAnimation],
 })
 export class FavoriteFilterComponent implements OnInit {
   @Input()
@@ -75,22 +75,21 @@ export class FavoriteFilterComponent implements OnInit {
       getSelectedFavoriteOwnership
     );
 
-    this.searchPlaceholder =
-      'Search for charts, tables, maps, apps, reports, resources etc';
-    this.newFavoritePlaceholder = 'Create new favorite';
+    this.searchPlaceholder = 'Search for saved charts and tables';
+    this.newFavoritePlaceholder = 'Create new chart/table';
     this.searchFilterOptions = [
       {
         name: 'Show All',
-        id: 'all'
+        id: 'all',
       },
       {
         name: 'Created by me',
-        id: 'me'
+        id: 'me',
       },
       {
         name: 'Created by others',
-        id: 'others'
-      }
+        id: 'others',
+      },
     ];
 
     this.arrowDownIcon = ARROW_DOWN_ICON;
@@ -136,7 +135,7 @@ export class FavoriteFilterComponent implements OnInit {
     this.addFavorite.emit({
       id: favoriteFilter.id || favoriteFilter.key,
       name: favoriteFilter.name,
-      dashboardTypeDetails
+      dashboardTypeDetails,
     });
   }
 

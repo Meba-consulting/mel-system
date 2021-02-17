@@ -106,7 +106,7 @@ export class CurrentDashboardComponent implements OnInit {
     this.welcomingTitle = WELCOMING_TITLE;
     this.welcomingDescription = WELCOMING_DESCRIPTION;
     this.emptyVisualizationMessage =
-      'There are no items on this dashboard, search for charts, tables and add them to your dashboard';
+      'There are no items on this dashboard, search for charts and tables, then add them to your dashboard';
   }
 
   ngOnInit() {}
