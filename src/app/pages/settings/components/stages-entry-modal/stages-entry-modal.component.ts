@@ -1,10 +1,16 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import {
+  MatDialog,
+  MatDialogRef,
+  MAT_DIALOG_DATA,
+} from '@angular/material/dialog';
 import { NgxDhis2HttpClientService } from '@iapps/ngx-dhis2-http-client';
 import { Observable } from 'rxjs';
 import { DataService } from 'src/app/core/services/data.service';
 import { formatDateToYYMMDD } from 'src/app/pages/data-entry/helpers';
+import * as _ from 'lodash';
+import { ConfirmDeleteEventComponent } from '../confirm-delete-event/confirm-delete-event.component';
 
 @Component({
   selector: 'app-stages-entry-modal',
@@ -31,8 +37,10 @@ export class StagesEntryModalComponent implements OnInit {
   isListReportSet: boolean = false;
   programDataStoreConfigs$: Observable<any>;
   isFormValid: string;
+  deleting: boolean = false;
   constructor(
     private dialogRef: MatDialogRef<StagesEntryModalComponent>,
+    private dialog: MatDialog,
     @Inject(MAT_DIALOG_DATA) data,
     private dataService: DataService,
     private httpClient: NgxDhis2HttpClientService
@@ -55,7 +63,7 @@ export class StagesEntryModalComponent implements OnInit {
       trackedEntityInstance: this.currentTrackedEntityInstanceId,
       program: this.program?.id,
       programStage: '',
-      enrollment: '',
+      enrollment: this.currentTrackedEntityInstanceId,
       orgUnit: this.orgUnit?.id,
       notes: [],
       dataValues: [],
@@ -91,6 +99,21 @@ export class StagesEntryModalComponent implements OnInit {
 
   onDeleteEvent(e) {
     console.log(e);
+    this.dialog
+      .open(ConfirmDeleteEventComponent, {
+        width: '30%',
+        height: '250px',
+        disableClose: false,
+        data: e,
+        panelClass: 'custom-dialog-container',
+      })
+      .afterClosed()
+      .subscribe(() => {
+        this.selectedTabForDataSection.setValue(0);
+        setTimeout(() => {
+          this.selectedTabForDataSection.setValue(1);
+        }, 100);
+      });
   }
 
   onSaveData(e, programStage, editSet) {
@@ -99,6 +122,7 @@ export class StagesEntryModalComponent implements OnInit {
     this.savingProgramData = true;
     this.loadStageData = false;
     this.eventsData.programStage = programStage?.id;
+    console.log(this.eventsData);
     !editSet
       ? this.dataService
           .saveEventsData({ events: [this.eventsData] })
@@ -144,8 +168,39 @@ export class StagesEntryModalComponent implements OnInit {
     this.isFormValid = e;
   }
 
-  onGetFormValuesData(e, dataElements) {
-    console.log('data values', e);
-    console.log(dataElements);
+  onGetFormValuesData(data, programStageDataElements) {
+    console.log('data values', data);
+    console.log(programStageDataElements);
+    let keyedDataElements = {};
+    _.map(programStageDataElements, (programStageDataElement) => {
+      keyedDataElements[programStageDataElement?.dataElement?.id] =
+        programStageDataElement?.dataElement;
+    });
+    let dataValues = [];
+    dataValues = _.filter(
+      _.map(Object.keys(data), (key) => {
+        if (data[key] || data[key] !== '')
+          return {
+            dataElement: key,
+            value: !keyedDataElements[key]?.optionSet
+              ? data[key]?.value
+              : (_.filter(keyedDataElements[key]?.optionSet?.options, {
+                  id: data[key]?.value,
+                }) || [])[0]?.name,
+          };
+      }),
+      (dataValue) => dataValue
+    );
+    console.log(dataValues);
+    this.eventsData.dataValues = dataValues;
+    console.log('eventsData', this.eventsData);
+    this.eventsData.eventDate = !this.eventsData?.eventDate
+      ? formatDateToYYMMDD(new Date())
+      : this.eventsData?.eventDate;
+  }
+
+  onClose(e) {
+    e.stopPropagation();
+    this.dialogRef.close();
   }
 }

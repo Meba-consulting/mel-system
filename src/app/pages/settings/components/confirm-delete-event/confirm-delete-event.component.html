@@ -1,0 +1,33 @@
+<div>
+  <mat-toolbar class="modal-header">Confirm delete</mat-toolbar>
+  <div class="p-5">
+    <p class="text-center text-success" *ngIf="message && message == 'OK'">
+      Successfully deleted
+    </p>
+    <p class="text-center text-danger" *ngIf="message && message !== 'OK'">
+      Failed
+    </p>
+    <button
+      (click)="onConfirmDelete($event, event)"
+      mat-stroked-button
+      [disabled]="deleting"
+      class="mr-2 float-left"
+    >
+      <mat-spinner
+        *ngIf="deleting"
+        color="accent"
+        [diameter]="20"
+        style="display: inline-block !important; margin-right: 4px"
+      >
+      </mat-spinner>
+      Confirm
+    </button>
+    <button
+      (click)="onClose($event)"
+      mat-stroked-button
+      class="mr-2 float-right"
+    >
+      Close
+    </button>
+  </div>
+</div>

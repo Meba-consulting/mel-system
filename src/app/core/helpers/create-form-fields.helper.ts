@@ -58,6 +58,7 @@ export function createFormFieldsFromProgramStageDataElement(
       disabled:
         (configs &&
           configs?.stagesConfigs &&
+          configs?.stagesConfigs[stage?.id] &&
           configs?.stagesConfigs[stage?.id][
             stageDataElement?.dataElement?.id
           ]) ||

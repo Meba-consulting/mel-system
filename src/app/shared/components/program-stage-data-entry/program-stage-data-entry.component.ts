@@ -13,6 +13,8 @@ export class ProgramStageDataEntryComponent implements OnInit {
   @Input() programStateDataElements: any[];
   @Input() programStageFormData: any;
   @Input() queryResponseData: any;
+  @Input() programDataStoreConfigs: any;
+  @Input() stage: any;
   formFields: any[];
   currentFormData: any = {};
   @Output() formValuesData = new EventEmitter<any>();
@@ -22,9 +24,11 @@ export class ProgramStageDataEntryComponent implements OnInit {
   constructor() {}
 
   ngOnInit(): void {
-    console.log('events', this.queryResponseData);
+    console.log('programDataStoreConfigs', this.programDataStoreConfigs);
     this.formFields = createFormFieldsFromProgramStageDataElement(
-      this.programStateDataElements
+      this.programStateDataElements,
+      this.programDataStoreConfigs,
+      this.stage
     );
 
     let keyedProgramStageDataElements = {};
@@ -33,6 +37,23 @@ export class ProgramStageDataEntryComponent implements OnInit {
       keyedProgramStageDataElements[programStateDataElement?.dataElement?.id] =
         programStateDataElement?.dataElement;
     });
+
+    if (
+      this.programDataStoreConfigs?.stagesConfigs &&
+      this.programDataStoreConfigs?.stagesConfigs[this.stage?.id] &&
+      !this.programStageFormData[
+        this.programDataStoreConfigs?.stagesConfigs[this.stage?.id]?.id
+      ]
+    ) {
+      this.currentFormData[
+        this.programDataStoreConfigs?.stagesConfigs[this.stage?.id]?.id
+      ] = {
+        id: this.programDataStoreConfigs?.stagesConfigs[this.stage?.id]?.id,
+        value: this.programDataStoreConfigs?.stagesConfigs[this.stage?.id][
+          this.programDataStoreConfigs?.stagesConfigs[this.stage?.id]?.id
+        ]?.defaultValue,
+      };
+    }
 
     console.log('programStageFormData', this.programStageFormData);
     _.map(Object.keys(this.programStageFormData), (key) => {

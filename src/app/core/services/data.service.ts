@@ -67,7 +67,7 @@ export class DataService {
         parameters?.orgUnit +
         '&program=' +
         parameters?.program +
-        '&pageSize=50&page=1&totalPages=false'
+        '&paging=false'
     );
   }
 

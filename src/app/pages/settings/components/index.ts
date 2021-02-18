@@ -4,6 +4,7 @@ import { AddProgramModalComponent } from './add-program-modal/add-program-modal.
 import { CloseClubComponent } from './close-club/close-club.component';
 import { ClubMembersListComponent } from './club-members-list/club-members-list.component';
 import { ClubsListComponent } from './clubs-list/clubs-list.component';
+import { ConfirmDeleteEventComponent } from './confirm-delete-event/confirm-delete-event.component';
 import { CreateOrganisationUnitComponent } from './create-organisation-unit/create-organisation-unit.component';
 import { DefaultFormEntryComponent } from './default-form-entry/default-form-entry.component';
 import { DeleteOuComponent } from './delete-ou/delete-ou.component';
@@ -38,4 +39,5 @@ export const settingsComponents: any[] = [
   StagesEntryModalComponent,
   NonRepeatableEntryComponent,
   NonRepeatableStageComponent,
+  ConfirmDeleteEventComponent,
 ];

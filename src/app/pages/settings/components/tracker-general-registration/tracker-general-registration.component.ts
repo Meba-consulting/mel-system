@@ -298,7 +298,7 @@ export class TrackerGeneralRegistrationComponent implements OnInit {
   }
 
   onSetEdit(trackedEntityInstance, program) {
-    // console.log('trackedEntityInstance', trackedEntityInstance);
+    console.log('trackedEntityInstance', trackedEntityInstance);
     this.currentTrackedEntityInstanceId = trackedEntityInstance?.action?.id;
     _.map(
       program.trackedEntityType?.trackedEntityTypeAttributes,

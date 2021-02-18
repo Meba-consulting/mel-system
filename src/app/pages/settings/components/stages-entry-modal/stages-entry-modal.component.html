@@ -39,6 +39,8 @@
                   [queryResponseData]="params?.queryResponseData"
                   [programStateDataElements]="stage?.programStageDataElements"
                   [programStageFormData]="programStageFormData"
+                  [stage]="stage"
+                  [programDataStoreConfigs]="params?.programDataStoreConfigs"
                   (formValuesData)="
                     onGetFormValuesData($event, stage?.programStageDataElements)
                   "
@@ -93,4 +95,10 @@
       </div>
     </mat-tab>
   </mat-tab-group>
+
+  <div class="p-3">
+    <button class="float-right" mat-stroked-button (click)="onClose($event)">
+      Close
+    </button>
+  </div>
 </div>

@@ -49,6 +49,7 @@ export class RenderProgramStageDataComponent implements OnInit {
       ),
       'dataElement'
     );
+    console.log('DATA ELEME', dataElements);
 
     this.formattedDataElements = _.filter(this.formattedDataElements, {
       displayInReports: true,

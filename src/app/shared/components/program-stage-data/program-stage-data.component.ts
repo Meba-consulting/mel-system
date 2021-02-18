@@ -18,6 +18,7 @@ export class ProgramStageDataComponent implements OnInit {
   constructor(private dataService: DataService) {}
 
   ngOnInit(): void {
+    console.log('Stage', this.programStage);
     this.response$ = this.dataService.getTrackedEntityInstanceDetailsByProgram(
       this.trackedEntityInstanceId,
       this.program
