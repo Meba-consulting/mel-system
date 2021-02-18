@@ -4,6 +4,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { NgxDhis2HttpClientService } from '@iapps/ngx-dhis2-http-client';
 import { Observable } from 'rxjs';
 import { DataService } from 'src/app/core/services/data.service';
+import { formatDateToYYMMDD } from 'src/app/pages/data-entry/helpers';
 
 @Component({
   selector: 'app-stages-entry-modal',
@@ -29,6 +30,7 @@ export class StagesEntryModalComponent implements OnInit {
   eventLoaded: boolean = false;
   isListReportSet: boolean = false;
   programDataStoreConfigs$: Observable<any>;
+  isFormValid: string;
   constructor(
     private dialogRef: MatDialogRef<StagesEntryModalComponent>,
     @Inject(MAT_DIALOG_DATA) data,
@@ -50,7 +52,7 @@ export class StagesEntryModalComponent implements OnInit {
     });
 
     this.eventsData = {
-      trackedEntityInstance: '',
+      trackedEntityInstance: this.currentTrackedEntityInstanceId,
       program: this.program?.id,
       programStage: '',
       enrollment: '',
@@ -58,7 +60,7 @@ export class StagesEntryModalComponent implements OnInit {
       notes: [],
       dataValues: [],
       status: 'ACTIVE',
-      eventDate: null,
+      eventDate: formatDateToYYMMDD(new Date()),
     };
 
     this.savedUserDataStore$ = this.dataService.getSavedUserDataStoreProgramConfigurations(
@@ -85,6 +87,10 @@ export class StagesEntryModalComponent implements OnInit {
     this.selectedTabForDataSection.setValue(val);
     console.log(val);
     this.loadStageData = true;
+  }
+
+  onDeleteEvent(e) {
+    console.log(e);
   }
 
   onSaveData(e, programStage, editSet) {
@@ -128,5 +134,18 @@ export class StagesEntryModalComponent implements OnInit {
               this.showStageDataEntry = true;
             }, 1300);
           });
+  }
+
+  onSetEditEvent(e) {
+    console.log(e);
+  }
+
+  onGetFormValidity(e) {
+    this.isFormValid = e;
+  }
+
+  onGetFormValuesData(e, dataElements) {
+    console.log('data values', e);
+    console.log(dataElements);
   }
 }

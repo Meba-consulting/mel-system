@@ -12,6 +12,7 @@ import * as _ from 'lodash';
 export class ProgramStageDataEntryComponent implements OnInit {
   @Input() programStateDataElements: any[];
   @Input() programStageFormData: any;
+  @Input() queryResponseData: any;
   formFields: any[];
   currentFormData: any = {};
   @Output() formValuesData = new EventEmitter<any>();
@@ -21,6 +22,7 @@ export class ProgramStageDataEntryComponent implements OnInit {
   constructor() {}
 
   ngOnInit(): void {
+    console.log('events', this.queryResponseData);
     this.formFields = createFormFieldsFromProgramStageDataElement(
       this.programStateDataElements
     );

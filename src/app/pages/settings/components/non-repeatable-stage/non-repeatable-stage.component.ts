@@ -33,5 +33,6 @@ export class NonRepeatableStageComponent implements OnInit {
 
   onGetFormValidity(e) {
     this.isFormValid.emit(e);
+    console.log(e);
   }
 }

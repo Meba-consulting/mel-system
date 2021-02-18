@@ -2,17 +2,22 @@
   class="stages-updates"
   class="p-3"
   *ngIf="{
-    programDataStoreConfigs: programDataStoreConfigs$ | async
+    programDataStoreConfigs: programDataStoreConfigs$ | async,
+    queryResponseData: queryResponseData$ | async
   } as params"
 >
   <mat-progress-bar
     mode="indeterminate"
-    *ngIf="!params?.programDataStoreConfigs"
+    *ngIf="!params?.programDataStoreConfigs || !params?.queryResponseData"
   ></mat-progress-bar>
   <mat-tab-group
     [selectedIndex]="selectedTab.value"
     (selectedIndexChange)="selectedTab.setValue($event)"
-    *ngIf="currentTrackedEntityInstanceId && params?.programDataStoreConfigs"
+    *ngIf="
+      currentTrackedEntityInstanceId &&
+      params?.programDataStoreConfigs &&
+      params?.queryResponseData
+    "
   >
     <mat-tab
       *ngFor="let stage of program?.programStages; let count = index"
@@ -31,6 +36,7 @@
               </div>
               <div *ngIf="showStageDataEntry">
                 <app-program-stage-data-entry
+                  [queryResponseData]="params?.queryResponseData"
                   [programStateDataElements]="stage?.programStageDataElements"
                   [programStageFormData]="programStageFormData"
                   (formValuesData)="
