@@ -13,11 +13,11 @@ export class FieldComponent {
   @Input() isCheckBoxButton: boolean;
   @Input() fieldClass: string;
 
-  @Output() fieldUpdate: EventEmitter<FormGroup> = new EventEmitter<
-    FormGroup
-  >();
+  @Output()
+  fieldUpdate: EventEmitter<FormGroup> = new EventEmitter<FormGroup>();
 
   get isValid(): boolean {
+    console.log('controls', this.form.controls[this.field.id]);
     return this.form?.controls[this.field.id]?.valid;
   }
 
@@ -37,7 +37,8 @@ export class FieldComponent {
     return this.field?.id;
   }
 
-  onFieldUpdate(): void {
+  onFieldUpdate(controlType): void {
+    console.log(controlType);
     this.fieldUpdate.emit(this.form);
   }
 }

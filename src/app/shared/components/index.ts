@@ -7,6 +7,7 @@ import { TrackedEntityInstanceListComponent } from './tracked-entity-instance-li
 import { TrackedEntityInstanceSelectorComponent } from './tracked-entity-instance-selector/tracked-entity-instance-selector.component';
 import { TrackedEntrityEntryFormComponent } from './tracked-entrity-entry-form/tracked-entrity-entry-form.component';
 import { UserProfileComponent } from './user-profile/user-profile.component';
+import { UserRolesPanelSelectorComponent } from './user-roles-panel-selector/user-roles-panel-selector.component';
 import { UserSettingsComponent } from './user-settings/user-settings.component';
 
 export const sharedComponents: any[] = [
@@ -19,5 +20,6 @@ export const sharedComponents: any[] = [
   RenderProgramStageDataComponent,
   SetColumnsModalComponent,
   UserSettingsComponent,
-  UserProfileComponent
+  UserProfileComponent,
+  UserRolesPanelSelectorComponent,
 ];

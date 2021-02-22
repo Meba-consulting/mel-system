@@ -9,5 +9,6 @@ import { UserComponents } from './components';
   declarations: [...userManagementPages, ...UserComponents],
   imports: [CommonModule, UserManagementRoutingModule, SharedModule],
   providers: [],
+  entryComponents: [...UserComponents],
 })
 export class UserManagementModule {}

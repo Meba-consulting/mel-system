@@ -17,7 +17,7 @@
       [type]="field?.type"
       [disabled]="field?.disabled"
       matInput
-      (keyup)="onFieldUpdate()"
+      (keyup)="onFieldUpdate(field?.controlType)"
     />
     <!-- textbox -->
     <input
@@ -31,9 +31,70 @@
       [type]="field?.type"
       [disabled]="field?.disabled"
       matInput
-      (keyup)="onFieldUpdate()"
+      (keyup)="onFieldUpdate(field?.controlType)"
     />
     <!-- end of textbox -->
+
+    <!-- username -->
+    <input
+      *ngSwitchCase="'username'"
+      [formControlName]="field?.key"
+      [id]="field?.key"
+      [minlength]="field?.min"
+      [disabled]="true"
+      [placeholder]="field?.placeholder"
+      [type]="field?.type"
+      [disabled]="field?.disabled"
+      matInput
+      (keyup)="onFieldUpdate(field?.controlType)"
+    />
+    <!-- End of username -->
+
+    <!-- email -->
+    <input
+      *ngSwitchCase="'email'"
+      [formControlName]="field?.key"
+      [id]="field?.key"
+      [minlength]="field?.min"
+      [disabled]="true"
+      [placeholder]="field?.placeholder"
+      [type]="field?.type"
+      [disabled]="field?.disabled"
+      matInput
+      (keyup)="onFieldUpdate(field?.controlType)"
+    />
+    <!-- End of email -->
+
+    <!-- password -->
+    <input
+      *ngSwitchCase="'password'"
+      [formControlName]="field?.key"
+      [id]="field?.key"
+      [minlength]="field?.min"
+      [disabled]="true"
+      [placeholder]="field?.placeholder"
+      [type]="field?.type"
+      [disabled]="field?.disabled"
+      matInput
+      (keyup)="onFieldUpdate(field?.controlType)"
+    />
+    <!-- End of password -->
+
+    <!-- phoneNumber -->
+    <span matPrefix *ngIf="field?.id === 'phoneNumber'">+255 (0) &nbsp;</span>
+    <input
+      *ngSwitchCase="'phoneNumber'"
+      [formControlName]="field?.key"
+      [id]="field?.key"
+      [maxLength]="field?.max"
+      [disabled]="true"
+      [placeholder]="field?.placeholder"
+      [type]="field?.type"
+      [disabled]="field?.disabled"
+      matInput
+      (keyup)="onFieldUpdate(field?.controlType)"
+    />
+    <!-- End of phoneNumber -->
 
     <!-- dropdown -->
     <mat-select
@@ -42,7 +103,7 @@
       [placeholder]="field?.placeholder"
       [formControlName]="field?.key"
       [disabled]="field?.disabled"
-      (selectionChange)="onFieldUpdate()"
+      (selectionChange)="onFieldUpdate(field?.controlType)"
     >
       <mat-option *ngFor="let option of field?.options" [value]="option?.key">{{
         option.name
@@ -58,11 +119,47 @@
       [disabled]="field?.disabled"
       [formControlName]="field?.key"
       [placeholder]="field?.placeholder"
-      (keyup)="onFieldUpdate()"
+      (keyup)="onFieldUpdate(field?.controlType)"
     ></textarea>
     <!-- end of text area field -->
 
-    <mat-error *ngIf="!isValid">{{ field?.label }} is required</mat-error>
+    <mat-error
+      *ngIf="
+        !isValid &&
+        !form.controls[field?.id].errors?.email &&
+        !form.controls[field?.id].errors?.pattern
+      "
+      >{{ field?.label }} is required</mat-error
+    >
+    <mat-error *ngIf="form.controls[field?.id].errors?.email"
+      >Please provide a valid email address</mat-error
+    >
+
+    <mat-error
+      *ngIf="
+        form.controls[field?.id].errors?.pattern && field?.id == 'password'
+      "
+      >Please provide a valid password, at least 8 characters, one Capital, one
+      small and one special character</mat-error
+    >
+    <mat-error
+      *ngIf="
+        form.controls[field?.id].errors?.pattern && field?.id == 'phoneNumber'
+      "
+      >Should not start with zero (0) and should have 9 number
+      characters</mat-error
+    >
+    <div
+      class="mat-form-field-subscript-wrapper"
+      style="margin-top: 30px; margin-left: -15px"
+      *ngIf="field?.hint"
+    >
+      <div
+        class="ng-tns-c14-32 ng-trigger ng-trigger-transitionMessages ng-star-inserted"
+      >
+        <span class="mat-error">{{ field?.hint }}</span>
+      </div>
+    </div>
   </mat-form-field>
 </div>
 
@@ -81,7 +178,7 @@
       [matDatepicker]="fieldId"
       [placeholder]="field?.placeholder"
       [formControlName]="field?.key"
-      (dateChange)="onFieldUpdate()"
+      (dateChange)="onFieldUpdate(field?.controlType)"
     />
     <mat-datepicker-toggle
       matSuffix

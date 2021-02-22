@@ -1,8 +1,10 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 
 import * as _ from 'lodash';
+import { AddUserComponent } from '../add-user/add-user.component';
 
 @Component({
   selector: 'app-user-list',
@@ -24,7 +26,7 @@ export class UserListComponent implements OnInit {
     'action',
   ];
   dataSource: any;
-  constructor() {}
+  constructor(private dialog: MatDialog) {}
 
   ngOnInit(): void {
     console.log(this.users);
@@ -58,5 +60,11 @@ export class UserListComponent implements OnInit {
 
   onAddNewUser(e) {
     e.stopPropagation();
+    this.dialog.open(AddUserComponent, {
+      width: '60%',
+      height: '750px',
+      disableClose: false,
+      panelClass: 'custom-dialog-container',
+    });
   }
 }

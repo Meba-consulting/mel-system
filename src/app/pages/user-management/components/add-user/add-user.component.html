@@ -1,1 +1,54 @@
-<p>add-user works!</p>
+<div
+  class="add-user"
+  *ngIf="{
+    usedUsername: usedUsername$ | async,
+    userRoles: userRoles$ | async
+  } as userParams"
+>
+  <div class="text-left p-3 h3">New User</div>
+  <div class="p-3">
+    <div style="height: 600px; overflow: auto; padding: 0 20px">
+      <div *ngIf="usernameField && usernameField?.length > 0">
+        <app-form
+          [fields]="usernameField"
+          [fieldsData]="currentFormData"
+          (formUpdate)="onUserUpdate($event)"
+        >
+        </app-form>
+        <mat-progress-bar
+          *ngIf="startCheckingUsername && !userParams?.usedUsername"
+          mode="indeterminate"
+        ></mat-progress-bar>
+      </div>
+
+      <div *ngIf="formFields && formFields?.length > 0">
+        <app-form
+          [fields]="formFields"
+          [fieldsData]="currentFormData"
+          (formUpdate)="onFormUpdate($event)"
+        >
+        </app-form>
+      </div>
+
+      <div *ngIf="userParams?.userRoles">
+        <app-user-roles-panel-selector
+          [userRoles]="userParams?.userRoles?.userRoles"
+        ></app-user-roles-panel-selector>
+        {{ userParams?.userRoles?.userRoles | json }}
+      </div>
+    </div>
+    <div>
+      <button
+        mat-stroked-button
+        [disabled]="
+          !isFormValid ||
+          (userParams?.usedUsername &&
+            userParams?.usedUsername?.user?.length > 0)
+        "
+        (click)="onSave($event)"
+      >
+        Save
+      </button>
+    </div>
+  </div>
+</div>
