@@ -1,20 +1,26 @@
-<div class="row">
-  <div class="col-6">
-    <div class="p-3">
-      <ul>
-        <li *ngFor="let role of userRoles">
-          {{ role?.name }}
-        </li>
-      </ul>
-    </div>
+<div class="grouped-items w-100">
+  <div class="p-3 items-available-body">
+    <ul class="list">
+      <li
+        *ngFor="let item of items | removeItems: itemsSelected"
+        (click)="onSelectItem($event, item)"
+      >
+        <a>
+          {{ item?.name }}
+        </a>
+      </li>
+    </ul>
   </div>
-  <div class="col-6">
-    <div class="p-3">
-      <ul>
-        <li *ngFor="let selectedRole of selectedRoles">
-          {{ selectedRole?.name }}
-        </li>
-      </ul>
-    </div>
+  <div class="p-3 items-selected-body">
+    <ul>
+      <li
+        *ngFor="let item of itemsSelected"
+        (click)="onDeselectItem($event, item)"
+      >
+        <a>
+          {{ item?.name }}
+        </a>
+      </li>
+    </ul>
   </div>
 </div>

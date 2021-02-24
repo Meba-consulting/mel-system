@@ -2,10 +2,12 @@
   class="add-user"
   *ngIf="{
     usedUsername: usedUsername$ | async,
-    userRoles: userRoles$ | async
+    userRoles: userRoles$ | async,
+    userGroups: userGroups$ | async
   } as userParams"
 >
   <div class="text-left p-3 h3">New User</div>
+  <hr />
   <div class="p-3">
     <div style="height: 600px; overflow: auto; padding: 0 20px">
       <div *ngIf="usernameField && usernameField?.length > 0">
@@ -29,12 +31,23 @@
         >
         </app-form>
       </div>
-
       <div *ngIf="userParams?.userRoles">
+        <div class="p-1 h5" style="margin-top: 15px">User roles</div>
         <app-user-roles-panel-selector
-          [userRoles]="userParams?.userRoles?.userRoles"
+          [items]="userParams?.userRoles?.userRoles"
+          (selectedItems)="onGetSelectedItems($event, 'ROLES')"
         ></app-user-roles-panel-selector>
-        {{ userParams?.userRoles?.userRoles | json }}
+      </div>
+
+      <div *ngIf="userParams?.userGroups">
+        <div *ngFor="let section of userGroupsConfigs">
+          <div class="p-1 h5" style="margin-top: 15px">{{ section?.name }}</div>
+          <app-user-roles-panel-selector
+            [items]="userParams?.userGroups"
+            [section]="section"
+            (selectedItems)="onGetSelectedItems($event, 'USER_GROUPS')"
+          ></app-user-roles-panel-selector>
+        </div>
       </div>
     </div>
     <div>

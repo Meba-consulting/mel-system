@@ -2,8 +2,10 @@ import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
+import { NgxDhis2HttpClientService } from '@iapps/ngx-dhis2-http-client';
 
 import * as _ from 'lodash';
+import { Observable } from 'rxjs';
 import { AddUserComponent } from '../add-user/add-user.component';
 
 @Component({
@@ -26,12 +28,19 @@ export class UserListComponent implements OnInit {
     'action',
   ];
   dataSource: any;
-  constructor(private dialog: MatDialog) {}
+  userGroupsConfigs$: Observable<any>;
+  constructor(
+    private dialog: MatDialog,
+    private httpClient: NgxDhis2HttpClientService
+  ) {}
 
   ngOnInit(): void {
     console.log(this.users);
     this.dataSource = new MatTableDataSource(this.formatUsersList(this.users));
     this.dataSource.paginator = this.paginator;
+    this.userGroupsConfigs$ = this.httpClient.get(
+      'dataStore/user-groups/configurations'
+    );
   }
 
   applyFilter(event: Event) {
@@ -58,12 +67,13 @@ export class UserListComponent implements OnInit {
     console.log(user);
   }
 
-  onAddNewUser(e) {
+  onAddNewUser(e, userGroupsConfigs) {
     e.stopPropagation();
     this.dialog.open(AddUserComponent, {
       width: '60%',
       height: '750px',
       disableClose: false,
+      data: userGroupsConfigs,
       panelClass: 'custom-dialog-container',
     });
   }

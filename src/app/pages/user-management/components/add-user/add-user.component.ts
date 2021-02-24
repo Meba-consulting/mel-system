@@ -1,10 +1,13 @@
-import { Component, OnInit } from '@angular/core';
-import { MatDialogRef } from '@angular/material/dialog';
+import { Component, Inject, OnInit } from '@angular/core';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { NgxDhis2HttpClientService } from '@iapps/ngx-dhis2-http-client';
+import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { UsersService } from 'src/app/core/services/user.service';
-import { UserService } from 'src/app/pages/dashboard/pages/services';
 import { FormValue } from 'src/app/shared/modules/forms/models/form-value.model';
+import { getAllUserGroups, State } from 'src/app/store';
+
+import { map } from 'lodash';
 
 @Component({
   selector: 'app-add-user',
@@ -20,11 +23,18 @@ export class AddUserComponent implements OnInit {
   isFormValid: boolean = false;
   userRoles$: Observable<any[]>;
   userGroups$: Observable<any[]>;
+  userGroupsConfigs: any[];
+  selectedUserGroups: any[] = [];
+  selectedUserRoles: any[] = [];
   constructor(
     private dialogRef: MatDialogRef<AddUserComponent>,
     private httpClient: NgxDhis2HttpClientService,
-    private usersService: UsersService
-  ) {}
+    private usersService: UsersService,
+    private store: Store<State>,
+    @Inject(MAT_DIALOG_DATA) data
+  ) {
+    this.userGroupsConfigs = data;
+  }
 
   ngOnInit(): void {
     this.usernameField = [
@@ -77,6 +87,7 @@ export class AddUserComponent implements OnInit {
     ];
 
     this.userRoles$ = this.usersService.loadUserRoles();
+    this.userGroups$ = this.store.select(getAllUserGroups);
   }
 
   onUserUpdate(e: FormValue) {
@@ -130,5 +141,17 @@ export class AddUserComponent implements OnInit {
 
   onSave(e) {
     e.stopPropagation();
+  }
+
+  onGetSelectedItems(items, type) {
+    console.log(items);
+    console.log(type);
+    if (type == 'ROLES') {
+      this.selectedUserRoles = map(items, (item) => {
+        return item?.id;
+      });
+    } else {
+      this.selectedUserGroups = [...this.selectedUserGroups];
+    }
   }
 }

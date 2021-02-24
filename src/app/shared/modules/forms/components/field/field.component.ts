@@ -17,7 +17,7 @@ export class FieldComponent {
   fieldUpdate: EventEmitter<FormGroup> = new EventEmitter<FormGroup>();
 
   get isValid(): boolean {
-    console.log('controls', this.form.controls[this.field.id]);
+    // console.log('controls', this.form.controls[this.field.id]);
     return this.form?.controls[this.field.id]?.valid;
   }
 
