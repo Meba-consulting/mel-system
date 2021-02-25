@@ -54,4 +54,9 @@ export class EventProgramListComponent implements OnInit {
     e.stopPropagation();
     this.deleteEvent.emit(event);
   }
+
+  applyFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource.filter = filterValue.trim().toLowerCase();
+  }
 }
