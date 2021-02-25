@@ -3,9 +3,20 @@
   *ngIf="{ userGroups: userGroups$ | async } as userParams"
 >
   <div *ngIf="userParams?.userGroups">
-    <app-user-groups-list
-      [userGroups]="userParams?.userGroups?.userGroups"
-    ></app-user-groups-list>
+    <mat-tab-group>
+      <mat-tab
+        *ngFor="let section of userGroupsConfigs"
+        label="{{ section?.name }}"
+      >
+        <div class="p-2">
+          <app-user-groups-list
+            [currentUser]="currentUser"
+            [section]="section"
+            [userGroups]="userParams?.userGroups?.userGroups"
+          ></app-user-groups-list>
+        </div>
+      </mat-tab>
+    </mat-tab-group>
   </div>
 
   <mat-progress-bar

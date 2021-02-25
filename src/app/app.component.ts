@@ -43,6 +43,12 @@ export class AppComponent implements OnInit {
   currentDashboardId: string;
   viewMaintenance: boolean = false;
   showUserProfileSummary: boolean = false;
+
+  accessDashboardPage: boolean = true;
+  accessDataEntryPage: boolean = false;
+  accessUserManagementPage: boolean = false;
+  accessGeneralRegistrationPage: boolean = false;
+  accessReportsPage: boolean = false;
   constructor(
     private store: Store<State>,
     private translate: TranslateService,
@@ -79,6 +85,22 @@ export class AppComponent implements OnInit {
         _.each(currentUserInfo.userGroups, (userGroup) => {
           if (userGroup.name.indexOf('MAINTENANCE') > -1) {
             this.viewMaintenance = true;
+          }
+
+          if (userGroup.id === 'AneCcrT2u1u') {
+            this.accessDataEntryPage = true;
+          }
+
+          if (userGroup.id === 'QwqvXwFnk6W') {
+            this.accessUserManagementPage = true;
+          }
+
+          if (userGroup.id === 'WPQphfpT3z3') {
+            this.accessGeneralRegistrationPage = true;
+          }
+
+          if (userGroup.id === 'QyWywo0OwCN') {
+            this.accessReportsPage = true;
           }
         });
       }
@@ -137,23 +159,27 @@ export class AppComponent implements OnInit {
 
   onOpenUserSettings(e, user) {
     e.stopPropagation();
-    this.dialog.open(UserSettingsComponent, {
-      width: '40%',
-      height: '470px',
-      disableClose: true,
-      data: { user: user },
-      panelClass: 'custom-dialog-container',
-    }).afterClosed().pipe(take(1)).subscribe(res => {
-      if (res && res == true) {
-        // go to login
-      } else {
-        // No need to move to login
-      }
-    })
+    this.dialog
+      .open(UserSettingsComponent, {
+        width: '40%',
+        height: '470px',
+        disableClose: true,
+        data: { user: user },
+        panelClass: 'custom-dialog-container',
+      })
+      .afterClosed()
+      .pipe(take(1))
+      .subscribe((res) => {
+        if (res && res == true) {
+          // go to login
+        } else {
+          // No need to move to login
+        }
+      });
   }
 
   onEditUser(e, user) {
-    e.stopPropagation()
+    e.stopPropagation();
     // console.log(user)
     this.dialog.open(UserProfileComponent, {
       width: '50%',
@@ -161,6 +187,6 @@ export class AppComponent implements OnInit {
       disableClose: true,
       data: { user: user },
       panelClass: 'custom-dialog-container',
-    })
+    });
   }
 }

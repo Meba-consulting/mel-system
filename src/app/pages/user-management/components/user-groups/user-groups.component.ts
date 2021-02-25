@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { UserGroupsService } from 'src/app/core';
 
@@ -8,6 +8,8 @@ import { UserGroupsService } from 'src/app/core';
   styleUrls: ['./user-groups.component.css'],
 })
 export class UserGroupsComponent implements OnInit {
+  @Input() userGroupsConfigs: any;
+  @Input() currentUser: any;
   userGroups$: Observable<any[]>;
   constructor(private userGroupService: UserGroupsService) {}
 

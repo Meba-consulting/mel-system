@@ -181,12 +181,12 @@ export class AddUserComponent implements OnInit {
   }
 
   onFormUpdate(formValue: FormValue) {
-    console.log(formValue.getValues());
+    // console.log(formValue.getValues());
     const password = formValue.getValues()?.password?.value;
     const repeatedPassword = formValue.getValues()?.rePassword?.value;
 
-    console.log('password', password);
-    console.log(repeatedPassword);
+    // console.log('password', password);
+    // console.log(repeatedPassword);
     if (password && repeatedPassword && password !== repeatedPassword) {
       this.currentFormData = {
         ...this.currentFormData,
@@ -259,8 +259,8 @@ export class AddUserComponent implements OnInit {
   }
 
   onGetSelectedItems(items, type, category?) {
-    console.log(items);
-    console.log(type);
+    // console.log(items);
+    // console.log(type);
     if (type == 'ROLES') {
       this.selectedUserRoles = map(items, (item) => {
         return { id: item?.id };
@@ -273,7 +273,7 @@ export class AddUserComponent implements OnInit {
   }
 
   onFilterUpdate(selections) {
-    console.log(selections);
+    // console.log(selections);
     this.ouFilterIsSet = false;
     this.selectedOrgUnits = selections?.items;
   }
@@ -289,7 +289,7 @@ export class AddUserComponent implements OnInit {
 
   onClose(e) {
     e.stopPropagation();
-    console.log('reLoadUsers', this.atLeastOneUSerAdded);
+    // console.log('reLoadUsers', this.atLeastOneUSerAdded);
     if (this.atLeastOneUSerAdded) {
       this.dialogRef.close(this.atLeastOneUSerAdded);
     } else {

@@ -41,9 +41,21 @@
           <mat-icon>more_vert</mat-icon>
         </button>
         <mat-menu #menu="matMenu" class="menu-options">
-          <button (click)="onEditUserGroup($event, element)" mat-menu-item>
+          <button
+            [disabled]="!canDoMaintenance"
+            (click)="onEditUserGroup($event, element)"
+            mat-menu-item
+          >
             <mat-icon>edit</mat-icon>
             <span>Edit</span>
+          </button>
+          <button
+            [disabled]="!canDoMaintenance"
+            (click)="onDeleteUserGroup($event, element.action)"
+            mat-menu-item
+          >
+            <mat-icon>delete</mat-icon>
+            <span>Delete</span>
           </button>
         </mat-menu>
       </td>
@@ -60,10 +72,11 @@
 </div>
 <div>
   <button
+    [disabled]="!canDoMaintenance"
     (click)="onAddNewUserGroup($event)"
     tabindex="0"
     type="button"
-    title="Add new user"
+    [title]="canDoMaintenance ? 'Add new user' : 'You do not have access'"
     style="
       border: 10px;
       box-sizing: border-box;

@@ -1,8 +1,10 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 
 import * as _ from 'lodash';
+import { DeletingItemComponent } from 'src/app/shared/components/deleting-item/deleting-item.component';
 
 @Component({
   selector: 'app-user-groups-list',
@@ -11,18 +13,42 @@ import * as _ from 'lodash';
 })
 export class UserGroupsListComponent implements OnInit {
   @Input() userGroups: any[];
+  @Input() section: any;
+  @Input() currentUser: any;
+  items: any[];
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
 
   displayedColumns: string[] = ['position', 'userGroup', 'action'];
   dataSource: any;
-  constructor() {}
+  canDoMaintenance: boolean = false;
+  constructor(private dialog: MatDialog) {}
 
   ngOnInit(): void {
-    console.log(this.userGroups);
-    this.dataSource = new MatTableDataSource(
-      this.formatUserRoles(this.userGroups)
-    );
+    this.items = this.section?.no_underscore
+      ? _.filter(this.userGroups, (item) => {
+          if (item?.name?.indexOf('_') !== 0) {
+            return item;
+          }
+        }) || []
+      : _.filter(this.userGroups, (item) => {
+          if (
+            item?.name
+              ?.toLowerCase()
+              .indexOf(this.section?.key.toLowerCase()) == 0
+          ) {
+            return item;
+          }
+        }) || [];
+    // console.log(this.userGroups);
+    // console.log('SECTIOn', this.section);
+    this.dataSource = new MatTableDataSource(this.formatUserRoles(this.items));
     this.dataSource.paginator = this.paginator;
+
+    _.each(this.currentUser.userGroups, (userGroup) => {
+      if (userGroup.name.indexOf('MAINTENANCE') > -1) {
+        this.canDoMaintenance = true;
+      }
+    });
   }
 
   applyFilter(event: Event) {
@@ -47,5 +73,23 @@ export class UserGroupsListComponent implements OnInit {
 
   onAddNewUserGroup(e) {
     e.stopPropagation();
+  }
+
+  onDeleteUserGroup(e, group) {
+    e.stopPropagation();
+    this.dialog
+      .open(DeletingItemComponent, {
+        width: '20%',
+        height: '250px',
+        disableClose: false,
+        data: { path: 'userGroups/' + group?.id, itemName: group?.name },
+        panelClass: 'custom-dialog-container',
+      })
+      .afterClosed()
+      .subscribe((data) => {
+        if (data) {
+          // this.reLoadUsers.emit(true);
+        }
+      });
   }
 }
