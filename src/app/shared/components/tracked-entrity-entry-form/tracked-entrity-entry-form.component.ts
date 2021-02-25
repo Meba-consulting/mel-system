@@ -88,7 +88,7 @@ export class TrackedEntrityEntryFormComponent implements OnInit, OnChanges {
                     }
                   )
                 : [],
-              required: true,
+              required: attribute?.mandatory,
             };
         }
       ),

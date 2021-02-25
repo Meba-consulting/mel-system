@@ -144,6 +144,7 @@
                 Save
               </button>
               <button
+                [disabled]="!editData"
                 *ngIf="program?.updateStages"
                 mat-stroked-button
                 (click)="
@@ -154,7 +155,7 @@
                   )
                 "
               >
-                Update stages data
+                More (tracking)
               </button>
             </div>
           </div>

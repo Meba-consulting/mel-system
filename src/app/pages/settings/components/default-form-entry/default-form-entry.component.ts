@@ -28,7 +28,6 @@ export class DefaultFormEntryComponent implements OnInit, OnChanges {
   constructor() {}
 
   ngOnInit(): void {
-    console.log(this.isTrackedEntityInstanceAttributes);
     // create form fields
     if (this.isTrackedEntityInstanceAttributes) {
       this.formFields = _.map(
@@ -39,13 +38,55 @@ export class DefaultFormEntryComponent implements OnInit, OnChanges {
             label: attribute?.trackedEntityAttribute?.name,
             key: attribute?.trackedEntityAttribute?.id,
             controlType:
-              attribute?.trackedEntityAttribute?.valueType == 'TEXT'
+              attribute?.trackedEntityAttribute?.valueType == 'TEXT' &&
+              !attribute?.trackedEntityAttribute?.optionSet
                 ? 'textbox'
-                : attribute?.trackedEntityAttribute?.valueType == 'DATE'
+                : attribute?.trackedEntityAttribute?.valueType == 'TEXT' &&
+                  !attribute?.trackedEntityAttribute?.optionSet
+                ? 'textarea'
+                : attribute?.trackedEntityAttribute?.valueType == 'DATE' &&
+                  !attribute?.trackedEntityAttribute?.optionSet
                 ? 'date'
+                : attribute?.trackedEntityAttribute?.optionSet
+                ? 'dropdown'
+                : attribute?.trackedEntityAttribute?.valueType ==
+                    'INTEGER_ZERO_OR_POSITIVE' &&
+                  !attribute?.trackedEntityAttribute?.optionSet
+                ? 'number'
                 : 'textbox',
+            type:
+              (attribute?.trackedEntityAttribute?.valueType ==
+                'INTEGER_ZERO_OR_POSITIVE' ||
+                attribute?.trackedEntityAttribute?.valueType ==
+                  'INTEGER_POSITIVE') &&
+              !attribute?.trackedEntityAttribute?.optionSet
+                ? 'number'
+                : null,
+            min:
+              attribute?.trackedEntityAttribute?.valueType ==
+                'INTEGER_ZERO_OR_POSITIVE' &&
+              !attribute?.trackedEntityAttribute?.optionSet
+                ? 0
+                : attribute?.trackedEntityAttribute?.valueType ==
+                    'INTEGER_POSITIVE' &&
+                  !attribute?.trackedEntityAttribute?.optionSet
+                ? 1
+                : null,
             name: attribute?.trackedEntityAttribute?.name,
-            required: true,
+            required: attribute?.mandatory,
+            options: attribute?.trackedEntityAttribute?.optionSet
+              ? _.map(
+                  attribute?.trackedEntityAttribute?.optionSet?.options,
+                  (option) => {
+                    return {
+                      id: option?.id,
+                      name: option?.name,
+                      label: option?.name,
+                      key: option?.id,
+                    };
+                  }
+                )
+              : [],
           };
         }
       );
@@ -65,12 +106,54 @@ export class DefaultFormEntryComponent implements OnInit, OnChanges {
             label: attribute?.trackedEntityAttribute?.name,
             key: attribute?.trackedEntityAttribute?.id,
             controlType:
-              attribute?.trackedEntityAttribute?.valueType == 'TEXT'
+              attribute?.trackedEntityAttribute?.valueType == 'TEXT' &&
+              !attribute?.trackedEntityAttribute?.optionSet
                 ? 'textbox'
-                : attribute?.trackedEntityAttribute?.valueType == 'DATE'
+                : attribute?.trackedEntityAttribute?.valueType == 'TEXT' &&
+                  !attribute?.trackedEntityAttribute?.optionSet
+                ? 'textarea'
+                : attribute?.trackedEntityAttribute?.valueType == 'DATE' &&
+                  !attribute?.trackedEntityAttribute?.optionSet
                 ? 'date'
+                : attribute?.trackedEntityAttribute?.optionSet
+                ? 'dropdown'
+                : attribute?.trackedEntityAttribute?.valueType ==
+                    'INTEGER_ZERO_OR_POSITIVE' &&
+                  !attribute?.trackedEntityAttribute?.optionSet
+                ? 'number'
                 : 'textbox',
+            type:
+              (attribute?.trackedEntityAttribute?.valueType ==
+                'INTEGER_ZERO_OR_POSITIVE' ||
+                attribute?.trackedEntityAttribute?.valueType ==
+                  'INTEGER_POSITIVE') &&
+              !attribute?.trackedEntityAttribute?.optionSet
+                ? 'number'
+                : null,
+            min:
+              attribute?.trackedEntityAttribute?.valueType ==
+                'INTEGER_ZERO_OR_POSITIVE' &&
+              !attribute?.trackedEntityAttribute?.optionSet
+                ? 0
+                : attribute?.trackedEntityAttribute?.valueType ==
+                    'INTEGER_POSITIVE' &&
+                  !attribute?.trackedEntityAttribute?.optionSet
+                ? 1
+                : null,
             name: attribute?.trackedEntityAttribute?.name,
+            options: attribute?.trackedEntityAttribute?.optionSet
+              ? _.map(
+                  attribute?.trackedEntityAttribute?.optionSet?.options,
+                  (option) => {
+                    return {
+                      id: option?.id,
+                      name: option?.name,
+                      label: option?.name,
+                      key: option?.id,
+                    };
+                  }
+                )
+              : [],
             required: true,
           };
         }

@@ -4,13 +4,13 @@
     programsLoadedState: programsLoadedState$ | async
   } as params"
 >
-  <mat-toolbar class="modal-header">Add club member</mat-toolbar>
+  <!-- <mat-toolbar class="modal-header">Add club member</mat-toolbar> -->
 
   <div class="p-3">
     <!-- {{ params?.program | json }} -->
     <div class="h3 text-left">{{ params?.program?.name }}</div>
     <hr />
-    <div style="max-height: 450px; overflow: auto" class="p-2">
+    <div style="max-height: 550px; overflow: auto" class="p-2">
       <!-- {{ params?.program?.programTrackedEntityAttributes | json }} -->
       <div
         *ngIf="

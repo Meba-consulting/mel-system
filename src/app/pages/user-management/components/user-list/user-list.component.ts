@@ -46,7 +46,7 @@ export class UserListComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    console.log(this.users);
+    // console.log(this.users);
     this.dataSource = new MatTableDataSource(this.formatUsersList(this.users));
     this.dataSource.paginator = this.paginator;
     this.userGroupsConfigs$ = this.httpClient.get(
@@ -97,7 +97,6 @@ export class UserListComponent implements OnInit {
       .afterClosed()
       .subscribe((data) => {
         if (data) {
-          console.log('CHECK', data);
           this.reLoadUsers.emit(true);
         }
       });
