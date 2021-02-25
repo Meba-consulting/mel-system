@@ -1,9 +1,19 @@
-<div class="row" style="margin-top: 20px" *ngIf="{programDataStoreConfigs: programDataStoreConfigs$ | async} as params">
+<div
+  class="row"
+  style="margin-top: 20px"
+  *ngIf="{
+    programDataStoreConfigs: programDataStoreConfigs$ | async
+  } as params"
+>
   <div class="col-md-9">
     <div class="forms">
       <mat-form-field class="w-100" appearance="outline">
         <mat-label>Select form</mat-label>
-        <mat-select [(value)]="currentProgram" required (selectionChange)="getForm($event.value)">
+        <mat-select
+          [(value)]="currentProgram"
+          required
+          (selectionChange)="getForm($event.value)"
+        >
           <mat-option *ngFor="let option of formattedPrograms" [value]="option">
             {{ option.name }}
           </mat-option>
@@ -35,13 +45,17 @@
         [program]="currentProgram"
         [orgUnit]="selectedOu"
         [currentUser]="currentUser"
+        [configs]="params?.programDataStoreConfigs"
         [stagesEntryOnly]="currentProgram?.stagesEntryOnly"
       ></app-program-entry>
     </div>
   </div>
   <div class="col-md-3">
     <div class="summary" *ngIf="params?.programDataStoreConfigs">
-      <app-entry-side-bar-summary [program]="currentProgram" [configs]="params?.programDataStoreConfigs"></app-entry-side-bar-summary>
+      <app-entry-side-bar-summary
+        [program]="currentProgram"
+        [configs]="params?.programDataStoreConfigs"
+      ></app-entry-side-bar-summary>
     </div>
     <mat-progress-bar
       *ngIf="!params?.programDataStoreConfigs"

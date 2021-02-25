@@ -28,6 +28,7 @@ export class ProgramEntryComponent implements OnInit {
   @Input() currentUser: any;
   @Input() indicators: any;
   @Input() stagesEntryOnly: any;
+  @Input() configs: any;
   attributeValues: any;
   events$: Observable<any>;
   elementsDataValues: any = {};
@@ -311,11 +312,11 @@ export class ProgramEntryComponent implements OnInit {
   }
 
   onSelectTrackedEntityInstance(trackedEntityInstance) {
-    console.log('trackedEntityInstance', trackedEntityInstance);
+    // console.log('trackedEntityInstance', trackedEntityInstance);
     this.loadStageData = false;
     this.currentTrackedEntityInstanceId = null;
-    this.eventsData.trackedEntityInstance = trackedEntityInstance[0]?.id;
-    this.eventsData.enrollment = trackedEntityInstance[0]?.id;
+    this.eventsData.trackedEntityInstance = trackedEntityInstance?.id;
+    this.eventsData.enrollment = trackedEntityInstance?.id;
     // setTimeout(() => {
     //   this.currentTrackedEntityInstanceId = trackedEntityInstance[0]?.id;
     //   this.loadStageData = true;
@@ -329,7 +330,7 @@ export class ProgramEntryComponent implements OnInit {
       data: {
         program: this.program,
         orgUnit: this.orgUnit,
-        currentTrackedEntityInstanceId: trackedEntityInstance[0]?.id,
+        currentTrackedEntityInstanceId: trackedEntityInstance?.id,
       },
       panelClass: 'custom-dialog-container',
     });

@@ -33,7 +33,6 @@ export function filterBillingLawsAndPoliciesPrograms(
         }
       }),
       (prog) => {
-        console.log(prog);
         return {
           ...prog,
           programStages: _.map(prog?.programStages, (stage) => {

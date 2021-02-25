@@ -63,6 +63,7 @@
         <div class="tracked-entity-intances">
           <app-tracked-entity-instance-selector
             [queryData]="params?.queryResponseData"
+            [programConfigs]="configs"
             (trackedEntityInstance)="onSelectTrackedEntityInstance($event)"
           ></app-tracked-entity-instance-selector>
         </div>

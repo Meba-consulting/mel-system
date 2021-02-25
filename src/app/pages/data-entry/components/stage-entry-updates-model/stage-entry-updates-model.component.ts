@@ -10,6 +10,7 @@ import { DataService } from 'src/app/core/services/data.service';
 import { ConfirmDeleteModalComponent } from 'src/app/shared/components/confirm-delete-modal/confirm-delete-modal.component';
 
 import * as _ from 'lodash';
+import { formatDateYYMMDD } from '../../helpers';
 
 @Component({
   selector: 'app-stage-entry-updates-model',
@@ -53,15 +54,15 @@ export class StageEntryUpdatesModelComponent implements OnInit {
     });
 
     this.eventsData = {
-      trackedEntityInstance: '',
+      trackedEntityInstance: this.currentTrackedEntityInstanceId,
       program: this.program?.id,
       programStage: '',
-      enrollment: '',
+      enrollment: this.currentTrackedEntityInstanceId,
       orgUnit: this.orgUnit?.id,
       notes: [],
       dataValues: [],
       status: 'ACTIVE',
-      eventDate: null,
+      eventDate: formatDateYYMMDD(new Date()),
     };
 
     this.savedUserDataStore$ = this.dataService.getSavedUserDataStoreProgramConfigurations(
@@ -88,10 +89,26 @@ export class StageEntryUpdatesModelComponent implements OnInit {
     this.selectedTab.setValue(val);
   }
 
+  onGetFormValuesData(values, stageDataElements) {
+    this.eventsData.dataValues = _.map(
+      _.filter(Object.keys(values), (key) => {
+        if (values[key]?.value !== '') {
+          return key;
+        }
+      }),
+      (element) => {
+        return {
+          dataElement: element,
+          value: values[element]?.value,
+        };
+      }
+    );
+    console.log(stageDataElements);
+  }
+
   changeTabForData(e, val) {
     e.stopPropagation();
     this.selectedTabForDataSection.setValue(val);
-    console.log(val);
     this.loadStageData = true;
   }
 
@@ -126,7 +143,6 @@ export class StageEntryUpdatesModelComponent implements OnInit {
   }
 
   onEditEvent(e) {
-    console.log(e);
     this.currentEventToEdit = e;
     _.map(e.dataValues, (dataValue) => {
       this.programStageFormData[dataValue?.dataElement] = {

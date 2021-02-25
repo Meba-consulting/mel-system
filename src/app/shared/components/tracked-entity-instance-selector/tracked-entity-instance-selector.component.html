@@ -14,23 +14,33 @@
     </mat-select>
   </mat-form-field> -->
   <div class="row">
-    <div class="col-4" *ngFor="let item of cardData">
+    <div
+      class="col-4"
+      *ngFor="let item of formattedCardData"
+      style="margin-bottom: 15px"
+    >
       <mat-card class="example-card">
-        <!-- <mat-card-header>
-          <div mat-card-avatar class="example-header-image"></div>
-          <mat-card-title>Shiba Inu</mat-card-title>
-          <mat-card-subtitle>Dog Breed</mat-card-subtitle>
-        </mat-card-header> -->
+        <mat-card-header>
+          <mat-card-title>
+            <b>
+              {{ item?.headerData }}
+            </b></mat-card-title
+          >
+          <mat-card-subtitle>{{ item?.other }}</mat-card-subtitle>
+        </mat-card-header>
         <!-- <img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="Photo of a Shiba Inu"> -->
         <mat-card-content>
-          <div style="height: 150px; overflow: auto">
-            <p *ngFor="let data of item">
-              <b>{{ data?.name }}:</b> {{ data?.value }}
+          <div style="max-height: 150px; overflow: auto">
+            <p style="font-size: 1.25rem">
+              {{ item?.bodyData }}
             </p>
           </div>
         </mat-card-content>
         <mat-card-actions>
-          <button mat-button (click)="getTrackedEntityInstance($event, item)">
+          <button
+            mat-button
+            (click)="getTrackedEntityInstance($event, item?.item)"
+          >
             Open
           </button>
           <!-- <button mat-button>SHARE</button> -->
