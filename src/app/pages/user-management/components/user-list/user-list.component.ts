@@ -1,4 +1,11 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+  ViewChild,
+} from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
@@ -6,6 +13,7 @@ import { NgxDhis2HttpClientService } from '@iapps/ngx-dhis2-http-client';
 
 import * as _ from 'lodash';
 import { Observable } from 'rxjs';
+import { DeletingItemComponent } from 'src/app/shared/components/deleting-item/deleting-item.component';
 import { AddUserComponent } from '../add-user/add-user.component';
 
 @Component({
@@ -15,6 +23,7 @@ import { AddUserComponent } from '../add-user/add-user.component';
 })
 export class UserListComponent implements OnInit {
   @Input() users: any[];
+  @Input() currentUser: any;
 
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
 
@@ -29,6 +38,8 @@ export class UserListComponent implements OnInit {
   ];
   dataSource: any;
   userGroupsConfigs$: Observable<any>;
+  canDoMaintenance: boolean = false;
+  @Output() reLoadUsers = new EventEmitter<any>();
   constructor(
     private dialog: MatDialog,
     private httpClient: NgxDhis2HttpClientService
@@ -41,6 +52,12 @@ export class UserListComponent implements OnInit {
     this.userGroupsConfigs$ = this.httpClient.get(
       'dataStore/user-groups/configurations'
     );
+
+    _.each(this.currentUser.userGroups, (userGroup) => {
+      if (userGroup.name.indexOf('MAINTENANCE') > -1) {
+        this.canDoMaintenance = true;
+      }
+    });
   }
 
   applyFilter(event: Event) {
@@ -69,12 +86,38 @@ export class UserListComponent implements OnInit {
 
   onAddNewUser(e, userGroupsConfigs) {
     e.stopPropagation();
-    this.dialog.open(AddUserComponent, {
-      width: '60%',
-      height: '750px',
-      disableClose: false,
-      data: userGroupsConfigs,
-      panelClass: 'custom-dialog-container',
-    });
+    this.dialog
+      .open(AddUserComponent, {
+        width: '60%',
+        height: '800px',
+        disableClose: false,
+        data: userGroupsConfigs,
+        panelClass: 'custom-dialog-container',
+      })
+      .afterClosed()
+      .subscribe((data) => {
+        if (data) {
+          console.log('CHECK', data);
+          this.reLoadUsers.emit(true);
+        }
+      });
+  }
+
+  onDeleteUser(e, user) {
+    e.stopPropagation();
+    this.dialog
+      .open(DeletingItemComponent, {
+        width: '20%',
+        height: '250px',
+        disableClose: false,
+        data: { path: 'users/' + user?.id, itemName: user?.displayName },
+        panelClass: 'custom-dialog-container',
+      })
+      .afterClosed()
+      .subscribe((data) => {
+        if (data) {
+          this.reLoadUsers.emit(true);
+        }
+      });
   }
 }

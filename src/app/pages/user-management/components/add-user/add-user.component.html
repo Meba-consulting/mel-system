@@ -23,6 +23,10 @@
         ></mat-progress-bar>
       </div>
 
+      <p class="text-danger">
+        {{ passwordMessage }}
+      </p>
+
       <div *ngIf="formFields && formFields?.length > 0">
         <app-form
           [fields]="formFields"
@@ -39,28 +43,64 @@
         ></app-user-roles-panel-selector>
       </div>
 
+      <div class="ou-filter">
+        <button
+          style="text-align: left; padding: 10px 8px"
+          class="w-100"
+          (click)="onToggleOuFilter($event)"
+          mat-stroked-button
+        >
+          Organisation unit access
+          <span *ngIf="selectedOrgUnits?.length > 0 && !ouFilterIsSet"
+            >: {{ selectedOrgUnits[0]?.name }}</span
+          >
+        </button>
+        <ngx-dhis2-org-unit-filter
+          *ngIf="ouFilterIsSet"
+          [selectedOrgUnitItems]="selectedOrgUnits"
+          [orgUnitFilterConfig]="orgUnitFilterConfig"
+          (orgUnitClose)="onFilterClose($event)"
+          (orgUnitUpdate)="onFilterUpdate($event)"
+        ></ngx-dhis2-org-unit-filter>
+      </div>
+
       <div *ngIf="userParams?.userGroups">
         <div *ngFor="let section of userGroupsConfigs">
           <div class="p-1 h5" style="margin-top: 15px">{{ section?.name }}</div>
           <app-user-roles-panel-selector
             [items]="userParams?.userGroups"
             [section]="section"
-            (selectedItems)="onGetSelectedItems($event, 'USER_GROUPS')"
+            (selectedItems)="onGetSelectedItems($event, 'USER_GROUPS', section)"
           ></app-user-roles-panel-selector>
         </div>
       </div>
     </div>
-    <div>
+    <div style="margin-top: 20px">
+      <p class="text-center text-success">
+        {{ savingUserMessage }}
+      </p>
       <button
         mat-stroked-button
         [disabled]="
-          !isFormValid ||
+          selectedOrgUnits?.length == 0 ||
+          !passwordsMatch ||
           (userParams?.usedUsername &&
-            userParams?.usedUsername?.user?.length > 0)
+            userParams?.usedUsername?.users?.length > 0) ||
+          savingUser
         "
         (click)="onSave($event)"
       >
+        <mat-spinner
+          *ngIf="savingUser"
+          color="accent"
+          [diameter]="20"
+          style="display: inline-block !important; margin-right: 4px"
+        >
+        </mat-spinner>
         Save
+      </button>
+      <button class="float-right" (click)="onClose($event)" mat-stroked-button>
+        Close
       </button>
     </div>
   </div>

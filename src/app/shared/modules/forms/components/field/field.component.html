@@ -12,10 +12,8 @@
       [id]="field?.key"
       [min]="field?.min"
       [max]="field?.max"
-      [disabled]="true"
       [placeholder]="field?.placeholder"
       [type]="field?.type"
-      [disabled]="field?.disabled"
       matInput
       (keyup)="onFieldUpdate(field?.controlType)"
     />
@@ -26,10 +24,8 @@
       [id]="field?.key"
       [min]="field?.min"
       [max]="field?.max"
-      [disabled]="true"
       [placeholder]="field?.placeholder"
       [type]="field?.type"
-      [disabled]="field?.disabled"
       matInput
       (keyup)="onFieldUpdate(field?.controlType)"
     />
@@ -41,10 +37,8 @@
       [formControlName]="field?.key"
       [id]="field?.key"
       [minlength]="field?.min"
-      [disabled]="true"
       [placeholder]="field?.placeholder"
       [type]="field?.type"
-      [disabled]="field?.disabled"
       matInput
       (keyup)="onFieldUpdate(field?.controlType)"
     />
@@ -56,10 +50,8 @@
       [formControlName]="field?.key"
       [id]="field?.key"
       [minlength]="field?.min"
-      [disabled]="true"
       [placeholder]="field?.placeholder"
       [type]="field?.type"
-      [disabled]="field?.disabled"
       matInput
       (keyup)="onFieldUpdate(field?.controlType)"
     />
@@ -70,11 +62,20 @@
       *ngSwitchCase="'password'"
       [formControlName]="field?.key"
       [id]="field?.key"
-      [minlength]="field?.min"
-      [disabled]="true"
       [placeholder]="field?.placeholder"
-      [type]="field?.type"
-      [disabled]="field?.disabled"
+      [type]="hide ? 'password' : 'text'"
+      matInput
+      (keyup)="onFieldUpdate(field?.controlType)"
+    />
+    <!-- End of password -->
+
+    <!-- re password -->
+    <input
+      *ngSwitchCase="'rePassword'"
+      [formControlName]="field?.key"
+      [id]="field?.key"
+      [placeholder]="field?.placeholder"
+      [type]="hide ? 'password' : 'text'"
       matInput
       (keyup)="onFieldUpdate(field?.controlType)"
     />
@@ -87,10 +88,8 @@
       [formControlName]="field?.key"
       [id]="field?.key"
       [maxLength]="field?.max"
-      [disabled]="true"
       [placeholder]="field?.placeholder"
       [type]="field?.type"
-      [disabled]="field?.disabled"
       matInput
       (keyup)="onFieldUpdate(field?.controlType)"
     />
@@ -102,7 +101,6 @@
       *ngSwitchCase="'dropdown'"
       [placeholder]="field?.placeholder"
       [formControlName]="field?.key"
-      [disabled]="field?.disabled"
       (selectionChange)="onFieldUpdate(field?.controlType)"
     >
       <mat-option *ngFor="let option of field?.options" [value]="option?.key">{{
@@ -116,7 +114,6 @@
       *ngSwitchCase="'textarea'"
       matInput
       [id]="field?.key"
-      [disabled]="field?.disabled"
       [formControlName]="field?.key"
       [placeholder]="field?.placeholder"
       (keyup)="onFieldUpdate(field?.controlType)"
@@ -131,7 +128,8 @@
       "
       >{{ field?.label }} is required</mat-error
     >
-    <mat-error *ngIf="form.controls[field?.id].errors?.email"
+    <mat-error
+      *ngIf="field?.type == 'email' && form.controls[field?.id].errors?.email"
       >Please provide a valid email address</mat-error
     >
 
@@ -148,6 +146,13 @@
       "
       >Should not start with zero (0) and should have 9 number
       characters</mat-error
+    >
+
+    <mat-icon
+      *ngIf="field?.type == 'password'"
+      matSuffix
+      (click)="hide = !hide"
+      >{{ hide ? 'visibility_off' : 'visibility' }}</mat-icon
     >
     <div
       class="mat-form-field-subscript-wrapper"

@@ -8,7 +8,8 @@
       </div>
 
       <form [formGroup]="changePassword" class="p-3">
-        <input style="margin-bottom: 8px;"
+        <input
+          style="margin-bottom: 8px"
           class="form-control"
           [value]="user?.userCredentials?.username"
           [disabled]="true"
@@ -24,7 +25,7 @@
           <mat-icon matSuffix (click)="hideOld = !hideOld">{{
             hideOld ? 'visibility_off' : 'visibility'
           }}</mat-icon>
-          <mat-hint *ngIf="!passwordOldInput.value">Enter old password</mat-hint>
+          <!-- <mat-hint *ngIf="!passwordOldInput.value">Enter old password</mat-hint> -->
         </mat-form-field>
         <mat-form-field class="w-100">
           <input
@@ -37,9 +38,9 @@
           <mat-icon matSuffix (click)="hide = !hide">{{
             hide ? 'visibility_off' : 'visibility'
           }}</mat-icon>
-          <mat-hint *ngIf="!passwordInput.value">Enter your password</mat-hint>
+          <!-- <mat-hint *ngIf="!passwordInput.value">Enter your password</mat-hint> -->
           <mat-error>
-            {{errorMessage}}
+            {{ errorMessage }}
           </mat-error>
         </mat-form-field>
 
@@ -54,21 +55,22 @@
           <mat-icon matSuffix (click)="hideRepeat = !hideRepeat">{{
             hideRepeat ? 'visibility_off' : 'visibility'
           }}</mat-icon>
-          <mat-hint *ngIf="!passwordRepeatInput.value"
+          <!-- <mat-hint *ngIf="!passwordRepeatInput.value"
             >Repeat your password</mat-hint
-          >
+          > -->
           <mat-error>
-            {{errorMessage}}
+            {{ errorMessage }}
           </mat-error>
         </mat-form-field>
       </form>
     </div>
-    <div class="col-12" *ngIf="{ updateResponse: updateResponse$ | async } as params">
+    <div
+      class="col-12"
+      *ngIf="{ updateResponse: updateResponse$ | async } as params"
+    >
       <div class="p-3">
         <div *ngIf="!passwordsMatch && changePassword?.status == 'VALID'">
-          <p class="text-center text-danger">
-            Passwords does not match
-          </p>
+          <p class="text-center text-danger">Passwords do not match</p>
         </div>
         <button
           [disabled]="changePassword?.status !== 'VALID' || !passwordsMatch"
@@ -78,9 +80,18 @@
         >
           Save
         </button>
-        <button mat-stroked-button class="mr-2 float-right" (click)="onClose($event)">Close</button>
-        <div *ngIf="params?.updateResponse?.status == 409" class="text-center text-danger">
-          {{params?.updateResponse?.message}}
+        <button
+          mat-stroked-button
+          class="mr-2 float-right"
+          (click)="onClose($event)"
+        >
+          Close
+        </button>
+        <div
+          *ngIf="params?.updateResponse?.status == 409"
+          class="text-center text-danger"
+        >
+          {{ params?.updateResponse?.message }}
         </div>
       </div>
     </div>

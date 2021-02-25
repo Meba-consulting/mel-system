@@ -67,9 +67,21 @@
             <mat-icon>more_vert</mat-icon>
           </button>
           <mat-menu #menu="matMenu" class="menu-options">
-            <button (click)="onEditUser($event, element)" mat-menu-item>
+            <button
+              (click)="onEditUser($event, element)"
+              [disabled]="!canDoMaintenance"
+              mat-menu-item
+            >
               <mat-icon>edit</mat-icon>
               <span>Edit</span>
+            </button>
+            <button
+              [disabled]="!canDoMaintenance"
+              (click)="onDeleteUser($event, element.action)"
+              mat-menu-item
+            >
+              <mat-icon>delete</mat-icon>
+              <span>Delete</span>
             </button>
           </mat-menu>
         </td>
@@ -86,10 +98,13 @@
   </div>
   <div *ngIf="userParams?.userGroupsConfigs">
     <button
+      [disabled]="!canDoMaintenance"
       (click)="onAddNewUser($event, userParams?.userGroupsConfigs)"
       tabindex="0"
       type="button"
-      title="Add new user"
+      [title]="
+        canDoMaintenance ? 'Add new user' : 'You do not have access to add user'
+      "
       style="
         border: 10px;
         box-sizing: border-box;

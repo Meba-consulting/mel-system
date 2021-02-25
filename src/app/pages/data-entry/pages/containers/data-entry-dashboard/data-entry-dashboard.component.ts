@@ -45,7 +45,7 @@ export class DataEntryDashboardComponent implements OnInit {
   selectedOu: any;
 
   queryResponseData$: Observable<any>;
-  programDataStoreConfigs$: Observable<any>
+  programDataStoreConfigs$: Observable<any>;
   constructor(
     private store: Store<State>,
     private dataService: DataService,
@@ -61,7 +61,9 @@ export class DataEntryDashboardComponent implements OnInit {
     this.formattedPrograms = formatProgramsForDataEntry(this.programs);
     console.log('this', this.formattedPrograms);
     this.currentProgram = this.programs[0];
-    this.programDataStoreConfigs$ = this.httpClient.get('dataStore/programs/' + this.currentProgram?.id);
+    this.programDataStoreConfigs$ = this.httpClient.get(
+      'dataStore/programs/' + this.currentProgram?.id
+    );
   }
 
   onFilterUpdate(selections) {
@@ -79,6 +81,11 @@ export class DataEntryDashboardComponent implements OnInit {
     }, 600);
   }
 
+  onToggleOuFilter(e) {
+    e.stopPropagation();
+    this.ouFilterIsSet = !this.ouFilterIsSet;
+  }
+
   onFilterClose(selections) {
     console.log('closing');
     this.ouFilterIsSet = false;
@@ -89,7 +96,9 @@ export class DataEntryDashboardComponent implements OnInit {
     this.paramersSet = false;
     setTimeout(() => {
       this.currentProgram = val;
-      this.programDataStoreConfigs$ = this.httpClient.get('dataStore/programs/' + this.currentProgram?.id);
+      this.programDataStoreConfigs$ = this.httpClient.get(
+        'dataStore/programs/' + this.currentProgram?.id
+      );
       this.programId = val?.id;
       if (this.ouId && this.programId) {
         this.paramersSet = true;
@@ -99,10 +108,5 @@ export class DataEntryDashboardComponent implements OnInit {
 
   toggleSubItems() {
     this.showSubMenu = !this.showSubMenu;
-  }
-
-  onToggleOuFilter(e) {
-    e.stopPropagation();
-    this.ouFilterIsSet = !this.ouFilterIsSet;
   }
 }

@@ -16,6 +16,9 @@ export class FieldComponent {
   @Output()
   fieldUpdate: EventEmitter<FormGroup> = new EventEmitter<FormGroup>();
 
+  hide = true;
+  hideRepeat = true;
+
   get isValid(): boolean {
     // console.log('controls', this.form.controls[this.field.id]);
     return this.form?.controls[this.field.id]?.valid;

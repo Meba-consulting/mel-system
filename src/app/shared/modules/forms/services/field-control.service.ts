@@ -21,27 +21,39 @@ export class FieldControlService {
               Validators.required
             )
           : field.controlType == 'username'
-          ? new FormControl(fieldData?.value || field.value || '', [
-              field.required ? Validators.required : null,
-              Validators.minLength(4),
-            ])
+          ? new FormControl(
+              fieldData?.value || field.value || '',
+              field.required
+                ? [Validators.required, Validators.minLength(4)]
+                : [Validators.minLength(4)]
+            )
           : field.controlType == 'phoneNumber'
-          ? new FormControl(fieldData?.value || field.value || '', [
-              field.required ? Validators.required : null,
-              Validators.pattern('[7-9]{1}[0-9]{8}'),
-            ])
+          ? new FormControl(
+              fieldData?.value || field.value || '',
+              field.required
+                ? [Validators.required, Validators.pattern('[7-9]{1}[0-9]{8}')]
+                : [Validators.pattern('[7-9]{1}[0-9]{8}')]
+            )
           : field.controlType == 'email'
-          ? new FormControl(fieldData?.value || field.value || '', [
-              field.required ? Validators.required : null,
-              Validators.email,
-            ])
+          ? new FormControl(
+              fieldData?.value || field.value || '',
+              field.required
+                ? [Validators.required, Validators.email]
+                : [Validators.email]
+            )
           : field.controlType == 'password'
           ? new FormControl(fieldData?.value || field.value || '', [
-              field.required ? Validators.required : null,
+              Validators.required,
               Validators.pattern(
-                '^(?=.*d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*s).{8,15}$'
+                /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{8,15}$/g
               ),
-              Validators.minLength(8),
+            ])
+          : field.controlType == 'rePassword'
+          ? new FormControl(fieldData?.value || field.value || '', [
+              Validators.required,
+              Validators.pattern(
+                /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{8,15}$/g
+              ),
             ])
           : new FormControl(fieldData?.value || field.value || '');
     });

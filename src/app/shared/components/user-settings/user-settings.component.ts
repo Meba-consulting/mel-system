@@ -14,62 +14,70 @@ export class UserSettingsComponent implements OnInit {
   user: any;
   passwordChanged: boolean = false;
   passwordsMatch: boolean = false;
-  errorMessage: string = ''
+  errorMessage: string = '';
   changePassword: FormGroup = new FormGroup({
-    oldPassword: new FormControl('', [Validators.required, Validators.minLength(8)]),
-    password: new FormControl('', [Validators.required, Validators.minLength(8)]),
+    oldPassword: new FormControl('', [
+      Validators.required,
+      Validators.minLength(8),
+    ]),
+    password: new FormControl('', [
+      Validators.required,
+      Validators.minLength(8),
+    ]),
     repeatPassword: new FormControl('', [
       Validators.required,
-      Validators.minLength(8)
-    ]
-    ),
+      Validators.minLength(8),
+    ]),
   });
   hide = true;
   hideRepeat = true;
   hideOld = true;
-  updateResponse$: Observable<any>
+  updateResponse$: Observable<any>;
   get passwordOldInput() {
-    const pwd =this.changePassword.get('oldPassword')?.value;
+    const pwd = this.changePassword.get('oldPassword')?.value;
     // console.log(pwd)
-    const isPassWordCorrect = this.validatePassword(pwd)
+    const isPassWordCorrect = this.validatePassword(pwd);
     if (pwd.length >= 8 && !isPassWordCorrect) {
-      this.errorMessage = 'At least one number, one small letter, one capital later and one special character required'
+      this.errorMessage =
+        'At least one number, one small letter, one capital later and one special character required';
     } else if (pwd.length > 4 && pwd.length < 8) {
-      this.errorMessage = 'At least 8 characters required'
+      this.errorMessage = 'At least 8 characters required';
     } else {
-      this.errorMessage = ''
+      this.errorMessage = '';
     }
     return this.changePassword.get('oldPassword');
   }
 
   get passwordInput() {
-    const pwd =this.changePassword.get('password')?.value;
-    const repeatPwd =this.changePassword.get('repeatPassword')?.value;
+    const pwd = this.changePassword.get('password')?.value;
+    const repeatPwd = this.changePassword.get('repeatPassword')?.value;
     // console.log(pwd)
-    const isPassWordCorrect = this.validatePassword(pwd)
+    const isPassWordCorrect = this.validatePassword(pwd);
     if (pwd.length >= 8 && !isPassWordCorrect) {
-      this.errorMessage = 'At least one number, one small letter, one capital later and one special character required'
+      this.errorMessage =
+        'At least one number, one small letter, one capital later and one special character required';
     } else if (pwd.length > 4 && pwd.length < 8) {
-      this.errorMessage = 'At least 8 characters required'
+      this.errorMessage = 'At least 8 characters required';
     } else {
-      this.errorMessage = ''
+      this.errorMessage = '';
     }
-    this.passwordsMatch = pwd == repeatPwd ? true: false;
+    this.passwordsMatch = pwd == repeatPwd ? true : false;
     return this.changePassword.get('password');
   }
 
   get passwordRepeatInput() {
-    const pwd =this.changePassword.get('password')?.value;
-    const repeatPwd =this.changePassword.get('repeatPassword')?.value;
+    const pwd = this.changePassword.get('password')?.value;
+    const repeatPwd = this.changePassword.get('repeatPassword')?.value;
     // console.log(pwd)
-    const isPassWordCorrect = this.validatePassword(repeatPwd)
+    const isPassWordCorrect = this.validatePassword(repeatPwd);
     if (pwd.length >= 8 && !isPassWordCorrect) {
-      this.errorMessage = 'At least one number, one small letter, one capital later and one special character required'
+      this.errorMessage =
+        'At least one number, one small letter, one capital later and one special character required';
     } else {
-      this.errorMessage = ''
+      this.errorMessage = '';
     }
-    this.passwordsMatch = pwd == repeatPwd ? true: false;
-    console.log("isPassWordCorrect", isPassWordCorrect)
+    this.passwordsMatch = pwd == repeatPwd ? true : false;
+    console.log('isPassWordCorrect', isPassWordCorrect);
     return this.changePassword.get('repeatPassword');
   }
   constructor(
@@ -82,42 +90,43 @@ export class UserSettingsComponent implements OnInit {
 
   onSave(e, changePassword) {
     e.stopPropagation();
-    console.log(changePassword);
 
     const data = {
-      "oldPassword": changePassword?.oldPassword,
-      "newPassword": changePassword.password
-    }
-    this.updateResponse$ =  this.http.put('me/changePassword', data).pipe(map(response => {
-      console.log(response)
-    }),catchError(error => {
-      return of(error)
-    }))
+      oldPassword: changePassword?.oldPassword,
+      newPassword: changePassword.password,
+    };
+    this.updateResponse$ = this.http.put('me/changePassword', data).pipe(
+      map((response) => {
+        console.log(response);
+      }),
+      catchError((error) => {
+        return of(error);
+      })
+    );
 
-    this.updateResponse$.subscribe((res) => console.log('res', res))
-    this.updateResponse$.pipe(take(1)).subscribe(res => {
+    this.updateResponse$.subscribe((res) => console.log('res', res));
+    this.updateResponse$.pipe(take(1)).subscribe((res) => {
       if (res?.status) {
         this.passwordChanged = false;
       } else {
         this.passwordChanged = true;
       }
-    })
+    });
   }
 
   ngOnInit(): void {}
 
-  validatePassword(inputtxt){
-    var check=  /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{8,15}$/;
-    if(inputtxt.match(check)) 
-    { 
+  validatePassword(inputtxt) {
+    var check = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{8,15}$/;
+    if (inputtxt.match(check)) {
       return true;
-    } else{ 
+    } else {
       return false;
     }
-}
+  }
 
-onClose(e) {
-  e.stopPropagation()
-  this.dialogRef.close(this.passwordChanged)
-}
+  onClose(e) {
+    e.stopPropagation();
+    this.dialogRef.close(this.passwordChanged);
+  }
 }
