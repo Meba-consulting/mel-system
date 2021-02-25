@@ -1,0 +1,7 @@
+<div *ngIf="formattedEventsData">
+  <app-event-program-list
+    [eventsData]="formattedEventsData"
+    (deleteEvent)="onDeleteEvent($event)"
+    (editEvent)="onEditEvent($event)"
+  ></app-event-program-list>
+</div>

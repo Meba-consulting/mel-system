@@ -1,0 +1,28 @@
+<div class="entry-event">
+  <mat-accordion class="example-headers-align" multi>
+    <mat-expansion-panel
+      *ngFor="
+        let programStageSection of program?.programStages[0]
+          ?.programStageSections;
+        let count = index
+      "
+      [expanded]="count === 0"
+    >
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          {{ programStageSection?.name }}
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+
+      <div>
+        <app-program-section
+          [programStageSection]="programStageSection"
+          [data]="data"
+          [programStageDataElements]="programStageDataElements"
+          (dataValues)="onDataValueChange($event)"
+          (isFormValid)="onCheckValidity($event)"
+        ></app-program-section>
+      </div>
+    </mat-expansion-panel>
+  </mat-accordion>
+</div>

@@ -12,6 +12,7 @@ import { HomeTabsComponent } from './home-tabs/home-tabs.component';
 import { MembersListComponent } from './members-list/members-list.component';
 import { NonRepeatableEntryComponent } from './non-repeatable-entry/non-repeatable-entry.component';
 import { NonRepeatableStageComponent } from './non-repeatable-stage/non-repeatable-stage.component';
+import { OuDataLoadingComponent } from './ou-data-loading/ou-data-loading.component';
 import { OuListComponent } from './ou-list/ou-list.component';
 import { OuRegistrationComponent } from './ou-registration/ou-registration.component';
 import { StagesEntryModalComponent } from './stages-entry-modal/stages-entry-modal.component';
@@ -40,4 +41,5 @@ export const settingsComponents: any[] = [
   NonRepeatableEntryComponent,
   NonRepeatableStageComponent,
   ConfirmDeleteEventComponent,
+  OuDataLoadingComponent,
 ];

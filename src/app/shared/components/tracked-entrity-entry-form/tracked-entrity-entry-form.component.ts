@@ -55,6 +55,11 @@ export class TrackedEntrityEntryFormComponent implements OnInit, OnChanges {
                       'INTEGER_ZERO_OR_POSITIVE' &&
                     !attribute?.trackedEntityAttribute?.optionSet
                   ? 'number'
+                  : attribute?.trackedEntityAttribute?.valueType == 'email'
+                  ? 'email'
+                  : attribute?.trackedEntityAttribute?.valueType ==
+                    'phoneNumber'
+                  ? 'phoneNumber'
                   : 'textbox',
               type:
                 (attribute?.trackedEntityAttribute?.valueType ==

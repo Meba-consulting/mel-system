@@ -15,6 +15,7 @@ import { DataService } from 'src/app/core/services/data.service';
 import { SetColumnsModalComponent } from 'src/app/shared/components/set-columns-modal/set-columns-modal.component';
 import { FormControl } from '@angular/forms';
 import { StageEntryUpdatesModelComponent } from '../stage-entry-updates-model/stage-entry-updates-model.component';
+import { DeletingItemComponent } from 'src/app/shared/components/deleting-item/deleting-item.component';
 
 @Component({
   selector: 'app-program-entry',
@@ -68,6 +69,15 @@ export class ProgramEntryComponent implements OnInit {
   isEditSet: boolean = false;
   currentEventToEdit: any;
 
+  eventWithoutRegistrationData: any;
+
+  responseSavingEventsData$: Observable<any>;
+  eventDataValues: any = {};
+
+  eventToEdit: any;
+
+  savingEventWithoutRegistration: boolean = false;
+
   constructor(
     private httpClient: NgxDhis2HttpClientService,
     private dataEntryService: DataEntryService,
@@ -82,10 +92,19 @@ export class ProgramEntryComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getTrackedEntityInstanceData({
-      orgUnit: this.orgUnit?.id,
-      program: this.program?.id,
-    });
+    if (this.program?.programType == 'WITH_REGISTRATION') {
+      this.getTrackedEntityInstanceData({
+        orgUnit: this.orgUnit?.id,
+        program: this.program?.id,
+      });
+    } else {
+      this.queryResponseData$ = this.httpClient.get(
+        'events.json?paging=false&program=' +
+          this.program?.id +
+          '&orgUnit=' +
+          this.orgUnit?.id
+      );
+    }
 
     this.eventsData = {
       trackedEntityInstance: '',
@@ -426,7 +445,6 @@ export class ProgramEntryComponent implements OnInit {
   }
 
   onEditEvent(e) {
-    console.log(e);
     this.currentEventToEdit = e;
     _.map(e.dataValues, (dataValue) => {
       this.programStageFormData[dataValue?.dataElement] = {
@@ -439,5 +457,103 @@ export class ProgramEntryComponent implements OnInit {
 
   onSetEditEvent(e) {
     this.isEditSet = e;
+  }
+
+  onDataValueChange(values) {
+    this.eventWithoutRegistrationData = {
+      program: this.program?.id,
+      orgUnit: this.orgUnit?.id,
+      dataValues: Object.keys(values)
+        .filter((elemId) => values[elemId]?.value !== '')
+        .map((key) => {
+          return {
+            dataElement: key,
+            value: values[key]?.value,
+          };
+        }),
+      eventDate: formatDateToYYMMDD(new Date()),
+    };
+  }
+
+  onSaveEventData(e) {
+    e.stopPropagation();
+    this.savingEventWithoutRegistration = true;
+    if (!this.eventToEdit || !this.eventToEdit['event']) {
+      this.responseSavingEventsData$ = this.httpClient.post(
+        'events.json',
+        this.eventWithoutRegistrationData
+      );
+      this.responseSavingEventsData$.subscribe((res) => {
+        if (res) {
+          this.savingEventWithoutRegistration = false;
+          this.queryResponseData$ = this.httpClient.get(
+            'events.json?paging=false&program=' +
+              this.program?.id +
+              '&orgUnit=' +
+              this.orgUnit?.id
+          );
+          setTimeout(() => {
+            this.isListReportSet = true;
+          }, 800);
+        }
+      });
+    } else {
+      this.responseSavingEventsData$ = this.httpClient.put(
+        'events/' + this.eventToEdit['event'] + '.json',
+        this.eventWithoutRegistrationData
+      );
+      this.responseSavingEventsData$.subscribe((res) => {
+        if (res) {
+          this.savingEventWithoutRegistration = false;
+          this.queryResponseData$ = this.httpClient.get(
+            'events.json?paging=false&program=' +
+              this.program?.id +
+              '&orgUnit=' +
+              this.orgUnit?.id
+          );
+          setTimeout(() => {
+            this.isListReportSet = true;
+          }, 800);
+        }
+      });
+    }
+  }
+
+  onCheckFormValidity(e) {
+    this.isFormValid = e;
+  }
+
+  onEditEventData(event) {
+    this.eventToEdit = event;
+    this.eventDataValues = {};
+    Object.keys(event).map((key: any) => {
+      this.eventDataValues[key] = {
+        id: key,
+        value: event[key]?.value,
+      };
+    });
+    this.isListReportSet = false;
+  }
+
+  onDeleteEventData(event) {
+    this.dialog
+      .open(DeletingItemComponent, {
+        width: '20%',
+        height: '250px',
+        disableClose: false,
+        data: { path: 'evemts/' + event?.event, itemName: '' },
+        panelClass: 'custom-dialog-container',
+      })
+      .afterClosed()
+      .subscribe((data) => {
+        if (data) {
+          this.queryResponseData$ = this.httpClient.get(
+            'events.json?paging=false&program=' +
+              this.program?.id +
+              '&orgUnit=' +
+              this.orgUnit?.id
+          );
+        }
+      });
   }
 }

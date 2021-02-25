@@ -59,7 +59,7 @@ export class DataEntryDashboardComponent implements OnInit {
     }
 
     this.formattedPrograms = formatProgramsForDataEntry(this.programs);
-    console.log('this', this.formattedPrograms);
+    // console.log('this', this.formattedPrograms);
     this.currentProgram = this.programs[0];
     this.programDataStoreConfigs$ = this.httpClient.get(
       'dataStore/programs/' + this.currentProgram?.id
@@ -104,6 +104,7 @@ export class DataEntryDashboardComponent implements OnInit {
         this.paramersSet = true;
       }
     }, 600);
+    this.selectedOrgUnits = [];
   }
 
   toggleSubItems() {

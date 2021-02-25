@@ -6,7 +6,7 @@ import {
   OnChanges,
   OnInit,
   Output,
-  SimpleChanges
+  SimpleChanges,
 } from '@angular/core';
 import { Store } from '@ngrx/store';
 import * as _ from 'lodash';
@@ -18,7 +18,7 @@ import { OrgUnit } from '../../models/org-unit.model';
 import { OrgUnitFilterState } from '../../store/reducers/org-unit-filter.reducer';
 import {
   getOrgUnitById,
-  getSelectedOrgUnitChildrenCount
+  getSelectedOrgUnitChildrenCount,
 } from '../../store/selectors/org-unit.selectors';
 
 @Component({
@@ -26,13 +26,14 @@ import {
   selector: 'ngx-dhis2-org-unit-tree-item',
   templateUrl: './ngx-dhis2-org-unit-tree-item.component.html',
   styleUrls: ['./ngx-dhis2-org-unit-tree-item.component.css'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class NgxDhis2OrgUnitTreeItemComponent implements OnInit, OnChanges {
   @Input() orgUnitId: string;
   @Input() expanded: boolean;
   @Input() selectedOrgUnits: any[];
   @Input() parentOrgUnit: any;
+  @Input() assignedOrgUnits: any;
 
   // events
   @Output() activate = new EventEmitter();

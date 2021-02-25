@@ -28,6 +28,10 @@ export function createFormFieldsFromProgramStageDataElement(
           ? 'date'
           : stageDataElement?.dataElement?.optionSet
           ? 'dropdown'
+          : stageDataElement?.dataElement?.valueType == 'email'
+          ? 'email'
+          : stageDataElement?.dataElement?.valueType == 'phoneNumber'
+          ? 'phoneNumber'
           : 'textbox',
 
       type:

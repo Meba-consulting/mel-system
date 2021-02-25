@@ -14,12 +14,14 @@
       /></mat-icon>
     </button>
     <mat-checkbox
+      [disabled]="assignedOrgUnits && !assignedOrgUnits[orgUnit?.id]"
       *ngIf="orgUnit$ | async as orgUnit"
       [name]="orgUnit.id"
       [ngModel]="selected"
       [ngClass]="{
         'ml-3': orgUnit?.children.length === 0,
-        'ngx-dhis2-org-unit-tree-item-name': true
+        'ngx-dhis2-org-unit-tree-item-name': true,
+        'has-form': assignedOrgUnits && assignedOrgUnits[orgUnit?.id]
       }"
       (ngModelChange)="onToggleOrgUnit(orgUnit)"
     >
@@ -47,6 +49,7 @@
       "
     >
       <ngx-dhis2-org-unit-tree-item
+        [assignedOrgUnits]="assignedOrgUnits"
         [orgUnitId]="orgUnitChildId"
         (activate)="onActivateOu($event)"
         (deactivate)="onDeactivateOu($event)"

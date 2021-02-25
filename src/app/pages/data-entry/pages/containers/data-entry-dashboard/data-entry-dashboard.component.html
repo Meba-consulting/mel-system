@@ -34,6 +34,7 @@
       </button>
       <ngx-dhis2-org-unit-filter
         *ngIf="ouFilterIsSet"
+        [assignedOrgUnits]="currentProgram?.organisationUnits"
         [selectedOrgUnitItems]="selectedOrgUnits"
         [orgUnitFilterConfig]="orgUnitFilterConfig"
         (orgUnitClose)="onFilterClose($event)"

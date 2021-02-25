@@ -43,12 +43,14 @@ export class CreateOrganisationUnitComponent implements OnInit {
 
   loadingClubsData: boolean = false;
   clubsData$: Observable<any>;
-  groups: any[] = []
+  groups: any[] = [];
 
   selectedTab = new FormControl(0);
   ouFormGroup: any;
   paralegals$: Observable<any>;
-  paralegalId: string =''
+  clinics$: Observable<any>;
+  paralegalId: string = '';
+  clinicsId: string = '';
   constructor(
     private store: Store<State>,
     private ouService: OuService,
@@ -56,13 +58,14 @@ export class CreateOrganisationUnitComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    console.log("selectedGroup", this.selectedGroup);
-    console.log(this.programs)
-    this.groups = _.orderBy(this.selectedGroup['managedGroups'], ['name'],['asc'])
-    this.ouFormGroup = this.groups[0]
-    this.getClubsData(this.groups[0]?.id);
-    this.paralegalId = this.groups[1]?.id
-    this.clubSavingState$ = this.store.select(getClubsSavingState);
+    // console.log('selectedGroup', this.selectedGroup);
+    // console.log(this.programs);
+    this.groups = _.orderBy(
+      this.selectedGroup['managedGroups'],
+      ['name'],
+      ['asc']
+    );
+    this.ouFormGroup = this.groups[0];
     this.formFields = [
       {
         id: 'regdate',
@@ -112,9 +115,10 @@ export class CreateOrganisationUnitComponent implements OnInit {
 
   getClubsData(id) {
     this.clubsData$ = from([null]);
-      this.loadingClubsData = true;
-      this.clubsData$ = this.ouService.getClubsFromSQLVIEW(id);
-      this.paralegals$ = this.ouService.getClubsFromSQLVIEW(this.paralegalId)
+    this.loadingClubsData = true;
+    this.clubsData$ = this.ouService.getClubsFromSQLVIEW('GOMCSNn5OdW');
+    this.paralegals$ = this.ouService.getClubsFromSQLVIEW(this.paralegalId);
+    this.clinics$ = this.ouService.getClubsFromSQLVIEW(this.clinicsId);
   }
 
   onAddClub(e) {
@@ -126,20 +130,25 @@ export class CreateOrganisationUnitComponent implements OnInit {
       data: { clubCategories: this.clubCategories },
       panelClass: 'custom-dialog-container',
     });
-    this.dialog.afterAllClosed.subscribe(() => this.getClubsData(this.ouFormGroup?.id));
+    this.dialog.afterAllClosed.subscribe(() =>
+      this.getClubsData(this.ouFormGroup?.id)
+    );
   }
 
   onAddOu(e) {
     e.stopPropagation();
-    this.dialog.open(OuRegistrationComponent, {
-      width: '70%',
-      height: '770px',
-      disableClose: false,
-      data: { clubCategories: this.clubCategories },
-      panelClass: 'custom-dialog-container',
-    }).afterClosed().subscribe(() => {
-      this.getClubsData(this.ouFormGroup?.id)
-    })
+    this.dialog
+      .open(OuRegistrationComponent, {
+        width: '70%',
+        height: '770px',
+        disableClose: false,
+        data: { clubCategories: this.clubCategories },
+        panelClass: 'custom-dialog-container',
+      })
+      .afterClosed()
+      .subscribe(() => {
+        this.getClubsData(this.ouFormGroup?.id);
+      });
   }
 
   formulateOptions(options) {
@@ -158,11 +167,9 @@ export class CreateOrganisationUnitComponent implements OnInit {
   }
 
   changeTab(e, val, group) {
-    console.log("EEEEEEEEEEEEEEEEEEEEEEE", group)
     e.stopPropagation();
-      this.getClubsData(this.ouFormGroup?.id);
-      console.log("here")
-      this.clubsData$.subscribe(res => console.log('res##', res))
+    this.getClubsData(this.ouFormGroup?.id);
+    this.clubsData$.subscribe((res) => console.log('res##', res));
     this.ouFormGroup = group;
     this.selectedTab.setValue(val);
   }

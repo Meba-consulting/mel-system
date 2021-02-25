@@ -1,5 +1,9 @@
 import { ConfirmDeleteModalComponent } from './confirm-delete-modal/confirm-delete-modal.component';
 import { DeletingItemComponent } from './deleting-item/deleting-item.component';
+import { EventProgramDataComponent } from './event-program-data/event-program-data.component';
+import { EventProgramEntryComponent } from './event-program-entry/event-program-entry.component';
+import { EventProgramListComponent } from './event-program-list/event-program-list.component';
+import { ProgramSectionComponent } from './program-section/program-section.component';
 import { ProgramStageDataEntryComponent } from './program-stage-data-entry/program-stage-data-entry.component';
 import { ProgramStageDataComponent } from './program-stage-data/program-stage-data.component';
 import { RenderProgramStageDataComponent } from './render-program-stage-data/render-program-stage-data.component';
@@ -24,4 +28,8 @@ export const sharedComponents: any[] = [
   UserProfileComponent,
   UserRolesPanelSelectorComponent,
   DeletingItemComponent,
+  EventProgramEntryComponent,
+  EventProgramListComponent,
+  ProgramSectionComponent,
+  EventProgramDataComponent,
 ];

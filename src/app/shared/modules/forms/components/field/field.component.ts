@@ -41,7 +41,7 @@ export class FieldComponent {
   }
 
   onFieldUpdate(controlType): void {
-    console.log(controlType);
+    // console.log(controlType);
     this.fieldUpdate.emit(this.form);
   }
 }
