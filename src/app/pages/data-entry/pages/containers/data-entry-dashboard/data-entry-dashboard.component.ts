@@ -46,6 +46,7 @@ export class DataEntryDashboardComponent implements OnInit {
 
   queryResponseData$: Observable<any>;
   programDataStoreConfigs$: Observable<any>;
+  systemIds$: Observable<any>;
   constructor(
     private store: Store<State>,
     private dataService: DataService,
@@ -57,6 +58,8 @@ export class DataEntryDashboardComponent implements OnInit {
     if (this.programs && this.programs.length > 0) {
       this.showPrograms = true;
     }
+
+    this.systemIds$ = this.httpClient.get('system/id.json?limit=2');
 
     this.formattedPrograms = formatProgramsForDataEntry(this.programs);
     // console.log('this', this.formattedPrograms);

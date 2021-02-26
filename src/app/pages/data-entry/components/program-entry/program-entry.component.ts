@@ -30,6 +30,7 @@ export class ProgramEntryComponent implements OnInit {
   @Input() indicators: any;
   @Input() stagesEntryOnly: any;
   @Input() configs: any;
+  @Input() systemIds: string[];
   attributeValues: any;
   events$: Observable<any>;
   elementsDataValues: any = {};
@@ -77,6 +78,10 @@ export class ProgramEntryComponent implements OnInit {
   eventToEdit: any;
 
   savingEventWithoutRegistration: boolean = false;
+
+  shouldOpenStagesForEntry: boolean = false;
+  editingData: boolean = false;
+  savingEnrollmentData: boolean = false;
 
   constructor(
     private httpClient: NgxDhis2HttpClientService,
@@ -214,19 +219,20 @@ export class ProgramEntryComponent implements OnInit {
       }),
       (dataValue) => dataValue
     );
-    console.log(dataValues);
     this.eventsData.dataValues = dataValues;
-    console.log('eventsData', this.eventsData);
     this.eventsData.eventDate = !this.eventsData?.eventDate
       ? formatDateToYYMMDD(new Date())
       : this.eventsData?.eventDate;
   }
 
-  onSaveData(e, programStage, editSet) {
+  onSaveData(e, programStage, editSet?) {
     e.stopPropagation();
     this.savingMessage = 'Saving data';
     this.savingProgramData = true;
     this.loadStageData = false;
+    this.eventsData.eventDate = this.reportingDate;
+    this.eventsData.trackedEntityInstance = this.currentTrackedEntityInstanceId;
+    this.eventsData.programStage = this.program?.id;
     this.eventsData.programStage = programStage?.id;
     !editSet
       ? this.dataService
@@ -234,7 +240,7 @@ export class ProgramEntryComponent implements OnInit {
           .subscribe((response) => {
             this.savingMessage = 'Saved data successfully';
             this.savingProgramData = false;
-            console.log(response);
+            // console.log(response);
             this.loadStageData = true;
             setTimeout(() => {
               this.savingMessage = '';
@@ -249,7 +255,7 @@ export class ProgramEntryComponent implements OnInit {
           .subscribe((response) => {
             this.savingMessage = 'Saved data successfully';
             this.savingProgramData = false;
-            console.log(response);
+            // console.log(response);
             this.loadStageData = true;
             this.programStageFormData = {};
             this.currentEventToEdit = null;
@@ -380,6 +386,54 @@ export class ProgramEntryComponent implements OnInit {
           },
         ]
       : this.attributeValues;
+  }
+
+  onSaveTrackedEntityFirst(e) {
+    e.stopPropagation();
+    this.savingEnrollmentData = true;
+    this.currentTrackedEntityInstanceId = this.systemIds[0];
+    let data = {
+      orgUnit: this.orgUnit?.id,
+      trackedEntityInstance: this.currentTrackedEntityInstanceId,
+      trackedEntityType: this.program.trackedEntityType.id,
+      programOwners: [
+        {
+          ownerOrgUnit: this.orgUnit?.id,
+          program: this.program?.id,
+          trackedEntityInstance: this.currentTrackedEntityInstanceId,
+        },
+      ],
+      enrollments: !this.editingData
+        ? [
+            {
+              orgUnit: this.orgUnit?.id,
+              program: this.program?.id,
+              trackedEntityInstance: this.currentTrackedEntityInstanceId,
+              enrollment: this.systemIds[1],
+              trackedEntityType: this.program?.trackedEntityType?.id,
+              orgUnitName: this.orgUnit?.name,
+              events: [],
+            },
+          ]
+        : null,
+      relationships: [],
+      attributes: this.attributeValues,
+    };
+
+    this.dataService
+      .saveTrackedEntityInstanceAndAssociatedData(
+        data,
+        this.editingData,
+        this.currentTrackedEntityInstanceId,
+        this.program
+      )
+      .subscribe((response) => {
+        if (response && response?.status !== 500) {
+          this.savingMessage = '';
+          this.savingEnrollmentData = false;
+          this.shouldOpenStagesForEntry = true;
+        }
+      });
   }
 
   onGetFormValidity(validity) {

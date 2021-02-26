@@ -88,7 +88,7 @@ export class TrackedEntityInstanceSelectorComponent implements OnInit {
       each(data, (row) => {
         // console.log(ids, row);
         if (row['id'] === id) {
-          extractedData += row?.value;
+          extractedData += row?.value + ', ';
         }
       });
     });

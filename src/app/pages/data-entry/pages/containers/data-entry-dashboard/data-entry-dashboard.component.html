@@ -2,7 +2,8 @@
   class="row"
   style="margin-top: 20px"
   *ngIf="{
-    programDataStoreConfigs: programDataStoreConfigs$ | async
+    programDataStoreConfigs: programDataStoreConfigs$ | async,
+    systemIds: systemIds$ | async
   } as params"
 >
   <div class="col-md-9">
@@ -41,8 +42,9 @@
         (orgUnitUpdate)="onFilterUpdate($event)"
       ></ngx-dhis2-org-unit-filter>
     </div>
-    <div *ngIf="paramersSet && currentProgram">
+    <div *ngIf="paramersSet && currentProgram && params?.systemIds">
       <app-program-entry
+        [systemIds]="params?.systemIds['codes']"
         [program]="currentProgram"
         [orgUnit]="selectedOu"
         [currentUser]="currentUser"
@@ -59,7 +61,7 @@
       ></app-entry-side-bar-summary>
     </div>
     <mat-progress-bar
-      *ngIf="!params?.programDataStoreConfigs"
+      *ngIf="!params?.programDataStoreConfigs || !params?.systemIds"
       mode="indeterminate"
     ></mat-progress-bar>
   </div>

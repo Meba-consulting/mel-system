@@ -34,6 +34,7 @@
           <div *ngIf="registeringUnitFilterIsSet">
             <ngx-dhis2-org-unit-filter
               [selectedOrgUnitItems]="selectedRegisteringUnits"
+              [assignedOrgUnits]="program?.organisationUnits"
               [orgUnitFilterConfig]="orgUnitFilterConfig"
               (orgUnitClose)="onFilterClose($event)"
               (orgUnitUpdate)="onOuUpdate($event)"

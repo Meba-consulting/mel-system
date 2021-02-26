@@ -76,12 +76,33 @@
             (dataValues)="onGetDataValues($event)"
             (isFormValid)="onGetFormValidityForEntities($event)"
           ></app-tracked-entrity-entry-form>
+
+          <div style="padding: 20px 0">
+            <button
+              [disabled]="!isFormForEntitiesValid"
+              mat-stroked-button
+              (click)="onSaveTrackedEntityFirst($event)"
+              class="float-left"
+            >
+              <mat-spinner
+                *ngIf="savingEnrollmentData"
+                color="accent"
+                [diameter]="20"
+                style="display: inline-block !important; margin-right: 4px"
+              >
+              </mat-spinner>
+              Save
+              <span *ngIf="program?.programStages?.length > 0">
+                and continue
+              </span>
+            </button>
+          </div>
         </div>
 
         <mat-tab-group
           [selectedIndex]="selectedTab.value"
           (selectedIndexChange)="selectedTab.setValue($event)"
-          *ngIf="currentTrackedEntityInstanceId && stagesEntryOnly"
+          *ngIf="currentTrackedEntityInstanceId !== '' && stagesEntryOnly"
         >
           <mat-tab
             *ngFor="let stage of program?.programStages; let count = index"
@@ -156,7 +177,7 @@
         <mat-tab-group
           [selectedIndex]="selectedTab.value"
           (selectedIndexChange)="selectedTab.setValue($event)"
-          *ngIf="!stagesEntryOnly"
+          *ngIf="!stagesEntryOnly && shouldOpenStagesForEntry"
         >
           <mat-tab
             *ngFor="let stage of program?.programStages; let count = index"
