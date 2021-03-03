@@ -9,7 +9,7 @@
           [(ngModel)]="name"
           (change)="setNameStatus()"
         />
-        <span style="color: red;font-style: italic" *ngIf="nameIsEmpty"
+        <span style="color: red; font-style: italic" *ngIf="nameIsEmpty"
           >No name specified</span
         >
       </div>
@@ -57,7 +57,7 @@
           accept=".pdf, .xls, .xlsx, .doc, .docx"
           id="fileSelector"
           (change)="fileSelection($event)"
-        /><span *ngIf="requiredField" style="color: red;font-style: italic">
+        /><span *ngIf="requiredField" style="color: red; font-style: italic">
           Required
         </span>
       </div>
@@ -68,7 +68,7 @@
           placeholder="Url: eg. https://example.com"
           name="url"
           [(ngModel)]="url"
-        /><span *ngIf="requiredField" style="color: red;font-style: italic">
+        /><span *ngIf="requiredField" style="color: red; font-style: italic">
           Required
         </span>
       </div>
@@ -82,11 +82,7 @@
     >
       Save</button
     >&nbsp;
-    <button
-      class="btn btn-danger"
-      id="cancel"
-      routerLink="/resources/documents"
-    >
+    <button class="btn btn-danger" id="cancel" routerLink="/reports">
       Cancel
     </button>
   </div>
