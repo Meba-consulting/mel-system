@@ -8,7 +8,6 @@ import { EffectsModule } from '@ngrx/effects';
 import { effects } from './store/effects';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { FilterByInputTextPipe } from './pipes';
 import { ProceduresComponent } from './containers/procedures/procedures.component';
 import { FormsComponent } from './containers/forms/forms.component';
 import { UploadResourceComponent } from './containers/upload-resource/upload-resource.component';
@@ -20,13 +19,12 @@ import { EditResourceComponent } from './components/edit-resource/edit-resource.
   declarations: [
     HomeComponent,
     ResourcesListComponent,
-    FilterByInputTextPipe,
     ProceduresComponent,
     FormsComponent,
     UploadResourceComponent,
     ResourcesComponent,
     ResourceFormComponent,
-    EditResourceComponent
+    EditResourceComponent,
   ],
   imports: [
     CommonModule,
@@ -35,7 +33,7 @@ import { EditResourceComponent } from './components/edit-resource/edit-resource.
     ResourcesRoutingModule,
     SharedModule,
     ...reducers,
-    EffectsModule.forFeature(effects)
-  ]
+    EffectsModule.forFeature(effects),
+  ],
 })
 export class ResourcesModule {}

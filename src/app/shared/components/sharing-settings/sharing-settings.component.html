@@ -1,0 +1,117 @@
+<div class="sharing-settings-modal">
+  <div
+    class="padding:10px"
+    *ngIf="{ currentResource: resource$ | async } as params"
+  >
+    <div style="padding: 0px 0px 10px 0px">
+      <div class="row">
+        <div class="col-8">
+          <h4 style="float: left">Sharing settings</h4>
+        </div>
+        <div class="col-4">
+          <button
+            style="float: right"
+            mat-stroked-button
+            (click)="closeSharingSettings($event)"
+          >
+            Close
+          </button>
+        </div>
+      </div>
+    </div>
+    <div style="padding: 0px 0px 15px 0px">
+      <h5>{{ currentResource.name }}</h5>
+    </div>
+    <div>
+      <h6>User groups of who can access</h6>
+      <hr />
+    </div>
+    <div style="padding: 2px 20px; max-height: 150px; overflow: auto">
+      <div *ngIf="(resourceUserGroupsAccesses$ | async)?.userGroupAccesses">
+        <div
+          class="row"
+          *ngFor="
+            let access of (resourceUserGroupsAccesses$ | async)
+              ?.userGroupAccesses
+          "
+        >
+          <div
+            style="border-bottom: solid 1px #eee; padding: 15px 0px"
+            class="col-10"
+          >
+            {{ access.displayName }}
+          </div>
+          <div class="col-2" style="padding: 15px 0px">
+            <div>
+              <mat-icon
+                title="Remove {{ access.displayName }}"
+                (click)="
+                  removeUserGroupAccess($event, access, params?.currentResource)
+                "
+                style="cursor: pointer"
+                >remove
+              </mat-icon>
+              <!-- <span style="float: left"></span> -->
+            </div>
+          </div>
+        </div>
+      </div>
+      <div *ngIf="!(resourceUserGroupsAccesses$ | async)?.userGroupAccesses">
+        <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+      </div>
+    </div>
+    <div style="padding: 4px 20px" *ngIf="sharingSettingsMessage != ''">
+      <div class="status-message">
+        <span>{{ sharingSettingsMessage }}</span>
+      </div>
+    </div>
+    <div style="padding: 15px 30px">
+      <div class="row">
+        <!-- <div class="col-12">
+          <input
+            matInput
+            placeholder="Search"
+            style="border-bottom: solid 1px #eee"
+          />
+        </div> -->
+        <div class="col-12 d-flex justify-content-between">
+          <mat-form-field class="w-100">
+            <mat-label>Search group</mat-label>
+            <mat-icon matPrefix>search</mat-icon>
+            <input matInput [(ngModel)]="userGroupSearchingText" />
+          </mat-form-field>
+        </div>
+        <div class="col-12" style="height: 250px; overflow: auto">
+          <div
+            (click)="
+              addUserGroupToSharingSettings(
+                $event,
+                userGroup,
+                params?.currentResource
+              )
+            "
+            style="
+              padding: 8px 0;
+              cursor: pointer;
+              border-bottom: solid 1px #eee;
+            "
+            *ngFor="
+              let userGroup of userGroups
+                | filterByInputText: userGroupSearchingText
+            "
+          >
+            {{ userGroup.displayName }}
+          </div>
+        </div>
+      </div>
+    </div>
+    <button
+      class="mr-2"
+      style="float: right"
+      mat-stroked-button
+      (click)="onEndSharingSettings($event)"
+    >
+      Done
+    </button>
+  </div>
+</div>

@@ -19,6 +19,7 @@ import { UploadedReportsListComponent } from './components/uploaded-reports-list
 import { FilterUsingInputPipe } from './pipes/filter-using-input.pipe';
 import { UploadNewReportComponent } from './containers/upload-new-report/upload-new-report.component';
 import { ReportFormComponent } from './components/report-form/report-form.component';
+import { UploadReportComponent } from './components/upload-report/upload-report.component';
 
 @NgModule({
   declarations: [
@@ -34,7 +35,8 @@ import { ReportFormComponent } from './components/report-form/report-form.compon
     UploadedReportsListComponent,
     FilterUsingInputPipe,
     UploadNewReportComponent,
-    ReportFormComponent
+    ReportFormComponent,
+    UploadReportComponent,
   ],
   imports: [
     CommonModule,
@@ -42,8 +44,9 @@ import { ReportFormComponent } from './components/report-form/report-form.compon
     StandardReportRoutingModule,
     ...reducers,
     EffectsModule.forFeature(effects),
-    SharedModule
+    SharedModule,
   ],
-  providers: []
+  providers: [],
+  entryComponents: [UploadReportComponent],
 })
 export class StandardReportsModule {}

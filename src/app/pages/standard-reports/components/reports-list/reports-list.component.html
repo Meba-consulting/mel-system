@@ -39,8 +39,22 @@
             routerLink="{{ element.type }}/{{ element.id }}"
             mat-menu-item
           >
-            <mat-icon>create</mat-icon>
+            <mat-icon>view</mat-icon>
             <span>Create</span>
+          </button>
+          <button
+            (click)="onOpenSharingSettings($event, element?.action)"
+            mat-menu-item
+          >
+            <mat-icon>settings</mat-icon>
+            <span>Sharing settings</span>
+          </button>
+          <button
+            (click)="onEdit($event, element?.action, reportGroup)"
+            mat-menu-item
+          >
+            <mat-icon>edit</mat-icon>
+            <span>Edit</span>
           </button>
         </mat-menu>
       </td>
@@ -54,4 +68,62 @@
     [pageSizeOptions]="[5, 10, 15, 20, 25, 50, 100]"
     showFirstLastButtons
   ></mat-paginator>
+</div>
+
+<div>
+  <button
+    (click)="onAddNewReport($event, reportGroup)"
+    tabindex="0"
+    type="button"
+    [title]="'New Report'"
+    style="
+      border: 10px;
+      box-sizing: border-box;
+      font-family: Roboto, sans-serif;
+      -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+      cursor: pointer;
+      text-decoration: none;
+      margin: 0px;
+      padding: 0px;
+      outline: none;
+      font-size: inherit;
+      font-weight: inherit;
+      position: relative;
+      vertical-align: bottom;
+      background-color: #3ea9d9;
+      transition: all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms;
+      height: 56px;
+      width: 56px;
+      overflow: hidden;
+      border-radius: 50%;
+      text-align: center;
+      float: right;
+    "
+  >
+    <div>
+      <div
+        style="
+          transition: all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms;
+          top: 0px;
+        "
+      >
+        <svg
+          class=""
+          viewBox="0 0 24 24"
+          style="
+            display: inline-block;
+            color: rgb(255, 255, 255);
+            fill: rgb(255, 255, 255);
+            height: 56px;
+            width: 24px;
+            user-select: none;
+            transition: all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms;
+            line-height: 56px;
+          "
+        >
+          <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"></path>
+        </svg>
+      </div>
+    </div>
+  </button>
 </div>

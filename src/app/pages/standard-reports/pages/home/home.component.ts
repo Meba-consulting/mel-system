@@ -7,7 +7,7 @@ import {
   getOldReportsList,
   getCountOfLoadedReportTypes,
 } from '../../store/selectors';
-import { getCurrentUser } from 'src/app/store';
+import { getAllUserGroups, getCurrentUser } from 'src/app/store';
 import { FormControl } from '@angular/forms';
 
 @Component({
@@ -29,10 +29,13 @@ export class HomeComponent implements OnInit {
   isReportGroupSet: boolean = false;
 
   selectedTab = new FormControl(0);
+
+  userGroups$: Observable<any>;
   constructor(private store: Store<State>) {}
 
   ngOnInit(): void {
     this.currentUser$ = this.store.select(getCurrentUser);
+    this.userGroups$ = this.store.select(getAllUserGroups);
     this.store.dispatch(loadStdReportsList({ reportsTypes: this.reportTypes }));
     this.reportsList$ = this.store.select(getOldReportsList);
     this.countOfLoadedReportTypes$ = this.store.select(

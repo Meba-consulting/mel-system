@@ -1,0 +1,54 @@
+<div
+  *ngIf="{
+    systemIds: systemIds$ | async,
+    reportSaveResponse: reportSaveResponse$ | async
+  } as params"
+  style="padding: 30px"
+>
+  <div class="text-center h4 p-2">Upload report at {{ reportGroup?.name }}</div>
+
+  <div style="margin-top: 20px">
+    <div style="padding: 15px 0">
+      <input type="text" [(ngModel)]="reportName" class="form-control" />
+    </div>
+    <div>
+      <input
+        *ngIf="params?.systemIds"
+        type="file"
+        style="border: none; background-color: transparent"
+        class="form-control"
+        name="file"
+        accept=".html"
+        id="fileSelector"
+        (change)="fileSelection($event, params?.systemIds['codes'][0])"
+      /><span *ngIf="requiredField" style="color: red; font-style: italic">
+        Required
+      </span>
+    </div>
+  </div>
+  <div class="p-3">
+    <button
+      class="mr-2 float-left"
+      mat-stroked-button
+      [disabled]="!dataObject || !reportName"
+      (click)="saveData($event, dataObject)"
+    >
+      Save
+    </button>
+    <button
+      class="mr-2 float-right"
+      mat-stroked-button
+      (click)="onClose($event)"
+    >
+      Close
+    </button>
+  </div>
+
+  <!-- {{ report | json }} -->
+
+  {{ params?.reportSaveResponse | json }}
+  <mat-progress-bar
+    *ngIf="!params?.systemIds"
+    mode="indeterminate"
+  ></mat-progress-bar>
+</div>

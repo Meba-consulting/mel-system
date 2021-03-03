@@ -33,6 +33,32 @@
         </div>
       </div>
     </li>
+    <li
+      class="list-group-item"
+      (click)="onSetCurrentGroup({ id: 'other', name: 'Reports not grouped' })"
+    >
+      <div
+        class="row"
+        [ngClass]="{
+          'active-department': currentGroup.id == 'other'
+        }"
+      >
+        <div
+          class="col-1"
+          style="
+            padding: 10px 0px 10px 2px !important;
+            max-width: 1.8% !important;
+          "
+          [ngClass]="{
+            'selected-item': currentGroup.id == 'other',
+            '': currentGroup.id != 'other'
+          }"
+        ></div>
+        <div class="col-11" style="padding: 10px 0px 10px 2px !important">
+          Reports not grouped
+        </div>
+      </div>
+    </li>
   </ul>
 </div>
 <div *ngIf="!currentUser || !reportGroups || reportGroups.length == 0">

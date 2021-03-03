@@ -36,11 +36,13 @@
                   (reportsList$ | async) &&
                   (reportsList$ | async)?.length > 0 &&
                   isReportGroupSet &&
-                  currentReportGroup
+                  currentReportGroup &&
+                  (userGroups$ | async)
                 "
               >
                 <app-reports-list
                   [reports]="reportsList$ | async"
+                  [userGroups]="userGroups$ | async"
                   [reportGroup]="currentReportGroup"
                 ></app-reports-list>
               </div>
@@ -50,7 +52,8 @@
                   !(reportsList$ | async) ||
                   !(currentUser$ | async) ||
                   !isReportGroupSet ||
-                  !currentReportGroup
+                  !currentReportGroup ||
+                  !(userGroups$ | async)
                 "
               >
                 <mat-progress-bar mode="indeterminate"></mat-progress-bar>
