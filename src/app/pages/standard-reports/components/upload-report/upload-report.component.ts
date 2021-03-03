@@ -1,8 +1,9 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { NgxDhis2HttpClientService } from '@iapps/ngx-dhis2-http-client';
-import { report } from 'process';
 import { Observable } from 'rxjs';
+
+import { filter, uniqBy } from 'lodash';
 
 @Component({
   selector: 'app-upload-report',
@@ -72,6 +73,31 @@ export class UploadReportComponent implements OnInit {
         'reports/' + this.report?.id,
         data
       );
+      let sharingSettingsData = {
+        meta: {
+          allowPublicAccess: true,
+          allowExternalAccess: true,
+        },
+        object: {
+          id: this.report?.id,
+          name: this.report?.name,
+          displayName: this.report?.name,
+          publicAccess: 'r-------',
+          externalAccess: false,
+          userGroupAccesses: [],
+        },
+      };
+      const userGroupAccesses = [{ id: this.reportGroup?.id }];
+      sharingSettingsData.object.userGroupAccesses = uniqBy(
+        userGroupAccesses,
+        'id'
+      );
+
+      this.httpClient
+        .post('sharing?type=report&id=' + this.report?.id, sharingSettingsData)
+        .subscribe((response) => {
+          console.log('response', response);
+        });
     }
   }
 
