@@ -19,7 +19,7 @@ import {
 import { Dashboard, DashboardGroups } from '../../models';
 import { LoadFunctions } from '../../modules/ngx-dhis2-data-selection-filter/modules/data-filter/store/actions/function.actions';
 
-import { State } from 'src/app/store';
+import { getCurrentUser, State } from 'src/app/store';
 import { Router, ActivatedRoute } from '@angular/router';
 import {
   InitializeDashboardSettingsAction,
@@ -27,12 +27,14 @@ import {
   SetActiveDashboardGroupsAction,
   CreateDashboardAction,
   ToggleDashboardBookmarkAction,
+  LoadDashboardSettingsAction,
 } from '../../../store/actions';
 import { loadOrgUnitLevels } from 'src/app/shared/modules/org-unit-filter/store/actions/org-unit-level.actions';
 import { loadOrgUnitGroups } from 'src/app/shared/modules/org-unit-filter/store/actions/org-unit-group.actions';
 import { MatDialog } from '@angular/material/dialog';
 import { DashboardItemEditComponent } from '../../components/dashboard-item-edit/dashboard-item-edit.component';
 import { NgxDhis2HttpClientService } from '@iapps/ngx-dhis2-http-client';
+import { getSystemInfo } from 'src/app/store/selectors/system-info.selectors';
 
 @Component({
   selector: 'app-dashboard',
@@ -76,32 +78,42 @@ export class DashboardComponent implements OnInit {
 
   ngOnInit() {
     // initialize dashboads settings
-    this.store.dispatch(new InitializeDashboardSettingsAction());
-    this.store.dispatch(new LoadFunctions());
-    this.store.dispatch(loadOrgUnitLevels());
-    this.store.dispatch(loadOrgUnitGroups());
-    this.store.select(getCurrentDashboardId).subscribe((id) => {
-      if (id) {
-        this.router.navigate(['/dashboards', id]);
+    this.store.select(getSystemInfo).subscribe((systemInfo) => {
+      if (systemInfo) {
+        this.store.select(getCurrentUser).subscribe((currentUser) => {
+          if (currentUser) {
+            this.store.dispatch(
+              new LoadDashboardSettingsAction(currentUser, systemInfo)
+            );
+            this.store.dispatch(new InitializeDashboardSettingsAction());
+            this.store.dispatch(new LoadFunctions());
+            this.store.dispatch(loadOrgUnitLevels());
+            this.store.dispatch(loadOrgUnitGroups());
+            this.store.select(getCurrentDashboardId).subscribe((id) => {
+              if (id) {
+                this.router.navigate(['/dashboards', id]);
+              }
+            });
+
+            this.dashboards$ = this.store.select(getAllGroupDashboards);
+            this.currentDashboardId$ = this.store.select(getCurrentDashboardId);
+            this.dashboardLoading$ = this.store.select(
+              getDashboardObjectLoading
+            );
+            this.dashboardLoaded$ = this.store.select(getDashboardObjectLoaded);
+            this.dashboardGroups$ = this.store.select(getAllDashboardGroups);
+            this.currentDashboardGroupId$ = this.store.select(
+              getActiveDashboardGroup
+            );
+            this.dashboardGroupsLoading$ = this.store.select(
+              getDashboardGroupsLoading
+            );
+            this.dashboardGroupsLoaded$ = this.store.select(
+              getDashboardGroupsLoaded
+            );
+          }
+        });
       }
-    });
-
-    this.dashboards$ = this.store.select(getAllGroupDashboards);
-    this.currentDashboardId$ = this.store.select(getCurrentDashboardId);
-    this.dashboardLoading$ = this.store.select(getDashboardObjectLoading);
-    this.dashboardLoaded$ = this.store.select(getDashboardObjectLoaded);
-    this.dashboardGroups$ = this.store.select(getAllDashboardGroups);
-    this.currentDashboardGroupId$ = this.store.select(getActiveDashboardGroup);
-    this.dashboardGroupsLoading$ = this.store.select(getDashboardGroupsLoading);
-    this.dashboardGroupsLoaded$ = this.store.select(getDashboardGroupsLoaded);
-
-    // Set margin top based on whether there are groups or not
-    this.dashboardGroups$.subscribe((dashboardGroups: any[]) => {
-      // if (dashboardGroups.length === 0) {
-      //   this.dashboardContentMarginTop = '110px';
-      // } else {
-      //   this.dashboardContentMarginTop = '157px';
-      // }
     });
   }
 
@@ -135,21 +147,29 @@ export class DashboardComponent implements OnInit {
   }
 
   onEditDashboard(dashboard) {
-    this.httpClient.get('dashboards/' + dashboard?.id + '.json?fields=id,name,description,favorites[id],dashboardItems[id,type,chart[id,name,description,type]],userGroupAccesses,userAccesses').subscribe(response => {
-      if (response) {
-        this.dialog.open(DashboardItemEditComponent, {
-          width: '50%',
-          height: '370px',
-          disableClose: true,
-          data: { dashboard: response },
-          panelClass: 'custom-dialog-container',
-        }).afterClosed().subscribe(res => {
-          if (res) {
-            window.location.reload()
-          }
-        })
-      }
-    })
-    
+    this.httpClient
+      .get(
+        'dashboards/' +
+          dashboard?.id +
+          '.json?fields=id,name,description,favorites[id],dashboardItems[id,type,chart[id,name,description,type]],userGroupAccesses,userAccesses'
+      )
+      .subscribe((response) => {
+        if (response) {
+          this.dialog
+            .open(DashboardItemEditComponent, {
+              width: '50%',
+              height: '370px',
+              disableClose: true,
+              data: { dashboard: response },
+              panelClass: 'custom-dialog-container',
+            })
+            .afterClosed()
+            .subscribe((res) => {
+              if (res) {
+                window.location.reload();
+              }
+            });
+        }
+      });
   }
 }

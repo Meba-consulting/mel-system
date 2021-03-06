@@ -5,7 +5,7 @@ import {
   catchError,
   map,
   switchMap,
-  withLatestFrom
+  withLatestFrom,
 } from 'rxjs/internal/operators';
 import {
   AddCurrentUser,
@@ -13,7 +13,7 @@ import {
   UserActionTypes,
   LoadCurrentUser,
   AddUserGroup,
-  LoadingUserGroupFails
+  LoadingUserGroupFails,
 } from '../actions/user.actions';
 import { UserService } from 'src/app/pages/dashboard/pages/services';
 import { User } from 'src/app/pages/dashboard/pages/models';
@@ -44,14 +44,14 @@ export class UserEffects {
     )
   );
 
-  @Effect()
-  currentUserLoaded$: Observable<any> = this.actions$.pipe(
-    ofType(UserActionTypes.AddCurrentUser),
-    map(
-      (action: AddCurrentUser) =>
-        new LoadDashboardSettingsAction(action.currentUser, action.systemInfo)
-    )
-  );
+  // @Effect()
+  // currentUserLoaded$: Observable<any> = this.actions$.pipe(
+  //   ofType(UserActionTypes.AddCurrentUser),
+  //   map(
+  //     (action: AddCurrentUser) =>
+  //       new LoadDashboardSettingsAction(action.currentUser, action.systemInfo)
+  //   )
+  // );
 
   @Effect()
   userGroup$: Observable<any> = this.actions$.pipe(
