@@ -5,17 +5,19 @@ import { Store } from '@ngrx/store';
 import { loadReportMetadata } from '../../store/actions';
 import { Observable } from 'rxjs';
 import { getOldReportMetadataByReportId } from '../../store/selectors';
+import { getCurrentUser } from 'src/app/store';
 
 @Component({
   selector: 'app-report',
   templateUrl: './report.component.html',
-  styleUrls: ['./report.component.css']
+  styleUrls: ['./report.component.css'],
 })
 export class ReportComponent implements OnInit {
   reportMetadata$: Observable<any>;
   filterSelections: any;
   reportType: string;
   reportId: string;
+  currentUser$: Observable<any>;
   constructor(private route: ActivatedRoute, private store: Store<State>) {}
 
   ngOnInit(): void {
@@ -24,11 +26,12 @@ export class ReportComponent implements OnInit {
     this.store.dispatch(
       loadReportMetadata({
         reportId: this.reportId,
-        reportType: this.reportType
+        reportType: this.reportType,
       })
     );
     this.reportMetadata$ = this.store.select(getOldReportMetadataByReportId, {
-      id: this.reportId
+      id: this.reportId,
     });
+    this.currentUser$ = this.store.select(getCurrentUser);
   }
 }

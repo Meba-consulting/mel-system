@@ -6,12 +6,13 @@ import { formatDataDimensionsSelections } from '../../helpers/filter-selections.
 @Component({
   selector: 'app-render-report',
   templateUrl: './render-report.component.html',
-  styleUrls: ['./render-report.component.css']
+  styleUrls: ['./render-report.component.css'],
 })
 export class RenderReportComponent implements OnInit, AfterViewInit {
   @Input() reportHtml: any;
   @Input() reportType: string;
   @Input() reportId: string;
+  @Input() currentUser: any;
   filterSelections: any;
   orgUnit: any;
   period: any;
@@ -20,8 +21,8 @@ export class RenderReportComponent implements OnInit, AfterViewInit {
   selectionChanged: boolean = false;
   selectionFilterConfig: any = {
     showDataFilter: false,
-    showPeriodFilter: true,
-    showOrgUnitFilter: true,
+    showPeriodFilter: false,
+    showOrgUnitFilter: false,
     showLayout: false,
     showFilterButton: false,
     orgUnitFilterConfig: {
@@ -32,11 +33,11 @@ export class RenderReportComponent implements OnInit, AfterViewInit {
       showOrgUnitLevelSection: false,
       reportUse: false,
       additionalQueryFields: [],
-      batchSize: 400
+      batchSize: 400,
     },
     periodFilterConfig: {
-      singleSelection: false
-    }
+      singleSelection: false,
+    },
   };
   selectedOrgUnitItems: Array<any> = [];
   isFilterRequired: boolean = false;
@@ -44,12 +45,36 @@ export class RenderReportComponent implements OnInit, AfterViewInit {
   dimensions: any[] = [];
   currentSetDimenions: any;
   selectedDimensions: any;
+  hasPe: boolean = false;
+  hasOu: boolean = false;
   constructor(private sanitizer: DomSanitizer) {}
 
   ngOnInit() {
     let configs = this.reportHtml.match(
       /<configs[^>]*>([\w|\W]*)<\/configs>/im
     );
+
+    if (configs && configs.length > 0) {
+      const dimensionConfigs = configs[0].match(/{.*?\}/g)
+        ? JSON.parse(configs)
+        : null;
+      if (dimensionConfigs) {
+        if ((dimensionConfigs['ou'] = 'USER_ORGUNIT')) {
+          this.selectedOrgUnitItems = this.currentUser?.dataViewOrganisationUnits;
+        }
+      }
+    }
+
+    if (configs && configs.length > 0 && configs.join(';').indexOf('pe') > -1) {
+      this.hasPe = true;
+      this.selectionFilterConfig.showPeriodFilter = true;
+    }
+
+    if (configs && configs.length > 0 && configs.join(';').indexOf('ou') > -1) {
+      this.hasPe = true;
+      this.selectionFilterConfig.showOrgUnitFilter = true;
+    }
+
     if (
       configs &&
       configs.length > 0 &&
@@ -128,7 +153,7 @@ export class RenderReportComponent implements OnInit, AfterViewInit {
         ? matchedScriptArray[0]
             .replace(/(<([^>]+)>)/gi, ':separator:')
             .split(':separator:')
-            .filter(content => content.length > 0)
+            .filter((content) => content.length > 0)
         : [];
     return _.filter(scripts, (scriptContent: string) => scriptContent !== '');
   }
@@ -138,7 +163,7 @@ export class RenderReportComponent implements OnInit, AfterViewInit {
     if (!this.selectedDimensions) {
       this.selectedDimensions = {};
     }
-    _.map(this.addedDimensions, group => {
+    _.map(this.addedDimensions, (group) => {
       if (_.filter(group.dimensions, { id: dimension.id }).length > 0) {
         this.selectedDimensions[group.id] = dimension;
       }
@@ -191,7 +216,7 @@ export class RenderReportComponent implements OnInit, AfterViewInit {
   }
 
   printPDF() {
-    setTimeout(function() {
+    setTimeout(function () {
       window.print();
     }, 500);
   }

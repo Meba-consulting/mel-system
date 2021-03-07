@@ -1,4 +1,7 @@
-<div *ngIf="!(reportMetadata$ | async)" style="margin-top: 10px">
+<div
+  *ngIf="!(reportMetadata$ | async) || !(currentUser$ | async)"
+  style="margin-top: 10px"
+>
   <mat-progress-bar mode="indeterminate"></mat-progress-bar>
 </div>
 
@@ -29,7 +32,7 @@
     <div
       class="col-12"
       style="width: 100% !important"
-      *ngIf="reportMetadata$ | async"
+      *ngIf="(reportMetadata$ | async) && (currentUser$ | async)"
     >
       <div style="margin-bottom: 10px"></div>
       <div>
@@ -37,6 +40,7 @@
           [reportHtml]="(reportMetadata$ | async)?.designContent"
           [reportType]="reportType"
           [reportId]="reportId"
+          [currentUser]="currentUser$ | async"
         >
         </app-render-report>
       </div>
