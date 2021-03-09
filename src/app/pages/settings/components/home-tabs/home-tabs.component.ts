@@ -19,7 +19,6 @@ export class HomeTabsComponent implements OnInit {
   constructor() {}
 
   ngOnInit(): void {
-    console.log(this.userGroups);
     this.tabs = createTabsForGeneralRegistration(
       this.userGroups,
       this.currentUser

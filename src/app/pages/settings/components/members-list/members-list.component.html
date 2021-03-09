@@ -64,7 +64,11 @@
           <mat-icon>more_vert</mat-icon>
         </button>
         <mat-menu #menu="matMenu" class="menu-options">
-          <button (click)="onEditMember($event, element)" mat-menu-item>
+          <button
+            [disabled]="true"
+            (click)="onEditMember($event, element)"
+            mat-menu-item
+          >
             <mat-icon>edit</mat-icon>
             <span>Edit</span>
           </button>

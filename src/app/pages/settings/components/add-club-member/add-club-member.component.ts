@@ -68,11 +68,18 @@ export class AddClubMemberComponent implements OnInit {
               id: key,
             }) || [])[0]?.valueType == 'DATE'
               ? formatDateToYYMMDD(this.formData[key]?.value)
-              : this.formData[key]?.value,
+              : this.formData[key]?.options?.length === 0
+              ? this.formData[key]?.value
+              : (this.formData[key]?.options.filter(
+                  (option) => option?.id === this.formData[key]?.value
+                ) || [])[0]?.name,
         };
       }),
     };
     // console.log('data::::::::', data);
+    var d = new Date();
+
+    d.setHours(d.getHours() - 9);
     this.savingData = true;
     this.settingsService
       .saveTrackedEntityInstanceData(data)
@@ -84,8 +91,12 @@ export class AddClubMemberComponent implements OnInit {
           program: this.programId,
           status: 'ACTIVE',
           orgUnit: this.club?.uuid,
-          enrollmentDate: formatDateToYYMMDD(new Date()),
-          incidentDate: formatDateToYYMMDD(new Date()),
+          enrollmentDate: formatDateToYYMMDD(
+            new Date(d.setHours(d.getHours() - 9))
+          ),
+          incidentDate: formatDateToYYMMDD(
+            new Date(d.setHours(d.getHours() - 9))
+          ),
         };
         this.settingsService
           .saveEnrollments(enrollmentsData)

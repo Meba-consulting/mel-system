@@ -12,14 +12,10 @@
     <!-- {{ params?.ouData?.message }} -->
   </div>
   <div *ngIf="params?.ouData">
-    <!-- <app-clubs-list
-      [clubs]="params?.ouData"
-      [clubCategories]="clubCategories"
-      (dialogClosed)="onClose($event)"
-    ></app-clubs-list> -->
     <app-ou-list
       [ous]="params?.ouData"
       [categories]="clubCategories"
+      [group]="group"
       (dialogClosed)="onClose($event)"
     ></app-ou-list>
   </div>

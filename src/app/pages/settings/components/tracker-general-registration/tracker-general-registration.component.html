@@ -1,20 +1,22 @@
 <div
   class="row"
   *ngIf="{
-    currentTrackedEntityInstance: currentTrackedEntityInstance$ | async
+    currentTrackedEntityInstance: currentTrackedEntityInstance$ | async,
+    programDataStoreConfigs: programDataStoreConfigs$ | async
   } as params"
 >
-  <div [ngClass]="{ 'col-md-8': !isReportSet, 'col-12': isReportSet }">
+  <div [ngClass]="{ 'col-md-9': !isReportSet, 'col-12': isReportSet }">
     <mat-tab-group
       [selectedIndex]="selectedTab.value"
       (selectedIndexChange)="selectedTab.setValue($event)"
+      (selectedTabChange)="changeTab($event.index)"
     >
       <mat-tab
-        (click)="changeTab(count)"
+        (click)="changeTab($event, count, program)"
         *ngFor="let program of trainingRegistrationPrograms; let count = index"
         label="{{ program?.name }}"
       >
-        <div class="p-3">
+        <div class="p-3" *ngIf="count === selectedTab.value">
           <button
             class="w-100 text-left p-2"
             (click)="onToggleRegisteringUnitFilter($event)"
@@ -164,5 +166,17 @@
       </mat-tab>
     </mat-tab-group>
   </div>
-  <div [ngClass]="{ 'col-md-4': !isReportSet, '': isReportSet }"></div>
+  <div [ngClass]="{ 'col-md-3': !isReportSet, '': isReportSet }">
+    <!-- {{ currentProgram | json }} -->
+    <div class="summary" *ngIf="params?.programDataStoreConfigs">
+      <app-entry-side-bar-summary
+        [program]="currentProgram"
+        [configs]="params?.programDataStoreConfigs"
+      ></app-entry-side-bar-summary>
+    </div>
+    <mat-progress-bar
+      *ngIf="!params?.programDataStoreConfigs"
+      mode="indeterminate"
+    ></mat-progress-bar>
+  </div>
 </div>

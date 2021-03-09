@@ -64,10 +64,13 @@ export class TrackerGeneralRegistrationComponent implements OnInit {
 
   registeringUnitFilterIsSet: boolean = false;
 
+  programDataStoreConfigs$: Observable<any>;
+
   constructor(
     private dataService: DataService,
     private ouService: OuService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private httpClient: NgxDhis2HttpClientService
   ) {}
 
   ngOnInit(): void {
@@ -78,6 +81,10 @@ export class TrackerGeneralRegistrationComponent implements OnInit {
       this.selectedGroup
     );
     this.currentProgram = this.trainingRegistrationPrograms[0];
+
+    this.programDataStoreConfigs$ = this.httpClient.get(
+      'dataStore/programs/' + this.currentProgram?.id
+    );
 
     this.currentTrackedEntityInstanceId = this.systemIds[0];
   }
@@ -291,14 +298,15 @@ export class TrackerGeneralRegistrationComponent implements OnInit {
     });
   }
 
-  changeTab(e, val) {
-    e.stopPropagation();
-    this.selectedTab.setValue(val);
-    this.currentTabValue = val;
+  changeTab(index) {
+    this.currentProgram = this.trainingRegistrationPrograms[index];
+
+    this.programDataStoreConfigs$ = this.httpClient.get(
+      'dataStore/programs/' + this.currentProgram?.id
+    );
   }
 
   onSetEdit(trackedEntityInstance, program) {
-    console.log('trackedEntityInstance', trackedEntityInstance);
     this.currentTrackedEntityInstanceId = trackedEntityInstance?.action?.id;
     _.map(
       program.trackedEntityType?.trackedEntityTypeAttributes,
