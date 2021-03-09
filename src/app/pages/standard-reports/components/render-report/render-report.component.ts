@@ -175,12 +175,18 @@ export class RenderReportComponent implements OnInit, AfterViewInit {
   }
 
   onFilterUpdate(selections) {
-    console.log('repo di', this.selectedDimensions);
+    console.log('repo di', selections);
     if (
-      (selections.length > 1 && !this.selectedDimensions) ||
-      (selections.length > 1 &&
+      (this.hasPe &&
+        this.hasOu &&
+        selections.length > 1 &&
+        !this.selectedDimensions) ||
+      (this.hasPe &&
+        this.hasOu &&
+        selections.length > 1 &&
         this.selectedDimensions &&
-        Object.keys(this.selectedDimensions).length > 1)
+        Object.keys(this.selectedDimensions).length > 1) ||
+      ((this.hasPe || this.hasOu) && selections.length === 1)
     ) {
       this.selectionChanged = false;
 

@@ -5,8 +5,8 @@ export function formatDataDimensionsSelections(
   otherDimensions
 ) {
   return {
-    ou: _.filter(filterSelections, { dimension: 'ou' })[0]['items'],
-    pe: _.filter(filterSelections, { dimension: 'pe' })[0]['items'],
-    otherDimensions: otherDimensions
+    ou: (_.filter(filterSelections, { dimension: 'ou' }) || [])[0]?.items,
+    pe: (_.filter(filterSelections, { dimension: 'pe' }) || [])[0]?.items,
+    otherDimensions: otherDimensions,
   };
 }

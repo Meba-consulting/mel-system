@@ -42,13 +42,13 @@ export class OuListComponent implements OnInit {
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 
+  // onEditOu(e, ou) {
+  //   e.stopPropagation();
+  // }
+
   onEditOu(e, ou) {
     e.stopPropagation();
-  }
-
-  onEditClubInfo(e, club) {
-    e.stopPropagation();
-    this.ouService.getOu(club?.uuid).subscribe((response) => {
+    this.ouService.getOu(ou?.uuid).subscribe((response) => {
       if (response) {
         // console.log('response', response);
         this.dialog.open(AddClubModalComponent, {

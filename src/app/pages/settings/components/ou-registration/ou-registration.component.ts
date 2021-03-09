@@ -2,7 +2,7 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { FormValue } from 'src/app/shared/modules/forms/models/form-value.model';
 
-import * as _ from "lodash"
+import * as _ from 'lodash';
 import { formatDateYYMMDD } from 'src/app/pages/data-entry/helpers';
 import { NgxDhis2HttpClientService } from '@iapps/ngx-dhis2-http-client';
 import { catchError, map } from 'rxjs/operators';
@@ -11,7 +11,7 @@ import { Observable, of } from 'rxjs';
 @Component({
   selector: 'app-ou-registration',
   templateUrl: './ou-registration.component.html',
-  styleUrls: ['./ou-registration.component.css']
+  styleUrls: ['./ou-registration.component.css'],
 })
 export class OuRegistrationComponent implements OnInit {
   categories: any;
@@ -38,7 +38,11 @@ export class OuRegistrationComponent implements OnInit {
   isFormValid: boolean = false;
   saveOuResponse$: Observable<any>;
   saving: boolean = false;
-  constructor(private dialogRef: MatDialogRef<OuRegistrationComponent>, @Inject(MAT_DIALOG_DATA) data, private httpClient: NgxDhis2HttpClientService) { }
+  constructor(
+    private dialogRef: MatDialogRef<OuRegistrationComponent>,
+    @Inject(MAT_DIALOG_DATA) data,
+    private httpClient: NgxDhis2HttpClientService
+  ) {}
 
   ngOnInit(): void {
     this.formFields = [
@@ -86,21 +90,21 @@ export class OuRegistrationComponent implements OnInit {
             id: 'ZjQgxnUBzhC',
             name: 'Lake',
             label: 'Lake',
-            key: 'ZjQgxnUBzhC'
+            key: 'ZjQgxnUBzhC',
           },
           {
             id: 'UHSxpoSJ1Eq',
             name: 'Northen',
             label: 'Northen',
-            key: 'UHSxpoSJ1Eq'
+            key: 'UHSxpoSJ1Eq',
           },
           {
             id: 'UZsHQuvWYIz',
             name: 'Eastern',
             label: 'Eastern',
-            key: 'UZsHQuvWYIz'
-          }
-        ]
+            key: 'UZsHQuvWYIz',
+          },
+        ],
       },
       {
         id: 'contactperson',
@@ -114,7 +118,7 @@ export class OuRegistrationComponent implements OnInit {
         id: 'email',
         label: 'Email',
         key: 'email',
-        controlType: 'textbox',
+        controlType: 'email',
         name: 'Email',
         required: false,
       },
@@ -122,7 +126,7 @@ export class OuRegistrationComponent implements OnInit {
         id: 'phonenumber',
         label: 'Phone number',
         key: 'phonenumber',
-        controlType: 'textbox',
+        controlType: 'phoneNumber',
         name: 'Phone number',
         required: false,
       },
@@ -157,34 +161,37 @@ export class OuRegistrationComponent implements OnInit {
   }
 
   onSave(e) {
-    e.stopPropagation()
+    e.stopPropagation();
     const ouDetails = this.getOuInfoFromFormValues(this.formValues);
-    console.log('ouDetails', ouDetails)
+    console.log('ouDetails', ouDetails);
     this.saving = true;
-    this.saveOuResponse$ = this.httpClient.post('organisationUnits', ouDetails).pipe(map(response => {
-      this.saving = false;
-      this.savingMessage = 'Saved successfully'
-      setTimeout(() => {
-      this.savingMessage = null
-      }, 1000)
-      return response
-    }),catchError(e => {
-      this.saving = false;
-      return of(e)
-    }))
+    this.saveOuResponse$ = this.httpClient
+      .post('organisationUnits', ouDetails)
+      .pipe(
+        map((response) => {
+          this.saving = false;
+          this.savingMessage = 'Saved successfully';
+          setTimeout(() => {
+            this.savingMessage = null;
+          }, 1000);
+          return response;
+        }),
+        catchError((e) => {
+          this.saving = false;
+          return of(e);
+        })
+      );
 
-    this.saveOuResponse$.subscribe(response => {
-      console.log("response", response)
-    })
+    this.saveOuResponse$.subscribe((response) => {
+      console.log('response', response);
+    });
   }
 
   onEdit(e, ou) {
     e.stopPropagation();
     const ouDetails = this.getOuInfoFromFormValues(this.formValues);
-    console.log('ouDetails', ouDetails)
-    
+    console.log('ouDetails', ouDetails);
   }
-
 
   getOuInfoFromFormValues(values) {
     let formattedData = {
@@ -212,11 +219,10 @@ export class OuRegistrationComponent implements OnInit {
       parent: {
         id: values?.parent?.value,
       },
-      phoneNumber: values?.phonenumber?.value
+      phoneNumber: values?.phonenumber?.value,
     };
     return formattedData;
   }
-
 
   formulateOptions(options) {
     return _.map(options, (option) => {
@@ -228,5 +234,4 @@ export class OuRegistrationComponent implements OnInit {
       };
     });
   }
-
 }
