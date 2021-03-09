@@ -32,7 +32,7 @@ export class DataService {
         .put(
           'trackedEntityInstances/' +
             trackedEntityInstanceId +
-            '??program=' +
+            '?program=' +
             program?.id,
           data
         )

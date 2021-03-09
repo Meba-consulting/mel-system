@@ -27,9 +27,40 @@ export class TrackedEntrityEntryFormComponent implements OnInit, OnChanges {
   ngOnInit(): void {}
 
   ngOnChanges(): void {
-    this.currentFormData = this.formData;
-    // console.log(this.trackedEntityAttributes);
-    // create form fields
+    this.currentFormData = _.keyBy(
+      _.map(Object.keys(this.formData), (key) => {
+        return {
+          id: key,
+          key: key,
+          value: (_.filter(
+            this.trackedEntityType.trackedEntityTypeAttributes,
+            (attr) => {
+              if (attr.trackedEntityAttribute?.id === key) {
+                return attr;
+              }
+            }
+          ) || [])[0]?.trackedEntityAttribute?.optionSet
+            ? (_.filter(
+                (_.filter(
+                  this.trackedEntityType.trackedEntityTypeAttributes,
+                  (attr) => {
+                    if (attr.trackedEntityAttribute?.id === key) {
+                      return attr;
+                    }
+                  }
+                ) || [])[0]?.trackedEntityAttribute?.optionSet?.options,
+                (option) => {
+                  if (option?.name === this.formData[key]?.value) {
+                    return option;
+                  }
+                }
+              ) || [])[0]?.id
+            : this.formData[key]?.value,
+        };
+      }),
+      'key'
+    );
+    // create form fieldsoptionSet
     this.formFields = _.filter(
       _.map(
         this.trackedEntityType?.trackedEntityTypeAttributes,

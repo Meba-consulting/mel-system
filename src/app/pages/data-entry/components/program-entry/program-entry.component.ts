@@ -83,6 +83,8 @@ export class ProgramEntryComponent implements OnInit {
   editingData: boolean = false;
   savingEnrollmentData: boolean = false;
 
+  formData: any = {};
+
   constructor(
     private httpClient: NgxDhis2HttpClientService,
     private dataEntryService: DataEntryService,
@@ -149,10 +151,16 @@ export class ProgramEntryComponent implements OnInit {
   }
 
   toggleEntryAndReport(type) {
+    this.isEditSet = false;
+    this.editingData = false;
     if (type == 'entry') {
       this.isListReportSet = false;
     } else {
       this.isListReportSet = true;
+      this.getTrackedEntityInstanceData({
+        orgUnit: this.orgUnit?.id,
+        program: this.program?.id,
+      });
     }
   }
 
@@ -303,9 +311,26 @@ export class ProgramEntryComponent implements OnInit {
     });
   }
 
-  onSetEdit(e, trackedEntityInstance) {
-    e.stopPropagation();
+  onSetEdit(trackedEntityInstance) {
+    // e.stopPropagation();
     console.log(trackedEntityInstance);
+    this.currentTrackedEntityInstanceId = trackedEntityInstance?.action?.id;
+    this.reportingDate = new Date(trackedEntityInstance.created);
+    this.stagesEntryOnly = false;
+    this.dateChanged = true;
+    this.isListReportSet = false;
+    this.formData = _.keyBy(
+      _.map(Object.keys(trackedEntityInstance.action), (key) => {
+        return {
+          id: key,
+          key: key,
+          value: trackedEntityInstance.action[key],
+        };
+      }),
+      'key'
+    );
+
+    this.editingData = true;
   }
 
   onSetDelete(e) {
@@ -377,21 +402,31 @@ export class ProgramEntryComponent implements OnInit {
       }
     });
 
-    this.attributeValues = this.orgUnit?.id
-      ? [
-          ...this.attributeValues,
-          {
-            attribute: 'C1i3bPWYBRG',
-            value: this.orgUnit?.id,
-          },
-        ]
-      : this.attributeValues;
+    _.map(
+      this.program.trackedEntityType.trackedEntityTypeAttributes,
+      (attr) => {
+        if (attr.trackedEntityAttribute?.id === 'C1i3bPWYBRG') {
+          this.attributeValues = this.orgUnit?.id
+            ? [
+                ...this.attributeValues,
+                {
+                  attribute: 'C1i3bPWYBRG',
+                  value: this.orgUnit?.id,
+                },
+              ]
+            : this.attributeValues;
+        }
+      }
+    );
   }
 
   onSaveTrackedEntityFirst(e) {
     e.stopPropagation();
     this.savingEnrollmentData = true;
-    this.currentTrackedEntityInstanceId = this.systemIds[0];
+    this.currentTrackedEntityInstanceId = this.currentTrackedEntityInstanceId
+      ? this.currentTrackedEntityInstanceId
+      : this.systemIds[0];
+
     let data = {
       orgUnit: this.orgUnit?.id,
       trackedEntityInstance: this.currentTrackedEntityInstanceId,
@@ -420,6 +455,8 @@ export class ProgramEntryComponent implements OnInit {
       attributes: this.attributeValues,
     };
 
+    data = this.cleanObject(data);
+
     this.dataService
       .saveTrackedEntityInstanceAndAssociatedData(
         data,
@@ -434,6 +471,15 @@ export class ProgramEntryComponent implements OnInit {
           this.shouldOpenStagesForEntry = true;
         }
       });
+  }
+
+  cleanObject(obj) {
+    for (var propName in obj) {
+      if (obj[propName] === null || obj[propName] === undefined) {
+        delete obj[propName];
+      }
+    }
+    return obj;
   }
 
   onGetFormValidity(validity) {

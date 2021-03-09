@@ -55,11 +55,15 @@ export class RenderReportComponent implements OnInit, AfterViewInit {
     );
 
     if (configs && configs.length > 0) {
-      const dimensionConfigs = configs[0].match(/{.*?\}/g)
-        ? JSON.parse(configs)
-        : null;
+      const dimensionConfigs =
+        configs[0].match(/{.*?\}/g) && configs[0].match(/{.*?\}/g)[0]
+          ? JSON.parse(configs[0].match(/{.*?\}/g)[0])
+          : null;
       if (dimensionConfigs) {
-        if ((dimensionConfigs['ou'] = 'USER_ORGUNIT')) {
+        if (
+          dimensionConfigs['ou'] &&
+          dimensionConfigs['ou'] === 'USER_ORGUNIT'
+        ) {
           this.selectedOrgUnitItems = this.currentUser?.dataViewOrganisationUnits;
         }
       }
