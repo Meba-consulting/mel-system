@@ -20,6 +20,7 @@ export class TrackedEntityInstanceListComponent implements OnInit {
   displayedColumns: string[];
   headers: any = {};
   @Input() savedUserDataStore: any;
+  @Input() program: any;
   @Output() edit = new EventEmitter<any>();
   @Output() delete = new EventEmitter<any>();
   @Output() setColumnsToShow = new EventEmitter<any>();
@@ -32,7 +33,8 @@ export class TrackedEntityInstanceListComponent implements OnInit {
   ngOnInit(): void {
     const formattedResponse = getTrackedEntityInstanceReportTable(
       this.queryResponse,
-      this.savedUserDataStore
+      this.savedUserDataStore,
+      this.program
     );
 
     this.displayedColumns = formattedResponse?.displayedColumns;

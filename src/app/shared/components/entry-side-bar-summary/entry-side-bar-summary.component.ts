@@ -22,8 +22,6 @@ export class EntrySideBarSummaryComponent implements OnInit {
       _.map(this.configs?.indicators || [], (indicator) => {
         return indicator;
       }) || [];
-
-    console.log('indicators', this.indicators);
     this.dataResponse$ =
       this.indicators?.length > 0
         ? zip(

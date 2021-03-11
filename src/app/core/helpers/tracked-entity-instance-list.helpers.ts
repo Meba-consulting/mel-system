@@ -1,10 +1,22 @@
 import * as _ from 'lodash';
+import { formatDateToYYMMDD } from 'src/app/pages/data-entry/helpers';
 
 export function getTrackedEntityInstanceReportTable(
   queryResponse,
-  savedUserDataStore
+  savedUserDataStore,
+  program?
 ) {
   let headers = [];
+  const keyedAttributes = {};
+  if (program) {
+    program?.programTrackedEntityAttributes.forEach(
+      (programTrackedEntityAttribute) => {
+        keyedAttributes[
+          programTrackedEntityAttribute?.trackedEntityAttribute?.id
+        ] = programTrackedEntityAttribute;
+      }
+    );
+  }
 
   const keyedSavedColumns = !savedUserDataStore?.message
     ? _.keyBy(savedUserDataStore, 'id')
@@ -38,7 +50,7 @@ export function getTrackedEntityInstanceReportTable(
     _.map(headers, (header) => {
       data[header?.id] =
         header?.id != 'action'
-          ? row[header?.dataIndex]
+          ? formatData(row[header?.dataIndex], header?.id, keyedAttributes)
           : { ...data, id: row[0] };
     });
     return data;
@@ -49,4 +61,16 @@ export function getTrackedEntityInstanceReportTable(
     headers: _.keyBy(headers, 'id'),
     columns: queryResponse?.headers,
   };
+}
+
+function formatData(data, elementId, keyedAttributes) {
+  if (
+    (keyedAttributes[elementId] &&
+      keyedAttributes[elementId]?.valueType === 'DATE') ||
+    elementId === 'created'
+  ) {
+    return formatDateToYYMMDD(new Date(data));
+  } else {
+    return data;
+  }
 }
