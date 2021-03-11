@@ -12,7 +12,6 @@
       (selectedTabChange)="changeTab($event.index)"
     >
       <mat-tab
-        (click)="changeTab($event, count, program)"
         *ngFor="let program of trainingRegistrationPrograms; let count = index"
         label="{{ program?.name }}"
       >
@@ -166,8 +165,10 @@
       </mat-tab>
     </mat-tab-group>
   </div>
-  <div [ngClass]="{ 'col-md-3': !isReportSet, '': isReportSet }">
-    <!-- {{ currentProgram | json }} -->
+  <div
+    [ngClass]="{ 'col-md-3': !isReportSet, '': isReportSet }"
+    [ngStyle]="{ display: isReportSet ? 'none' : 'block' }"
+  >
     <div class="summary" *ngIf="params?.programDataStoreConfigs">
       <app-entry-side-bar-summary
         [program]="currentProgram"

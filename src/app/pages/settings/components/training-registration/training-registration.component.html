@@ -1,16 +1,17 @@
 <div
   class="row"
   *ngIf="{
-    currentTrackedEntityInstance: currentTrackedEntityInstance$ | async
+    currentTrackedEntityInstance: currentTrackedEntityInstance$ | async,
+    programDataStoreConfigs: programDataStoreConfigs$ | async
   } as params"
 >
-  <div [ngClass]="{ 'col-md-8': !isReportSet, 'col-12': isReportSet }">
+  <div [ngClass]="{ 'col-md-9': !isReportSet, 'col-12': isReportSet }">
     <mat-tab-group
       [selectedIndex]="selectedTab.value"
       (selectedIndexChange)="selectedTab.setValue($event)"
+      (selectedTabChange)="changeTab($event.index)"
     >
       <mat-tab
-        (click)="changeTab(count)"
         *ngFor="let program of trainingRegistrationPrograms; let count = index"
         label="{{ program?.name }}"
       >
@@ -126,5 +127,16 @@
       </mat-form-field>
     </div> -->
   </div>
-  <div [ngClass]="{ 'col-md-4': !isReportSet, '': isReportSet }"></div>
+  <div [ngClass]="{ 'col-md-3': !isReportSet, '': isReportSet }">
+    <div class="summary" *ngIf="params?.programDataStoreConfigs">
+      <app-entry-side-bar-summary
+        [program]="currentProgram"
+        [configs]="params?.programDataStoreConfigs"
+      ></app-entry-side-bar-summary>
+    </div>
+    <mat-progress-bar
+      *ngIf="!params?.programDataStoreConfigs"
+      mode="indeterminate"
+    ></mat-progress-bar>
+  </div>
 </div>

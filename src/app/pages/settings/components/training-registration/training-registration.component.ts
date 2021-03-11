@@ -6,6 +6,7 @@ import * as _ from 'lodash';
 import { Observable } from 'rxjs';
 import { FormControl } from '@angular/forms';
 import { OuService } from 'src/app/core/services/ou.service';
+import { NgxDhis2HttpClientService } from '@iapps/ngx-dhis2-http-client';
 
 @Component({
   selector: 'app-training-registration',
@@ -55,13 +56,22 @@ export class TrainingRegistrationComponent implements OnInit {
 
   selectedTab = new FormControl(0);
   currentTabValue = 0;
-  constructor(private dataService: DataService, private ouService: OuService) {}
+  programDataStoreConfigs$: Observable<any>;
+  constructor(
+    private dataService: DataService,
+    private ouService: OuService,
+    private httpClient: NgxDhis2HttpClientService
+  ) {}
 
   ngOnInit(): void {
     this.trainingRegistrationPrograms = filterTrainingPrograms(this.programs);
     this.currentProgram = this.trainingRegistrationPrograms[0];
 
     this.currentTrackedEntityInstanceId = this.systemIds[0];
+
+    this.programDataStoreConfigs$ = this.httpClient.get(
+      'dataStore/programs/' + this.currentProgram?.id
+    );
   }
 
   onToggleReportAndTraining(e) {
@@ -222,10 +232,13 @@ export class TrainingRegistrationComponent implements OnInit {
       });
   }
 
-  changeTab(e, val) {
-    e.stopPropagation();
-    this.selectedTab.setValue(val);
-    this.currentTabValue = val;
+  changeTab(index) {
+    this.selectedTab.setValue(index);
+    this.currentProgram = this.trainingRegistrationPrograms[index];
+
+    this.programDataStoreConfigs$ = this.httpClient.get(
+      'dataStore/programs/' + this.currentProgram?.id
+    );
   }
 
   onSetEdit(trackedEntityInstance, program) {

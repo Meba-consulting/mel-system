@@ -56,7 +56,7 @@ export class TrackerGeneralRegistrationComponent implements OnInit {
   editingData: boolean = false;
   savingMessage: string = '';
   trainingsRegistered$: Observable<any>;
-  isReportSet: boolean = false;
+  isReportSet: boolean = true;
   hasError: boolean = false;
 
   selectedTab = new FormControl(0);
