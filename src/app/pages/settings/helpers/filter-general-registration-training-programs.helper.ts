@@ -17,8 +17,13 @@ export function filterBillingLawsAndPoliciesPrograms(
   userGroups,
   selectedGroup
 ) {
-  let tabGroupForProgram = (_.filter(userGroups, { id: selectedGroup?.id }) ||
-    [])[0]?.managedGroups[0];
+  const keyValuePairedUserGroups = _.keyBy(currentUser?.userGroups, 'id');
+  let tabGroupForProgram = (((
+    _.filter(userGroups, { id: selectedGroup?.id }) || []
+  ).filter((group) => keyValuePairedUserGroups[group?.id]) ||
+    [])[0]?.managedGroups.filter(
+    (managedGroup) => keyValuePairedUserGroups[managedGroup?.id]
+  ) || [])[0];
   if (tabGroupForProgram) {
     return _.map(
       _.filter(programs, (program) => {

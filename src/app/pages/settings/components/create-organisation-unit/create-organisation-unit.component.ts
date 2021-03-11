@@ -22,6 +22,7 @@ export class CreateOrganisationUnitComponent implements OnInit {
   @Input() clubCategories: any[];
   @Input() selectedGroup: any[];
   @Input() programs: any[];
+  @Input() currentUser: any;
 
   orgUnitFilterConfig: any = {
     singleSelection: true,

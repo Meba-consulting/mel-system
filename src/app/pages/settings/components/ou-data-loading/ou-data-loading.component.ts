@@ -13,6 +13,7 @@ import { OuRegistrationComponent } from '../ou-registration/ou-registration.comp
 export class OuDataLoadingComponent implements OnInit {
   @Input() group: any;
   @Input() clubCategories: any;
+  @Input() currentUser: any;
   ouData$: Observable<any>;
   constructor(private ouService: OuService, private dialog: MatDialog) {}
 

@@ -18,33 +18,39 @@
   >
     <ng-container matColumnDef="position">
       <th mat-header-cell *matHeaderCellDef>No.</th>
-      <td mat-cell style="cursor: pointer" *matCellDef="let element">
+      <td mat-cell *matCellDef="let element">
         {{ element.position }}
       </td>
     </ng-container>
 
     <ng-container matColumnDef="region">
       <th mat-header-cell *matHeaderCellDef>Region</th>
-      <td mat-cell style="cursor: pointer" *matCellDef="let element">
+      <td mat-cell *matCellDef="let element">
         {{ element.region }}
       </td>
     </ng-container>
 
     <ng-container matColumnDef="council">
       <th mat-header-cell *matHeaderCellDef>Council</th>
-      <td mat-cell style="cursor: pointer" *matCellDef="let element">
+      <td mat-cell *matCellDef="let element">
         {{ element.council }}
       </td>
     </ng-container>
     <ng-container matColumnDef="name">
       <th mat-header-cell *matHeaderCellDef>Name</th>
-      <td mat-cell style="cursor: pointer" *matCellDef="let element">
+      <td mat-cell *matCellDef="let element">
         {{ element.name }}
+      </td>
+    </ng-container>
+    <ng-container matColumnDef="status">
+      <th mat-header-cell *matHeaderCellDef>status</th>
+      <td mat-cell *matCellDef="let element">
+        {{ element.status }}
       </td>
     </ng-container>
 
     <ng-container matColumnDef="action">
-      <th mat-header-cell *matHeaderCellDef></th>
+      <th mat-header-cell *matHeaderCellDef>Actions</th>
       <td mat-cell *matCellDef="let element">
         <button
           mat-icon-button
@@ -54,18 +60,40 @@
           <mat-icon>more_vert</mat-icon>
         </button>
         <mat-menu #menu="matMenu" class="menu-options">
-          <button (click)="onEditOu($event, element)" mat-menu-item>
+          <button
+            (click)="onEditOu($event, element)"
+            *ngIf="!element?.closedDate"
+            mat-menu-item
+          >
             <mat-icon>edit</mat-icon>
             <span>Edit</span>
           </button>
           <button
-            *ngIf="group?.id === 'GOMCSNn5OdW'"
+            *ngIf="group?.id === 'GOMCSNn5OdW' && !element?.closedDate"
             (click)="onAddClubMember($event, element)"
             mat-menu-item
           >
             <mat-icon>add</mat-icon>
             <span>Add club members</span>
           </button>
+          <button
+            *ngIf="group?.id === 'ltEpnsVKfQf' && !element?.closedDate"
+            (click)="onAddParalegalMembers($event, element, 'aEGnQxdU1Ok')"
+            mat-menu-item
+          >
+            <mat-icon>add</mat-icon>
+            <span>Add paralegal members</span>
+          </button>
+
+          <button
+            *ngIf="group?.id === 'ltEpnsVKfQf' && !element?.closedDate"
+            (click)="onViewProgramData($event, element, 'aEGnQxdU1Ok')"
+            mat-menu-item
+          >
+            <mat-icon>list</mat-icon>
+            <span>View paralegal members</span>
+          </button>
+
           <button
             *ngIf="group?.id === 'GOMCSNn5OdW'"
             (click)="onViewClubMembers($event, element)"
@@ -74,15 +102,17 @@
             <mat-icon>list</mat-icon>
             <span>View Club members</span>
           </button>
+          <button (click)="onCloseClub($event, element)" mat-menu-item>
+            <mat-icon *ngIf="!element?.closedDate">close</mat-icon>
+            <mat-icon *ngIf="element?.closedDate">update</mat-icon>
+            <span *ngIf="!element?.closedDate">Close / Deactivate</span>
+            <span *ngIf="element?.closedDate">Activate</span>
+          </button>
           <button
-            *ngIf="group?.id === 'GOMCSNn5OdW'"
-            (click)="onCloseClub($event, element)"
+            *ngIf="!element?.closedDate"
+            (click)="onDeleteOu($event, element)"
             mat-menu-item
           >
-            <mat-icon>close</mat-icon>
-            <span>Close the club</span>
-          </button>
-          <button (click)="onDeleteOu($event, element)" mat-menu-item>
             <mat-icon>remove</mat-icon>
             <span>Delete</span>
           </button>

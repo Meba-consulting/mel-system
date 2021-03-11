@@ -1,19 +1,52 @@
-<div>
-  <mat-toolbar class="modal-header">Close club</mat-toolbar>
-  <div class="p-5">
-    <button
-      (click)="onConfirmCloseClub($event)"
-      mat-stroked-button
-      class="mr-2 float-left"
+<div *ngIf="{ closingResponse: closingResponse$ | async } as params">
+  <div class="p-3 text-center h3" style="margin-top: 8px">
+    You are about to <span *ngIf="!item?.closedDate">Close</span>
+    <span *ngIf="item?.closedDate">Activate</span> <b>{{ item?.name }}</b>
+  </div>
+  <hr />
+
+  <div class="w-100 text-center text-success">
+    {{ message }}
+  </div>
+
+  <mat-progress-bar
+    *ngIf="savingChanges"
+    mode="indeterminate"
+  ></mat-progress-bar>
+  <div class="p-3" style="margin: 0 15%">
+    <mat-form-field
+      class="w-100"
+      appearance="fill"
+      style="margin-bottom: 15px"
+      *ngIf="!item.closedDate"
     >
-      Confirm
-    </button>
-    <button
-      (click)="onClose($event)"
-      mat-stroked-button
-      class="mr-2 float-right"
-    >
-      Close
-    </button>
+      <mat-label>Date of close</mat-label>
+      <input
+        matInput
+        (dateInput)="onDateChange($event.value)"
+        [matDatepicker]="picker"
+      />
+      <mat-datepicker-toggle matSuffix [for]="picker">
+        <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
+      </mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+    <div class="w-100">
+      <button
+        [disabled]="!closedDate && !item.closedDate"
+        (click)="onConfirmCloseClub($event, item)"
+        mat-stroked-button
+        class="mr-2 float-left text-danger"
+      >
+        Confirm
+      </button>
+      <button
+        (click)="onClose($event)"
+        mat-stroked-button
+        class="mr-2 float-right"
+      >
+        Close
+      </button>
+    </div>
   </div>
 </div>

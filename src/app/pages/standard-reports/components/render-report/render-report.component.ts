@@ -75,7 +75,7 @@ export class RenderReportComponent implements OnInit, AfterViewInit {
     }
 
     if (configs && configs.length > 0 && configs.join(';').indexOf('ou') > -1) {
-      this.hasPe = true;
+      this.hasOu = true;
       this.selectionFilterConfig.showOrgUnitFilter = true;
     }
 
@@ -176,6 +176,8 @@ export class RenderReportComponent implements OnInit, AfterViewInit {
 
   onFilterUpdate(selections) {
     console.log('repo di', selections);
+    console.log(this.hasOu);
+    console.log(this.hasPe);
     if (
       (this.hasPe &&
         this.hasOu &&
@@ -186,7 +188,8 @@ export class RenderReportComponent implements OnInit, AfterViewInit {
         selections.length > 1 &&
         this.selectedDimensions &&
         Object.keys(this.selectedDimensions).length > 1) ||
-      ((this.hasPe || this.hasOu) && selections.length === 1)
+      (((this.hasPe && !this.hasOu) || (this.hasOu && !this.hasPe)) &&
+        selections.length === 1)
     ) {
       this.selectionChanged = false;
 

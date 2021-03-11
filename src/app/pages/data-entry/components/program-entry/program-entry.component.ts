@@ -641,7 +641,7 @@ export class ProgramEntryComponent implements OnInit {
         width: '20%',
         height: '250px',
         disableClose: false,
-        data: { path: 'evemts/' + event?.event, itemName: '' },
+        data: { path: 'events/' + event?.event, itemName: '' },
         panelClass: 'custom-dialog-container',
       })
       .afterClosed()

@@ -1,10 +1,12 @@
 <div style="padding: 5px 25px">
-  <div class="h4 p-2" *ngIf="itemName" style="margin-top: 20px">
+  <div class="h4 p-2 text-center" *ngIf="itemName" style="margin-top: 20px">
     Are you sure to delete
     <b>
       {{ itemName }}
     </b>
   </div>
+
+  <hr />
   <div class="p-3">
     <p class="text-center" *ngIf="deletedItem">
       {{ message === 'OK' ? 'Successfully deleted' : 'Failed' }}

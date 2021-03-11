@@ -1,6 +1,6 @@
 <div
   *ngIf="{
-    program: clubMemberRegistrationProgram$ | async,
+    program: program$ | async,
     programsLoadedState: programsLoadedState$ | async
   } as params"
 >
@@ -41,12 +41,10 @@
         Close
       </button>
       <button
-        [disabled]="!isFormValid || isMemberAdded"
+        [disabled]="!isFormValid || isItemAdded"
         class="mr-2 float-right"
         mat-stroked-button
-        (click)="
-          onSaveMemberDetails($event, params?.program?.trackedEntityType)
-        "
+        (click)="onSave($event, params?.program?.trackedEntityType)"
       >
         <mat-spinner
           *ngIf="savingData"

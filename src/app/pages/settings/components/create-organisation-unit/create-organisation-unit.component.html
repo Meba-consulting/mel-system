@@ -9,7 +9,11 @@
       *ngFor="let group of groups; let count = index"
     >
       <div class="p-3" *ngIf="selectedTab.value == count">
-        <app-ou-data-loading [group]="group"></app-ou-data-loading>
+        <app-ou-data-loading
+          [group]="group"
+          [currentUser]="currentUser"
+          [clubCategories]="clubCategories"
+        ></app-ou-data-loading>
       </div>
     </mat-tab>
   </mat-tab-group>

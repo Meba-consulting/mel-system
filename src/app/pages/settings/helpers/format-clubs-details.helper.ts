@@ -25,16 +25,29 @@ export function getClubInfoFromFormValues(values) {
   return formattedData;
 }
 
-export function formatClubsForDatatableList(clubs) {
-  // console.log('clubs', clubs);
-  return _.map(clubs?.listGrid?.rows, (club, index) => {
+export function formatClubsForDatatableList(ous) {
+  console.log('ous', ous);
+  return _.map(ous?.listGrid?.rows, (ou, index) => {
     return {
       position: index + 1,
-      region: club[1],
-      council: club[4],
-      name: club[6],
-      uuid: club[8],
-      action: '',
+      region: ou[1],
+      council: ou[4],
+      name: ou[6],
+      uuid: ou[8],
+      uid: ou[8],
+      id: ou[8],
+      status: ou[10] ? 'Inactive' : 'Active',
+      openingDate: ou[9],
+      closedDate: ou[10],
+      action: {
+        id: ou[8],
+        uid: ou[8],
+        uuid: ou[8],
+        name: ou[6],
+        status: ou[10] ? 'Inactive' : 'Active',
+        openingDate: ou[9],
+        closedDate: ou[10],
+      },
     };
   });
 }
