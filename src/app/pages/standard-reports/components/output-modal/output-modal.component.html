@@ -1,0 +1,380 @@
+<div
+  class="output-container"
+  *ngIf="{
+    indicators: indicators$ | async,
+    responsibles: responsibles$ | async
+  } as params"
+>
+  <div class="h4 p-1">
+    Outputs for the outcome <b>{{ outCome?.name }}</b>
+  </div>
+  <hr />
+  <div class="outputs">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>SN</th>
+          <th>Output</th>
+          <th>Description</th>
+          <th></th>
+        </tr>
+      </thead>
+      <ng-container *ngIf="outCome?.outputs && outCome?.outputs?.length > 0">
+        <tbody *ngFor="let output of outCome?.outputs; let count = index">
+          <tr>
+            <td>{{ count + 1 }}</td>
+            <td>{{ output?.name }}</td>
+            <td>{{ output?.description }}</td>
+            <td>
+              <button
+                mat-icon-button
+                [matMenuTriggerFor]="menu"
+                matTooltip="More actions"
+              >
+                <mat-icon>more_vert</mat-icon>
+              </button>
+              <mat-menu #menu="matMenu" class="menu-options">
+                <button (click)="onEditOutput($event, output)" mat-menu-item>
+                  <mat-icon>edit</mat-icon>
+                  <span>Edit</span>
+                </button>
+                <button (click)="onAddActivity($event, output)" mat-menu-item>
+                  <mat-icon>add</mat-icon>
+                  <span>Add activity</span>
+                </button>
+
+                <button
+                  (click)="onViewActivities($event, output)"
+                  mat-menu-item
+                >
+                  <mat-icon>remove_red_eye</mat-icon>
+                  <span>View activities</span>
+                </button>
+              </mat-menu>
+            </td>
+          </tr>
+          <tr *ngIf="showActivityFor[output?.id]">
+            <td colspan="4">
+              <div class="activities-container">
+                <div class="activities-list">
+                  <table class="table activities">
+                    <thead>
+                      <tr>
+                        <th>SN</th>
+                        <th>Activity</th>
+                        <th>Description</th>
+                        <th>Indicator</th>
+                        <th>Target</th>
+                        <th></th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr
+                        *ngFor="
+                          let activity of currentOutput.activities;
+                          let activityCount = index
+                        "
+                      >
+                        <td>{{ count + 1 }} {{ activityCount + 1 }}</td>
+                        <td>{{ activity?.name }}</td>
+                        <td>{{ activity?.description }}</td>
+                        <td>{{ activity?.indicator?.name }}</td>
+                        <td>{{ activity.target }}</td>
+                        <td>
+                          <button
+                            mat-icon-button
+                            [matMenuTriggerFor]="menu"
+                            matTooltip="More actions"
+                          >
+                            <mat-icon>more_vert</mat-icon>
+                          </button>
+                          <mat-menu #menu="matMenu" class="menu-options">
+                            <button
+                              (click)="onEditActivity($event, activity)"
+                              mat-menu-item
+                            >
+                              <mat-icon>edit</mat-icon>
+                              <span>Edit</span>
+                            </button>
+
+                            <button
+                              (click)="
+                                onDeleteActivity($event, output, activity)
+                              "
+                              mat-menu-item
+                            >
+                              <mat-icon>delete</mat-icon>
+                              <span>Delete activity</span>
+                            </button>
+                          </mat-menu>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+                <div class="add-activity-container" *ngIf="showActivityForm">
+                  <form [formGroup]="activityForm">
+                    <mat-form-field class="w-100">
+                      <input
+                        matInput
+                        placeholder="Activity"
+                        [type]="'text'"
+                        formControlName="name"
+                        required
+                      />
+                    </mat-form-field>
+
+                    <mat-form-field class="w-100">
+                      <input
+                        matInput
+                        placeholder="Label or short name"
+                        [type]="'text'"
+                        formControlName="label"
+                        required
+                      />
+                    </mat-form-field>
+
+                    <mat-form-field class="w-100">
+                      <textarea
+                        matInput
+                        placeholder="Description"
+                        [type]="'text'"
+                        formControlName="description"
+                      ></textarea>
+                    </mat-form-field>
+
+                    <div class="w-100">
+                      <button
+                        style="border: none; border-bottom: solid 1px #eee"
+                        mat-stroked-button
+                        class="mr-2 float-left w-100 text-left toggle-filter-btns"
+                        (click)="toggleOptionSelector($event)"
+                      >
+                        Indicator
+                        {{
+                          selectedIndicator
+                            ? selectedIndicator?.name
+                            : currentActivity
+                            ? currentActivity?.indicator?.name
+                            : ''
+                        }}
+                      </button>
+                      <mat-form-field
+                        class="w-100"
+                        style="border: solid 1px #eee"
+                        *ngIf="
+                          params?.indicators &&
+                          params?.indicators?.length > 0 &&
+                          showOptionSelector
+                        "
+                      >
+                        <mat-label>Search</mat-label>
+                        <input matInput (keyup)="onSearch($event)" />
+                      </mat-form-field>
+                      <div
+                        class="list-contents w-100"
+                        *ngIf="showOptionSelector"
+                      >
+                        <mat-nav-list>
+                          <a
+                            mat-list-item
+                            [ngClass]="{
+                              'selected-item':
+                                selectedIndicator?.id === option.id
+                            }"
+                            (click)="onSelectOption($event, option)"
+                            *ngFor="
+                              let option of params?.indicators
+                                | filterByInputText: searchString
+                            "
+                            >{{ option?.name }}</a
+                          >
+                        </mat-nav-list>
+                      </div>
+                      <button
+                        class="mr-2 float-left"
+                        mat-stroked-button
+                        *ngIf="showOptionSelector"
+                        (click)="hideOptionSection($event)"
+                      >
+                        Done
+                      </button>
+                    </div>
+                    <mat-form-field class="w-100">
+                      <input
+                        matInput
+                        min="1"
+                        placeholder="Target"
+                        [type]="'number'"
+                        formControlName="target"
+                      />
+                    </mat-form-field>
+
+                    <div class="w-100">
+                      <button
+                        style="border: none; border-bottom: solid 1px #eee"
+                        mat-stroked-button
+                        class="mr-2 float-left w-100 text-left toggle-filter-btns"
+                        (click)="toggleResponsibleSelector($event)"
+                      >
+                        Responsible
+                        {{
+                          responsible?.name
+                            ? responsible?.name
+                            : currentActivity
+                            ? currentActivity?.responsible?.name
+                            : ''
+                        }}
+                      </button>
+                      <mat-form-field
+                        class="w-100"
+                        style="border: solid 1px #eee"
+                        *ngIf="
+                          params?.responsibles &&
+                          params?.responsibles?.length > 0 &&
+                          showResponsibleSelector
+                        "
+                      >
+                        <mat-label>Search</mat-label>
+                        <input matInput (keyup)="onSearch($event)" />
+                      </mat-form-field>
+                      <div
+                        class="list-contents w-100"
+                        *ngIf="showResponsibleSelector"
+                      >
+                        <mat-nav-list>
+                          <a
+                            mat-list-item
+                            [ngClass]="{
+                              'selected-item': responsible?.id === option.id
+                            }"
+                            (click)="onSelectResponsibleOption($event, option)"
+                            *ngFor="
+                              let option of params?.responsibles
+                                | filterByInputText: searchString
+                            "
+                            >{{ option?.name }}</a
+                          >
+                        </mat-nav-list>
+                      </div>
+                      <button
+                        class="mr-2 float-left"
+                        mat-stroked-button
+                        *ngIf="showResponsibleSelector"
+                        (click)="showResponsibleSelector = false"
+                      >
+                        Done
+                      </button>
+                    </div>
+                  </form>
+                  <div class="w-100">
+                    <button
+                      [disabled]="!activityForm.valid || saving"
+                      mat-stroked-button
+                      class="mr-2 float-left"
+                      (click)="
+                        onSaveActivity($event, output, activityForm.value)
+                      "
+                    >
+                      <mat-spinner
+                        *ngIf="savingActivity"
+                        color="accent"
+                        [diameter]="20"
+                        style="
+                          display: inline-block !important;
+                          margin-right: 4px;
+                        "
+                      >
+                      </mat-spinner>
+                      Save activity
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </ng-container>
+      <ng-container
+        *ngIf="
+          !outCome?.outputs ||
+          (outCome?.outputs && outCome?.outputs?.length === 0)
+        "
+      >
+        <tbody>
+          <tr>
+            <td colspan="4" class="text-center text-warning">
+              No output registered
+            </td>
+          </tr>
+        </tbody>
+      </ng-container>
+    </table>
+    <div *ngIf="showOutputForm">
+      <form [formGroup]="outputForm">
+        <mat-form-field class="w-100">
+          <input
+            matInput
+            placeholder="Output"
+            [type]="'text'"
+            formControlName="name"
+            required
+          />
+        </mat-form-field>
+
+        <mat-form-field class="w-100">
+          <input
+            matInput
+            placeholder="Label or short name"
+            [type]="'text'"
+            formControlName="label"
+            required
+          />
+        </mat-form-field>
+
+        <mat-form-field class="w-100">
+          <textarea
+            matInput
+            placeholder="Description"
+            [type]="'text'"
+            formControlName="description"
+          ></textarea>
+        </mat-form-field>
+
+        <button
+          [disabled]="!outputForm.valid || saving"
+          mat-stroked-button
+          class="mr-2 float-left"
+          (click)="onSaveOutput($event, outputForm.value)"
+        >
+          <mat-spinner
+            *ngIf="saving"
+            color="accent"
+            [diameter]="20"
+            style="display: inline-block !important; margin-right: 4px"
+          >
+          </mat-spinner>
+          Save
+        </button>
+      </form>
+    </div>
+  </div>
+  <div class="btns">
+    <!-- <button mat-stroked-button class="mr-2 float-left">Save</button> -->
+    <button
+      [disabled]="saving"
+      mat-stroked-button
+      class="mr-2 float-left"
+      (click)="onAddNewOutput($event)"
+    >
+      New output
+    </button>
+    <button
+      mat-stroked-button
+      class="mr-2 float-left"
+      (click)="onClose($event)"
+    >
+      Close
+    </button>
+  </div>
+</div>

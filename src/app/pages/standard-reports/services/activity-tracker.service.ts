@@ -18,6 +18,39 @@ export class ActivityTrackerService {
     );
   }
 
+  getIndicators(): Observable<any[]> {
+    return this.httpClient
+      .get('programIndicators.json?fields=id,name,displayName,indicatorType')
+      .pipe(
+        map((response) => {
+          return response?.programIndicators || [];
+        })
+      );
+  }
+
+  getResponsibleList(): Observable<any> {
+    return this.httpClient.get('userGroups?fields=id,name,displayName').pipe(
+      map((response) => {
+        return (response?.userGroups || [])
+          .map((userGroup) => {
+            if (userGroup?.name?.toLowerCase().indexOf('_titles') === 0) {
+              console.log('userGroup', userGroup);
+              return {
+                ...userGroup,
+                name: userGroup?.name
+                  .replace('_TITLES ', '')
+                  .replace('_TITLE ', ''),
+                displayName: userGroup?.displayName
+                  .replace('_TITLES ', '')
+                  .replace('_TITLE ', ''),
+              };
+            }
+          })
+          .filter((formattedUserGroup) => formattedUserGroup);
+      })
+    );
+  }
+
   createActivityYear(key): Observable<any> {
     return this.httpClient.post('dataStore/activity-trackers/' + key, []);
   }

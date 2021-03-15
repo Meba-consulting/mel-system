@@ -1,0 +1,59 @@
+<!-- <button
+  mat-stroked-button
+  title="Select {{ filterName }}"
+  (click)="toggleCurrentFilter($event)"
+>
+  <i class="fa fa-list"></i>{{ filterName }}
+  <span class="badge badge-secondary" *ngIf="selectedItem && updated">
+    {{ selectedItem.name }}
+  </span>
+  <i
+    class="fa {{ showSelections == true ? 'fa-caret-up' : 'fa-caret-down' }}"
+  ></i>
+</button> -->
+<div *ngIf="showSelections">
+  <div class="mat-elevation-z1 list-items p-2">
+    <mat-form-field class="w-100">
+      <mat-label>Search</mat-label>
+      <input matInput (keyup)="onSearch($event)" />
+    </mat-form-field>
+    <div class="list-contents">
+      <mat-nav-list>
+        <a
+          mat-list-item
+          [ngClass]="{
+            'selected-item': keyValuePairedSelectedItems[option.id]
+          }"
+          (click)="onSelectOption($event, option)"
+          *ngFor="let option of options | stringFilterBy: searchString"
+          >{{ option?.name ? option?.name : option?.value }}</a
+        >
+      </mat-nav-list>
+    </div>
+    <div
+      class="d-flex justify-content-end mt-2 filter-btns"
+      style="display: none"
+    >
+      <button
+        (click)="$event.stopPropagation(); onClose()"
+        mat-focus-indicator
+        mat-stroked-button
+        mat-button-base
+        mat-primary
+      >
+        Close
+      </button>
+      <button
+        (click)="$event.stopPropagation(); onUpdate()"
+        color="primary"
+        mat-focus-indicator
+        mat-stroked-button
+        mat-button-base
+        mat-primary
+        [disabled]="selectedItems?.length == 0"
+      >
+        Update
+      </button>
+    </div>
+  </div>
+</div>

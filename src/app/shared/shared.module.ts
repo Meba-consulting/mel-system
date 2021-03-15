@@ -16,7 +16,13 @@ import { FilterByInputTextPipe } from './pipes/filter-by-input-text.pipe';
     FormsModule,
     ReactiveFormsModule,
   ],
-  exports: [CommonModule, ...materialModules, ...modules, ...sharedComponents],
+  exports: [
+    CommonModule,
+    ...materialModules,
+    ...modules,
+    ...sharedComponents,
+    FilterByInputTextPipe,
+  ],
   declarations: [...sharedComponents, RemoveItemsPipe, FilterByInputTextPipe],
   entryComponents: [...sharedComponents],
 })

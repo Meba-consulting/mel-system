@@ -37,6 +37,10 @@
                 <mat-icon>add</mat-icon>
                 <span>Add outcome</span>
               </button>
+              <button (click)="onViewOuComes($event, objective)" mat-menu-item>
+                <mat-icon>remove_red_eye</mat-icon>
+                <span>View outcomes</span>
+              </button>
             </mat-menu>
           </td>
         </tr>
@@ -75,7 +79,7 @@
                       </button>
                       <mat-menu #menu="matMenu" class="menu-options">
                         <button
-                          (click)="onEditOutCome($event, outCome)"
+                          (click)="onEditOutCome($event, outCome, objective)"
                           mat-menu-item
                         >
                           <mat-icon>edit</mat-icon>
@@ -90,10 +94,10 @@
                         </button>
 
                         <button
-                          (click)="onViewOutputs($event, outCome)"
+                          (click)="onAddOutput($event, outCome)"
                           mat-menu-item
                         >
-                          <mat-icon>eye</mat-icon>
+                          <mat-icon>remove_red_eye</mat-icon>
                           <span>View outputs</span>
                         </button>
                       </mat-menu>
@@ -114,7 +118,7 @@
                 </ng-container>
               </tbody>
             </table>
-            <div>
+            <div *ngIf="showOutComesFor[currentObjective?.id]">
               <form [formGroup]="outComeForm">
                 <mat-form-field class="w-100">
                   <input

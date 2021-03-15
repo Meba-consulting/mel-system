@@ -1,0 +1,39 @@
+.dataset-form-full-width,
+.dataset-form {
+  width: 100%;
+}
+
+.list-items {
+  position: absolute;
+  background-color: #ffffff;
+  min-width: 450px;
+  z-index: 100;
+  background-color: rgba(255, 255, 255, 0.95);
+}
+
+.list-contents {
+  height: 350px;
+  overflow: auto;
+  border: solid 1px #eee;
+  margin-top: -10px;
+}
+
+.mat-list-base .mat-list-item,
+.mat-list-base .mat-list-option {
+  display: block;
+  height: 45px !important;
+  -webkit-tap-highlight-color: transparent;
+  width: 100%;
+  padding: 0;
+  position: relative;
+}
+
+.filter-btns button {
+  margin-left: 4px;
+}
+
+.selected-item {
+  background-color: #eee;
+  color: #222222;
+  font-weight: 600;
+}
