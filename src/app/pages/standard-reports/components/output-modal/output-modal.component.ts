@@ -81,7 +81,6 @@ export class OutputModalComponent implements OnInit {
           description: formValues?.description,
           activities: this.currentOutput ? this.currentOutput?.activities : [],
         };
-        this.currentOutput = newOutput;
         this.outCome.outputs = this.currentOutput
           ? this.outCome.outputs.map((item) => {
               if (item?.id === newOutput?.id) {
@@ -91,6 +90,8 @@ export class OutputModalComponent implements OnInit {
               }
             })
           : [...this.outCome.outputs, newOutput];
+
+        this.currentOutput = newOutput;
         this.currentObjective.outComes = this.currentObjective.outComes.map(
           (item) => {
             if (item?.id === this.outCome?.id) {
@@ -234,6 +235,8 @@ export class OutputModalComponent implements OnInit {
               }
             })
           : [...this.currentOutput.activities, newActivity];
+
+        this.currentActivity = newActivity;
 
         this.outCome.outputs = this.outCome.outputs.map((item) => {
           if (item?.id === this.currentOutput?.id) {
