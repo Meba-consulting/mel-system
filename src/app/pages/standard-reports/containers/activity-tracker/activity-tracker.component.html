@@ -1,0 +1,25 @@
+<div *ngIf="{ activityTrackerYears: activityTrackerYears$ | async } as params">
+  <mat-progress-bar
+    mode="indeterminate"
+    *ngIf="!params?.activityTrackerYears"
+  ></mat-progress-bar>
+  <div
+    *ngIf="
+      params?.activityTrackerYears && params?.activityTrackerYears?.message
+    "
+  >
+    <div class="h4 text-center text-warning">
+      {{ params?.activityTrackerYears?.message }}
+    </div>
+  </div>
+
+  <div
+    *ngIf="
+      params?.activityTrackerYears && !params?.activityTrackerYears?.message
+    "
+  >
+    <app-activity-tracker-dashboard
+      [keys]="params?.activityTrackerYears"
+    ></app-activity-tracker-dashboard>
+  </div>
+</div>

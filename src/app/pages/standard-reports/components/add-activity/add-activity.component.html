@@ -1,0 +1,78 @@
+<div *ngIf="{ activityDetails: activityDetails$ | async } as params">
+  <mat-progress-bar
+    mode="indeterminate"
+    *ngIf="!params?.activityDetails"
+  ></mat-progress-bar>
+  <div *ngIf="params?.activityDetails">
+    <app-strategic-objectives-list
+      [activityDetails]="params?.activityDetails"
+      [key]="key"
+      (editObjective)="onEditObjective($event)"
+    ></app-strategic-objectives-list>
+
+    <div class="btns" *ngIf="!showFormForAddingNewObjective">
+      <button
+        mat-stroked-button
+        class="float-right"
+        (click)="onAddNewObjective($event, key)"
+      >
+        New Objective
+      </button>
+    </div>
+    <div class="new-objective" *ngIf="showFormForAddingNewObjective">
+      <form [formGroup]="objectiveForm">
+        <mat-form-field class="w-100">
+          <input
+            matInput
+            placeholder="Strategic objective"
+            [type]="'text'"
+            formControlName="name"
+            required
+          />
+        </mat-form-field>
+
+        <mat-form-field class="w-100">
+          <input
+            matInput
+            placeholder="Label or short name"
+            [type]="'text'"
+            formControlName="label"
+            required
+          />
+        </mat-form-field>
+
+        <mat-form-field class="w-100">
+          <textarea
+            matInput
+            placeholder="Description"
+            [type]="'text'"
+            formControlName="description"
+          ></textarea>
+        </mat-form-field>
+
+        <button
+          [disabled]="!objectiveForm.valid || saving"
+          mat-stroked-button
+          class="mr-2 float-left"
+          (click)="onSave($event, params?.activityDetails, objectiveForm.value)"
+        >
+          <mat-spinner
+            *ngIf="saving"
+            color="accent"
+            [diameter]="20"
+            style="display: inline-block !important; margin-right: 4px"
+          >
+          </mat-spinner>
+          Save
+        </button>
+        <button
+          class="mr-2 float-left"
+          mat-stroked-button
+          (click)="onCancel($event)"
+        >
+          Cancel
+        </button>
+      </form>
+    </div>
+  </div>
+</div>

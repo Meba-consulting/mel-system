@@ -1,21 +1,32 @@
-<div class="h4 p-3">Reports</div>
-<div style="margin-top: 15px" *ngIf="!(currentUser$ | async)">
+<div class="h4 mat-elevation-z1" style="padding: 0.5rem 0; margin: 0 -15px">
+  <h2 style="margin-left: 8px">Reports</h2>
+</div>
+<div style="margin-top: 15px" *ngIf="!(currentUser$ | async) || !reportsAreas">
   <mat-progress-bar mode="indeterminate"></mat-progress-bar>
 </div>
 <div
-  style="height: 100%; background-color: #fff"
+  style="height: 100%; margin-top: 10px; background-color: #fff"
   class="row"
   *ngIf="currentUser$ | async"
 >
-  <div class="col-md-12 standard-reports-home-page">
+  <div
+    class="col-md-12 standard-reports-home-page"
+    *ngIf="reportsAreas && reportsAreas?.length > 0"
+  >
     <mat-tab-group
       [selectedIndex]="selectedTab.value"
       (selectedIndexChange)="selectedTab.setValue($event)"
     >
-      <mat-tab label="Standard reports" (click)="changeTab(0)">
+      <mat-tab
+        label="{{ reportArea?.name }}"
+        (click)="changeTab(count)"
+        *ngFor="let reportArea of reportsAreas; let count = index"
+      >
         <div
           style="background-color: transparent"
-          *ngIf="selectedTab.value == 0"
+          *ngIf="
+            selectedTab.value == count && reportArea?.id === 'standard_reports'
+          "
         >
           <div class="row p-2">
             <div class="col-md-3">
@@ -61,10 +72,25 @@
             </div>
           </div>
         </div>
-      </mat-tab>
-      <mat-tab label="Uploaded reports" (click)="changeTab(1)">
-        <div class="p-2" *ngIf="selectedTab.value == 1">
-          <app-uploaded-reports></app-uploaded-reports>
+        <div
+          class="p-2"
+          *ngIf="
+            selectedTab.value == count && reportArea?.id === 'uploaded_reports'
+          "
+        >
+          <app-uploaded-reports
+            [currentUser]="currentUser$ | async"
+          ></app-uploaded-reports>
+        </div>
+        <div
+          class="p-2"
+          *ngIf="
+            selectedTab.value == count && reportArea?.id === 'activity_tracker'
+          "
+        >
+          <app-activity-tracker
+            [currentUser]="currentUser$ | async"
+          ></app-activity-tracker>
         </div>
       </mat-tab>
       <!-- <mat-tab label="Analysis tools" *ngIf="selectedTab.value == 2">
@@ -96,6 +122,11 @@
         </div>
       </mat-tab> -->
     </mat-tab-group>
+  </div>
+  <div *ngIf="reportsAreas && reportsAreas?.length === 0">
+    <div class="text-center text-warning h3">
+      You do not have access to any of the reports areas
+    </div>
   </div>
 </div>
 

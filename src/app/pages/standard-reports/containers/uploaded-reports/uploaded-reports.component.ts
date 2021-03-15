@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { State, getCurrentUser, getAllUserGroups } from 'src/app/store';
 import { Observable } from 'rxjs';
@@ -9,11 +9,11 @@ import { getResources } from '../../store/selectors';
 @Component({
   selector: 'app-uploaded-reports',
   templateUrl: './uploaded-reports.component.html',
-  styleUrls: ['./uploaded-reports.component.css']
+  styleUrls: ['./uploaded-reports.component.css'],
 })
 export class UploadedReportsComponent implements OnInit, OnDestroy {
   currentUser$: Observable<any>;
-
+  @Input() currentUser: any;
   resources$: Observable<any>;
   loadingState$: Observable<boolean>;
   navigationSubscription: any;

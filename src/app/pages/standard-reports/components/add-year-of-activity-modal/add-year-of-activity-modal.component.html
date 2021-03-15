@@ -1,0 +1,43 @@
+<div style="padding: 15px 25px">
+  <div class="h3">Add new year</div>
+  <hr />
+  <mat-form-field class="w-100">
+    <mat-label>Select year</mat-label>
+    <mat-select [(ngModel)]="selectedValue" name="year">
+      <mat-option
+        *ngFor="let option of options"
+        [value]="option"
+        [disabled]="availableOptions[option]"
+      >
+        {{ option }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+  <div>
+    <p class="text-center">{{ message }}</p>
+  </div>
+  <div>
+    <button
+      [disabled]="!selectedValue || savingActivityTrackerYear"
+      mat-stroked-button
+      class="mr-2 float-left"
+      (click)="onSave($event)"
+    >
+      <mat-spinner
+        *ngIf="savingActivityTrackerYear"
+        color="accent"
+        [diameter]="20"
+        style="display: inline-block !important; margin-right: 4px"
+      >
+      </mat-spinner>
+      Save
+    </button>
+    <button
+      mat-stroked-button
+      class="mr-2 float-right"
+      (click)="onClose($event)"
+    >
+      Close
+    </button>
+  </div>
+</div>

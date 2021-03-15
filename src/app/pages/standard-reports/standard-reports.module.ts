@@ -20,6 +20,11 @@ import { FilterUsingInputPipe } from './pipes/filter-using-input.pipe';
 import { UploadNewReportComponent } from './containers/upload-new-report/upload-new-report.component';
 import { ReportFormComponent } from './components/report-form/report-form.component';
 import { UploadReportComponent } from './components/upload-report/upload-report.component';
+import { ActivityTrackerComponent } from './containers/activity-tracker/activity-tracker.component';
+import { AddActivityComponent } from './components/add-activity/add-activity.component';
+import { ActivityTrackerDashboardComponent } from './containers/activity-tracker-dashboard/activity-tracker-dashboard.component';
+import { AddYearOfActivityModalComponent } from './components/add-year-of-activity-modal/add-year-of-activity-modal.component';
+import { StrategicObjectivesListComponent } from './components/strategic-objectives-list/strategic-objectives-list.component';
 
 @NgModule({
   declarations: [
@@ -37,6 +42,11 @@ import { UploadReportComponent } from './components/upload-report/upload-report.
     UploadNewReportComponent,
     ReportFormComponent,
     UploadReportComponent,
+    ActivityTrackerComponent,
+    AddActivityComponent,
+    ActivityTrackerDashboardComponent,
+    AddYearOfActivityModalComponent,
+    StrategicObjectivesListComponent,
   ],
   imports: [
     CommonModule,
@@ -47,6 +57,10 @@ import { UploadReportComponent } from './components/upload-report/upload-report.
     SharedModule,
   ],
   providers: [],
-  entryComponents: [UploadReportComponent],
+  entryComponents: [
+    UploadReportComponent,
+    AddActivityComponent,
+    AddYearOfActivityModalComponent,
+  ],
 })
 export class StandardReportsModule {}

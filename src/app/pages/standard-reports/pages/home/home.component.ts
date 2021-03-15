@@ -10,6 +10,8 @@ import {
 import { getAllUserGroups, getCurrentUser } from 'src/app/store';
 import { FormControl } from '@angular/forms';
 
+import { keyBy } from 'lodash';
+
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -31,6 +33,8 @@ export class HomeComponent implements OnInit {
   selectedTab = new FormControl(0);
 
   userGroups$: Observable<any>;
+
+  reportsAreas: any[];
   constructor(private store: Store<State>) {}
 
   ngOnInit(): void {
@@ -41,6 +45,31 @@ export class HomeComponent implements OnInit {
     this.countOfLoadedReportTypes$ = this.store.select(
       getCountOfLoadedReportTypes
     );
+
+    this.currentUser$.subscribe((userDetails) => {
+      if (userDetails) {
+        this.reportsAreas = [];
+        const keyedUserGroups = keyBy(userDetails?.userGroups, 'id');
+        if (keyedUserGroups['Dnf8GlsGZ4M']) {
+          this.reportsAreas.push({
+            id: 'standard_reports',
+            name: 'Standard reports',
+          });
+        }
+        if (keyedUserGroups['lNfnAZRchBc']) {
+          this.reportsAreas.push({
+            id: 'uploaded_reports',
+            name: 'Uploads',
+          });
+        }
+        if (keyedUserGroups['dzB1kyCukQf']) {
+          this.reportsAreas.push({
+            id: 'activity_tracker',
+            name: 'Activity tracker',
+          });
+        }
+      }
+    });
   }
 
   onSelectReportGroup(reportGroup) {

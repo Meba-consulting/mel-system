@@ -1,0 +1,198 @@
+<div *ngIf="activityDetails">
+  <table class="table">
+    <thead>
+      <tr>
+        <th>SN</th>
+        <th>Objective</th>
+        <th>Description</th>
+        <th></th>
+      </tr>
+    </thead>
+    <ng-container *ngIf="activityDetails && activityDetails?.length > 0">
+      <tbody *ngFor="let objective of activityDetails; let count = index">
+        <tr>
+          <td>
+            {{ count + 1 }}
+          </td>
+          <td>
+            {{ objective?.name }}
+          </td>
+          <td>
+            {{ objective?.description }}
+          </td>
+          <td>
+            <button
+              mat-icon-button
+              [matMenuTriggerFor]="menu"
+              matTooltip="More actions"
+            >
+              <mat-icon>more_vert</mat-icon>
+            </button>
+            <mat-menu #menu="matMenu" class="menu-options">
+              <button (click)="onEdit($event, objective)" mat-menu-item>
+                <mat-icon>edit</mat-icon>
+                <span>Edit</span>
+              </button>
+              <button (click)="onAddOutCome($event, objective)" mat-menu-item>
+                <mat-icon>add</mat-icon>
+                <span>Add outcome</span>
+              </button>
+            </mat-menu>
+          </td>
+        </tr>
+        <tr *ngIf="currentObjective && currentObjective?.id === objective?.id">
+          <td colspan="4">
+            <table class="table p-3">
+              <thead>
+                <th>SN</th>
+                <th>Outcome</th>
+                <th>Description</th>
+                <th></th>
+              </thead>
+              <tbody>
+                <ng-container
+                  *ngIf="
+                    currentObjective?.outComes &&
+                    currentObjective?.outComes?.length > 0
+                  "
+                >
+                  <tr
+                    *ngFor="
+                      let outCome of currentObjective?.outComes;
+                      let outComeCount = index
+                    "
+                  >
+                    <td>{{ count + 1 }}.{{ outComeCount + 1 }}</td>
+                    <td>{{ outCome?.name }}</td>
+                    <td>{{ outCome?.description }}</td>
+                    <td>
+                      <button
+                        mat-icon-button
+                        [matMenuTriggerFor]="menu"
+                        matTooltip="More actions"
+                      >
+                        <mat-icon>more_vert</mat-icon>
+                      </button>
+                      <mat-menu #menu="matMenu" class="menu-options">
+                        <button
+                          (click)="onEditOutCome($event, outCome)"
+                          mat-menu-item
+                        >
+                          <mat-icon>edit</mat-icon>
+                          <span>Edit</span>
+                        </button>
+                        <button
+                          (click)="onAddOutput($event, outCome)"
+                          mat-menu-item
+                        >
+                          <mat-icon>add</mat-icon>
+                          <span>Add output</span>
+                        </button>
+
+                        <button
+                          (click)="onViewOutputs($event, outCome)"
+                          mat-menu-item
+                        >
+                          <mat-icon>eye</mat-icon>
+                          <span>View outputs</span>
+                        </button>
+                      </mat-menu>
+                    </td>
+                  </tr>
+                </ng-container>
+                <ng-container
+                  *ngIf="
+                    !currentObjective?.outComes ||
+                    currentObjective?.outComes?.length === 0
+                  "
+                >
+                  <tr>
+                    <td colspan="4" class="text-center text-warning">
+                      <p>No outcome available</p>
+                    </td>
+                  </tr>
+                </ng-container>
+              </tbody>
+            </table>
+            <div>
+              <form [formGroup]="outComeForm">
+                <mat-form-field class="w-100">
+                  <input
+                    matInput
+                    placeholder="Outcome"
+                    [type]="'text'"
+                    formControlName="name"
+                    required
+                  />
+                </mat-form-field>
+
+                <mat-form-field class="w-100">
+                  <input
+                    matInput
+                    placeholder="Label or short name"
+                    [type]="'text'"
+                    formControlName="label"
+                    required
+                  />
+                </mat-form-field>
+
+                <mat-form-field class="w-100">
+                  <textarea
+                    matInput
+                    placeholder="Description"
+                    [type]="'text'"
+                    formControlName="description"
+                  ></textarea>
+                </mat-form-field>
+
+                <button
+                  [disabled]="!outComeForm.valid || saving"
+                  mat-stroked-button
+                  class="mr-2 float-left"
+                  (click)="
+                    onSaveOutCome($event, activityDetails, outComeForm.value)
+                  "
+                >
+                  <mat-spinner
+                    *ngIf="saving"
+                    color="accent"
+                    [diameter]="20"
+                    style="display: inline-block !important; margin-right: 4px"
+                  >
+                  </mat-spinner>
+                  Save
+                </button>
+              </form>
+            </div>
+
+            <div class="btns">
+              <button
+                mat-stroked-button
+                class="mr-2 float-left"
+                (click)="addOucomeToObjective($event)"
+              >
+                New ouctome
+              </button>
+              <button
+                mat-stroked-button
+                class="mr-2 float-left"
+                (click)="onCancelOpenedObjective($event)"
+              >
+                Cancel
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </ng-container>
+    <ng-container *ngIf="!activityDetails || activityDetails?.length === 0">
+      <tbody>
+        <tr>
+          <td colspan="4" class="text-center text-warning">
+            <p>No strategic objective regsited</p>
+          </td>
+        </tr>
+      </tbody>
+    </ng-container>
+  </table>
+</div>
