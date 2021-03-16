@@ -1,11 +1,16 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import {
+  MatDialog,
+  MatDialogRef,
+  MAT_DIALOG_DATA,
+} from '@angular/material/dialog';
 import { NgxDhis2HttpClientService } from '@iapps/ngx-dhis2-http-client';
 import { Observable } from 'rxjs';
 import { ActivityTrackerService } from '../../services/activity-tracker.service';
 
 import { filter } from 'lodash';
+import { TargetsSettingsComponent } from '../targets-settings/targets-settings.component';
 
 @Component({
   selector: 'app-output-modal',
@@ -34,11 +39,17 @@ export class OutputModalComponent implements OnInit {
   responsible: any;
   showResponsibleSelector: boolean = false;
   isEditActivitySet: boolean = false;
+  currentPeriodType: string;
+  targetForm: FormGroup;
+  targetVariables: any[] = [];
+  targets: any = [];
+  targetsDisplayed: string = '';
   constructor(
     private dialogRef: MatDialogRef<OutputModalComponent>,
     @Inject(MAT_DIALOG_DATA) data,
     private httpClient: NgxDhis2HttpClientService,
-    private activityService: ActivityTrackerService
+    private activityService: ActivityTrackerService,
+    private dialog: MatDialog
   ) {
     this.outCome = data?.outCome;
     this.key = data?.key;
@@ -152,7 +163,9 @@ export class OutputModalComponent implements OnInit {
         Validators.minLength(8),
       ]),
       description: new FormControl('', [Validators.minLength(8)]),
-      target: new FormControl('', Validators.required),
+      targetPerYear: new FormControl(''),
+      baseline: new FormControl(''),
+      budget: new FormControl(''),
       indicator: new FormControl(''),
       responsible: new FormControl(''),
     });
@@ -222,8 +235,11 @@ export class OutputModalComponent implements OnInit {
           name: formValues?.name,
           label: formValues?.label,
           description: formValues?.description,
+          budget: formValues?.budget,
+          targetPerYear: formValues?.targetPerYear,
+          baseline: formValues?.baseline,
           indicator: this.selectedIndicator,
-          target: formValues.target,
+          targets: this.targets,
           responsible: this.responsible,
         };
         this.currentOutput.activities = this.currentActivity
@@ -327,6 +343,8 @@ export class OutputModalComponent implements OnInit {
     this.responsible = activity?.responsible;
     this.showActivityFor[this.currentOutput?.id] = true;
     this.showActivityForm = true;
+    this.targets = this.currentActivity?.targets;
+    this.targetsDisplayed = this.formatTargets(this.targets);
     this.activityForm = new FormGroup({
       name: new FormControl(activity?.name, [
         Validators.required,
@@ -339,9 +357,58 @@ export class OutputModalComponent implements OnInit {
       description: new FormControl(activity?.description, [
         Validators.minLength(8),
       ]),
-      target: new FormControl(activity.target, Validators.required),
+      budget: new FormControl(activity?.budget),
+      targetPerYear: new FormControl(activity?.tergetPerYear),
+      baseline: new FormControl(activity?.baseline),
       indicator: new FormControl(''),
       responsible: new FormControl(''),
     });
+  }
+
+  openTargetSettings(e, key) {
+    e.stopPropagation();
+    this.dialog
+      .open(TargetsSettingsComponent, {
+        width: '50%',
+        height: '450px',
+        disableClose: false,
+        data: {
+          key: key,
+          targets: this.targets,
+        },
+        panelClass: 'custom-dialog-container',
+      })
+      .afterClosed()
+      .subscribe((data) => {
+        if (data) {
+          this.targets = [];
+          data.targetVariables.forEach((variable, index) => {
+            const valueKey = 'target' + (index + 1);
+            this.targets = [
+              ...this.targets,
+              {
+                periodType: data?.periodType,
+                target: data?.values[valueKey],
+                period: variable?.id,
+                periodLabel: variable?.name,
+              },
+            ];
+          });
+          this.targetsDisplayed = this.formatTargets(this.targets);
+        }
+      });
+  }
+
+  formatTargets(targets) {
+    return targets
+      ? targets
+          .map((target) => {
+            if (target.target) {
+              return target?.periodLabel + ' : ' + target.target;
+            }
+          })
+          .filter((formattedTarget) => formattedTarget)
+          .join(', ')
+      : '';
   }
 }

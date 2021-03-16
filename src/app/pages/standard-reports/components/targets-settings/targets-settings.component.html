@@ -1,0 +1,42 @@
+<div class="target-settings">
+  <div style="margin-top: 20px">
+    <mat-form-field class="w-100">
+      <mat-label>period type</mat-label>
+      <mat-select (selectionChange)="getPeriodType($event.value)">
+        <mat-option value="yearly">Yearly</mat-option>
+        <mat-option value="six-monthly">Six-Monthly</mat-option>
+        <mat-option value="quarterly">Quarterly</mat-option>
+        <mat-option value="bi-monthly">Bi-monthly</mat-option>
+        <mat-option value="monthly">Monthly</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+  <div style="height: 280px; overflow: auto">
+    <form [formGroup]="targetForm" *ngIf="currentPeriodType">
+      <div>
+        <mat-form-field
+          class="w-100"
+          style="margin-top: 15px"
+          *ngFor="let variable of targetVariables; let count = index"
+        >
+          <input
+            matInput
+            min="1"
+            placeholder="{{ variable.name }}"
+            [type]="'number'"
+            formControlName="target{{ count + 1 }}"
+          />
+        </mat-form-field>
+      </div>
+    </form>
+  </div>
+  <div class="btns" style="border-top: solid 1px #eee; padding: 5px">
+    <button
+      mat-stroked-button
+      class="mr-2 float-left"
+      (click)="onDone($event, targetForm.value)"
+    >
+      Done
+    </button>
+  </div>
+</div>

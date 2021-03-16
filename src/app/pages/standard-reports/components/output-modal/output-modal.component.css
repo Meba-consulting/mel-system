@@ -15,7 +15,7 @@ button:hover {
 }
 
 .add-activity-container {
-  height: 280px;
+  height: 350px;
   overflow: auto;
 }
 
@@ -65,4 +65,10 @@ button:hover {
 
 .toggle-filter-btns:hover {
   background-color: #ffffff !important;
+}
+
+.activities-list {
+  min-height: 120px;
+  max-height: 300px;
+  overflow: auto;
 }

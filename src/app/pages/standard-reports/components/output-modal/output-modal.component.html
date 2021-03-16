@@ -64,7 +64,6 @@
                         <th>Activity</th>
                         <th>Description</th>
                         <th>Indicator</th>
-                        <th>Target</th>
                         <th></th>
                       </tr>
                     </thead>
@@ -75,11 +74,10 @@
                           let activityCount = index
                         "
                       >
-                        <td>{{ count + 1 }} {{ activityCount + 1 }}</td>
+                        <td>{{ count + 1 }}.{{ activityCount + 1 }}</td>
                         <td>{{ activity?.name }}</td>
                         <td>{{ activity?.description }}</td>
                         <td>{{ activity?.indicator?.name }}</td>
-                        <td>{{ activity.target }}</td>
                         <td>
                           <button
                             mat-icon-button
@@ -145,7 +143,11 @@
 
                     <div class="w-100">
                       <button
-                        style="border: none; border-bottom: solid 1px #eee"
+                        style="
+                          border: none;
+                          border-bottom: solid 1px #989696;
+                          border-radius: 0 !important;
+                        "
                         mat-stroked-button
                         class="mr-2 float-left w-100 text-left toggle-filter-btns"
                         (click)="toggleOptionSelector($event)"
@@ -200,19 +202,50 @@
                         Done
                       </button>
                     </div>
-                    <mat-form-field class="w-100">
+
+                    <mat-form-field class="w-100" style="margin-top: 15px">
                       <input
                         matInput
                         min="1"
-                        placeholder="Target"
+                        placeholder="Target per year"
                         [type]="'number'"
-                        formControlName="target"
+                        formControlName="targetPerYear"
+                      />
+                    </mat-form-field>
+
+                    <mat-form-field class="w-100" style="margin-top: 15px">
+                      <input
+                        matInput
+                        min="0"
+                        placeholder="Baseline"
+                        [type]="'number'"
+                        formControlName="baseline"
                       />
                     </mat-form-field>
 
                     <div class="w-100">
                       <button
-                        style="border: none; border-bottom: solid 1px #eee"
+                        style="
+                          border: none;
+                          border-bottom: solid 1px #989696;
+                          border-radius: 0 !important;
+                        "
+                        mat-stroked-button
+                        class="mr-2 float-left w-100 text-left toggle-filter-btns"
+                        (click)="openTargetSettings($event, key)"
+                      >
+                        Targets {{ targetsDisplayed }}
+                      </button>
+                      <!-- <app-targets-settings [key]="key"></app-targets-settings> -->
+                    </div>
+
+                    <div class="w-100">
+                      <button
+                        style="
+                          border: none;
+                          border-bottom: solid 1px #989696;
+                          border-radius: 0 !important;
+                        "
                         mat-stroked-button
                         class="mr-2 float-left w-100 text-left toggle-filter-btns"
                         (click)="toggleResponsibleSelector($event)"
@@ -257,6 +290,16 @@
                           >
                         </mat-nav-list>
                       </div>
+
+                      <mat-form-field class="w-100" style="margin-top: 15px">
+                        <input
+                          matInput
+                          min="1"
+                          placeholder="Budget"
+                          [type]="'number'"
+                          formControlName="budget"
+                        />
+                      </mat-form-field>
                       <button
                         class="mr-2 float-left"
                         mat-stroked-button
@@ -267,7 +310,7 @@
                       </button>
                     </div>
                   </form>
-                  <div class="w-100">
+                  <div class="w-100" style="padding: 15px">
                     <button
                       [disabled]="!activityForm.valid || saving"
                       mat-stroked-button
@@ -359,7 +402,7 @@
       </form>
     </div>
   </div>
-  <div class="btns">
+  <div class="btns" style="border-top: solid 1px #eee; padding: 5px">
     <!-- <button mat-stroked-button class="mr-2 float-left">Save</button> -->
     <button
       [disabled]="saving"

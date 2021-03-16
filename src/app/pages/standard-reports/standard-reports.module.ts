@@ -26,6 +26,7 @@ import { ActivityTrackerDashboardComponent } from './containers/activity-tracker
 import { AddYearOfActivityModalComponent } from './components/add-year-of-activity-modal/add-year-of-activity-modal.component';
 import { StrategicObjectivesListComponent } from './components/strategic-objectives-list/strategic-objectives-list.component';
 import { OutputModalComponent } from './components/output-modal/output-modal.component';
+import { TargetsSettingsComponent } from './components/targets-settings/targets-settings.component';
 
 @NgModule({
   declarations: [
@@ -49,6 +50,7 @@ import { OutputModalComponent } from './components/output-modal/output-modal.com
     AddYearOfActivityModalComponent,
     StrategicObjectivesListComponent,
     OutputModalComponent,
+    TargetsSettingsComponent,
   ],
   imports: [
     CommonModule,
@@ -64,6 +66,7 @@ import { OutputModalComponent } from './components/output-modal/output-modal.com
     AddActivityComponent,
     AddYearOfActivityModalComponent,
     OutputModalComponent,
+    TargetsSettingsComponent,
   ],
 })
 export class StandardReportsModule {}
