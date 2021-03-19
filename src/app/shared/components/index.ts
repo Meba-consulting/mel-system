@@ -7,6 +7,7 @@ import { EventProgramListComponent } from './event-program-list/event-program-li
 import { ProgramSectionComponent } from './program-section/program-section.component';
 import { ProgramStageDataEntryComponent } from './program-stage-data-entry/program-stage-data-entry.component';
 import { ProgramStageDataComponent } from './program-stage-data/program-stage-data.component';
+import { ProgramStageEntryModalComponent } from './program-stage-entry-modal/program-stage-entry-modal.component';
 import { RenderProgramStageDataComponent } from './render-program-stage-data/render-program-stage-data.component';
 import { SetColumnsModalComponent } from './set-columns-modal/set-columns-modal.component';
 import { SharingSettingsComponent } from './sharing-settings/sharing-settings.component';
@@ -36,4 +37,5 @@ export const sharedComponents: any[] = [
   EventProgramDataComponent,
   SharingSettingsComponent,
   EntrySideBarSummaryComponent,
+  ProgramStageEntryModalComponent,
 ];

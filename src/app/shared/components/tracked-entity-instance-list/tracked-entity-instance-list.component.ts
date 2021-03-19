@@ -6,9 +6,11 @@ import {
   Output,
   ViewChild,
 } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { getTrackedEntityInstanceReportTable } from 'src/app/core/helpers/tracked-entity-instance-list.helpers';
+import { ProgramStageEntryModalComponent } from '../program-stage-entry-modal/program-stage-entry-modal.component';
 
 @Component({
   selector: 'app-tracked-entity-instance-list',
@@ -18,6 +20,7 @@ import { getTrackedEntityInstanceReportTable } from 'src/app/core/helpers/tracke
 export class TrackedEntityInstanceListComponent implements OnInit {
   @Input() queryResponse: any[];
   displayedColumns: string[];
+  @Input() orgUnit: any;
   headers: any = {};
   @Input() savedUserDataStore: any;
   @Input() program: any;
@@ -28,7 +31,7 @@ export class TrackedEntityInstanceListComponent implements OnInit {
   allColumns: any[];
 
   dataSource: any;
-  constructor() {}
+  constructor(private dialog: MatDialog) {}
 
   ngOnInit(): void {
     const formattedResponse = getTrackedEntityInstanceReportTable(
@@ -65,6 +68,23 @@ export class TrackedEntityInstanceListComponent implements OnInit {
     this.setColumnsToShow.emit({
       allColumns: allColumns,
       savedColumns: savedUserDataStore,
+    });
+  }
+
+  onEnterDataForStage(e, programStage, enrollmentData) {
+    e.stopPropagation();
+    console.log(enrollmentData);
+    this.dialog.open(ProgramStageEntryModalComponent, {
+      width: '60%',
+      height: '650px',
+      disableClose: false,
+      data: {
+        programStage: programStage,
+        currentTrackedEntityInstanceId: enrollmentData?.action?.id,
+        program: this.program,
+        orgUnit: this.orgUnit,
+      },
+      panelClass: 'custom-dialog-container',
     });
   }
 }

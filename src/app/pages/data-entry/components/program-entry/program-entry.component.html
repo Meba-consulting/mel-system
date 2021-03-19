@@ -204,6 +204,8 @@
         *ngIf="params?.queryResponseData && params?.savedUserDataStore"
         [queryResponse]="params?.queryResponseData"
         [savedUserDataStore]="params?.savedUserDataStore"
+        [program]="program"
+        [orgUnit]="orgUnit"
         (edit)="onSetEdit($event)"
         (delete)="onSetDelete($event)"
         (setColumnsToShow)="onOpenDialogForSettingClomnsData($event)"

@@ -44,6 +44,15 @@
               <span>Edit</span>
             </button>
 
+            <button
+              *ngFor="let stage of program?.programStages"
+              (click)="onEnterDataForStage($event, stage, element)"
+              mat-menu-item
+            >
+              <mat-icon>list</mat-icon>
+              <span>{{ stage?.name }}</span>
+            </button>
+
             <button (click)="onDelete($event, element)" mat-menu-item>
               <mat-icon>remove</mat-icon>
               <span>Delete</span>

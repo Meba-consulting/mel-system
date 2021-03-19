@@ -1,0 +1,61 @@
+<div
+  class="stage-entry-container"
+  *ngIf="{
+    programDataStoreConfigs: programDataStoreConfigs$ | async,
+    queryResponseData: queryResponseData$ | async
+  } as params"
+>
+  <div class="header">
+    {{ programStage?.name }}
+  </div>
+  <hr />
+  <div class="body">
+    <mat-tab-group
+      *ngIf="
+        currentTrackedEntityInstanceId &&
+        params?.programDataStoreConfigs &&
+        params?.queryResponseData
+      "
+    >
+      <mat-tab label="{{ programStage?.name }} ">
+        <div class="p-2">
+          <app-program-stage-data
+            [program]="program"
+            [trackedEntityInstanceId]="currentTrackedEntityInstanceId"
+            [programStage]="programStage"
+            (edit)="onSetEditEvent($event)"
+            (delete)="onDeleteEvent($event)"
+          ></app-program-stage-data>
+        </div>
+      </mat-tab>
+      <mat-tab label="Entry">
+        <div class="p-2">
+          <app-program-stage-data-entry
+            [queryResponseData]="params?.queryResponseData"
+            [programStateDataElements]="programStage?.programStageDataElements"
+            [programStageFormData]="programStageFormData"
+            [stage]="programStage"
+            [programDataStoreConfigs]="params?.programDataStoreConfigs"
+            (formValuesData)="
+              onGetFormValuesData(
+                $event,
+                programStage?.programStageDataElements
+              )
+            "
+            (isFormValid)="onGetFormValidity($event)"
+            (editIsSet)="onSetEditEvent($event)"
+          ></app-program-stage-data-entry>
+        </div>
+      </mat-tab>
+    </mat-tab-group>
+  </div>
+  <div class="footer-btns">
+    <button
+      class="mr-2 float-left"
+      mat-stroked-button
+      (click)="onClose($event)"
+    >
+      Close
+    </button>
+  </div>
+</div>
