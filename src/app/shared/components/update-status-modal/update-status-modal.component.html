@@ -1,0 +1,38 @@
+<div class="stage-entry-container">
+  <div class="header h4">
+    {{ dataElement?.name }}
+  </div>
+  <hr />
+  <div class="body">
+    <app-form
+      [fields]="formFields"
+      [fieldsData]="currentFormData"
+      (formUpdate)="onFormUpdate($event)"
+    >
+    </app-form>
+  </div>
+  <div class="footer-btns">
+    <button
+      [disabled]="saving"
+      class="mr-2 float-left"
+      mat-stroked-button
+      (click)="onSave($event)"
+    >
+      <mat-spinner
+        *ngIf="saving"
+        color="accent"
+        [diameter]="20"
+        style="display: inline-block !important; margin-right: 4px"
+      >
+      </mat-spinner>
+      Save
+    </button>
+    <button
+      class="mr-2 float-left"
+      mat-stroked-button
+      (click)="onClose($event)"
+    >
+      Close
+    </button>
+  </div>
+</div>

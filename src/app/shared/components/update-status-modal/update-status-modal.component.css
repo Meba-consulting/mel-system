@@ -1,0 +1,14 @@
+.stage-entry-container {
+  padding: 20px;
+}
+
+.body {
+  height: 100px;
+  overflow: auto;
+  padding: 15px;
+}
+
+.footer-btns {
+  border-top: solid 1px #eee;
+  padding: 15px 0;
+}

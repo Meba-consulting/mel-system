@@ -1,6 +1,8 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 
 import * as _ from 'lodash';
+import { UpdateStatusModalComponent } from '../update-status-modal/update-status-modal.component';
 
 @Component({
   selector: 'app-render-program-stage-data',
@@ -10,12 +12,16 @@ import * as _ from 'lodash';
 export class RenderProgramStageDataComponent implements OnInit {
   @Input() data: any;
   @Input() programStage: any;
+  @Input() programDataStoreConfigs: any;
   @Input() program: any;
+  @Input() orgUnit: any;
+  @Input() showEdit: boolean;
   @Output() delete = new EventEmitter<any>();
   @Output() edit = new EventEmitter<any>();
+  @Output() updated = new EventEmitter<boolean>();
   eventsData: any = [];
   formattedDataElements: any = [];
-  constructor() {}
+  constructor(private dialog: MatDialog) {}
 
   ngOnInit(): void {
     const dataElements = _.keyBy(
@@ -49,7 +55,6 @@ export class RenderProgramStageDataComponent implements OnInit {
       ),
       'dataElement'
     );
-    console.log('DATA ELEME', dataElements);
 
     this.formattedDataElements = _.filter(this.formattedDataElements, {
       displayInReports: true,
@@ -76,12 +81,35 @@ export class RenderProgramStageDataComponent implements OnInit {
 
   onEdit(e, data) {
     e.stopPropagation();
-    console.log(data);
     this.edit.emit(data?.event);
   }
 
   onDelete(e, data) {
     e.stopPropagation();
     this.delete.emit(data?.event);
+  }
+
+  onUpdateStatus(e, data, stagesToUpdateStatus) {
+    e.stopPropagation();
+    this.dialog
+      .open(UpdateStatusModalComponent, {
+        width: '30%',
+        height: '250px',
+        disableClose: false,
+        data: {
+          programStage: this.programStage,
+          program: this.program,
+          eventData: data,
+          orgUnit: this.orgUnit,
+          programDataStoreConfigs: this.programDataStoreConfigs,
+        },
+        panelClass: 'custom-dialog-container',
+      })
+      .afterClosed()
+      .subscribe((e) => {
+        if (e) {
+          this.updated.emit(e);
+        }
+      });
   }
 }

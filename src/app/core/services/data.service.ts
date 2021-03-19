@@ -128,4 +128,8 @@ export class DataService {
       })
     );
   }
+
+  completeEnrollment(id, data): Observable<any> {
+    return this.httpClient.put('enrollments/' + id, data);
+  }
 }

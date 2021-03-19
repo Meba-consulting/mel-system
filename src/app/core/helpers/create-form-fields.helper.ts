@@ -7,8 +7,6 @@ export function createFormFieldsFromProgramStageDataElement(
   programStageFormData?
 ) {
   return _.map(stageDataElements, (stageDataElement) => {
-    console.log('##############programStageFormData', programStageFormData);
-    console.log(stageDataElement?.dataElement);
     return {
       id: stageDataElement?.dataElement?.id,
       label: stageDataElement?.dataElement?.name,

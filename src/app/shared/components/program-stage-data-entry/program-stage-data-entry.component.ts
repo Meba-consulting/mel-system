@@ -24,7 +24,6 @@ export class ProgramStageDataEntryComponent implements OnInit {
   constructor() {}
 
   ngOnInit(): void {
-    console.log('programDataStoreConfigs', this.programDataStoreConfigs);
     this.formFields = createFormFieldsFromProgramStageDataElement(
       this.programStateDataElements,
       this.programDataStoreConfigs,
@@ -55,7 +54,6 @@ export class ProgramStageDataEntryComponent implements OnInit {
       };
     }
 
-    console.log('programStageFormData', this.programStageFormData);
     _.map(Object.keys(this.programStageFormData), (key) => {
       this.currentFormData[key] = {
         id: key,
@@ -71,8 +69,6 @@ export class ProgramStageDataEntryComponent implements OnInit {
       Object.keys(this.programStageFormData)?.length > 0 ? true : false;
 
     this.editIsSet.emit(this.isEditSet);
-
-    console.log(this.currentFormData);
   }
 
   onFormUpdate(formValues: FormValue) {

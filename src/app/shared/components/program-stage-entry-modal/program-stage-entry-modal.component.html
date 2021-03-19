@@ -5,51 +5,92 @@
     queryResponseData: queryResponseData$ | async
   } as params"
 >
-  <div class="header">
+  <div class="header h3">
     {{ programStage?.name }}
   </div>
   <hr />
+
+  <mat-progress-bar
+    mode="indeterminate"
+    *ngIf="!params?.programDataStoreConfigs || !params?.queryResponseData"
+  ></mat-progress-bar>
   <div class="body">
-    <mat-tab-group
-      *ngIf="
-        currentTrackedEntityInstanceId &&
-        params?.programDataStoreConfigs &&
-        params?.queryResponseData
-      "
-    >
-      <mat-tab label="{{ programStage?.name }} ">
-        <div class="p-2">
-          <app-program-stage-data
-            [program]="program"
-            [trackedEntityInstanceId]="currentTrackedEntityInstanceId"
-            [programStage]="programStage"
-            (edit)="onSetEditEvent($event)"
-            (delete)="onDeleteEvent($event)"
-          ></app-program-stage-data>
-        </div>
-      </mat-tab>
-      <mat-tab label="Entry">
-        <div class="p-2">
-          <app-program-stage-data-entry
-            [queryResponseData]="params?.queryResponseData"
-            [programStateDataElements]="programStage?.programStageDataElements"
-            [programStageFormData]="programStageFormData"
-            [stage]="programStage"
-            [programDataStoreConfigs]="params?.programDataStoreConfigs"
-            (formValuesData)="
-              onGetFormValuesData(
-                $event,
+    <div *ngIf="params?.programDataStoreConfigs && params?.queryResponseData">
+      <mat-tab-group
+        [selectedIndex]="selectedTab.value"
+        (selectedIndexChange)="selectedTab.setValue($event)"
+        *ngIf="
+          currentTrackedEntityInstanceId &&
+          params?.programDataStoreConfigs &&
+          params?.queryResponseData
+        "
+      >
+        <mat-tab label="{{ programStage?.name }} ">
+          <div class="p-2" *ngIf="selectedTab.value == 0">
+            <app-program-stage-data
+              [program]="program"
+              [trackedEntityInstanceId]="currentTrackedEntityInstanceId"
+              [programStage]="programStage"
+              [orgUnit]="orgUnit"
+              [programDataStoreConfigs]="params?.programDataStoreConfigs"
+              [showEdit]="true"
+              (edit)="onEdit($event)"
+              (delete)="onDeleteEvent($event)"
+            ></app-program-stage-data>
+          </div>
+        </mat-tab>
+        <mat-tab
+          label="Entry"
+          *ngIf="
+            (params?.programDataStoreConfigs['stagesToUpdateStatus'] &&
+              params?.programDataStoreConfigs['stagesToUpdateStatus'][
+                programStage?.id
+              ] &&
+              params?.programDataStoreConfigs['stagesToUpdateStatus'][
+                programStage?.id
+              ]?.hasEntry) ||
+            isEditSet ||
+            !params?.programDataStoreConfigs['stagesToUpdateStatus']
+          "
+        >
+          <div class="p-2" *ngIf="selectedTab.value == 1">
+            <app-program-stage-data-entry
+              [queryResponseData]="params?.queryResponseData"
+              [programStateDataElements]="
                 programStage?.programStageDataElements
-              )
-            "
-            (isFormValid)="onGetFormValidity($event)"
-            (editIsSet)="onSetEditEvent($event)"
-          ></app-program-stage-data-entry>
-        </div>
-      </mat-tab>
-    </mat-tab-group>
+              "
+              [programStageFormData]="programStageFormData"
+              [stage]="programStage"
+              [programDataStoreConfigs]="params?.programDataStoreConfigs"
+              (formValuesData)="
+                onGetFormValuesData(
+                  $event,
+                  programStage?.programStageDataElements
+                )
+              "
+              (isFormValid)="onGetFormValidity($event)"
+            ></app-program-stage-data-entry>
+          </div>
+        </mat-tab>
+      </mat-tab-group>
+    </div>
   </div>
   <div class="footer-btns">
+    <button
+      [disabled]="!isFormValid"
+      class="mr-2 float-left"
+      mat-stroked-button
+      (click)="onSaveData($event, programStage, isEditSet)"
+    >
+      <mat-spinner
+        *ngIf="savingProgramData"
+        color="accent"
+        [diameter]="20"
+        style="display: inline-block !important; margin-right: 4px"
+      >
+      </mat-spinner>
+      Save
+    </button>
     <button
       class="mr-2 float-left"
       mat-stroked-button

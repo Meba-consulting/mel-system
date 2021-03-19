@@ -3,9 +3,13 @@
     *ngIf="params?.response"
     [data]="params?.response"
     [programStage]="programStage"
+    [programDataStoreConfigs]="programDataStoreConfigs"
     [program]="program"
+    [orgUnit]="orgUnit"
+    [showEdit]="showEdit"
     (edit)="onEdit($event)"
     (delete)="onDelete($event)"
+    (updated)="onUpdateData($event)"
   ></app-render-program-stage-data>
 
   <mat-progress-bar

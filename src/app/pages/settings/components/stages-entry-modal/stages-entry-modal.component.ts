@@ -162,6 +162,13 @@ export class StagesEntryModalComponent implements OnInit {
 
   onSetEditEvent(e) {
     console.log(e);
+    this.currentEventToEdit = e;
+    _.map(e.dataValues, (dataValue) => {
+      this.programStageFormData[dataValue?.dataElement] = {
+        id: dataValue?.dataElement,
+        value: dataValue?.value,
+      };
+    });
   }
 
   onGetFormValidity(e) {
@@ -169,8 +176,6 @@ export class StagesEntryModalComponent implements OnInit {
   }
 
   onGetFormValuesData(data, programStageDataElements) {
-    console.log('data values', data);
-    console.log(programStageDataElements);
     let keyedDataElements = {};
     _.map(programStageDataElements, (programStageDataElement) => {
       keyedDataElements[programStageDataElement?.dataElement?.id] =
@@ -191,9 +196,7 @@ export class StagesEntryModalComponent implements OnInit {
       }),
       (dataValue) => dataValue
     );
-    console.log(dataValues);
     this.eventsData.dataValues = dataValues;
-    console.log('eventsData', this.eventsData);
     this.eventsData.eventDate = !this.eventsData?.eventDate
       ? formatDateToYYMMDD(new Date())
       : this.eventsData?.eventDate;

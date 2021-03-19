@@ -10,7 +10,10 @@ import { DataService } from 'src/app/core/services/data.service';
 export class ProgramStageDataComponent implements OnInit {
   @Input() program: any;
   @Input() trackedEntityInstanceId: string;
+  @Input() programDataStoreConfigs: any;
   @Input() programStage: any;
+  @Input() orgUnit: any;
+  @Input() showEdit: boolean;
 
   @Output() delete = new EventEmitter<any>();
   @Output() edit = new EventEmitter<any>();
@@ -18,7 +21,6 @@ export class ProgramStageDataComponent implements OnInit {
   constructor(private dataService: DataService) {}
 
   ngOnInit(): void {
-    console.log('Stage', this.programStage);
     this.response$ = this.dataService.getTrackedEntityInstanceDetailsByProgram(
       this.trackedEntityInstanceId,
       this.program
@@ -31,5 +33,14 @@ export class ProgramStageDataComponent implements OnInit {
 
   onDelete(e) {
     this.delete.emit(e);
+  }
+
+  onUpdateData(updated) {
+    if (updated) {
+      this.response$ = this.dataService.getTrackedEntityInstanceDetailsByProgram(
+        this.trackedEntityInstanceId,
+        this.program
+      );
+    }
   }
 }

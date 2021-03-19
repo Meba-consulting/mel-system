@@ -14,6 +14,7 @@ import { SharingSettingsComponent } from './sharing-settings/sharing-settings.co
 import { TrackedEntityInstanceListComponent } from './tracked-entity-instance-list/tracked-entity-instance-list.component';
 import { TrackedEntityInstanceSelectorComponent } from './tracked-entity-instance-selector/tracked-entity-instance-selector.component';
 import { TrackedEntrityEntryFormComponent } from './tracked-entrity-entry-form/tracked-entrity-entry-form.component';
+import { UpdateStatusModalComponent } from './update-status-modal/update-status-modal.component';
 import { UserProfileComponent } from './user-profile/user-profile.component';
 import { UserRolesPanelSelectorComponent } from './user-roles-panel-selector/user-roles-panel-selector.component';
 import { UserSettingsComponent } from './user-settings/user-settings.component';
@@ -38,4 +39,5 @@ export const sharedComponents: any[] = [
   SharingSettingsComponent,
   EntrySideBarSummaryComponent,
   ProgramStageEntryModalComponent,
+  UpdateStatusModalComponent,
 ];
