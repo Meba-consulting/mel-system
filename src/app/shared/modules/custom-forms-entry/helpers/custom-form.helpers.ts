@@ -24,7 +24,7 @@ function getSelectInput(id, value, options) {
   defaultOption.value = '';
   selectElement.appendChild(defaultOption);
 
-  options.forEach(function(option) {
+  options.forEach(function (option) {
     const optionElement = document.createElement('option');
     optionElement.value = option.code;
     optionElement.appendChild(document.createTextNode(option.name));
@@ -148,11 +148,7 @@ export function onFormReady(
   elementsToDisable,
   formReadyFunc
 ) {
-  console.log('lastEvent::::: Ts6nEjbUXLT', lastEvent);
-  const reference = {
-    Ts6nEjbUXLT:
-      '(#{psZv0YwxGoM.Ts6nEjbUXLT} + #{psZv0YwxGoM.eIKFlpHWgsr}) -(#{psZv0YwxGoM.fY58JCh9RCY} + #{psZv0YwxGoM.fZqVmK5iGhS} + #{psZv0YwxGoM.HOXRzfdzUEQ} + #{psZv0YwxGoM.MiqtygHeMuZ})'
-  };
+  console.log('dataValues::::: dataValues', dataValues);
 
   // Find input items and set required properties to them
   const dataElementObjects = _.keyBy(dataElements, 'id');
@@ -232,7 +228,7 @@ export function onFormReady(
             console.log(
               JSON.stringify({
                 type: 'Text area input',
-                error
+                error,
               })
             );
           }
@@ -330,7 +326,7 @@ export function onFormReady(
 
     setTimeout(() => {
       // disable some elements
-      _.each(elementsToDisable, elementToDisable => {
+      _.each(elementsToDisable, (elementToDisable) => {
         let td: any = document.querySelector(
           "td[todisable='" + elementToDisable + "']"
         );
@@ -343,44 +339,44 @@ export function onFormReady(
       });
     }, 1500);
 
-    setTimeout(() => {
-      const dataElementId = 'Ts6nEjbUXLT';
-      const optionComboId = 'dataElement';
-      if (
-        _.filter(lastEvent.dataValues, { dataElement: dataElementId }) &&
-        _.filter(lastEvent.dataValues, { dataElement: dataElementId }).length >
-          0
-      ) {
-        let elementValues = {};
-        _.each(lastEvent.dataValues, dataValue => {
-          elementValues[dataValue.dataElement] = dataValue.value;
-        });
-        const value = evaluateIndicatorExpression(
-          reference[dataElementId],
-          elementValues
-        );
-        if (value) {
-          const elem: any = document.querySelector(
-            "input[id='psZv0YwxGoM-Ts6nEjbUXLT-val']"
-          );
-          elem.value = value;
-          elem.setAttribute('disabled', 'disabled');
-          let colorKey = 'WAIT';
+    // setTimeout(() => {
+    //   const dataElementId = 'Ts6nEjbUXLT';
+    //   const optionComboId = 'dataElement';
+    //   if (
+    //     _.filter(lastEvent.dataValues, { dataElement: dataElementId }) &&
+    //     _.filter(lastEvent.dataValues, { dataElement: dataElementId }).length >
+    //       0
+    //   ) {
+    //     let elementValues = {};
+    //     _.each(lastEvent.dataValues, dataValue => {
+    //       elementValues[dataValue.dataElement] = dataValue.value;
+    //     });
+    //     const value = evaluateIndicatorExpression(
+    //       reference[dataElementId],
+    //       elementValues
+    //     );
+    //     if (value) {
+    //       const elem: any = document.querySelector(
+    //         "input[id='psZv0YwxGoM-Ts6nEjbUXLT-val']"
+    //       );
+    //       elem.value = value;
+    //       elem.setAttribute('disabled', 'disabled');
+    //       let colorKey = 'WAIT';
 
-          // create custom event for saving data values
-          const dataValueEvent = new CustomEvent('dataValueUpdate', {
-            detail: {
-              id: `${dataElementId}-${optionComboId}`,
-              value: value,
-              status: 'not-synced',
-              domElementId: 'psZv0YwxGoM-Ts6nEjbUXLT-val',
-              colorKey: colorKey
-            }
-          });
-          document.body.dispatchEvent(dataValueEvent);
-        }
-      }
-    }, 2000);
+    //       // create custom event for saving data values
+    //       const dataValueEvent = new CustomEvent('dataValueUpdate', {
+    //         detail: {
+    //           id: `${dataElementId}-${optionComboId}`,
+    //           value: value,
+    //           status: 'not-synced',
+    //           domElementId: 'psZv0YwxGoM-Ts6nEjbUXLT-val',
+    //           colorKey: colorKey
+    //         }
+    //       });
+    //       document.body.dispatchEvent(dataValueEvent);
+    //     }
+    //   }
+    // }, 2000);
   });
 
   // update option sets
@@ -466,8 +462,8 @@ export function onDataValueChange(
       value: elementValue,
       status: 'not-synced',
       domElementId: elementId,
-      colorKey: colorKey
-    }
+      colorKey: colorKey,
+    },
   });
   document.body.dispatchEvent(dataValueEvent);
   if (
@@ -475,32 +471,34 @@ export function onDataValueChange(
     Object.keys(indicators) &&
     Object.keys(indicators).length > 0
   ) {
-    document.querySelectorAll("input[name='indicator']").forEach(indicator => {
-      const formulaPattern = /#\{.+?\}/g;
-      let valuesObject = {};
-      indicators[indicator.id].expression
-        .match(formulaPattern)
-        .forEach(elem => {
-          const inputValueElement: any = document.querySelector(
-            "input[id='" +
-              elem.replace(/[#\{\}]/g, '').replace('.', '-') +
-              '-val' +
-              "']"
-          );
-          valuesObject[elem.split('.')[1].replace('}', '')] =
-            inputValueElement && inputValueElement.value
-              ? inputValueElement.value
-              : 0;
-        });
-      const indValue = evaluateIndicatorExpression(
-        indicators[indicator.id].expression,
-        valuesObject
-      );
-      const inputElement: any = document.querySelector(
-        "input[id='" + indicator.id + "']"
-      );
-      inputElement.value = indValue;
-    });
+    document
+      .querySelectorAll("input[name='indicator']")
+      .forEach((indicator) => {
+        const formulaPattern = /#\{.+?\}/g;
+        let valuesObject = {};
+        indicators[indicator.id].expression
+          .match(formulaPattern)
+          .forEach((elem) => {
+            const inputValueElement: any = document.querySelector(
+              "input[id='" +
+                elem.replace(/[#\{\}]/g, '').replace('.', '-') +
+                '-val' +
+                "']"
+            );
+            valuesObject[elem.split('.')[1].replace('}', '')] =
+              inputValueElement && inputValueElement.value
+                ? inputValueElement.value
+                : 0;
+          });
+        const indValue = evaluateIndicatorExpression(
+          indicators[indicator.id].expression,
+          valuesObject
+        );
+        const inputElement: any = document.querySelector(
+          "input[id='" + indicator.id + "']"
+        );
+        inputElement.value = indValue;
+      });
   }
 }
 
@@ -510,7 +508,7 @@ function evaluateIndicatorExpression(indExpression, elementValues) {
   const formulaPattern = /#\{.+?\}/g;
   const matcher = expression.match(formulaPattern);
   if (matcher) {
-    matcher.map(function(match) {
+    matcher.map(function (match) {
       let operand = match.replace(/[#\{\}]/g, '').split('.')[1];
       let value =
         elementValues && elementValues[operand] ? elementValues[operand] : 0;

@@ -85,6 +85,10 @@ export class ProgramEntryComponent implements OnInit {
 
   formData: any = {};
 
+  countOfFieldsFilled: number = 0;
+
+  elementValuesArray: any[] = [];
+
   constructor(
     private httpClient: NgxDhis2HttpClientService,
     private dataEntryService: DataEntryService,
@@ -560,18 +564,41 @@ export class ProgramEntryComponent implements OnInit {
   }
 
   onDataValueChange(values) {
+    // this.eventWithoutRegistrationData = {
+    //   program: this.program?.id,
+    //   orgUnit: this.orgUnit?.id,
+    //   dataValues: Object.keys(values)
+    //     .filter((elemId) => values[elemId]?.value !== '')
+    //     .map((key) => {
+    //       return {
+    //         dataElement: key,
+    //         value: values[key]?.value,
+    //       };
+    //     }),
+    //   eventDate: formatDateToYYMMDD(new Date()),
+    // };
+  }
+
+  onCustomFormDataValueChange(elementsData) {
+    console.log(elementsData);
+    this.elementValuesArray = this.elementsDataValues;
+    this.elementsDataValues = _.keyBy(this.elementValuesArray, 'id');
+    console.log('elementsDataValues', this.elementsDataValues);
+    this.countOfFieldsFilled = Object.keys(this.elementsDataValues)?.length;
     this.eventWithoutRegistrationData = {
       program: this.program?.id,
       orgUnit: this.orgUnit?.id,
-      dataValues: Object.keys(values)
-        .filter((elemId) => values[elemId]?.value !== '')
+      dataValues: Object.keys(this.elementsDataValues)
+        .filter((elemId) => this.elementsDataValues[elemId]?.value !== '')
         .map((key) => {
+          // console.log('key', key);
           return {
-            dataElement: key,
-            value: values[key]?.value,
+            dataElement: key.split('-')[0],
+            value: this.elementsDataValues[key]?.value,
           };
-        }),
-      eventDate: formatDateToYYMMDD(new Date()),
+        })
+        .filter((dataValue) => dataValue?.value),
+      eventDate: formatDateToYYMMDD(this.reportingDate),
     };
   }
 
@@ -624,6 +651,9 @@ export class ProgramEntryComponent implements OnInit {
   }
 
   onEditEventData(event) {
+    this.elementsDataValues = {};
+    this.elementValuesArray = [];
+    this.reportingDate = new Date(event.eventDate);
     this.eventToEdit = event;
     this.eventDataValues = {};
     Object.keys(event).map((key: any) => {
@@ -631,6 +661,20 @@ export class ProgramEntryComponent implements OnInit {
         id: key,
         value: event[key]?.value,
       };
+    });
+    Object.keys(this.eventDataValues).map((key) => {
+      if (this.eventDataValues[key]?.value) {
+        this.elementValuesArray = [
+          ...this.elementValuesArray,
+          {
+            ...this.eventDataValues[key],
+            id: key + '-dataElement',
+          },
+        ];
+        this.elementsDataValues[key + '-dataElement'] = this.eventDataValues[
+          key
+        ];
+      }
     });
     this.isListReportSet = false;
   }

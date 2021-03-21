@@ -165,29 +165,56 @@
       </div>
     </div>
     <div *ngIf="program?.programType !== 'WITH_REGISTRATION'">
-      <div style="height: 500px; overflow: auto">
-        <app-event-program-entry
-          [program]="program"
-          [data]="eventDataValues"
-          (isFormValid)="onCheckFormValidity($event)"
-          (dataValuesChanges)="onDataValueChange($event)"
-        ></app-event-program-entry>
+      <div>
+        <mat-form-field style="min-width: 40%" appearance="outline">
+          <mat-label>{{
+            program?.incidentDateLabel
+              ? program?.incidentDateLabel
+              : 'Reporting date'
+          }}</mat-label>
+          <input
+            matInput
+            [matDatepicker]="start_date"
+            [min]="minDate"
+            [max]="maxDate"
+            [(ngModel)]="reportingDate"
+            (dateInput)="getDate($event.value)"
+          />
+          <mat-datepicker-toggle
+            matSuffix
+            [for]="start_date"
+          ></mat-datepicker-toggle>
+          <mat-datepicker #start_date></mat-datepicker>
+        </mat-form-field>
       </div>
-      <div style="margin-top: 15px">
-        <button
-          mat-stroked-button
-          (click)="onSaveEventData($event)"
-          class="mr-2 float-right"
-        >
-          <mat-spinner
-            *ngIf="savingEventWithoutRegistration"
-            color="accent"
-            [diameter]="20"
-            style="display: inline-block !important; margin-right: 4px"
+      <div *ngIf="reportingDate">
+        <div style="max-height: 500px; overflow: auto">
+          <app-event-program-entry
+            [program]="program"
+            [data]="eventDataValues"
+            [formValuesArray]="elementValuesArray"
+            [elementsDataValues]="elementsDataValues"
+            (entryInfo)="onCustomFormDataValueChange($event)"
+            (isFormValid)="onCheckFormValidity($event)"
+          ></app-event-program-entry>
+        </div>
+        <div style="margin-top: 15px">
+          <button
+            [disabled]="countOfFieldsFilled < 1"
+            mat-stroked-button
+            (click)="onSaveEventData($event)"
+            class="mr-2 float-left"
           >
-          </mat-spinner>
-          Save
-        </button>
+            <mat-spinner
+              *ngIf="savingEventWithoutRegistration"
+              color="accent"
+              [diameter]="20"
+              style="display: inline-block !important; margin-right: 4px"
+            >
+            </mat-spinner>
+            Save
+          </button>
+        </div>
       </div>
     </div>
   </div>
@@ -232,3 +259,6 @@
     </div>
   </div>
 </div>
+<!-- // app-data-entry [dataEntryForm]="" [formName]="" [dataElements]="" [formId]=""
+[formType]="" [selectedProgram]="" (entryInfo)="" [elementsDataValues]=""
+[indicators]="" [events]="" [elementsToDisable]="" -->

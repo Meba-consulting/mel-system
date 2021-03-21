@@ -4,7 +4,7 @@ import * as _ from 'lodash';
 @Component({
   selector: 'app-data-entry',
   templateUrl: './data-entry.component.html',
-  styleUrls: ['./data-entry.component.css']
+  styleUrls: ['./data-entry.component.css'],
 })
 export class DataEntryComponent implements OnInit {
   @Input() dataEntryForm: any;
@@ -18,6 +18,7 @@ export class DataEntryComponent implements OnInit {
   @Input() indicators: any;
   @Input() events: any;
   @Input() elementsToDisable: string[];
+
   lastEvent: any;
   statusArr = [];
   statusUpdateOnDomElement = {
@@ -25,7 +26,7 @@ export class DataEntryComponent implements OnInit {
     domElementId: 'VdOajI8PwGd-RXDbRXHscFp-val',
     id: 'RXDbRXHscFp-dataElement',
     status: 'not-synced',
-    value: '333'
+    value: '333',
   };
   constructor() {}
 
@@ -39,7 +40,7 @@ export class DataEntryComponent implements OnInit {
 
   getDataElements(programStageDataElements) {
     let formattedDataElements = [];
-    _.map(programStageDataElements, PStageDataElement => {
+    _.map(programStageDataElements, (PStageDataElement) => {
       formattedDataElements.push(PStageDataElement.dataElement);
     });
     return formattedDataElements;
