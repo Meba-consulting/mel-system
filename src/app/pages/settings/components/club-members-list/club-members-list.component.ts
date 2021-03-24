@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject, Input, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
@@ -11,6 +11,7 @@ import { State } from 'src/app/store';
   styleUrls: ['./club-members-list.component.css'],
 })
 export class ClubMembersListComponent implements OnInit {
+  @Input() orgUnit: any;
   club: any;
   programId: string = 'xZXKsYVQZAf';
   clubMembers$: Observable<any>;
@@ -20,7 +21,7 @@ export class ClubMembersListComponent implements OnInit {
     private store: Store<State>,
     private dataService: DataService
   ) {
-    this.club = data;
+    this.club = data ? data : this.orgUnit;
   }
 
   ngOnInit(): void {

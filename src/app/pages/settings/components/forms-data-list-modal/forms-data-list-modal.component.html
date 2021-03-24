@@ -1,10 +1,11 @@
 <div *ngIf="{ items: items$ | async } as params">
-  <div class="text-center h2 p-3" style="margin-top: 15px">
+  <div class="text-left h5 p-2" style="margin-top: 5px">
     Data for <b>{{ ou?.name }}</b>
   </div>
+  <hr style="margin: 2px 0" />
   <!-- {{ club | json }} -->
   <div>
-    <div class="p-4" style="height: 450px; overflow: auto">
+    <div class="p-4" style="height: 460px; overflow: auto">
       <mat-progress-bar
         *ngIf="!params?.items"
         mode="indeterminate"
@@ -13,7 +14,7 @@
         <app-members-list [members]="params?.items"></app-members-list>
       </div>
     </div>
-    <div class="p-4">
+    <div class="p-3" style="border-top: solid 1px #eee">
       <button
         mat-stroked-button
         (click)="onClose($event)"

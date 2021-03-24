@@ -91,8 +91,8 @@ export class OuListComponent implements OnInit {
   onAddParalegalMembers(e, paralegal, programId) {
     e.stopPropagation();
     this.dialog.open(FormEntryModalComponent, {
-      width: '70%',
-      height: '700px',
+      width: '60%',
+      height: '600px',
       disableClose: false,
       data: { ou: paralegal, programId: programId },
       panelClass: 'custom-dialog-container',

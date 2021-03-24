@@ -4,10 +4,10 @@
     programsLoadedState: programsLoadedState$ | async
   } as params"
 >
-  <div class="p-3">
-    <div class="h3 text-left">{{ params?.program?.name }}</div>
+  <div class="p-2" sty>
+    <div class="h5 text-left">{{ params?.program?.name }}</div>
     <hr />
-    <div style="max-height: 550px; overflow: auto" class="p-2">
+    <div style="height: 460px; overflow: auto; padding: 5px 15px">
       <div
         *ngIf="
           params?.programsLoadedState &&
@@ -32,7 +32,7 @@
         mode="indeterminate"
       ></mat-progress-bar>
     </div>
-    <div class="p-2">
+    <div class="p-2" style="border-top: solid 1px #eee">
       <button
         mat-stroked-button
         (click)="onClose($event)"

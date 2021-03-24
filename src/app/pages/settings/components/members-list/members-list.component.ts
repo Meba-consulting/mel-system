@@ -12,20 +12,15 @@ import { formatClubMembers } from '../../helpers';
 export class MembersListComponent implements OnInit {
   @Input() members: any;
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
-  displayedColumns: string[] = [
-    'position',
-    'firstName',
-    'middleName',
-    'lastName',
-    'gender',
-    'dob',
-    'action',
-  ];
+  formattedObject: any;
+  displayedColumns: string[] = [];
   dataSource: any;
   constructor(private dialog: MatDialog) {}
 
   ngOnInit(): void {
-    this.dataSource = new MatTableDataSource(formatClubMembers(this.members));
+    this.formattedObject = formatClubMembers(this.members);
+    this.displayedColumns = this.formattedObject?.displayedColumns;
+    this.dataSource = new MatTableDataSource(this.formattedObject?.data);
     this.dataSource.paginator = this.paginator;
   }
 

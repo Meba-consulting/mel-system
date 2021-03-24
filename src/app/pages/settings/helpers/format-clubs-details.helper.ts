@@ -53,19 +53,22 @@ export function formatClubsForDatatableList(ous) {
 }
 
 export function formatClubMembers(data) {
-  return _.map(data?.rows, (row, index) => {
-    return {
-      position: index + 1,
-      firstName: row[7],
-      middleName: row[8],
-      lastName: row[9],
-      gender: row[10],
-      dob: row[11],
-      startDate: row[12],
-      endDate: row[13],
-      eventId: row[0],
-      orgUnit: row[3],
-      action: { eventId: row[0], orgUnit: row[3] },
-    };
+  const headers = _.takeRight(data?.headers, data?.headers?.length - 7);
+  const displayedColumns = _.map(headers, (header) => {
+    return header?.name;
   });
+
+  return {
+    keyedHeaders: _.keyBy(headers, 'name'),
+    headers: [{ name: 'position', column: 'SN' }, ...headers],
+    displayedColumns: ['position', ...displayedColumns, 'action'],
+    data: _.map(data?.rows, (row, index) => {
+      let formattedData = {};
+      formattedData['position'] = index + 1;
+      headers.forEach((header, count) => {
+        formattedData[header?.name] = row[count + 7];
+      });
+      return { ...formattedData, action: row };
+    }),
+  };
 }

@@ -7,6 +7,7 @@ import { getProgramById, getProgramsLoadedState, State } from 'src/app/store';
 
 import * as _ from 'lodash';
 import { formatDateToYYMMDD } from 'src/app/pages/data-entry/helpers';
+import { FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-add-club-member',
@@ -22,6 +23,8 @@ export class AddClubMemberComponent implements OnInit {
   isMemberAdded: boolean = false;
   formData: any;
   savingData: boolean = false;
+
+  selectedTab = new FormControl(0);
   constructor(
     private dialogRef: MatDialogRef<AddClubMemberComponent>,
     @Inject(MAT_DIALOG_DATA) data,

@@ -1,5 +1,5 @@
 <div *ngIf="{ clubMembers: clubMembers$ | async } as params">
-  <mat-toolbar class="modal-header"
+  <mat-toolbar class="modal-header" *ngIf="!orgUnit"
     >Club Members for {{ club?.name }}</mat-toolbar
   >
   <!-- {{ club | json }} -->
