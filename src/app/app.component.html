@@ -156,6 +156,17 @@
                 General Registration
               </li>
               <li
+                class="list-group-item"
+                [routerLink]="'/resources'"
+                routerLinkActive="active-class"
+              >
+                <img
+                  height="25"
+                  src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAABmJLR0QA/wD/AP+gvaeTAAAD1ElEQVR4nO2bO2gUQRjHf7O7udyTPA4jRIyPQhQtTGMrWGgtPhqxsBELbQyojQ+wDFaKGBWEpFHQ3kZBC0u1shUVExASiLnzzOV212Jz8R6JmZmde+x6/ya5udn5vt8338x8u8lCTz319D9LmBxs6vxUupBITPg+Z4RgN9BncnxJzSKYWcpnbty6dbq8WWfHlNXJC9MjBafyEhgXRsOqrFF8rubmiwDXNutsJACTF6ZHLMd9DWJ/djhDYaEIwKXbh5XHsp0UlpMCwKuUcCulpvZa1fYBmPu6xPNH78HnLBIBsJQ9bFAA770C9mfzWcZOHdMeqxbSlYB3G+CFZTO2Z3v146iMzVAB+AvvH8jms4ydPIqTSWqN1QjvScB7DfBOIocqknYA4gCP1hXEBx6dq0zA28mh4GeH4UHxFAgPL7CTg1jJQQRirQjpFDwqVxuZ+dQQVnIQAJEcADuhDG+nho3Bg2QGTJ2fSgdFjjiQ25Jj+4mjOOl+ZWNuaQHhr8KXC7jlghK81ZfB6h/AsmxwXWX760kqhIVEYgLEeHY4syl88fsPADK55j62kwrSfqWkBW+n88EXThpsM1W2VAas1vYUFop8evBCauB9B0fqPtdteMuLymlv9Q/8/VJY0JcGsQyV31L+bCSpAKze2Egpk+tn7/hWDh3ZudYWdrf3lheDtHfSAbzvBeDuiqxbG0r2FOiD8LV9qN3edYHfwcwbggeDd4Pryfg5764EaW8IHkycIxuoZUVOyDXfqJYEoBsqPFkZtxAleExbiRo8Ji1FER5T1qIKjwmLUYYnrNWowxPGchzg0bUeF3h0POh2+NrH5DJS8iIK8F4rAxA3eNDwxpOA99oM32hPRUq3w3Ga+aqUvIobPIQ8BWoVpbSvldISiNPMV6V1CvzLmSjBQ0gvo5r2tdJ+KBr1ma9Ky9u4wIOGx3W1QHIIYTuRhYcwhVAy+EuvlchC+RfgG3eu1fCgWQgBeOUl8CqwUqIV8K3Y8NaT1iYYrPloz3xVygu3fsOLNjwoBiDKu/1GUiKJGzwo00SnwpOVFtHTe295dv+tkTa3UuLZ/Xe8ePyxrt/zhx+021SkdQrMfpk30lZN+7lvP5v6hWlTUceeS3dqzTdKKwO27cqHavN9rw5+dMdAU78wbSqSerXhzsUnPsDlyeOhjEF7Zv7u9TcATNw7tylfW5dAt6R9rdoWgG6EB8kACCHmAL5/bt7VZdRO+Nkvi2u/yvSX+09RwQw+VxrP9G6WgGmZflIBWBpOX8/NF/3VF5Gk3sXpoGYRzPzMZ2522pGeeuqp+/UHIfshoD+yFHUAAAAASUVORK5CYII="
+                />
+                Resources
+              </li>
+              <li
                 *ngIf="accessUserManagementPage"
                 class="list-group-item"
                 [routerLink]="'/user-management'"

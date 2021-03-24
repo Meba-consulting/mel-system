@@ -5,9 +5,9 @@ export function formatResourcesByAccess(groups, resouces) {
   // merge managed groups to groups
   _.each(
     _.orderBy(mergeManagedGroupsToGroups(groups), ['name'], ['asc']),
-    group => {
+    (group) => {
       let resourcesByGroup = [];
-      _.each(resouces, resouce => {
+      _.each(resouces, (resouce) => {
         if (_.filter(resouce.userGroupAccesses, { id: group.id }).length > 0) {
           resourcesByGroup.push(resouce);
         }
@@ -22,7 +22,7 @@ export function formatResourcesByAccess(groups, resouces) {
 export function getProceduresGroups(currentUser) {
   let proceduresGroups = [];
 
-  _.each(currentUser.userGroups, userGroup => {
+  _.each(currentUser.userGroups, (userGroup) => {
     if (userGroup.name.toLowerCase().indexOf('_procedure') > -1) {
       proceduresGroups.push({
         id: userGroup.id,
@@ -32,7 +32,7 @@ export function getProceduresGroups(currentUser) {
             .replace('_procedures ', '')
             .replace('_PROCEDURE ', '')
             .replace('_procedure ', '')
-        ).toUpperCase()
+        ).toUpperCase(),
       });
     }
   });
@@ -42,17 +42,17 @@ export function getProceduresGroups(currentUser) {
 export function getFormsGroups(currentUser) {
   let formsGroups = [];
 
-  _.each(currentUser.userGroups, userGroup => {
+  _.each(currentUser.userGroups, (userGroup) => {
     if (userGroup.name.toLowerCase().indexOf('_form') == 0) {
       formsGroups.push({
         id: userGroup.id,
         name: _.capitalize(
           userGroup.name
-            .replace('_FORMS ', '')
-            .replace('_forms ', '')
-            .replace('_FORM ', '')
-            .replace('_form ', '')
-        ).toUpperCase()
+            .replace('_RESOURCES ', '')
+            .replace('_resources ', '')
+            .replace('_RESOURCE ', '')
+            .replace('_resource ', '')
+        ).toUpperCase(),
       });
     }
   });
@@ -63,13 +63,13 @@ export function getFormsDepartmentsGroups(currentUser) {
   let managedGroups = [];
   let allDepartmentGroups = _.map(
     filterDepartmentsForForms(currentUser.userGroups),
-    userGroup => {
+    (userGroup) => {
       const group = {
         id: userGroup.id,
         name: userGroup.name
           .toLowerCase()
-          .replace('_forms ', '')
-          .replace('_form ', '')
+          .replace('_resources ', '')
+          .replace('_recource ', '')
           .toUpperCase(),
         managedGroups:
           userGroup.managedGroups.length > 0
@@ -77,7 +77,7 @@ export function getFormsDepartmentsGroups(currentUser) {
                 userGroup.managedGroups,
                 currentUser.userGroups
               )
-            : []
+            : [],
       };
       managedGroups =
         userGroup.managedGroups.length > 0
@@ -87,7 +87,7 @@ export function getFormsDepartmentsGroups(currentUser) {
     }
   );
   let newDepts = [];
-  _.each(allDepartmentGroups, dept => {
+  _.each(allDepartmentGroups, (dept) => {
     if (
       _.filter(managedGroups, { id: dept.id }) &&
       _.filter(managedGroups, { id: dept.id }).length == 0
@@ -102,7 +102,7 @@ export function getProceduresDepartmentsGroups(currentUser) {
   let managedGroups = [];
   let allDepartmentGroups = _.map(
     filterDepartments(currentUser.userGroups),
-    userGroup => {
+    (userGroup) => {
       const group = {
         id: userGroup.id,
         name: userGroup.name
@@ -116,7 +116,7 @@ export function getProceduresDepartmentsGroups(currentUser) {
                 userGroup.managedGroups,
                 currentUser.userGroups
               )
-            : []
+            : [],
       };
       managedGroups =
         userGroup.managedGroups.length > 0
@@ -126,7 +126,7 @@ export function getProceduresDepartmentsGroups(currentUser) {
     }
   );
   let newDepts = [];
-  _.each(allDepartmentGroups, dept => {
+  _.each(allDepartmentGroups, (dept) => {
     if (
       _.filter(managedGroups, { id: dept.id }) &&
       _.filter(managedGroups, { id: dept.id }).length == 0
@@ -139,10 +139,10 @@ export function getProceduresDepartmentsGroups(currentUser) {
 
 function getManagedGroupsDetails(managedGroups, userGroups) {
   let groups = [];
-  _.each(managedGroups, group => {
+  _.each(managedGroups, (group) => {
     groups = [
       ...groups,
-      ...formatDept(_.filter(userGroups, { id: group.id })[0])
+      ...formatDept(_.filter(userGroups, { id: group.id })[0]),
     ];
   });
   return _.orderBy(groups, ['name'], ['asc']);
@@ -158,13 +158,13 @@ function formatDept(dept) {
         .replace('_procedure ', '')
         .replace('_forms ', '')
         .replace('_form ', '')
-        .toUpperCase()
-    }
+        .toUpperCase(),
+    },
   ];
 }
 
 function filterDepartments(dps) {
-  return _.filter(_.orderBy(dps, ['name'], ['asc']), userGroup => {
+  return _.filter(_.orderBy(dps, ['name'], ['asc']), (userGroup) => {
     if (userGroup.name.toLowerCase().indexOf('_procedure') == 0) {
       return userGroup;
     } else {
@@ -173,8 +173,8 @@ function filterDepartments(dps) {
 }
 
 function filterDepartmentsForForms(dps) {
-  return _.filter(_.orderBy(dps, ['name'], ['asc']), userGroup => {
-    if (userGroup.name.toLowerCase().indexOf('_form') == 0) {
+  return _.filter(_.orderBy(dps, ['name'], ['asc']), (userGroup) => {
+    if (userGroup.name.toLowerCase().indexOf('_resource') == 0) {
       return userGroup;
     } else {
     }
@@ -183,9 +183,9 @@ function filterDepartmentsForForms(dps) {
 
 function mergeManagedGroupsToGroups(groups) {
   let formattedGroups = groups;
-  _.each(groups, group => {
+  _.each(groups, (group) => {
     if (group.managedGroups && group.managedGroups.length > 0) {
-      _.each(group.managedGroups, managedGroup => {
+      _.each(group.managedGroups, (managedGroup) => {
         formattedGroups = [...formattedGroups, managedGroup];
       });
     }

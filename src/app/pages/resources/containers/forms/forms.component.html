@@ -1,34 +1,13 @@
 <div class="container-fluid">
-  <div class="row" *ngIf="formsGroups">
+  <div class="row" *ngIf="formsGroups" style="margin-top: 20px">
     <div class="col-md-3">
       <ul class="list-group">
-        <li class="list-group-item-header" style="border: none !important;">
-          Departments
-        </li>
-        <!-- <li
-          class="list-group-item"
-          (click)="onSetCurrentResourceGroup(form)"
-          *ngFor="let form of formsGroups"
+        <li
+          class="list-group-item-header"
+          style="border: none !important; margin-left: -10px; margin-top: 15px"
         >
-          <div
-            class="row"
-            [ngClass]="{
-              'active-department': currentResourceGroup.id == form.id
-            }"
-          >
-            <div
-              class="col-1"
-              style="padding: 10px 0px 10px 2px !important;max-width: 1.8% !important"
-              [ngClass]="{
-                'selected-item': currentResourceGroup.id == form.id,
-                '': currentResourceGroup.id != form.id
-              }"
-            ></div>
-            <div class="col-11" style="padding: 10px 0px 10px 2px !important">
-              {{ form.name }}
-            </div>
-          </div>
-        </li> -->
+          Folders
+        </li>
         <li
           class="list-group-item"
           [ngClass]="{
@@ -48,7 +27,10 @@
           >
             <div
               class="col-1"
-              style="padding: 10px 0px 10px 2px !important; max-width: 1.8% !important;"
+              style="
+                padding: 10px 0px 10px 2px !important;
+                max-width: 1.8% !important;
+              "
               [ngClass]="{
                 'selected-item': currentResourceGroup.id == department.id,
                 '': currentResourceGroup.id != department.id
@@ -67,7 +49,7 @@
             "
           >
             <div class="col-1" style="max-width: 1.8% !important"></div>
-            <div class="col-11" style="margin-left: -10px !important;">
+            <div class="col-11" style="margin-left: -10px !important">
               {{ department.name }}
               <span
                 *ngIf="
@@ -85,7 +67,7 @@
 
                 <i
                   class="fa fa-angle-down"
-                  style="font-weight: 600;font-size: 1.4rem;"
+                  style="font-weight: 600; font-size: 1.4rem"
                 ></i>
               </span>
 
@@ -102,7 +84,7 @@
 
                 <i
                   class="fa fa-angle-up"
-                  style="font-weight: 600;font-size: 1.4rem;"
+                  style="font-weight: 600; font-size: 1.4rem"
                 ></i>
               </span>
             </div>
@@ -132,7 +114,10 @@
               >
                 <div
                   class="col-1"
-                  style="padding: 10px 0px 10px 2px !important;max-width: 1.8% !important"
+                  style="
+                    padding: 10px 0px 10px 2px !important;
+                    max-width: 1.8% !important;
+                  "
                   [ngClass]="{
                     'selected-item': currentResourceGroup.id == depart.id,
                     '': currentResourceGroup.id != depart.id

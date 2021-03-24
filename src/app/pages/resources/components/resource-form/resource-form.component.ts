@@ -1,6 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { NgxDhis2HttpClientService } from '@iapps/ngx-dhis2-http-client';
 import { ResourcesService } from '../../services/resources.service';
 import { Store } from '@ngrx/store';
 import { State } from 'src/app/store';
@@ -10,7 +9,7 @@ import { Router } from '@angular/router';
 @Component({
   selector: 'app-resource-form',
   templateUrl: './resource-form.component.html',
-  styleUrls: ['./resource-form.component.css']
+  styleUrls: ['./resource-form.component.css'],
 })
 export class ResourceFormComponent implements OnInit {
   formResource: FormGroup;
@@ -40,7 +39,7 @@ export class ResourceFormComponent implements OnInit {
     this.formResource = this._formBuilder.group({
       name: ['', Validators.required],
       isFile: ['', Validators.required],
-      file: ['', Validators.required]
+      file: ['', Validators.required],
     });
   }
 
@@ -70,22 +69,22 @@ export class ResourceFormComponent implements OnInit {
           resourceType: this.resourceType,
           attachment: this.resourceType == 'link' ? false : true,
           file: event.target.files[0],
-          url: this.url
+          url: this.url,
         })
-        .subscribe(response => {
+        .subscribe((response) => {
           this.resourceService
             .saveDocument({
               name: this.name,
               type: 'UPLOAD_FILE',
               attachment: true,
               external: false,
-              url: response.response.fileResource.id
+              url: response.response.fileResource.id,
             })
-            .subscribe(documentResponse => {
+            .subscribe((documentResponse) => {
               let sharingSettingsData = {
                 meta: {
                   allowPublicAccess: true,
-                  allowExternalAccess: true
+                  allowExternalAccess: true,
                 },
                 object: {
                   id: documentResponse['response']['uid'],
@@ -94,7 +93,7 @@ export class ResourceFormComponent implements OnInit {
                   publicAccess: 'r-------',
                   user: {
                     id: this.currentUser.id,
-                    name: this.currentUser.name
+                    name: this.currentUser.name,
                   },
                   externalAccess: false,
                   userGroupAccesses: [
@@ -102,22 +101,22 @@ export class ResourceFormComponent implements OnInit {
                       id: this.resourceGroup[0].id,
                       name: this.resourceGroup[0].name,
                       displayName: this.resourceGroup[0].name,
-                      access: 'r-------'
-                    }
-                  ]
-                }
+                      access: 'r-------',
+                    },
+                  ],
+                },
               };
               this.resourceService
                 .saveSharingSettingsForDocuments(sharingSettingsData)
-                .subscribe(sharingResponse => {
+                .subscribe((sharingResponse) => {
                   this.store.dispatch(loadResources({ reload: true }));
                   // this.router.navigate(['/resources/documents']);
                   setTimeout(() => {
                     this.router
                       .navigateByUrl('/', { skipLocationChange: true })
                       .then(() =>
-                        this.router.navigate(['resources/documents'], {
-                          queryParams: { status: 'added' }
+                        this.router.navigate(['resources'], {
+                          queryParams: { status: 'added' },
                         })
                       );
                   }, 70);
@@ -158,10 +157,10 @@ export class ResourceFormComponent implements OnInit {
         type: 'EXTERNAL_URL',
         attachment: false,
         url: this.url,
-        external: true
+        external: true,
       };
       console.log('data');
-      this.resourceService.saveDocument(data).subscribe(response => {
+      this.resourceService.saveDocument(data).subscribe((response) => {
         console.log('response', response);
         this.store.dispatch(loadResources({ reload: true }));
         // this.router.navigate(['/resources/documents']);
@@ -169,8 +168,8 @@ export class ResourceFormComponent implements OnInit {
           this.router
             .navigateByUrl('/', { skipLocationChange: true })
             .then(() =>
-              this.router.navigate(['resources/documents'], {
-                queryParams: { status: 'added' }
+              this.router.navigate(['resources'], {
+                queryParams: { status: 'added' },
               })
             );
         }, 70);

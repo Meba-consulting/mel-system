@@ -7,29 +7,24 @@ import { ResourcesComponent } from './containers/resources/resources.component';
 const routes: Routes = [
   {
     path: '',
-    redirectTo: 'documents',
-    pathMatch: 'full'
-  },
-  {
-    path: 'documents',
     component: HomeComponent,
     children: [
       {
         path: '',
         component: ResourcesComponent,
-        pathMatch: 'full'
+        pathMatch: 'full',
       },
       {
         path: ':type/:usergroupId/:resourceId',
         component: UploadResourceComponent,
-        pathMatch: 'full'
-      }
-    ]
-  }
+        pathMatch: 'full',
+      },
+    ],
+  },
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
 export class ResourcesRoutingModule {}

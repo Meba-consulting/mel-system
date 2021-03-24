@@ -1,31 +1,22 @@
-<div
-  style="margin-top: 15px"
-  *ngIf="!(resources$ | async) || !(currentUser$ | async) || !allDataLoaded"
->
-  <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+<div style="margin-top: 15px">
+  <mat-progress-bar
+    mode="indeterminate"
+    *ngIf="!(resources$ | async) || !(currentUser$ | async) || !allDataLoaded"
+  ></mat-progress-bar>
 </div>
-<div style="height: 100vh;background-color: #FFF;" class="row">
+<div style="height: 90vh; background-color: #fff" class="row">
   <div class="col-md-12" *ngIf="allDataLoaded">
-    <mat-tab-group
+    <div
       mat-align-tabs="start"
       *ngIf="
         (resources$ | async) && (currentUser$ | async) && (userGroups$ | async)
       "
     >
-      <mat-tab label="Forms">
-        <app-forms
-          [resources]="resources$ | async"
-          [currentUser]="currentUser$ | async"
-          [userGroups]="userGroups$ | async"
-        ></app-forms>
-      </mat-tab>
-      <mat-tab label="Procedures">
-        <app-procedures
-          [resources]="resources$ | async"
-          [currentUser]="currentUser$ | async"
-          [userGroups]="userGroups$ | async"
-        ></app-procedures>
-      </mat-tab>
-    </mat-tab-group>
+      <app-forms
+        [resources]="resources$ | async"
+        [currentUser]="currentUser$ | async"
+        [userGroups]="userGroups$ | async"
+      ></app-forms>
+    </div>
   </div>
 </div>
