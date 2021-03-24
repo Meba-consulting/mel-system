@@ -156,5 +156,21 @@ body {
 
 tr.mat-row,
 tr.mat-footer-row {
-  height: 38px !important;
+  height: 35px !important;
+}
+
+.mat-tab-label {
+  height: 28px !important;
+  padding: 0 24px !important;
+  font-size: 13px !important;
+  cursor: pointer;
+  box-sizing: border-box;
+  opacity: 0.6;
+  min-width: 160px;
+  text-align: center;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  white-space: nowrap;
+  position: relative;
 }
