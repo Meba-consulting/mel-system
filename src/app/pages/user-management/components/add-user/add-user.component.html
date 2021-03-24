@@ -1,16 +1,19 @@
 <div
-  class="add-user"
+  class="user-details-container"
   *ngIf="{
     usedUsername: usedUsername$ | async,
     userRoles: userRoles$ | async,
     userGroups: userGroups$ | async
   } as userParams"
 >
-  <div class="text-left p-3 h3">New User</div>
-  <hr />
+  <div class="text-left h5" style="padding: 10px 15px">
+    <span *ngIf="!user">New user</span>
+    <span *ngIf="user">Editing user</span>
+  </div>
+  <hr style="margin: 2px 0" />
   <div class="p-3">
-    <div style="height: 600px; overflow: auto; padding: 0 20px">
-      <div *ngIf="usernameField && usernameField?.length > 0">
+    <div style="height: 450px; overflow: auto; padding: 0 20px">
+      <div *ngIf="usernameField && usernameField?.length > 0 && !user">
         <app-form
           [fields]="usernameField"
           [fieldsData]="currentFormData"
@@ -21,6 +24,17 @@
           *ngIf="startCheckingUsername && !userParams?.usedUsername"
           mode="indeterminate"
         ></mat-progress-bar>
+      </div>
+      <div class="w-100" *ngIf="user">
+        <!-- {{ user?.userCredentials?.username }} -->
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>Username</mat-label>
+          <input
+            matInput
+            [disabled]="true"
+            [value]="user?.userCredentials?.username"
+          />
+        </mat-form-field>
       </div>
 
       <p class="text-danger">
@@ -75,7 +89,7 @@
         </div>
       </div>
     </div>
-    <div style="margin-top: 20px">
+    <div style="margin-top: 10px; border-top: solid 1px #eee">
       <p class="text-center text-success">
         {{ savingUserMessage }}
       </p>

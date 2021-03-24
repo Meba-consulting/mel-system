@@ -1,10 +1,16 @@
-<div class="card ngx-dhis2-org-unit-selection-card">
+<div
+  class="card ngx-dhis2-org-unit-selection-card"
+  [ngStyle]="{ 'background-color': selectedBgd ? selectedBgd : 'inherit' }"
+>
   <div
     class="ngx-dhis2-org-unit-filter__disabled-overlay"
     *ngIf="userOrgUnitSelected"
   ></div>
   <!--org unit tree area-->
-  <div class="ngx-dhis2-org-unit-selection__tree p-2">
+  <div
+    class="ngx-dhis2-org-unit-selection__tree"
+    [ngStyle]="{ height: maxHeight ? maxHeight : '400px' }"
+  >
     <!-- loading org units -->
     <div class="ngx-dhis2-org-unit-selection__loading" *ngIf="loadingOrgUnits">
       <!-- loading org units -->

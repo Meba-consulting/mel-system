@@ -8,6 +8,7 @@
     *ngIf="params?.queryResponseData && params?.savedUserDataStore"
     [queryResponse]="params?.queryResponseData"
     [savedUserDataStore]="params?.savedUserDataStore"
+    [orgUnit]="orgUnit"
     [program]="program"
     (edit)="onSetEdit($event)"
     (delete)="onSetDelete($event)"

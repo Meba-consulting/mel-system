@@ -9,7 +9,7 @@
       *ngFor="let tab of tabs; let count = index"
     >
       <div
-        class="p-3"
+        class="p-1"
         *ngIf="selectedTab.value == count && tab?.id == 'ExyDMkddChQ'"
       >
         <app-create-organisation-unit
@@ -20,7 +20,7 @@
         ></app-create-organisation-unit>
       </div>
       <div
-        class="p-3"
+        class="p-1"
         *ngIf="selectedTab.value == count && tab?.id == 'q4SAf8ix9ww'"
       >
         <app-training-registration
@@ -30,7 +30,7 @@
         ></app-training-registration>
       </div>
       <div
-        class="p-3"
+        class="p-1"
         *ngIf="
           selectedTab.value == count &&
           tab?.id !== 'q4SAf8ix9ww' &&

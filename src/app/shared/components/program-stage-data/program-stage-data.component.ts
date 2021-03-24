@@ -18,6 +18,7 @@ export class ProgramStageDataComponent implements OnInit {
   @Output() delete = new EventEmitter<any>();
   @Output() edit = new EventEmitter<any>();
   response$: Observable<any>;
+  @Output() countOfEvents = new EventEmitter<number>();
   constructor(private dataService: DataService) {}
 
   ngOnInit(): void {
@@ -42,5 +43,9 @@ export class ProgramStageDataComponent implements OnInit {
         this.program
       );
     }
+  }
+
+  getCountOfEvents(eventsCount) {
+    this.countOfEvents.emit(eventsCount);
   }
 }

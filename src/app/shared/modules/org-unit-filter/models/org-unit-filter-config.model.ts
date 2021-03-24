@@ -31,4 +31,6 @@ export interface OrgUnitFilterConfig {
 
   // Specify additional organisation unit query fields
   additionalQueryFields?: string[];
+
+  selectedBgd?: string;
 }

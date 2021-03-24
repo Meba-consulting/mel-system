@@ -6,10 +6,7 @@ import { Observable, of } from 'rxjs';
 import { UsersService } from 'src/app/core/services/user.service';
 import { FormValue } from 'src/app/shared/modules/forms/models/form-value.model';
 import { getAllUserGroups, State } from 'src/app/store';
-
 import { map } from 'lodash';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { catchError } from 'rxjs/operators';
 
 @Component({
   selector: 'app-add-user',
@@ -53,9 +50,11 @@ export class AddUserComponent implements OnInit {
   saveUserResponse$: Observable<any>;
 
   passwordsMatch: boolean = false;
+
   savingUser: boolean = false;
   savingUserMessage: string = '';
   atLeastOneUSerAdded: boolean = false;
+  user: any;
   constructor(
     private dialogRef: MatDialogRef<AddUserComponent>,
     private httpClient: NgxDhis2HttpClientService,
@@ -63,7 +62,27 @@ export class AddUserComponent implements OnInit {
     private store: Store<State>,
     @Inject(MAT_DIALOG_DATA) data
   ) {
-    this.userGroupsConfigs = data;
+    this.userGroupsConfigs = data?.userGroupsConfigs;
+    this.user = data?.user;
+    console.log('this.user', this.user);
+    if (this.user) {
+      this.currentFormData['username'] = {
+        id: 'username',
+        value: this.user?.userCredentials?.username,
+      };
+
+      this.currentFormData['firstName'] = {
+        id: 'firstName',
+        value: this.user?.firstName,
+      };
+
+      this.currentFormData['surname'] = {
+        id: 'surname',
+        value: this.user?.surname,
+      };
+    }
+
+    console.log('currentFormData', this.currentFormData);
   }
 
   ngOnInit(): void {
@@ -80,9 +99,9 @@ export class AddUserComponent implements OnInit {
 
     this.formFields = [
       {
-        id: 'firstname',
+        id: 'firstName',
         label: 'Firstname',
-        key: 'firstname',
+        key: 'firstName',
         required: true,
         controlType: 'textbox',
         type: 'text',
@@ -99,7 +118,7 @@ export class AddUserComponent implements OnInit {
         id: 'password',
         label: 'Password',
         key: 'password',
-        required: true,
+        required: this.user ? false : true,
         controlType: 'password',
         type: 'password',
       },
@@ -107,7 +126,7 @@ export class AddUserComponent implements OnInit {
         id: 'rePassword',
         label: 'Repeat password',
         key: 'rePassword',
-        required: true,
+        required: this.user ? false : true,
         controlType: 'rePassword',
         type: 'password',
       },
@@ -130,6 +149,8 @@ export class AddUserComponent implements OnInit {
         type: 'text',
       },
     ];
+
+    console.log('FORM FIELDS', this.formFields);
 
     this.userRoles$ = this.usersService.loadUserRoles();
     this.userGroups$ = this.store.select(getAllUserGroups);

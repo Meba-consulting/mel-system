@@ -1,4 +1,4 @@
-<div>
+<div *ngIf="eventsData && eventsData?.length > 0">
   <table class="table table-bordered">
     <thead>
       <tr>
@@ -61,3 +61,5 @@
     </tbody>
   </table>
 </div>
+
+<mat-progress-bar mode="indeterminate" *ngIf="!eventsData"></mat-progress-bar>

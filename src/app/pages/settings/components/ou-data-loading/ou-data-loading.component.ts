@@ -39,7 +39,7 @@ export class OuDataLoadingComponent implements OnInit {
       this.dialog
         .open(OuRegistrationComponent, {
           width: '70%',
-          height: '770px',
+          height: '630px',
           disableClose: false,
           data: { clubCategories: this.clubCategories },
           panelClass: 'custom-dialog-container',

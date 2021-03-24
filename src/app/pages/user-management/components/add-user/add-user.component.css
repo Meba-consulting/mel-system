@@ -2,3 +2,7 @@
   margin-top: 15px;
   padding: 10px 3px;
 }
+
+.user-details-container {
+  font-size: 0.9rem !important;
+}

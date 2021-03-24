@@ -79,9 +79,22 @@ export class UserListComponent implements OnInit {
     });
   }
 
-  onEditUser(e, user) {
+  onEditUser(e, user, userGroupsConfigs) {
     e.stopPropagation();
-    console.log(user);
+    this.dialog
+      .open(AddUserComponent, {
+        width: '60%',
+        height: '600px',
+        disableClose: false,
+        data: { userGroupsConfigs: userGroupsConfigs, user: user?.action },
+        panelClass: 'custom-dialog-container',
+      })
+      .afterClosed()
+      .subscribe((data) => {
+        if (data) {
+          this.reLoadUsers.emit(true);
+        }
+      });
   }
 
   onAddNewUser(e, userGroupsConfigs) {
@@ -89,9 +102,9 @@ export class UserListComponent implements OnInit {
     this.dialog
       .open(AddUserComponent, {
         width: '60%',
-        height: '800px',
+        height: '600px',
         disableClose: false,
-        data: userGroupsConfigs,
+        data: { userGroupsConfigs: userGroupsConfigs, user: null },
         panelClass: 'custom-dialog-container',
       })
       .afterClosed()
@@ -107,7 +120,7 @@ export class UserListComponent implements OnInit {
     this.dialog
       .open(DeletingItemComponent, {
         width: '20%',
-        height: '250px',
+        height: '200px',
         disableClose: false,
         data: { path: 'users/' + user?.id, itemName: user?.displayName },
         panelClass: 'custom-dialog-container',

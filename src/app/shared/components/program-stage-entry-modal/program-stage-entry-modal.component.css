@@ -3,9 +3,9 @@
 }
 
 .body {
-  height: 500px;
+  height: 350px;
   overflow: auto;
-  padding: 15px;
+  padding: 2px;
 }
 
 .footer-btns {

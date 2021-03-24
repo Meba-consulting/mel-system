@@ -68,7 +68,9 @@
           </button>
           <mat-menu #menu="matMenu" class="menu-options">
             <button
-              (click)="onEditUser($event, element)"
+              (click)="
+                onEditUser($event, element, userParams?.userGroupsConfigs)
+              "
               [disabled]="!canDoMaintenance"
               mat-menu-item
             >

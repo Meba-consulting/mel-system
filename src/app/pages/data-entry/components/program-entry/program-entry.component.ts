@@ -683,7 +683,7 @@ export class ProgramEntryComponent implements OnInit {
     this.dialog
       .open(DeletingItemComponent, {
         width: '20%',
-        height: '250px',
+        height: '200px',
         disableClose: false,
         data: { path: 'events/' + event?.event, itemName: '' },
         panelClass: 'custom-dialog-container',

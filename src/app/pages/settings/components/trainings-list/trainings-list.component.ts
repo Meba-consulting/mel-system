@@ -13,6 +13,7 @@ import { SetColumnsModalComponent } from 'src/app/shared/components/set-columns-
 export class TrainingsListComponent implements OnInit {
   @Input() program: any;
   @Input() ouId: string;
+  @Input() orgUnit: any;
   @Output() edit = new EventEmitter<any>();
   queryResponseData$: Observable<any>;
   savedUserDataStore$: Observable<any>;

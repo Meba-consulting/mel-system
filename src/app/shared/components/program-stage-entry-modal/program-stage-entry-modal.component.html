@@ -5,10 +5,10 @@
     queryResponseData: queryResponseData$ | async
   } as params"
 >
-  <div class="header h3">
+  <div class="header h4">
     {{ programStage?.name }}
   </div>
-  <hr />
+  <hr style="margin: 5px 0" />
 
   <mat-progress-bar
     mode="indeterminate"
@@ -36,6 +36,7 @@
               [showEdit]="true"
               (edit)="onEdit($event)"
               (delete)="onDeleteEvent($event)"
+              (countOfEvents)="getCountOfEvents($event)"
             ></app-program-stage-data>
           </div>
         </mat-tab>
@@ -50,7 +51,8 @@
                 programStage?.id
               ]?.hasEntry) ||
             isEditSet ||
-            !params?.programDataStoreConfigs['stagesToUpdateStatus']
+            !params?.programDataStoreConfigs['stagesToUpdateStatus'] ||
+            countOfEvents === 0
           "
         >
           <div class="p-2" *ngIf="selectedTab.value == 1">

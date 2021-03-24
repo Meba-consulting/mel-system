@@ -64,6 +64,7 @@ body {
 body {
   margin: 0;
   font-family: Roboto, 'Helvetica Neue', sans-serif;
+  font-size: 0.8rem !important;
 }
 
 .mat-tab-body-wrapper {
@@ -135,4 +136,25 @@ body {
 
 .entry-event .mat-expansion-panel-header {
   background-color: #def7ff !important;
+}
+
+.current-dashboard-description-container .mat-expansion-panel {
+  box-shadow: none !important;
+  background-color: inherit !important;
+  border: solid 1px #eee !important;
+}
+
+.current-dashboard-description-container
+  .mat-expansion-panel-header:not([class*='mat-elevation-z']) {
+  height: 35px !important;
+}
+
+.mat-cell,
+.mat-footer-cell {
+  font-size: 12px !important;
+}
+
+tr.mat-row,
+tr.mat-footer-row {
+  height: 38px !important;
 }

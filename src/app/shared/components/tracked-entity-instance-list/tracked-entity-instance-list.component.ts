@@ -76,7 +76,7 @@ export class TrackedEntityInstanceListComponent implements OnInit {
     console.log(enrollmentData);
     this.dialog.open(ProgramStageEntryModalComponent, {
       width: '60%',
-      height: '650px',
+      height: '500px',
       disableClose: false,
       data: {
         programStage: programStage,

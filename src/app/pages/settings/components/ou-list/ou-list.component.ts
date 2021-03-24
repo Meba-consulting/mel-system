@@ -58,7 +58,7 @@ export class OuListComponent implements OnInit {
         // console.log('response', response);
         this.dialog.open(AddClubModalComponent, {
           width: '70%',
-          height: '700px',
+          height: '600px',
           disableClose: false,
           data: { clubCategories: this.categories, club: response },
           panelClass: 'custom-dialog-container',
@@ -71,7 +71,7 @@ export class OuListComponent implements OnInit {
     e.stopPropagation();
     this.dialog.open(AddClubMemberComponent, {
       width: '70%',
-      height: '700px',
+      height: '600px',
       disableClose: false,
       data: club,
       panelClass: 'custom-dialog-container',

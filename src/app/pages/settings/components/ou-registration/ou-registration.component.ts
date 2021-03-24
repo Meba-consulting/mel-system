@@ -24,6 +24,7 @@ export class OuRegistrationComponent implements OnInit {
     reportUse: false,
     additionalQueryFields: [],
     batchSize: 400,
+    updateOnSelect: true,
     selectedOrgUnitItems: [],
   };
   selectedOrgUnits: Array<any> = [];

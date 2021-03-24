@@ -20,7 +20,9 @@
       >
         <!--organisation unit selection area-->
         <ngx-dhis2-org-unit-selection
+          [maxHeight]="maxHeight"
           [selectedOrgUnits]="selectedOrgUnits"
+          [selectedBgd]="orgUnitFilterConfig?.selectedBgd"
           [loadingOrgUnits]="loadingOrgUnits$ | async"
           [assignedOrgUnits]="formattedAssignedOrgUnits"
           [orgUnitsLoaded]="orgUnitLoaded$ | async"
@@ -71,7 +73,10 @@
       </div>
 
       <!--organisation unit buttons-->
-      <div class="col-4 ngx-dhis2-org-unit-filter__org-unit-buttons">
+      <div
+        class="col-4 ngx-dhis2-org-unit-filter__org-unit-buttons"
+        *ngIf="!orgUnitFilterConfig?.updateOnSelect"
+      >
         <button mat-stroked-button (click)="onClose($event)">Close</button
         >&nbsp;
         <button mat-stroked-button color="primary" (click)="onUpdate($event)">

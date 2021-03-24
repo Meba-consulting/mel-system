@@ -33,6 +33,7 @@ export class ProgramStageEntryModalComponent implements OnInit {
   savingProgramData: boolean = false;
   isEditSet: boolean = false;
   isFormValid: boolean = false;
+  countOfEvents: number = 0;
   constructor(
     private dialogRef: MatDialogRef<ProgramStageEntryModalComponent>,
     @Inject(MAT_DIALOG_DATA) data,
@@ -68,6 +69,10 @@ export class ProgramStageEntryModalComponent implements OnInit {
     };
   }
 
+  getCountOfEvents(eventsCount) {
+    this.countOfEvents = eventsCount;
+  }
+
   onGetFormValuesData(data, programStageDataElements) {
     let keyedDataElements = {};
     _.map(programStageDataElements, (programStageDataElement) => {
@@ -100,16 +105,15 @@ export class ProgramStageEntryModalComponent implements OnInit {
     this.savingMessage = 'Saving data';
     this.savingProgramData = true;
     this.eventsData.programStage = programStage?.id;
-    console.log(this.eventsData);
-    console.log('programStage', programStage);
-    console.log('currentEventToEdit', this.currentEventToEdit);
+    // console.log(this.eventsData);
+    // console.log('programStage', programStage);
+    // console.log('currentEventToEdit', this.currentEventToEdit);
     !this.isEditSet
       ? this.dataService
           .saveEventsData({ events: [this.eventsData] })
           .subscribe((response) => {
             this.savingMessage = 'Saved data successfully';
             this.savingProgramData = false;
-            console.log(response);
             setTimeout(() => {
               this.savingMessage = '';
             }, 1000);
@@ -119,7 +123,6 @@ export class ProgramStageEntryModalComponent implements OnInit {
           .subscribe((response) => {
             this.savingMessage = 'Saved data successfully';
             this.savingProgramData = false;
-            console.log(response);
             this.programStageFormData = {};
             this.currentEventToEdit = null;
             this.isEditSet = false;

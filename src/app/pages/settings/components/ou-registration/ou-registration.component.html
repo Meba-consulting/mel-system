@@ -1,20 +1,12 @@
-<div
-  *ngIf="{
-    ou: {}
-  } as params"
->
-  <mat-toolbar class="modal-header">Register</mat-toolbar>
+<div>
+  <div class="text-left p-2 h5" style="margin-top: 15px">Register</div>
+  <hr style="margin: 2px 0" />
 
-  <div class="p-5">
-    <div
-      class="success-save-message"
-      *ngIf="
-        (savingMessage)
-      "
-    >
+  <div style="padding: 15px 30px">
+    <div class="success-save-message" *ngIf="savingMessage">
       {{ savingMessage }}
     </div>
-    <div style="max-height: 550px; overflow: auto;">
+    <div style="height: 500px; overflow: auto">
       <div>
         <button
           class="w-100 text-left p-2"
@@ -26,6 +18,14 @@
             <span *ngIf="selectedOrgUnits && selectedOrgUnits?.length > 0">{{
               selectedOrgUnits[0]?.name
             }}</span>
+
+            <span
+              *ngIf="
+                !selectedOrgUnits ||
+                (selectedOrgUnits && selectedOrgUnits?.length === 0)
+              "
+              >Choose Organisation Unit</span
+            >
           </b>
         </button>
         <div *ngIf="ouFilterIsSet">
@@ -37,7 +37,9 @@
           ></ngx-dhis2-org-unit-filter>
         </div>
       </div>
-      <div *ngIf="selectedOrgUnits && selectedOrgUnits?.length > 0 && formFields">
+      <div
+        *ngIf="selectedOrgUnits && selectedOrgUnits?.length > 0 && formFields"
+      >
         <app-form
           [fields]="formFields"
           [fieldsData]="currentFormData"
@@ -46,7 +48,7 @@
         </app-form>
       </div>
     </div>
-    <div class="p-2">
+    <div class="p-2" style="border-top: solid 1px #eee">
       <button
         mat-stroked-button
         (click)="onClose($event)"

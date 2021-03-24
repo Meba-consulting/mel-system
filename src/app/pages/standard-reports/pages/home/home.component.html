@@ -1,5 +1,8 @@
-<div class="h4 mat-elevation-z1" style="padding: 0.5rem 0; margin: 0 -15px">
-  <h2 style="margin-left: 8px">Reports</h2>
+<!-- <div class="h5 mat-elevation-z1" style="padding: 0.5rem 0; margin: 0 -15px">
+  <p style="margin-left: 8px">Reports</p>
+</div> -->
+<div class="row">
+  <div class="col-12 h5 mat-elevation-z1 p-3" style="margin: 0">Reports</div>
 </div>
 <div style="margin-top: 15px" *ngIf="!(currentUser$ | async) || !reportsAreas">
   <mat-progress-bar mode="indeterminate"></mat-progress-bar>

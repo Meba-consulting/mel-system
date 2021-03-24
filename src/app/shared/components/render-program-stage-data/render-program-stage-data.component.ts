@@ -19,8 +19,10 @@ export class RenderProgramStageDataComponent implements OnInit {
   @Output() delete = new EventEmitter<any>();
   @Output() edit = new EventEmitter<any>();
   @Output() updated = new EventEmitter<boolean>();
-  eventsData: any = [];
+  @Output() countOfEvents = new EventEmitter<number>();
+  eventsData: any;
   formattedDataElements: any = [];
+
   constructor(private dialog: MatDialog) {}
 
   ngOnInit(): void {
@@ -60,6 +62,8 @@ export class RenderProgramStageDataComponent implements OnInit {
       displayInReports: true,
     });
 
+    this.eventsData = [];
+
     // console.log('formattedDataElements', this.formattedDataElements);
     _.map(
       _.filter(this.data?.enrollments[0]?.events, {
@@ -74,6 +78,7 @@ export class RenderProgramStageDataComponent implements OnInit {
           };
         });
         this.eventsData = [...this.eventsData, data];
+        this.countOfEvents.emit(this.eventsData?.length);
         // console.log('eventsData', this.eventsData);
       }
     );

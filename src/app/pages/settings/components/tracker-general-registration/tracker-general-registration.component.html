@@ -63,6 +63,7 @@
             <app-trainings-list
               [program]="program"
               [ouId]="selectedRegisteringUnits[0]?.id"
+              [orgUnit]="selectedRegisteringUnits[0]"
               (edit)="onSetEdit($event, program)"
             ></app-trainings-list>
           </div>
