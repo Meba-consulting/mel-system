@@ -35,6 +35,7 @@
       </button>
       <ngx-dhis2-org-unit-filter
         *ngIf="ouFilterIsSet"
+        [maxHeight]="'320px'"
         [assignedOrgUnits]="currentProgram?.organisationUnits"
         [selectedOrgUnitItems]="selectedOrgUnits"
         [orgUnitFilterConfig]="orgUnitFilterConfig"

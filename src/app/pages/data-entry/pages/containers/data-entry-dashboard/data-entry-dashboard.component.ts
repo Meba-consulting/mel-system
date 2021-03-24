@@ -32,6 +32,7 @@ export class DataEntryDashboardComponent implements OnInit {
     showOrgUnitGroupSection: false,
     showOrgUnitLevelSection: false,
     reportUse: false,
+    updateOnSelect: true,
     additionalQueryFields: [],
     batchSize: 400,
     selectedOrgUnitItems: [],
