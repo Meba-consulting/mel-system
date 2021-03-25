@@ -156,6 +156,7 @@
                 General Registration
               </li>
               <li
+                *ngIf="accessResourcesPage"
                 class="list-group-item"
                 [routerLink]="'/resources'"
                 routerLinkActive="active-class"

@@ -34,6 +34,7 @@
           </button>
           <div *ngIf="registeringUnitFilterIsSet">
             <ngx-dhis2-org-unit-filter
+              [maxHeight]="'320px'"
               [selectedOrgUnitItems]="selectedRegisteringUnits"
               [assignedOrgUnits]="program?.organisationUnits"
               [orgUnitFilterConfig]="orgUnitFilterConfig"
@@ -90,7 +91,13 @@
                 padding: 8px 15px;
               "
             >
-              <div style="margin-bottom: 10px">
+              <div
+                style="margin-bottom: 10px"
+                *ngIf="
+                  params?.programDataStoreConfigs &&
+                  params?.programDataStoreConfigs?.needsLocation
+                "
+              >
                 <button
                   class="w-100 text-left p-2"
                   (click)="onToggleOuFilter($event)"
@@ -106,10 +113,11 @@
                 </button>
                 <div *ngIf="ouFilterIsSet">
                   <ngx-dhis2-org-unit-filter
+                    [maxHeight]="'320px'"
                     [selectedOrgUnitItems]="selectedOrgUnits"
                     [orgUnitFilterConfig]="orgUnitFilterConfig"
                     (orgUnitClose)="onFilterClose($event)"
-                    (orgUnitUpdate)="onFilterUpdate($event)"
+                    (orgUnitUpdate)="onLocationUpdate($event)"
                   ></ngx-dhis2-org-unit-filter>
                 </div>
               </div>
@@ -126,7 +134,9 @@
                 class="mr-2 float-left"
                 mat-stroked-button
                 [disabled]="
-                  !isFormValid || savedData || selectedOrgUnits[0].length == 0
+                  !isFormValid ||
+                  savedData ||
+                  selectedRegisteringUnits.length == 0
                 "
                 (click)="
                   onSaveData(

@@ -49,6 +49,7 @@ export class AppComponent implements OnInit {
   accessUserManagementPage: boolean = false;
   accessGeneralRegistrationPage: boolean = false;
   accessReportsPage: boolean = false;
+  accessResourcesPage: boolean = false;
   constructor(
     private store: Store<State>,
     private translate: TranslateService,
@@ -97,6 +98,10 @@ export class AppComponent implements OnInit {
 
           if (userGroup.id === 'WPQphfpT3z3') {
             this.accessGeneralRegistrationPage = true;
+          }
+
+          if (userGroup?.id === 'F7C8z8mJGnj') {
+            this.accessResourcesPage = true;
           }
 
           if (userGroup.id === 'QyWywo0OwCN') {

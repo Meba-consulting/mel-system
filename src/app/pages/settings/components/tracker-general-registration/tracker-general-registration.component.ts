@@ -30,6 +30,7 @@ export class TrackerGeneralRegistrationComponent implements OnInit {
     showOrgUnitLevelGroupSection: false,
     showOrgUnitGroupSection: false,
     showOrgUnitLevelSection: false,
+    updateOnSelect: true,
     reportUse: false,
     additionalQueryFields: [],
     batchSize: 400,
@@ -104,6 +105,8 @@ export class TrackerGeneralRegistrationComponent implements OnInit {
     this.registeringUnitFilterIsSet = false;
     this.isReportSet = true;
   }
+
+  onLocationUpdate() {}
 
   onFilterUpdate(selections) {
     this.savedData = false;
@@ -199,12 +202,12 @@ export class TrackerGeneralRegistrationComponent implements OnInit {
     this.savingData = true;
     this.savedData = false;
     let data = {
-      orgUnit: this.selectedOrgUnits[0]?.id,
+      orgUnit: this.selectedRegisteringUnits[0]?.id,
       trackedEntityInstance: currentTrackedEntityInstanceId,
       trackedEntityType: currentProgram.trackedEntityType.id,
       programOwners: [
         {
-          ownerOrgUnit: this.selectedOrgUnits[0]?.id,
+          ownerOrgUnit: this.selectedRegisteringUnits[0]?.id,
           program: currentProgram?.id,
           trackedEntityInstance: currentTrackedEntityInstanceId,
         },
@@ -212,7 +215,7 @@ export class TrackerGeneralRegistrationComponent implements OnInit {
       enrollments: !this.editingData
         ? [
             {
-              orgUnit: this.selectedOrgUnits[0]?.id,
+              orgUnit: this.selectedRegisteringUnits[0]?.id,
               program: currentProgram?.id,
               trackedEntityInstance: currentTrackedEntityInstanceId,
               enrollment: this.systemIds[1],
@@ -255,9 +258,8 @@ export class TrackerGeneralRegistrationComponent implements OnInit {
             )?.length > 0
           ) {
             this.dialog.open(StagesEntryModalComponent, {
-              maxWidth: '90vw',
-              width: '100%',
-              height: '650px',
+              width: '70%',
+              height: '600px',
               disableClose: false,
               data: {
                 program: currentProgram,
@@ -285,9 +287,8 @@ export class TrackerGeneralRegistrationComponent implements OnInit {
   onUpdateStages(e, program, currentTrackedEntityInstanceId) {
     e.stopPropagation();
     this.dialog.open(StagesEntryModalComponent, {
-      maxWidth: '90vw',
-      width: '100%',
-      height: '650px',
+      width: '70%',
+      height: '600px',
       disableClose: false,
       data: {
         program: program,

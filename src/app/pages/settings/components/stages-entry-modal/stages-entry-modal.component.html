@@ -24,13 +24,17 @@
       label="{{ stage?.name }}"
       (click)="changeTab(count)"
     >
-      <div class="p-3" *ngIf="count == selectedTab.value && stage?.repeatable">
+      <div
+        class="p-2"
+        *ngIf="count == selectedTab.value && stage?.repeatable"
+        style="height: 450px; overflow: auto"
+      >
         <mat-tab-group
           [selectedIndex]="selectedTabForDataSection.value"
           (selectedIndexChange)="selectedTabForDataSection.setValue($event)"
         >
           <mat-tab label="Entry" (click)="changeTabForData($event, 0)">
-            <div class="p-3" *ngIf="selectedTabForDataSection.value == 0">
+            <div class="p-2" *ngIf="selectedTabForDataSection.value == 0">
               <div class="success-save-message" *ngIf="savingMessage !== ''">
                 {{ savingMessage }}
               </div>
@@ -47,11 +51,26 @@
                   (isFormValid)="onGetFormValidity($event)"
                   (editIsSet)="onSetEditEvent($event)"
                 ></app-program-stage-data-entry>
+                <button
+                  mat-stroked-button
+                  class="mr-2 float-left"
+                  (click)="onSaveData($event, stage, isEditSet)"
+                  [disabled]="!isFormValid"
+                >
+                  <mat-spinner
+                    *ngIf="savingProgramData"
+                    color="accent"
+                    [diameter]="20"
+                    style="display: inline-block !important; margin-right: 4px"
+                  >
+                  </mat-spinner>
+                  Save
+                </button>
               </div>
             </div>
           </mat-tab>
           <mat-tab label="Data" (click)="changeTabForData($event, 1)">
-            <div class="p-3" *ngIf="selectedTabForDataSection.value == 1">
+            <div class="p-2" *ngIf="selectedTabForDataSection.value == 1">
               <app-program-stage-data
                 [program]="program"
                 [trackedEntityInstanceId]="currentTrackedEntityInstanceId"
@@ -62,10 +81,28 @@
             </div>
           </mat-tab>
         </mat-tab-group>
+      </div>
+      <div
+        class="p-2"
+        *ngIf="count == selectedTab.value && !stage?.repeatable"
+        style="height: 450px; overflow: auto"
+      >
+        <!-- {{ stage | json }} -->
+        <!-- <app-non-repeatable-entry
+          [stage]="stage"
+          [programDataStoreConfigs]="params?.programDataStoreConfigs"
+        ></app-non-repeatable-entry> -->
+
+        <app-non-repeatable-stage
+          [trackedEntityInstanceId]="currentTrackedEntityInstanceId"
+          [program]="program"
+          [stage]="stage"
+          [programDataStoreConfigs]="params?.programDataStoreConfigs"
+        ></app-non-repeatable-stage>
 
         <button
           mat-stroked-button
-          class="mr-2"
+          class="mr-2 float-left"
           (click)="onSaveData($event, stage, isEditSet)"
           [disabled]="!isFormValid"
         >
@@ -79,25 +116,11 @@
           Save
         </button>
       </div>
-      <div class="p-3" *ngIf="count == selectedTab.value && !stage?.repeatable">
-        <!-- {{ stage | json }} -->
-        <!-- <app-non-repeatable-entry
-          [stage]="stage"
-          [programDataStoreConfigs]="params?.programDataStoreConfigs"
-        ></app-non-repeatable-entry> -->
-
-        <app-non-repeatable-stage
-          [trackedEntityInstanceId]="currentTrackedEntityInstanceId"
-          [program]="program"
-          [stage]="stage"
-          [programDataStoreConfigs]="params?.programDataStoreConfigs"
-        ></app-non-repeatable-stage>
-      </div>
     </mat-tab>
   </mat-tab-group>
 
-  <div class="p-3">
-    <button class="float-right" mat-stroked-button (click)="onClose($event)">
+  <div class="p-3" style="border-top: solid 1px #eee">
+    <button class="float-left" mat-stroked-button (click)="onClose($event)">
       Close
     </button>
   </div>
