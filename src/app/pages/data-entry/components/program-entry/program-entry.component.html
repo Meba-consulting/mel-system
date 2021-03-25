@@ -15,7 +15,7 @@
       List report
     </button>
     <button
-      *ngIf="program?.programType !== 'WITH_REGISTRATION'"
+      *ngIf="!stagesEntryOnly"
       style="float: right; margin-left: 5px"
       mat-stroked-button
       (click)="toggleEntryAndReport('entry')"

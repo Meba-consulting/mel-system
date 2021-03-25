@@ -187,12 +187,6 @@ export class ProgramEntryComponent implements OnInit {
       programStage: this.program.programStages[0].id,
     };
     this.events$ = this.dataEntryService.getEventsData(dimensions);
-    // this.events$ = this.httpClient.get(
-    //   'events.json?paging=false&?program=' +
-    //     this.program.id +
-    //     '&orgUnit=' +
-    //     this.orgUnit.id
-    // );
   }
 
   onEntryInfoChange(data) {
@@ -256,6 +250,7 @@ export class ProgramEntryComponent implements OnInit {
             this.loadStageData = true;
             setTimeout(() => {
               this.savingMessage = '';
+              this.isListReportSet = true;
               this.showStageDataEntry = false;
             }, 1000);
             setTimeout(() => {
@@ -275,6 +270,7 @@ export class ProgramEntryComponent implements OnInit {
             this.selectedTabForDataSection.setValue(1);
             setTimeout(() => {
               this.savingMessage = '';
+              this.isListReportSet = true;
               this.showStageDataEntry = false;
             }, 1000);
             setTimeout(() => {
@@ -377,9 +373,8 @@ export class ProgramEntryComponent implements OnInit {
     // }, 500);
 
     this.dialog.open(StageEntryUpdatesModelComponent, {
-      width: '100%',
+      width: '70%',
       height: '650px',
-      maxWidth: '90vw',
       disableClose: false,
       data: {
         program: this.program,
@@ -473,6 +468,18 @@ export class ProgramEntryComponent implements OnInit {
           this.savingMessage = '';
           this.savingEnrollmentData = false;
           this.shouldOpenStagesForEntry = true;
+          this.dialog.open(StageEntryUpdatesModelComponent, {
+            width: '70%',
+            height: '650px',
+            disableClose: false,
+            data: {
+              program: this.program,
+              orgUnit: this.orgUnit,
+              currentTrackedEntityInstanceId: this
+                .currentTrackedEntityInstanceId,
+            },
+            panelClass: 'custom-dialog-container',
+          });
         }
       });
   }
