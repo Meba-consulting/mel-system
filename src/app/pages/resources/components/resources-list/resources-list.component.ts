@@ -78,7 +78,7 @@ export class ResourcesListComponent implements OnInit {
       this.resourceService.deleteResource(id).subscribe((response) => {
         console.log(response);
         this.router.navigateByUrl('/', { skipLocationChange: true }).then(() =>
-          this.router.navigate(['resources/documents'], {
+          this.router.navigate(['resources'], {
             queryParams: { status: 'delete' },
           })
         );

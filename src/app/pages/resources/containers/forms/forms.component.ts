@@ -2,13 +2,13 @@ import { Component, OnInit, Input } from '@angular/core';
 import {
   getFormsGroups,
   formatResourcesByAccess,
-  getFormsDepartmentsGroups
+  getFormsDepartmentsGroups,
 } from '../../helpers/format-resources-by-access.helper';
 
 @Component({
   selector: 'app-forms',
   templateUrl: './forms.component.html',
-  styleUrls: ['./forms.component.css']
+  styleUrls: ['./forms.component.css'],
 })
 export class FormsComponent implements OnInit {
   @Input() resources: any;

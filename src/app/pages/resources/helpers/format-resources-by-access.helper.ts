@@ -15,7 +15,7 @@ export function formatResourcesByAccess(groups, resouces) {
       newResources[group.id] = resourcesByGroup;
     }
   );
-  console.log('newResources', newResources);
+  // console.log('newResources', newResources);
   return newResources;
 }
 

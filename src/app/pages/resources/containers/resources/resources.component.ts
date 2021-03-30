@@ -6,14 +6,14 @@ import { getCurrentUser, getAllUserGroups } from 'src/app/store';
 import { loadResources } from '../../store/actions';
 import {
   getResourcesLoadingState,
-  getResources
+  getResources,
 } from '../../store/selectors/resources.selector';
 import { Router, NavigationEnd, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-resources',
   templateUrl: './resources.component.html',
-  styleUrls: ['./resources.component.css']
+  styleUrls: ['./resources.component.css'],
 })
 export class ResourcesComponent implements OnInit, OnDestroy {
   resources$: Observable<any>;
@@ -42,7 +42,6 @@ export class ResourcesComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.userGroups$ = this.store.select(getAllUserGroups);
-    console.log(this.route.snapshot.queryParams.status);
     this.allDataLoaded = false;
     this.store.dispatch(loadResources({ reload: true }));
     setTimeout(() => {

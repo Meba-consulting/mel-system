@@ -4,21 +4,9 @@ import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 import { AppModule } from './app/app.module';
 import { environment } from './environments/environment';
 
-if (environment.production) {
-  // enableProdMode();
-  try {
-    enableProdMode();
-    console.log('enabled prod mode');
-  } catch (exception) {
-    console.error(
-      'BUGFIX: calling isDevMode() in imports before enableProdMode() throws exception - https://github.com//issues/8340#\n',
-      exception
-    );
-  }
-  if (window) {
-    window.console.log = function() {};
-  }
-}
+// if (environment.production) {
+//   enableProdMode();
+// }
 
 platformBrowserDynamic()
   .bootstrapModule(AppModule)
@@ -27,4 +15,4 @@ platformBrowserDynamic()
       navigator.serviceWorker.register('./ngsw-worker.js');
     }
   })
-  .catch(err => console.log(err));
+  .catch((err) => console.log(err));

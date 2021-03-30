@@ -9,7 +9,10 @@
     <div
       mat-align-tabs="start"
       *ngIf="
-        (resources$ | async) && (currentUser$ | async) && (userGroups$ | async)
+        (resources$ | async) &&
+        (currentUser$ | async) &&
+        (userGroups$ | async) &&
+        (resources$ | async)?.length > 0
       "
     >
       <app-forms

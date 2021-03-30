@@ -9,8 +9,7 @@ export function formatResourcesForDataTable(items, currentUser) {
         if (
           _.filter(currentUser.userGroups, { name: 'MAINTENANCE' }).length >
             0 ||
-          (userGroup.displayName.toLowerCase().indexOf('_view_doc') > -1 &&
-            _.filter(currentUser.userGroups, { id: userGroup.userGroupUid }) &&
+          (_.filter(currentUser.userGroups, { id: userGroup.userGroupUid }) &&
             _.filter(currentUser.userGroups, { id: userGroup.userGroupUid })
               .length > 0)
         ) {
