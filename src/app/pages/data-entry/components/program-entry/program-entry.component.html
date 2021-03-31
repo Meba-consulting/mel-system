@@ -194,6 +194,7 @@
             [data]="eventDataValues"
             [formValuesArray]="elementValuesArray"
             [elementsDataValues]="elementsDataValues"
+            (dataValuesChanges)="onDataValuesChanges($event)"
             (entryInfo)="onCustomFormDataValueChange($event)"
             (isFormValid)="onCheckFormValidity($event)"
           ></app-event-program-entry>
@@ -244,6 +245,7 @@
     <div
       *ngIf="
         params?.queryResponseData &&
+        params?.queryResponseData?.events &&
         program?.programType !== 'WITH_REGISTRATION'
       "
     >
@@ -254,7 +256,9 @@
         (editEvent)="onEditEventData($event)"
       ></app-event-program-data>
     </div>
-    <div *ngIf="!params?.queryResponseData">
+    <div
+      *ngIf="!params?.queryResponseData || !params?.queryResponseData?.events"
+    >
       <mat-progress-bar mode="indeterminate"></mat-progress-bar>
     </div>
   </div>

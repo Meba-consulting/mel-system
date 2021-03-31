@@ -160,11 +160,22 @@ export class ProgramEntryComponent implements OnInit {
     if (type == 'entry') {
       this.isListReportSet = false;
     } else {
-      this.isListReportSet = true;
-      this.getTrackedEntityInstanceData({
-        orgUnit: this.orgUnit?.id,
-        program: this.program?.id,
-      });
+      if (this.program?.programType == 'WITH_REGISTRATION') {
+        this.getTrackedEntityInstanceData({
+          orgUnit: this.orgUnit?.id,
+          program: this.program?.id,
+        });
+      } else {
+        this.queryResponseData$ = this.httpClient.get(
+          'events.json?paging=false&program=' +
+            this.program?.id +
+            '&orgUnit=' +
+            this.orgUnit?.id
+        );
+      }
+      setTimeout(() => {
+        this.isListReportSet = true;
+      }, 500);
     }
   }
 
@@ -349,12 +360,19 @@ export class ProgramEntryComponent implements OnInit {
             .deleteTrackedEntityInstance(e.action?.id)
             .subscribe((response) => {
               if (response) {
-                this.queryResponseData$ = this.dataService.getTrackedEntityInstances(
-                  {
+                if (this.program?.programType == 'WITH_REGISTRATION') {
+                  this.getTrackedEntityInstanceData({
                     orgUnit: this.orgUnit?.id,
                     program: this.program?.id,
-                  }
-                );
+                  });
+                } else {
+                  this.queryResponseData$ = this.httpClient.get(
+                    'events.json?paging=false&program=' +
+                      this.program?.id +
+                      '&orgUnit=' +
+                      this.orgUnit?.id
+                  );
+                }
               }
             });
         }
@@ -513,10 +531,19 @@ export class ProgramEntryComponent implements OnInit {
       .afterClosed()
       .subscribe((savedData) => {
         if (savedData) {
-          this.queryResponseData$ = this.dataService.getTrackedEntityInstances({
-            orgUnit: this.orgUnit?.id,
-            program: this.program?.id,
-          });
+          if (this.program?.programType == 'WITH_REGISTRATION') {
+            this.getTrackedEntityInstanceData({
+              orgUnit: this.orgUnit?.id,
+              program: this.program?.id,
+            });
+          } else {
+            this.queryResponseData$ = this.httpClient.get(
+              'events.json?paging=false&program=' +
+                this.program?.id +
+                '&orgUnit=' +
+                this.orgUnit?.id
+            );
+          }
 
           this.savedUserDataStore$ = this.dataService.getSavedUserDataStoreProgramConfigurations(
             this.program?.id
@@ -540,12 +567,19 @@ export class ProgramEntryComponent implements OnInit {
           this.loadStageData = false;
           this.dataService.deleteEvent(e.event).subscribe((response) => {
             if (response) {
-              this.queryResponseData$ = this.dataService.getTrackedEntityInstances(
-                {
+              if (this.program?.programType == 'WITH_REGISTRATION') {
+                this.getTrackedEntityInstanceData({
                   orgUnit: this.orgUnit?.id,
                   program: this.program?.id,
-                }
-              );
+                });
+              } else {
+                this.queryResponseData$ = this.httpClient.get(
+                  'events.json?paging=false&program=' +
+                    this.program?.id +
+                    '&orgUnit=' +
+                    this.orgUnit?.id
+                );
+              }
             }
           });
           setTimeout(() => {
@@ -570,20 +604,20 @@ export class ProgramEntryComponent implements OnInit {
     this.isEditSet = e;
   }
 
-  onDataValueChange(values) {
-    // this.eventWithoutRegistrationData = {
-    //   program: this.program?.id,
-    //   orgUnit: this.orgUnit?.id,
-    //   dataValues: Object.keys(values)
-    //     .filter((elemId) => values[elemId]?.value !== '')
-    //     .map((key) => {
-    //       return {
-    //         dataElement: key,
-    //         value: values[key]?.value,
-    //       };
-    //     }),
-    //   eventDate: formatDateToYYMMDD(new Date()),
-    // };
+  onDataValuesChanges(values) {
+    this.eventWithoutRegistrationData = {
+      program: this.program?.id,
+      orgUnit: this.orgUnit?.id,
+      dataValues: Object.keys(values)
+        .filter((elemId) => values[elemId]?.value !== '')
+        .map((key) => {
+          return {
+            dataElement: key,
+            value: values[key]?.value,
+          };
+        }),
+      eventDate: formatDateToYYMMDD(new Date(this.reportingDate)),
+    };
   }
 
   onCustomFormDataValueChange(elementsData) {
@@ -653,8 +687,16 @@ export class ProgramEntryComponent implements OnInit {
     }
   }
 
-  onCheckFormValidity(e) {
-    this.isFormValid = e;
+  // onDataValuesChanges(dataValues) {
+  //   console.log(dataValues);
+  // }
+
+  onCheckFormValidity(isValid) {
+    console.log('isValid##', isValid);
+    this.isFormValid = isValid;
+    if (isValid) {
+      this.countOfFieldsFilled = 2;
+    }
   }
 
   onEditEventData(event) {

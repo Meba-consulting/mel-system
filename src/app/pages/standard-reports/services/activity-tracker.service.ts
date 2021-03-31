@@ -1,7 +1,9 @@
 import { Injectable } from '@angular/core';
 import { NgxDhis2HttpClientService } from '@iapps/ngx-dhis2-http-client';
-import { Observable, of } from 'rxjs';
+import { Observable, of, zip } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
+
+import * as _ from 'lodash';
 
 @Injectable({
   providedIn: 'root',
@@ -19,13 +21,31 @@ export class ActivityTrackerService {
   }
 
   getIndicators(): Observable<any[]> {
-    return this.httpClient
-      .get('programIndicators.json?fields=id,name,displayName,indicatorType')
-      .pipe(
-        map((response) => {
-          return response?.programIndicators || [];
-        })
-      );
+    // return this.httpClient
+    //   .get('programIndicators.json?fields=id,name,displayName,indicatorType')
+    //   .pipe(
+    //     map((response) => {
+    //       return response?.programIndicators || [];
+    //     })
+    //   );
+
+    return zip(
+      ..._.map(['indicators', 'programIndicators'], (type) => {
+        return this.httpClient
+          .get(
+            type + '.json?fields=id,name,shortName,displayName,indicatorType'
+          )
+          .pipe(
+            map((response) => {
+              return response[type] || [];
+            })
+          );
+      })
+    ).pipe(
+      map((res) => {
+        return _.flatten(res);
+      })
+    );
   }
 
   getResponsibleList(): Observable<any> {

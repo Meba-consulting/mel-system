@@ -1,5 +1,9 @@
 <div class="entry-event p-1">
-  <!-- <mat-accordion class="example-headers-align" multi>
+  <mat-accordion
+    class="example-headers-align"
+    multi
+    *ngIf="!program?.programStages[0]?.dataEntryForm"
+  >
     <mat-expansion-panel
       *ngFor="
         let programStageSection of program?.programStages[0]
@@ -24,9 +28,12 @@
         ></app-program-section>
       </div>
     </mat-expansion-panel>
-  </mat-accordion> -->
+  </mat-accordion>
 
-  <div style="overflow: auto" *ngIf="programStageDataElements">
+  <div
+    style="overflow: auto"
+    *ngIf="programStageDataElements && program?.programStages[0]?.dataEntryForm"
+  >
     <ngx-dhis2-custom-forms-entry
       [htmlCustomForm]="program?.programStages[0]?.dataEntryForm['htmlCode']"
       [dataElements]="programStageDataElements"
