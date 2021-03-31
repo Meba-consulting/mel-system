@@ -80,10 +80,8 @@ export class StrategicObjectivesListComponent implements OnInit {
     e.stopPropagation();
     this.dialog
       .open(OutputModalComponent, {
-        width: '100%',
-        maxWidth: '85vw',
-        height: '800px',
-        maxHeight: '850px',
+        width: '80%',
+        height: '700px',
         disableClose: false,
         data: {
           objective: this.currentObjective,

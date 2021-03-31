@@ -55,11 +55,12 @@ export class OutputModalComponent implements OnInit {
     this.key = data?.key;
     this.objectives = data?.objectives;
     this.currentObjective = data?.objective;
-    this.indicators$ = activityService.getIndicators();
-    this.responsibles$ = activityService.getResponsibleList();
+    this.indicators$ = this.activityService.getIndicators();
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.responsibles$ = this.activityService.getResponsibleList();
+  }
 
   onClose(e) {
     e.stopPropagation();
@@ -77,6 +78,8 @@ export class OutputModalComponent implements OnInit {
         Validators.minLength(8),
       ]),
       description: new FormControl('', [Validators.minLength(8)]),
+      baseline: new FormControl(''),
+      targetPerYear: new FormControl(''),
     });
   }
 
@@ -90,8 +93,12 @@ export class OutputModalComponent implements OnInit {
           name: formValues?.name,
           label: formValues?.label,
           description: formValues?.description,
+          indicator: this.selectedIndicator,
+          baseline: formValues?.baseline,
+          targetPerYear: formValues?.targetPerYear,
           activities: this.currentOutput ? this.currentOutput?.activities : [],
         };
+        // console.log('new', newOutput);
         this.outCome.outputs = this.currentOutput
           ? this.outCome.outputs.map((item) => {
               if (item?.id === newOutput?.id) {
@@ -146,7 +153,10 @@ export class OutputModalComponent implements OnInit {
       description: new FormControl(output?.description, [
         Validators.minLength(8),
       ]),
+      baseline: new FormControl(output?.baseline),
+      targetPerYear: new FormControl(output?.targetPerYear),
     });
+    this.selectedIndicator = output?.indicator;
     this.showOutputForm = true;
   }
 

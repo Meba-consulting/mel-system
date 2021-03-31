@@ -384,6 +384,84 @@
           ></textarea>
         </mat-form-field>
 
+        <mat-form-field class="w-100" style="margin-top: 15px">
+          <input
+            matInput
+            min="0"
+            placeholder="Baseline"
+            [type]="'number'"
+            formControlName="baseline"
+          />
+        </mat-form-field>
+
+        <mat-form-field class="w-100" style="margin-top: 15px">
+          <input
+            matInput
+            min="1"
+            placeholder="Target per year"
+            [type]="'number'"
+            formControlName="targetPerYear"
+          />
+        </mat-form-field>
+
+        <div class="w-100">
+          <button
+            style="
+              border: none;
+              border-bottom: solid 1px #989696;
+              border-radius: 0 !important;
+            "
+            mat-stroked-button
+            class="mr-2 float-left w-100 text-left toggle-filter-btns"
+            (click)="toggleOptionSelector($event)"
+          >
+            Indicator
+            {{
+              selectedIndicator
+                ? selectedIndicator?.name
+                : currentActivity
+                ? currentActivity?.indicator?.name
+                : ''
+            }}
+          </button>
+          <mat-form-field
+            class="w-100"
+            style="border: solid 1px #eee"
+            *ngIf="
+              params?.indicators &&
+              params?.indicators?.length > 0 &&
+              showOptionSelector
+            "
+          >
+            <mat-label>Search</mat-label>
+            <input matInput (keyup)="onSearch($event)" />
+          </mat-form-field>
+          <div class="list-contents w-100" *ngIf="showOptionSelector">
+            <mat-nav-list>
+              <a
+                mat-list-item
+                [ngClass]="{
+                  'selected-item': selectedIndicator?.id === option.id
+                }"
+                (click)="onSelectOption($event, option)"
+                *ngFor="
+                  let option of params?.indicators
+                    | filterByInputText: searchString
+                "
+                >{{ option?.name }}</a
+              >
+            </mat-nav-list>
+          </div>
+          <button
+            class="mr-2 float-left"
+            mat-stroked-button
+            *ngIf="showOptionSelector"
+            (click)="hideOptionSection($event)"
+          >
+            Done
+          </button>
+        </div>
+
         <button
           [disabled]="!outputForm.valid || saving"
           mat-stroked-button

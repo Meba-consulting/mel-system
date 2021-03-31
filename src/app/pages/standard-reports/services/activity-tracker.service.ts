@@ -33,7 +33,8 @@ export class ActivityTrackerService {
       ..._.map(['indicators', 'programIndicators'], (type) => {
         return this.httpClient
           .get(
-            type + '.json?fields=id,name,shortName,displayName,indicatorType'
+            type +
+              '.json?paging=false&fields=id,name,shortName,displayName,indicatorType'
           )
           .pipe(
             map((response) => {
@@ -49,26 +50,28 @@ export class ActivityTrackerService {
   }
 
   getResponsibleList(): Observable<any> {
-    return this.httpClient.get('userGroups?fields=id,name,displayName').pipe(
-      map((response) => {
-        return (response?.userGroups || [])
-          .map((userGroup) => {
-            if (userGroup?.name?.toLowerCase().indexOf('_titles') === 0) {
-              console.log('userGroup', userGroup);
-              return {
-                ...userGroup,
-                name: userGroup?.name
-                  .replace('_TITLES ', '')
-                  .replace('_TITLE ', ''),
-                displayName: userGroup?.displayName
-                  .replace('_TITLES ', '')
-                  .replace('_TITLE ', ''),
-              };
-            }
-          })
-          .filter((formattedUserGroup) => formattedUserGroup);
-      })
-    );
+    return this.httpClient
+      .get('userGroups.json?paging=false&fields=id,name,displayName')
+      .pipe(
+        map((response) => {
+          return (response?.userGroups || [])
+            .map((userGroup) => {
+              if (userGroup?.name?.toLowerCase().indexOf('_titles') === 0) {
+                // console.log('userGroup', userGroup);
+                return {
+                  ...userGroup,
+                  name: userGroup?.name
+                    .replace('_TITLES ', '')
+                    .replace('_TITLE ', ''),
+                  displayName: userGroup?.displayName
+                    .replace('_TITLES ', '')
+                    .replace('_TITLE ', ''),
+                };
+              }
+            })
+            .filter((formattedUserGroup) => formattedUserGroup);
+        })
+      );
   }
 
   createActivityYear(key): Observable<any> {
