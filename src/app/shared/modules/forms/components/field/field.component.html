@@ -82,7 +82,7 @@
     <!-- End of password -->
 
     <!-- phoneNumber -->
-    <span matPrefix *ngIf="field?.id === 'phoneNumber'">+255 (0) &nbsp;</span>
+    <span matPrefix *ngIf="field?.id === 'phoneNumber'">+255 (0)</span>
     <input
       *ngSwitchCase="'phoneNumber'"
       [formControlName]="field?.key"

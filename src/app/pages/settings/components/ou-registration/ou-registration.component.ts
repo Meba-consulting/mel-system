@@ -122,14 +122,17 @@ export class OuRegistrationComponent implements OnInit {
         controlType: 'email',
         name: 'Email',
         required: false,
+        type: 'email',
       },
       {
-        id: 'phonenumber',
+        id: 'phoneNumber',
         label: 'Phone number',
-        key: 'phonenumber',
+        key: 'phoneNumber',
         controlType: 'phoneNumber',
         name: 'Phone number',
         required: false,
+        max: 9,
+        type: 'tel',
       },
     ];
   }
@@ -220,7 +223,7 @@ export class OuRegistrationComponent implements OnInit {
       parent: {
         id: values?.parent?.value,
       },
-      phoneNumber: values?.phonenumber?.value,
+      phoneNumber: values?.phoneNumber?.value,
     };
     return formattedData;
   }

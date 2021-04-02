@@ -31,6 +31,7 @@ export class AddClubModalComponent implements OnInit {
     showOrgUnitGroupSection: false,
     showOrgUnitLevelSection: false,
     reportUse: false,
+    updateOnSelect: true,
     additionalQueryFields: [],
     batchSize: 400,
     selectedOrgUnitItems: [],
@@ -58,13 +59,11 @@ export class AddClubModalComponent implements OnInit {
     private ouService: OuService
   ) {
     this.clubCategories = data.clubCategories;
-    console.log('club to edit', data?.club);
     this.club = data?.club;
   }
 
   ngOnInit(): void {
     if (this.club && this.club?.id) {
-      console.log(this.club);
       this.selectedOrgUnits = [this.club?.parent];
       this.currentFormData['regdate'] = {
         id: 'regdate',
@@ -88,8 +87,8 @@ export class AddClubModalComponent implements OnInit {
         }) || [])[0]?.id,
       };
 
-      this.currentFormData['phonenumber'] = {
-        id: 'phonenumber',
+      this.currentFormData['phoneNumber'] = {
+        id: 'phoneNumber',
         value: this.club?.phoneNumber,
       };
 
@@ -138,12 +137,14 @@ export class AddClubModalComponent implements OnInit {
         required: true,
       },
       {
-        id: 'phonenumber',
+        id: 'phoneNumber',
         label: 'Phone number',
-        key: 'phonenumber',
-        controlType: 'textbox',
+        key: 'phoneNumber',
+        controlType: 'phoneNumber',
         name: 'Phone number',
         required: false,
+        min: 0,
+        type: 'number',
       },
     ];
   }

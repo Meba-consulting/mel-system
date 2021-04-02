@@ -67,49 +67,6 @@ export class CreateOrganisationUnitComponent implements OnInit {
       ['asc']
     );
     this.ouFormGroup = this.groups[0];
-    this.formFields = [
-      {
-        id: 'regdate',
-        label: 'Registration date',
-        key: 'regdate',
-        controlType: 'date',
-        name: 'Registration date',
-        required: true,
-      },
-      {
-        id: 'clubcategory',
-        label: 'Club category',
-        key: 'clubcategory',
-        controlType: 'dropdown',
-        name: 'Club category',
-        required: true,
-        options: this.formulateOptions(this.clubCategories),
-      },
-      {
-        id: 'name',
-        label: 'Name',
-        key: 'name',
-        controlType: 'textbox',
-        name: 'Name',
-        required: true,
-      },
-      {
-        id: 'shortname',
-        label: 'Short name',
-        key: 'shortname',
-        controlType: 'textbox',
-        name: 'Short name',
-        required: true,
-      },
-      {
-        id: 'phonenumber',
-        label: 'Phone number',
-        key: 'phonenumber',
-        controlType: 'textbox',
-        name: 'Phone number',
-        required: false,
-      },
-    ];
 
     // console.log('formFields', this.formFields);
   }

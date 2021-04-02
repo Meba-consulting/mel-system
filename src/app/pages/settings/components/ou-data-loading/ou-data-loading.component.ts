@@ -24,10 +24,12 @@ export class OuDataLoadingComponent implements OnInit {
   onAddOu(e, group) {
     e.stopPropagation();
 
+    console.log('sjfdse', group);
+
     if (group?.id === 'GOMCSNn5OdW') {
       this.dialog.open(AddClubModalComponent, {
         width: '70%',
-        height: '700px',
+        height: '630px',
         disableClose: false,
         data: { clubCategories: this.clubCategories },
         panelClass: 'custom-dialog-container',

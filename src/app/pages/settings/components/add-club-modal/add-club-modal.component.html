@@ -5,9 +5,10 @@
     clubEditingState: clubEditingState$ | async
   } as params"
 >
-  <mat-toolbar class="modal-header">Register a club</mat-toolbar>
+  <div class="h4 w-100 p-3">Register a club</div>
+  <hr style="margin: 2px" />
 
-  <div class="p-5">
+  <div class="p-3">
     <div
       class="success-save-message"
       *ngIf="
@@ -17,14 +18,14 @@
     >
       {{ savingClubMessage }}
     </div>
-    <div style="max-height: 500px">
+    <div style="height: 480px">
       <div>
         <button
           class="w-100 text-left p-2"
           (click)="onToggleOuFilter($event)"
           mat-stroked-button
         >
-          Location:
+          Organisation unit:
           <b>
             <span *ngIf="selectedOrgUnits && selectedOrgUnits?.length > 0">{{
               selectedOrgUnits[0]?.name
@@ -49,7 +50,7 @@
         </app-form>
       </div>
     </div>
-    <div class="p-2">
+    <div class="p-2" style="border-top: solid 1px #eee">
       <button
         mat-stroked-button
         (click)="onClose($event)"

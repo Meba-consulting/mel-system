@@ -174,3 +174,9 @@ tr.mat-footer-row {
   white-space: nowrap;
   position: relative;
 }
+
+.mat-form-field-appearance-outline .mat-form-field-prefix,
+.mat-form-field-appearance-outline .mat-form-field-suffix {
+  top: -3px !important;
+  margin-right: 5px !important;
+}
