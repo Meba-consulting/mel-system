@@ -1,5 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 
+import { keyBy } from 'lodash';
+
 @Component({
   selector: 'app-event-program-entry',
   templateUrl: './event-program-entry.component.html',
@@ -24,21 +26,16 @@ export class EventProgramEntryComponent implements OnInit {
     status: 'not-synced',
     value: '333',
   };
+  customFormDataValues = {};
   @Input() formValuesArray: any[];
   constructor() {}
 
   ngOnInit(): void {
-    // console.log('elementsDataValues##', this.elementsDataValues);
-    Object.keys(this.elementsDataValues)
-      .filter((key) => this.elementsDataValues[key]?.value)
-      .map((id) => {
-        this.dataValues[id] = {
-          domElementId:
-            this.program?.programStages[0] + '.' + id.split('-')[0] + '.val',
-          id: id,
-          value: this.elementsDataValues[id]?.value,
-        };
-      });
+    this.customFormDataValues = {};
+    this.dataValues = this.elementsDataValues;
+    if (this.elementsDataValues) {
+      this.customFormDataValues = this.elementsDataValues;
+    }
     this.programStageDataElements = this.program?.programStages[0]?.programStageDataElements.map(
       (elem) => {
         return { ...elem?.dataElement, compulsory: elem?.compulsory };
@@ -53,24 +50,14 @@ export class EventProgramEntryComponent implements OnInit {
     this.statusUpdateOnDomElement.colorKey = 'OK';
     this.statusUpdateOnDomElement.status = 'synched';
     this.statusUpdateOnDomElement.value = e.value;
-    this.formValuesArray = [];
-    this.formValuesArray =
-      (
-        this.formValuesArray.filter(
-          (elem) => elem?.id === this.statusUpdateOnDomElement.id
-        ) || []
-      )?.length == 0
-        ? [...this.formValuesArray, this.statusUpdateOnDomElement]
-        : this.formValuesArray.map((elem) => {
-            if (elem?.id === this.statusUpdateOnDomElement.id) {
-              return this.statusUpdateOnDomElement;
-            } else {
-              return elem;
-            }
-          });
-    console.log('formValuesArraydewewe', this.formValuesArray);
+    let dataObject = {};
+    dataObject[e?.id] = e;
+    this.customFormDataValues = {
+      ...this.customFormDataValues,
+      ...dataObject,
+    };
     this.statusArr.push(this.statusUpdateOnDomElement);
-    this.entryInfo.emit(this.formValuesArray);
+    this.entryInfo.emit(this.customFormDataValues);
   }
 
   onDataValueChange(e) {

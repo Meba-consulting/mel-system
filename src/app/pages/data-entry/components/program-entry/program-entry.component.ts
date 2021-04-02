@@ -621,10 +621,8 @@ export class ProgramEntryComponent implements OnInit {
   }
 
   onCustomFormDataValueChange(elementsData) {
-    console.log(elementsData);
-    this.elementValuesArray = this.elementsDataValues;
-    this.elementsDataValues = _.keyBy(this.elementValuesArray, 'id');
-    console.log('elementsDataValues', this.elementsDataValues);
+    this.elementValuesArray = elementsData;
+    this.elementsDataValues = elementsData;
     this.countOfFieldsFilled = Object.keys(this.elementsDataValues)?.length;
     this.eventWithoutRegistrationData = {
       program: this.program?.id,
@@ -692,7 +690,6 @@ export class ProgramEntryComponent implements OnInit {
   // }
 
   onCheckFormValidity(isValid) {
-    console.log('isValid##', isValid);
     this.isFormValid = isValid;
     if (isValid) {
       this.countOfFieldsFilled = 2;
