@@ -7,7 +7,7 @@ export function getTrackedEntityInstanceReportTable(
   program?
 ) {
   let headers = [];
-  const keyedAttributes = {};
+  let keyedAttributes = {};
   if (program) {
     program?.programTrackedEntityAttributes.forEach(
       (programTrackedEntityAttribute) => {
@@ -42,6 +42,7 @@ export function getTrackedEntityInstanceReportTable(
     }
     // }
   });
+  keyedAttributes = { ...keyedAttributes, ..._.keyBy(headers, 'id') };
   displayedColumns = [...displayedColumns, 'action'];
   headers = [...headers, { id: 'action' }];
 
