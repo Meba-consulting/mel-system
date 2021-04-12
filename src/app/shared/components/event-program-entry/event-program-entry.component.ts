@@ -57,6 +57,7 @@ export class EventProgramEntryComponent implements OnInit {
       ...dataObject,
     };
     this.statusArr.push(this.statusUpdateOnDomElement);
+    console.log('this.customFormDataValues', this.customFormDataValues);
     this.entryInfo.emit(this.customFormDataValues);
   }
 

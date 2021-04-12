@@ -256,9 +256,7 @@
         (editEvent)="onEditEventData($event)"
       ></app-event-program-data>
     </div>
-    <div
-      *ngIf="!params?.queryResponseData || !params?.queryResponseData?.events"
-    >
+    <div *ngIf="!params?.queryResponseData">
       <mat-progress-bar mode="indeterminate"></mat-progress-bar>
     </div>
   </div>

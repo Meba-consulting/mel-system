@@ -8,15 +8,6 @@ export function getTrackedEntityInstanceReportTable(
 ) {
   let headers = [];
   let keyedAttributes = {};
-  if (program) {
-    program?.programTrackedEntityAttributes.forEach(
-      (programTrackedEntityAttribute) => {
-        keyedAttributes[
-          programTrackedEntityAttribute?.trackedEntityAttribute?.id
-        ] = programTrackedEntityAttribute;
-      }
-    );
-  }
 
   const keyedSavedColumns = !savedUserDataStore?.message
     ? _.keyBy(savedUserDataStore, 'id')
@@ -43,6 +34,15 @@ export function getTrackedEntityInstanceReportTable(
     // }
   });
   keyedAttributes = { ...keyedAttributes, ..._.keyBy(headers, 'id') };
+  if (program) {
+    program?.programTrackedEntityAttributes.forEach(
+      (programTrackedEntityAttribute) => {
+        keyedAttributes[
+          programTrackedEntityAttribute?.trackedEntityAttribute?.id
+        ] = programTrackedEntityAttribute;
+      }
+    );
+  }
   displayedColumns = [...displayedColumns, 'action'];
   headers = [...headers, { id: 'action' }];
 

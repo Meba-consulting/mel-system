@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import {
   getDataElementsFromProgram,
   formatDateToYYMMDD,
@@ -159,6 +159,9 @@ export class ProgramEntryComponent implements OnInit {
     this.editingData = false;
     if (type == 'entry') {
       this.isListReportSet = false;
+      this.queryResponseData$ = of(null);
+      this.eventDataValues = {};
+      this.reportingDate = null;
     } else {
       if (this.program?.programType == 'WITH_REGISTRATION') {
         this.getTrackedEntityInstanceData({
@@ -637,7 +640,7 @@ export class ProgramEntryComponent implements OnInit {
           };
         })
         .filter((dataValue) => dataValue?.value),
-      eventDate: formatDateToYYMMDD(this.reportingDate),
+      eventDate: formatDateToYYMMDD(new Date(this.reportingDate)),
     };
   }
 

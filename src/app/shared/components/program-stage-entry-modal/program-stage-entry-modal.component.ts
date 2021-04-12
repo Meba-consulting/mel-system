@@ -34,6 +34,7 @@ export class ProgramStageEntryModalComponent implements OnInit {
   isEditSet: boolean = false;
   isFormValid: boolean = false;
   countOfEvents: number = 0;
+  index: number = 0;
   constructor(
     private dialogRef: MatDialogRef<ProgramStageEntryModalComponent>,
     @Inject(MAT_DIALOG_DATA) data,
@@ -105,15 +106,13 @@ export class ProgramStageEntryModalComponent implements OnInit {
     this.savingMessage = 'Saving data';
     this.savingProgramData = true;
     this.eventsData.programStage = programStage?.id;
-    // console.log(this.eventsData);
-    // console.log('programStage', programStage);
-    // console.log('currentEventToEdit', this.currentEventToEdit);
     !this.isEditSet
       ? this.dataService
           .saveEventsData({ events: [this.eventsData] })
           .subscribe((response) => {
             this.savingMessage = 'Saved data successfully';
             this.savingProgramData = false;
+            this.index = 0;
             setTimeout(() => {
               this.savingMessage = '';
             }, 1000);
@@ -127,6 +126,7 @@ export class ProgramStageEntryModalComponent implements OnInit {
             this.currentEventToEdit = null;
             this.isEditSet = false;
             this.selectedTab.setValue(0);
+            this.index = 0;
             setTimeout(() => {
               this.savingMessage = '';
             }, 1000);
@@ -139,7 +139,6 @@ export class ProgramStageEntryModalComponent implements OnInit {
   }
 
   onEdit(e) {
-    console.log('edit', e);
     this.currentEventToEdit = e;
     _.map(e.dataValues, (dataValue) => {
       this.programStageFormData[dataValue?.dataElement] = {
@@ -147,13 +146,12 @@ export class ProgramStageEntryModalComponent implements OnInit {
         value: dataValue?.value,
       };
     });
+    this.index = 1;
     this.isEditSet = true;
     this.selectedTab.setValue(1);
   }
 
   onDeleteEvent(e) {
-    console.log(e);
-    console.log(e);
     this.dialog.open(ConfirmDeleteEventComponent, {
       width: '30%',
       height: '250px',

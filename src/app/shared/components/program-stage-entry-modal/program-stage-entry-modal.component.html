@@ -16,7 +16,74 @@
   ></mat-progress-bar>
   <div class="body">
     <div *ngIf="params?.programDataStoreConfigs && params?.queryResponseData">
-      <mat-tab-group
+      <p-tabView
+        [(activeIndex)]="index"
+        *ngIf="
+          currentTrackedEntityInstanceId &&
+          params?.programDataStoreConfigs &&
+          params?.queryResponseData
+        "
+      >
+        <p-tabPanel [header]="programStage?.name">
+          <div class="h5">
+            {{ programStage?.name }}
+          </div>
+
+          <ng-template pTemplate="content">
+            <div class="p-2">
+              <app-program-stage-data
+                [program]="program"
+                [trackedEntityInstanceId]="currentTrackedEntityInstanceId"
+                [programStage]="programStage"
+                [orgUnit]="orgUnit"
+                [programDataStoreConfigs]="params?.programDataStoreConfigs"
+                [showEdit]="true"
+                (edit)="onEdit($event)"
+                (delete)="onDeleteEvent($event)"
+                (countOfEvents)="getCountOfEvents($event)"
+              ></app-program-stage-data>
+            </div>
+          </ng-template>
+        </p-tabPanel>
+        <p-tabPanel
+          [header]="'Entry'"
+          *ngIf="
+            (params?.programDataStoreConfigs['stagesToUpdateStatus'] &&
+              params?.programDataStoreConfigs['stagesToUpdateStatus'][
+                programStage?.id
+              ] &&
+              params?.programDataStoreConfigs['stagesToUpdateStatus'][
+                programStage?.id
+              ]?.hasEntry) ||
+            isEditSet ||
+            !params?.programDataStoreConfigs['stagesToUpdateStatus'] ||
+            countOfEvents === 0
+          "
+        >
+          <div class="h5">Entry</div>
+          <ng-template pTemplate="content">
+            <div class="p-2">
+              <app-program-stage-data-entry
+                [queryResponseData]="params?.queryResponseData"
+                [programStateDataElements]="
+                  programStage?.programStageDataElements
+                "
+                [programStageFormData]="programStageFormData"
+                [stage]="programStage"
+                [programDataStoreConfigs]="params?.programDataStoreConfigs"
+                (formValuesData)="
+                  onGetFormValuesData(
+                    $event,
+                    programStage?.programStageDataElements
+                  )
+                "
+                (isFormValid)="onGetFormValidity($event)"
+              ></app-program-stage-data-entry>
+            </div>
+          </ng-template>
+        </p-tabPanel>
+      </p-tabView>
+      <!-- <mat-tab-group
         [selectedIndex]="selectedTab.value"
         (selectedIndexChange)="selectedTab.setValue($event)"
         *ngIf="
@@ -74,7 +141,7 @@
             ></app-program-stage-data-entry>
           </div>
         </mat-tab>
-      </mat-tab-group>
+      </mat-tab-group> -->
     </div>
   </div>
   <div class="footer-btns">
