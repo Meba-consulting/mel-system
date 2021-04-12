@@ -1,5 +1,25 @@
 <div>
-  <mat-tab-group
+  <p-tabView>
+    <p-tabPanel
+      [header]="group.name"
+      *ngFor="let group of groups; let count = index"
+      [selected]="count == 0"
+    >
+      <div class="h5">
+        {{ group.name }}
+      </div>
+      <ng-template pTemplate="content">
+        <div class="p-2">
+          <app-ou-data-loading
+            [group]="group"
+            [currentUser]="currentUser"
+            [clubCategories]="clubCategories"
+          ></app-ou-data-loading>
+        </div>
+      </ng-template>
+    </p-tabPanel>
+  </p-tabView>
+  <!-- <mat-tab-group
     [selectedIndex]="selectedTab.value"
     (selectedIndexChange)="selectedTab.setValue($event)"
   >
@@ -16,5 +36,5 @@
         ></app-ou-data-loading>
       </div>
     </mat-tab>
-  </mat-tab-group>
+  </mat-tab-group> -->
 </div>

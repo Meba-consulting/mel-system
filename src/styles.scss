@@ -60,6 +60,7 @@
 html,
 body {
   height: 100%;
+  font-size: 0.8rem !important;
 }
 body {
   margin: 0;
@@ -179,4 +180,10 @@ tr.mat-footer-row {
 .mat-form-field-appearance-outline .mat-form-field-suffix {
   top: -3px !important;
   margin-right: 5px !important;
+}
+
+.p-tabview-nav-link,
+.p-tabview-nav-link:hover {
+  text-decoration: none !important;
+  outline: none !important;
 }

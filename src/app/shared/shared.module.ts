@@ -7,10 +7,12 @@ import { sharedComponents } from './components';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RemoveItemsPipe } from './pipes/remove-items.pipe';
 import { FilterByInputTextPipe } from './pipes/filter-by-input-text.pipe';
+import { primeNgModules } from './primeng.modules';
 
 @NgModule({
   imports: [
     CommonModule,
+    ...primeNgModules,
     ...materialModules,
     ...modules,
     FormsModule,
@@ -18,6 +20,7 @@ import { FilterByInputTextPipe } from './pipes/filter-by-input-text.pipe';
   ],
   exports: [
     CommonModule,
+    ...primeNgModules,
     ...materialModules,
     ...modules,
     ...sharedComponents,

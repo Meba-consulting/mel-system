@@ -16,6 +16,7 @@ export class HomeTabsComponent implements OnInit {
   tabs: any[];
 
   selectedTab = new FormControl(0);
+  currentTab: number = 0;
   constructor() {}
 
   ngOnInit(): void {
@@ -26,7 +27,9 @@ export class HomeTabsComponent implements OnInit {
   }
 
   changeTab(e, val) {
+    console.log('clicked', val);
     e.stopPropagation();
+    this.currentTab = val;
     this.selectedTab.setValue(val);
   }
 }

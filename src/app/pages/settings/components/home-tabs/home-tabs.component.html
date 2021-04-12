@@ -1,5 +1,45 @@
 <div style="margin-top: 15px">
-  <mat-tab-group
+  <p-tabView>
+    <p-tabPanel
+      [header]="tab.name"
+      *ngFor="let tab of tabs; let count = index"
+      [selected]="count == 0"
+    >
+      <div class="p-1" *ngIf="tab?.id == 'ExyDMkddChQ'">
+        <app-create-organisation-unit
+          [selectedGroup]="tab"
+          [programs]="programs"
+          [currentUser]="currentUser"
+          [clubCategories]="selectedAttribute?.optionSet?.options"
+        ></app-create-organisation-unit>
+      </div>
+      <ng-template *ngIf="tab?.id == 'q4SAf8ix9ww'" pTemplate="content">
+        <div class="p-1">
+          <app-training-registration
+            [programs]="programs"
+            [currentUser]="currentUser"
+            [systemIds]="systemIds"
+          ></app-training-registration>
+        </div>
+      </ng-template>
+
+      <ng-template
+        *ngIf="tab?.id !== 'q4SAf8ix9ww' && tab?.id !== 'ExyDMkddChQ'"
+        pTemplate="content"
+      >
+        <div class="p-1">
+          <app-tracker-general-registration
+            [programs]="programs"
+            [currentUser]="currentUser"
+            [systemIds]="systemIds"
+            [userGroups]="userGroups"
+            [selectedGroup]="tab"
+          ></app-tracker-general-registration>
+        </div>
+      </ng-template>
+    </p-tabPanel>
+  </p-tabView>
+  <!-- <mat-tab-group
     [selectedIndex]="selectedTab.value"
     (selectedIndexChange)="selectedTab.setValue($event)"
   >
@@ -8,43 +48,6 @@
       (click)="changeTab(count)"
       *ngFor="let tab of tabs; let count = index"
     >
-      <div
-        class="p-1"
-        *ngIf="selectedTab.value == count && tab?.id == 'ExyDMkddChQ'"
-      >
-        <app-create-organisation-unit
-          [selectedGroup]="tab"
-          [programs]="programs"
-          [currentUser]="currentUser"
-          [clubCategories]="selectedAttribute?.optionSet?.options"
-        ></app-create-organisation-unit>
-      </div>
-      <div
-        class="p-1"
-        *ngIf="selectedTab.value == count && tab?.id == 'q4SAf8ix9ww'"
-      >
-        <app-training-registration
-          [programs]="programs"
-          [currentUser]="currentUser"
-          [systemIds]="systemIds"
-        ></app-training-registration>
-      </div>
-      <div
-        class="p-1"
-        *ngIf="
-          selectedTab.value == count &&
-          tab?.id !== 'q4SAf8ix9ww' &&
-          tab?.id !== 'ExyDMkddChQ'
-        "
-      >
-        <app-tracker-general-registration
-          [programs]="programs"
-          [currentUser]="currentUser"
-          [systemIds]="systemIds"
-          [userGroups]="userGroups"
-          [selectedGroup]="tab"
-        ></app-tracker-general-registration>
-      </div>
     </mat-tab>
-  </mat-tab-group>
+  </mat-tab-group> -->
 </div>

@@ -6,175 +6,177 @@
   } as params"
 >
   <div [ngClass]="{ 'col-md-9': !isReportSet, 'col-12': isReportSet }">
-    <mat-tab-group
-      [selectedIndex]="selectedTab.value"
-      (selectedIndexChange)="selectedTab.setValue($event)"
-      (selectedTabChange)="changeTab($event.index)"
-    >
-      <mat-tab
+    <p-tabView>
+      <p-tabPanel
+        [header]="program.name"
         *ngFor="let program of trainingRegistrationPrograms; let count = index"
-        label="{{ program?.name }}"
+        [selected]="count == 0"
       >
-        <div class="p-3" *ngIf="count === selectedTab.value">
-          <button
-            class="w-100 text-left p-2"
-            (click)="onToggleRegisteringUnitFilter($event)"
-            mat-stroked-button
-          >
-            Organisation Unit:
-            <b>
-              <span
-                *ngIf="
-                  selectedRegisteringUnits &&
-                  selectedRegisteringUnits?.length > 0
-                "
-                >{{ selectedRegisteringUnits[0]?.name }}</span
-              >
-            </b>
-          </button>
-          <div *ngIf="registeringUnitFilterIsSet">
-            <ngx-dhis2-org-unit-filter
-              [maxHeight]="'320px'"
-              [selectedOrgUnitItems]="selectedRegisteringUnits"
-              [assignedOrgUnits]="program?.organisationUnits"
-              [orgUnitFilterConfig]="orgUnitFilterConfig"
-              (orgUnitClose)="onFilterClose($event)"
-              (orgUnitUpdate)="onOuUpdate($event)"
-            ></ngx-dhis2-org-unit-filter>
-          </div>
-          <!-- <div class="h5 w-100 text-left">{{ program?.name }}</div> -->
-          <div
-            class="control-btn w-100 p-2"
-            style="height: 52px"
-            *ngIf="selectedRegisteringUnits?.length > 0"
-          >
+        <div class="h5">
+          {{ program.name }}
+        </div>
+        <ng-template pTemplate="content">
+          <div class="p-2">
             <button
+              class="w-100 text-left p-2"
+              (click)="onToggleRegisteringUnitFilter($event)"
               mat-stroked-button
-              class="mr-2 float-left"
-              (click)="onToggleReport($event)"
             >
-              <span *ngIf="isReportSet">New</span>
-              <span *ngIf="!isReportSet">Registered</span>
-            </button>
-          </div>
-          <div
-            *ngIf="isReportSet && selectedRegisteringUnits?.length > 0"
-            class="w-100"
-          >
-            <app-trainings-list
-              [program]="program"
-              [ouId]="selectedRegisteringUnits[0]?.id"
-              [orgUnit]="selectedRegisteringUnits[0]"
-              (edit)="onSetEdit($event, program)"
-            ></app-trainings-list>
-          </div>
-          <div *ngIf="!isReportSet && selectedRegisteringUnits?.length > 0">
-            <div
-              class="success-save-message"
-              *ngIf="!savingData && savingMessage != '' && !hasError"
-            >
-              {{ savingMessage }}
-            </div>
-
-            <div
-              class="error-save-message"
-              *ngIf="!savingData && savingMessage != '' && hasError"
-            >
-              {{ savingMessage }}
-            </div>
-            <div
-              style="
-                max-height: 70vh;
-                overflow: auto;
-                min-height: 40vh;
-                margin-top: 20px;
-                padding: 8px 15px;
-              "
-            >
-              <div
-                style="margin-bottom: 10px"
-                *ngIf="
-                  params?.programDataStoreConfigs &&
-                  params?.programDataStoreConfigs?.needsLocation
-                "
-              >
-                <button
-                  class="w-100 text-left p-2"
-                  (click)="onToggleOuFilter($event)"
-                  mat-stroked-button
+              Organisation Unit:
+              <b>
+                <span
+                  *ngIf="
+                    selectedRegisteringUnits &&
+                    selectedRegisteringUnits?.length > 0
+                  "
+                  >{{ selectedRegisteringUnits[0]?.name }}</span
                 >
-                  Location:
-                  <b>
-                    <span
-                      *ngIf="selectedOrgUnits && selectedOrgUnits?.length > 0"
-                      >{{ selectedOrgUnits[0]?.name }}</span
-                    >
-                  </b>
-                </button>
-                <div *ngIf="ouFilterIsSet">
-                  <ngx-dhis2-org-unit-filter
-                    [maxHeight]="'320px'"
-                    [selectedOrgUnitItems]="selectedOrgUnits"
-                    [orgUnitFilterConfig]="orgUnitFilterConfig"
-                    (orgUnitClose)="onFilterClose($event)"
-                    (orgUnitUpdate)="onLocationUpdate($event)"
-                  ></ngx-dhis2-org-unit-filter>
-                </div>
+              </b>
+            </button>
+            <div *ngIf="registeringUnitFilterIsSet">
+              <ngx-dhis2-org-unit-filter
+                [maxHeight]="'320px'"
+                [selectedOrgUnitItems]="selectedRegisteringUnits"
+                [assignedOrgUnits]="program?.organisationUnits"
+                [orgUnitFilterConfig]="orgUnitFilterConfig"
+                (orgUnitClose)="onFilterClose($event)"
+                (orgUnitUpdate)="onOuUpdate($event)"
+              ></ngx-dhis2-org-unit-filter>
+            </div>
+            <!-- <div class="h5 w-100 text-left">{{ program?.name }}</div> -->
+            <div
+              class="control-btn w-100 p-2"
+              style="height: 52px"
+              *ngIf="selectedRegisteringUnits?.length > 0"
+            >
+              <button
+                mat-stroked-button
+                class="mr-2 float-left"
+                (click)="onToggleReport($event)"
+              >
+                <span *ngIf="isReportSet">New</span>
+                <span *ngIf="!isReportSet">Registered</span>
+              </button>
+            </div>
+            <div
+              *ngIf="isReportSet && selectedRegisteringUnits?.length > 0"
+              class="w-100"
+            >
+              <app-trainings-list
+                [program]="program"
+                [ouId]="selectedRegisteringUnits[0]?.id"
+                [orgUnit]="selectedRegisteringUnits[0]"
+                (edit)="onSetEdit($event, program)"
+              ></app-trainings-list>
+            </div>
+            <div *ngIf="!isReportSet && selectedRegisteringUnits?.length > 0">
+              <div
+                class="success-save-message"
+                *ngIf="!savingData && savingMessage != '' && !hasError"
+              >
+                {{ savingMessage }}
               </div>
 
-              <app-tracked-entrity-entry-form
-                [trackedEntityType]="program?.trackedEntityType"
-                [formData]="formData"
-                (dataValues)="onGetDataValues($event)"
-                (isFormValid)="onGetFormValidity($event)"
-              ></app-tracked-entrity-entry-form>
-            </div>
-            <div class="btns">
-              <button
-                class="mr-2 float-left"
-                mat-stroked-button
-                [disabled]="
-                  !isFormValid ||
-                  savedData ||
-                  selectedRegisteringUnits.length == 0
-                "
-                (click)="
-                  onSaveData(
-                    $event,
-                    editingData,
-                    currentTrackedEntityInstanceId,
-                    program
-                  )
+              <div
+                class="error-save-message"
+                *ngIf="!savingData && savingMessage != '' && hasError"
+              >
+                {{ savingMessage }}
+              </div>
+              <div
+                style="
+                  max-height: 70vh;
+                  overflow: auto;
+                  min-height: 40vh;
+                  margin-top: 20px;
+                  padding: 8px 15px;
                 "
               >
-                <mat-spinner
-                  *ngIf="savingData && savingMessage != ''"
-                  color="accent"
-                  [diameter]="20"
-                  style="display: inline-block !important; margin-right: 4px"
+                <div
+                  style="margin-bottom: 10px"
+                  *ngIf="
+                    params?.programDataStoreConfigs &&
+                    params?.programDataStoreConfigs?.needsLocation
+                  "
                 >
-                </mat-spinner>
-                Save
-              </button>
-              <button
-                [disabled]="!editData"
-                *ngIf="program?.updateStages"
-                mat-stroked-button
-                (click)="
-                  onUpdateStages(
-                    $event,
-                    program,
-                    currentTrackedEntityInstanceId
-                  )
-                "
-              >
-                More (tracking)
-              </button>
+                  <button
+                    class="w-100 text-left p-2"
+                    (click)="onToggleOuFilter($event)"
+                    mat-stroked-button
+                  >
+                    Location:
+                    <b>
+                      <span
+                        *ngIf="selectedOrgUnits && selectedOrgUnits?.length > 0"
+                        >{{ selectedOrgUnits[0]?.name }}</span
+                      >
+                    </b>
+                  </button>
+                  <div *ngIf="ouFilterIsSet">
+                    <ngx-dhis2-org-unit-filter
+                      [maxHeight]="'320px'"
+                      [selectedOrgUnitItems]="selectedOrgUnits"
+                      [orgUnitFilterConfig]="orgUnitFilterConfig"
+                      (orgUnitClose)="onFilterClose($event)"
+                      (orgUnitUpdate)="onLocationUpdate($event)"
+                    ></ngx-dhis2-org-unit-filter>
+                  </div>
+                </div>
+
+                <app-tracked-entrity-entry-form
+                  [trackedEntityType]="program?.trackedEntityType"
+                  [formData]="formData"
+                  (dataValues)="onGetDataValues($event)"
+                  (isFormValid)="onGetFormValidity($event)"
+                ></app-tracked-entrity-entry-form>
+              </div>
+              <div class="btns">
+                <button
+                  class="mr-2 float-left"
+                  mat-stroked-button
+                  [disabled]="
+                    !isFormValid ||
+                    savedData ||
+                    selectedRegisteringUnits.length == 0
+                  "
+                  (click)="
+                    onSaveData(
+                      $event,
+                      editingData,
+                      currentTrackedEntityInstanceId,
+                      program
+                    )
+                  "
+                >
+                  <mat-spinner
+                    *ngIf="savingData && savingMessage != ''"
+                    color="accent"
+                    [diameter]="20"
+                    style="display: inline-block !important; margin-right: 4px"
+                  >
+                  </mat-spinner>
+                  Save
+                </button>
+                <button
+                  [disabled]="!editData"
+                  *ngIf="program?.updateStages"
+                  mat-stroked-button
+                  (click)="
+                    onUpdateStages(
+                      $event,
+                      program,
+                      currentTrackedEntityInstanceId
+                    )
+                  "
+                >
+                  More (tracking)
+                </button>
+              </div>
             </div>
           </div>
-        </div>
-      </mat-tab>
-    </mat-tab-group>
+        </ng-template>
+      </p-tabPanel>
+    </p-tabView>
   </div>
   <div
     [ngClass]="{ 'col-md-3': !isReportSet, '': isReportSet }"

@@ -6,7 +6,116 @@
   } as params"
 >
   <div [ngClass]="{ 'col-md-9': !isReportSet, 'col-12': isReportSet }">
-    <mat-tab-group
+    <p-tabView>
+      <p-tabPanel
+        [header]="program.name"
+        *ngFor="let program of trainingRegistrationPrograms; let count = index"
+        [selected]="count == 0"
+      >
+        <div class="h5">
+          {{ program.name }}
+        </div>
+        <ng-template pTemplate="content">
+          <div class="p-2">
+            <!-- <div class="h5 w-100 text-left">{{ program?.name }}</div> -->
+            <div class="control-btn w-100 p-2" style="height: 52px">
+              <button
+                mat-stroked-button
+                class="mr-2 float-left"
+                (click)="onToggleReportAndTraining($event)"
+              >
+                <span *ngIf="isReportSet">New Training</span>
+                <span *ngIf="!isReportSet">Registered trainings</span>
+                <mat-icon>arrow_forward</mat-icon>
+              </button>
+            </div>
+            <div *ngIf="isReportSet" class="w-100">
+              <app-trainings-list
+                [program]="program"
+                [ouId]="'zs9X8YYBOnK'"
+                (edit)="onSetEdit($event, program)"
+              ></app-trainings-list>
+            </div>
+            <div *ngIf="!isReportSet">
+              <div
+                class="success-save-message"
+                *ngIf="!savingData && savingMessage != '' && !hasError"
+              >
+                {{ savingMessage }}
+              </div>
+
+              <div
+                class="error-save-message"
+                *ngIf="!savingData && savingMessage != '' && hasError"
+              >
+                {{ savingMessage }}
+              </div>
+              <div
+                style="
+                  height: 70vh;
+                  overflow: auto;
+                  margin-top: 20px;
+                  padding: 8px 15px;
+                "
+              >
+                <div class="ou-filter" style="margin-bottom: 15px">
+                  <button
+                    style="text-align: left; padding: 10px 8px"
+                    class="w-100"
+                    (click)="onToggleOuFilter($event)"
+                    mat-stroked-button
+                  >
+                    Location
+                    <span *ngIf="selectedOu && !ouFilterIsSet"
+                      >: {{ selectedOu?.name }}</span
+                    >
+                  </button>
+                  <ngx-dhis2-org-unit-filter
+                    *ngIf="ouFilterIsSet"
+                    [selectedOrgUnitItems]="selectedOrgUnits"
+                    [orgUnitFilterConfig]="orgUnitFilterConfig"
+                    (orgUnitClose)="onFilterClose($event)"
+                    (orgUnitUpdate)="onFilterUpdate($event)"
+                  ></ngx-dhis2-org-unit-filter>
+                </div>
+                <app-tracked-entrity-entry-form
+                  [trackedEntityType]="program?.trackedEntityType"
+                  [formData]="formData"
+                  (dataValues)="onGetDataValues($event)"
+                  (isFormValid)="onGetFormValidity($event)"
+                ></app-tracked-entrity-entry-form>
+              </div>
+              <div class="btns">
+                <button
+                  class="mr-2 float-left"
+                  mat-stroked-button
+                  [disabled]="!isFormValid || savedData"
+                  (click)="
+                    onSaveData(
+                      $event,
+                      editingData,
+                      currentTrackedEntityInstanceId,
+                      program
+                    )
+                  "
+                >
+                  <mat-spinner
+                    *ngIf="savingData && savingMessage != ''"
+                    color="accent"
+                    [diameter]="20"
+                    style="display: inline-block !important; margin-right: 4px"
+                  >
+                  </mat-spinner>
+                  Save
+                </button>
+              </div>
+            </div>
+          </div>
+        </ng-template>
+      </p-tabPanel>
+    </p-tabView>
+
+    <!-- <mat-tab-group
       [selectedIndex]="selectedTab.value"
       (selectedIndexChange)="selectedTab.setValue($event)"
       (selectedTabChange)="changeTab($event.index)"
@@ -15,103 +124,8 @@
         *ngFor="let program of trainingRegistrationPrograms; let count = index"
         label="{{ program?.name }}"
       >
-        <div class="p-3" *ngIf="count == selectedTab.value">
-          <!-- <div class="h5 w-100 text-left">{{ program?.name }}</div> -->
-          <div class="control-btn w-100 p-2" style="height: 52px">
-            <button
-              mat-stroked-button
-              class="mr-2 float-left"
-              (click)="onToggleReportAndTraining($event)"
-            >
-              <span *ngIf="isReportSet">New Training</span>
-              <span *ngIf="!isReportSet">Registered trainings</span>
-              <mat-icon>arrow_forward</mat-icon>
-            </button>
-          </div>
-          <div *ngIf="isReportSet" class="w-100">
-            <app-trainings-list
-              [program]="program"
-              [ouId]="'zs9X8YYBOnK'"
-              (edit)="onSetEdit($event, program)"
-            ></app-trainings-list>
-          </div>
-          <div *ngIf="!isReportSet">
-            <div
-              class="success-save-message"
-              *ngIf="!savingData && savingMessage != '' && !hasError"
-            >
-              {{ savingMessage }}
-            </div>
-
-            <div
-              class="error-save-message"
-              *ngIf="!savingData && savingMessage != '' && hasError"
-            >
-              {{ savingMessage }}
-            </div>
-            <div
-              style="
-                height: 70vh;
-                overflow: auto;
-                margin-top: 20px;
-                padding: 8px 15px;
-              "
-            >
-              <div class="ou-filter" style="margin-bottom: 15px">
-                <button
-                  style="text-align: left; padding: 10px 8px"
-                  class="w-100"
-                  (click)="onToggleOuFilter($event)"
-                  mat-stroked-button
-                >
-                  Location
-                  <span *ngIf="selectedOu && !ouFilterIsSet"
-                    >: {{ selectedOu?.name }}</span
-                  >
-                </button>
-                <ngx-dhis2-org-unit-filter
-                  *ngIf="ouFilterIsSet"
-                  [selectedOrgUnitItems]="selectedOrgUnits"
-                  [orgUnitFilterConfig]="orgUnitFilterConfig"
-                  (orgUnitClose)="onFilterClose($event)"
-                  (orgUnitUpdate)="onFilterUpdate($event)"
-                ></ngx-dhis2-org-unit-filter>
-              </div>
-              <app-tracked-entrity-entry-form
-                [trackedEntityType]="program?.trackedEntityType"
-                [formData]="formData"
-                (dataValues)="onGetDataValues($event)"
-                (isFormValid)="onGetFormValidity($event)"
-              ></app-tracked-entrity-entry-form>
-            </div>
-            <div class="btns">
-              <button
-                class="mr-2 float-left"
-                mat-stroked-button
-                [disabled]="!isFormValid || savedData"
-                (click)="
-                  onSaveData(
-                    $event,
-                    editingData,
-                    currentTrackedEntityInstanceId,
-                    program
-                  )
-                "
-              >
-                <mat-spinner
-                  *ngIf="savingData && savingMessage != ''"
-                  color="accent"
-                  [diameter]="20"
-                  style="display: inline-block !important; margin-right: 4px"
-                >
-                </mat-spinner>
-                Save
-              </button>
-            </div>
-          </div>
-        </div>
       </mat-tab>
-    </mat-tab-group>
+    </mat-tab-group> -->
 
     <!-- <div class="forms">
       <mat-form-field class="w-100" appearance="outline">
