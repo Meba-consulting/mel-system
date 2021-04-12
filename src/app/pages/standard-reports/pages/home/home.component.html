@@ -16,7 +16,90 @@
     class="col-md-12 standard-reports-home-page"
     *ngIf="reportsAreas && reportsAreas?.length > 0"
   >
-    <mat-tab-group
+    <p-tabView>
+      <p-tabPanel
+        [header]="reportArea.name"
+        *ngFor="let reportArea of reportsAreas; let count = index"
+        [selected]="count == 0"
+      >
+        <div class="h5">
+          {{ reportArea.name }}
+        </div>
+
+        <ng-template
+          pTemplate="content"
+          *ngIf="reportArea?.id === 'standard_reports'"
+        >
+          <div style="background-color: transparent">
+            <div class="row p-2">
+              <div class="col-md-3">
+                <div *ngIf="currentUser$ | async">
+                  <app-report-groups
+                    [currentUser]="currentUser$ | async"
+                    (selectedReportGroup)="onSelectReportGroup($event)"
+                  >
+                  </app-report-groups>
+                </div>
+                <div style="width: 100%" *ngIf="!(currentUser$ | async)">
+                  <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+                </div>
+              </div>
+              <div class="col-md-9">
+                <div
+                  *ngIf="
+                    (reportsList$ | async) &&
+                    (reportsList$ | async)?.length > 0 &&
+                    isReportGroupSet &&
+                    currentReportGroup &&
+                    (userGroups$ | async)
+                  "
+                >
+                  <app-reports-list
+                    [reports]="reportsList$ | async"
+                    [userGroups]="userGroups$ | async"
+                    [reportGroup]="currentReportGroup"
+                  ></app-reports-list>
+                </div>
+                <div
+                  class="col-12"
+                  *ngIf="
+                    !(reportsList$ | async) ||
+                    !(currentUser$ | async) ||
+                    !isReportGroupSet ||
+                    !currentReportGroup ||
+                    !(userGroups$ | async)
+                  "
+                >
+                  <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+                </div>
+              </div>
+            </div>
+          </div>
+        </ng-template>
+        <ng-template
+          *ngIf="reportArea?.id === 'uploaded_reports'"
+          pTemplate="content"
+        >
+          <div class="p-2">
+            <app-uploaded-reports
+              [currentUser]="currentUser$ | async"
+            ></app-uploaded-reports>
+          </div>
+        </ng-template>
+        <ng-template
+          *ngIf="reportArea?.id === 'activity_tracker'"
+          pTemplate="content"
+        >
+          <div class="p-2">
+            <app-activity-tracker
+              [currentUser]="currentUser$ | async"
+            ></app-activity-tracker>
+          </div>
+        </ng-template>
+      </p-tabPanel>
+    </p-tabView>
+
+    <!-- <mat-tab-group
       [selectedIndex]="selectedTab.value"
       (selectedIndexChange)="selectedTab.setValue($event)"
     >
@@ -25,78 +108,8 @@
         (click)="changeTab(count)"
         *ngFor="let reportArea of reportsAreas; let count = index"
       >
-        <div
-          style="background-color: transparent"
-          *ngIf="
-            selectedTab.value == count && reportArea?.id === 'standard_reports'
-          "
-        >
-          <div class="row p-2">
-            <div class="col-md-3">
-              <div *ngIf="currentUser$ | async">
-                <app-report-groups
-                  [currentUser]="currentUser$ | async"
-                  (selectedReportGroup)="onSelectReportGroup($event)"
-                >
-                </app-report-groups>
-              </div>
-              <div style="width: 100%" *ngIf="!(currentUser$ | async)">
-                <mat-progress-bar mode="indeterminate"></mat-progress-bar>
-              </div>
-            </div>
-            <div class="col-md-9">
-              <div
-                *ngIf="
-                  (reportsList$ | async) &&
-                  (reportsList$ | async)?.length > 0 &&
-                  isReportGroupSet &&
-                  currentReportGroup &&
-                  (userGroups$ | async)
-                "
-              >
-                <app-reports-list
-                  [reports]="reportsList$ | async"
-                  [userGroups]="userGroups$ | async"
-                  [reportGroup]="currentReportGroup"
-                ></app-reports-list>
-              </div>
-              <div
-                class="col-12"
-                *ngIf="
-                  !(reportsList$ | async) ||
-                  !(currentUser$ | async) ||
-                  !isReportGroupSet ||
-                  !currentReportGroup ||
-                  !(userGroups$ | async)
-                "
-              >
-                <mat-progress-bar mode="indeterminate"></mat-progress-bar>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div
-          class="p-2"
-          *ngIf="
-            selectedTab.value == count && reportArea?.id === 'uploaded_reports'
-          "
-        >
-          <app-uploaded-reports
-            [currentUser]="currentUser$ | async"
-          ></app-uploaded-reports>
-        </div>
-        <div
-          class="p-2"
-          *ngIf="
-            selectedTab.value == count && reportArea?.id === 'activity_tracker'
-          "
-        >
-          <app-activity-tracker
-            [currentUser]="currentUser$ | async"
-          ></app-activity-tracker>
-        </div>
-      </mat-tab>
-      <!-- <mat-tab label="Analysis tools" *ngIf="selectedTab.value == 2">
+      </mat-tab> -->
+    <!-- <mat-tab label="Analysis tools" *ngIf="selectedTab.value == 2">
         <div style="float: left">
           <button
             style="padding: 0px; float: left"
@@ -124,7 +137,7 @@
           </button>
         </div>
       </mat-tab> -->
-    </mat-tab-group>
+    <!-- </mat-tab-group> -->
   </div>
   <div *ngIf="reportsAreas && reportsAreas?.length === 0">
     <div class="text-center text-warning h3">

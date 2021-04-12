@@ -53,19 +53,19 @@ export class HomeComponent implements OnInit {
         if (keyedUserGroups['Dnf8GlsGZ4M']) {
           this.reportsAreas.push({
             id: 'standard_reports',
-            name: 'Standard reports',
+            name: 'STANDARD REPORTS',
           });
         }
         if (keyedUserGroups['lNfnAZRchBc']) {
           this.reportsAreas.push({
             id: 'uploaded_reports',
-            name: 'Uploads',
+            name: 'UPLOADED REPORTS',
           });
         }
         if (keyedUserGroups['dzB1kyCukQf']) {
           this.reportsAreas.push({
             id: 'activity_tracker',
-            name: 'Activity tracker',
+            name: 'ACTIVITY TRACKER',
           });
         }
       }
