@@ -22,8 +22,8 @@
         *ngFor="let reportArea of reportsAreas; let count = index"
         [selected]="count == 0"
       >
-        <div class="h5">
-          {{ reportArea.name }}
+        <div class="h6">
+          <b>{{ reportArea.name }}</b>
         </div>
 
         <ng-template
@@ -32,7 +32,7 @@
         >
           <div style="background-color: transparent">
             <div class="row p-2">
-              <div class="col-md-3">
+              <div class="col-md-2">
                 <div *ngIf="currentUser$ | async">
                   <app-report-groups
                     [currentUser]="currentUser$ | async"
@@ -44,7 +44,7 @@
                   <mat-progress-bar mode="indeterminate"></mat-progress-bar>
                 </div>
               </div>
-              <div class="col-md-9">
+              <div class="col-md-10">
                 <div
                   *ngIf="
                     (reportsList$ | async) &&
