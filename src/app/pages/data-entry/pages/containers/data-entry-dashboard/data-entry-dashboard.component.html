@@ -8,7 +8,12 @@
 >
   <div class="col-md-9">
     <p-accordion>
-      <p-accordionTab header="Form selection" [selected]="!isFormSelected">
+      <p-accordionTab
+        header="Form selection {{
+          isFormSelected ? ' : ' + currentProgram?.name : ''
+        }}"
+        [selected]="!isFormSelected"
+      >
         <!-- <ng-template pTemplate="content"> -->
         <div style="height: 200px; overflow: auto" *ngIf="formattedPrograms">
           <ngx-option-selector
