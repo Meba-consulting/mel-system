@@ -76,3 +76,31 @@ hr {
   border: 0;
   border-top: 1px solid rgba(0, 0, 0, 0.1);
 }
+
+::ng-deep .p-tabview-nav-link {
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+::ng-deep .p-listbox-item {
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+::ng-deep .p-accordion-header-link {
+  outline: none !important;
+  box-shadow: none !important;
+  text-decoration: none !important;
+}
+
+::ng-deep .p-tabview-nav-link {
+  margin-right: 15px !important;
+}
+
+a {
+  text-decoration: none !important;
+}
+
+::ng-deep .p-accordion .p-accordion-content {
+  padding: 2px !important;
+}

@@ -4,15 +4,15 @@
 }
 
 .list-items {
-  position: absolute;
+  /* position: absolute; */
   background-color: #ffffff;
-  min-width: 450px;
+  /* min-width: 450px; */
   z-index: 100;
   background-color: rgba(255, 255, 255, 0.95);
 }
 
 .list-contents {
-  height: 350px;
+  height: auto;
   overflow: auto;
   border: solid 1px #eee;
   margin-top: -10px;

@@ -4,11 +4,11 @@
 <div class="row">
   <div class="col-12 h5 mat-elevation-z1 p-3" style="margin: 0">Reports</div>
 </div>
-<div style="margin-top: 15px" *ngIf="!(currentUser$ | async) || !reportsAreas">
+<div style="margin-top: 5px" *ngIf="!(currentUser$ | async) || !reportsAreas">
   <mat-progress-bar mode="indeterminate"></mat-progress-bar>
 </div>
 <div
-  style="height: 100%; margin-top: 10px; background-color: #fff"
+  style="height: 100%; margin-top: 2px; background-color: #fff"
   class="row"
   *ngIf="currentUser$ | async"
 >

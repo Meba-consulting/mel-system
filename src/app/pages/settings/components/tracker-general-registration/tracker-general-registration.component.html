@@ -12,8 +12,8 @@
         *ngFor="let program of trainingRegistrationPrograms; let count = index"
         [selected]="count == 0"
       >
-        <div class="h5">
-          {{ program.name }}
+        <div class="h6">
+          <b>{{ program.name }}</b>
         </div>
         <ng-template pTemplate="content">
           <div class="p-2">

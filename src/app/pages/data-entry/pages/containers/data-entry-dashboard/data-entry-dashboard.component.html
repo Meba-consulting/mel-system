@@ -7,21 +7,43 @@
   } as params"
 >
   <div class="col-md-9">
-    <div class="forms">
-      <mat-form-field class="w-100" appearance="outline">
-        <mat-label>Select form</mat-label>
-        <mat-select
-          [(value)]="currentProgram"
-          required
-          (selectionChange)="getForm($event.value)"
-        >
-          <mat-option *ngFor="let option of formattedPrograms" [value]="option">
-            {{ option.name }}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
-    </div>
-    <div class="ou-filter">
+    <p-accordion>
+      <p-accordionTab header="Form selection" [selected]="!isFormSelected">
+        <!-- <ng-template pTemplate="content"> -->
+        <div style="height: 200px; overflow: auto" *ngIf="formattedPrograms">
+          <ngx-option-selector
+            [options]="formattedPrograms"
+            [filterName]="'form'"
+            [selectedOptionItems]="
+              isFormSelected && currentProgram ? [currentProgram] : []
+            "
+            (selectedOption)="onGetSelectedProgram($event)"
+          ></ngx-option-selector>
+        </div>
+        <!-- </ng-template> -->
+      </p-accordionTab>
+      <p-accordionTab
+        header="Organisation Unit {{
+          selectedOu && !ouFilterIsSet ? ' : ' + selectedOu?.name : ''
+        }}"
+        [selected]="
+          (selectedOu && isFormSelected) || !isFormSelected ? false : true
+        "
+      >
+        <ng-template pTemplate="content">
+          <ngx-dhis2-org-unit-filter
+            [maxHeight]="'320px'"
+            [assignedOrgUnits]="currentProgram?.organisationUnits"
+            [selectedOrgUnitItems]="selectedOrgUnits"
+            [orgUnitFilterConfig]="orgUnitFilterConfig"
+            (orgUnitClose)="onFilterClose($event)"
+            (orgUnitUpdate)="onFilterUpdate($event)"
+          ></ngx-dhis2-org-unit-filter>
+        </ng-template>
+      </p-accordionTab>
+    </p-accordion>
+
+    <!-- <div class="ou-filter">
       <button
         style="text-align: left; padding: 10px 8px"
         class="w-100"
@@ -42,7 +64,7 @@
         (orgUnitClose)="onFilterClose($event)"
         (orgUnitUpdate)="onFilterUpdate($event)"
       ></ngx-dhis2-org-unit-filter>
-    </div>
+    </div> -->
     <div *ngIf="paramersSet && currentProgram && params?.systemIds">
       <app-program-entry
         [systemIds]="params?.systemIds['codes']"

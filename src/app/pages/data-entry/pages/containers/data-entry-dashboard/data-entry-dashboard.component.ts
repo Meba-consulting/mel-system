@@ -42,6 +42,7 @@ export class DataEntryDashboardComponent implements OnInit {
   ouId: string;
   programId: string;
   currentProgram: any;
+  isFormSelected: boolean = false;
   paramersSet: boolean = false;
   selectedOu: any;
 
@@ -71,7 +72,6 @@ export class DataEntryDashboardComponent implements OnInit {
   }
 
   onFilterUpdate(selections) {
-    console.log(selections);
     this.ouFilterIsSet = false;
     this.paramersSet = false;
 
@@ -91,7 +91,6 @@ export class DataEntryDashboardComponent implements OnInit {
   }
 
   onFilterClose(selections) {
-    console.log('closing');
     this.ouFilterIsSet = false;
   }
 
@@ -104,6 +103,26 @@ export class DataEntryDashboardComponent implements OnInit {
         'dataStore/programs/' + this.currentProgram?.id
       );
       this.programId = val?.id;
+      if (this.ouId && this.programId) {
+        this.paramersSet = true;
+      }
+    }, 600);
+    this.selectedOrgUnits = [];
+  }
+
+  onGetSelectedProgram(itemSelection) {
+    const form = itemSelection?.items[0];
+    this.isFormSelected = false;
+    this.currentProgram = null;
+    this.paramersSet = false;
+    setTimeout(() => {
+      this.currentProgram = form;
+      console.log('currentProgram', this.currentProgram);
+      this.isFormSelected = true;
+      this.programDataStoreConfigs$ = this.httpClient.get(
+        'dataStore/programs/' + this.currentProgram?.id
+      );
+      this.programId = form?.id;
       if (this.ouId && this.programId) {
         this.paramersSet = true;
       }

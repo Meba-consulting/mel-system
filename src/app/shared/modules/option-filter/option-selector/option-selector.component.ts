@@ -24,7 +24,6 @@ export class OptionSelectorComponent implements OnInit {
   constructor() {}
 
   ngOnInit() {
-    console.log(this.options);
     this.showSelections = true;
     this.selectedItems = this.selectedOptionItems
       ? this.selectedOptionItems
@@ -47,7 +46,7 @@ export class OptionSelectorComponent implements OnInit {
   onSelectOption(event, option) {
     event.stopPropagation();
     this.selectedItems = !_.find(this.selectedItems, ['id', option?.id])
-      ? [...this.selectedItems, option]
+      ? [option]
       : this.onRemoveItem(option, this.selectedItems);
     this.keyValuePairedSelectedItems = _.keyBy(this.selectedItems, 'id');
     this.selectedOption.emit({

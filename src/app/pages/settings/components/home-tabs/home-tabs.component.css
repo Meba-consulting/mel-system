@@ -1,0 +1,19 @@
+::ng-deep .p-tabview-nav-link {
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+::ng-deep .p-listbox-item {
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+::ng-deep .p-accordion-header-link {
+  outline: none !important;
+  box-shadow: none !important;
+  text-decoration: none !important;
+}
+
+::ng-deep .p-tabview-nav-link {
+  margin-right: 15px !important;
+}

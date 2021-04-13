@@ -5,8 +5,8 @@
       *ngFor="let group of groups; let count = index"
       [selected]="count == 0"
     >
-      <div class="h5">
-        {{ group.name }}
+      <div class="h6">
+        <b>{{ group.name }}</b>
       </div>
       <ng-template pTemplate="content">
         <div class="p-2">
