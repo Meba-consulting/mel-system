@@ -32,6 +32,8 @@
           <mat-label>{{
             program?.incidentDateLabel
               ? program?.incidentDateLabel
+              : program?.attributeValues?.length > 0
+              ? attributeValues[0]?.value
               : 'Reporting date'
           }}</mat-label>
           <input
@@ -170,6 +172,8 @@
           <mat-label>{{
             program?.incidentDateLabel
               ? program?.incidentDateLabel
+              : program?.attributeValues?.length > 0
+              ? program?.attributeValues[0]?.value
               : 'Reporting date'
           }}</mat-label>
           <input
