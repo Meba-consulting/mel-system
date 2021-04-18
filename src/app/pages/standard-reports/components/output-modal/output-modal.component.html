@@ -1,7 +1,6 @@
 <div
   class="output-container"
   *ngIf="{
-    indicators: indicators$ | async,
     responsibles: responsibles$ | async
   } as params"
 >
@@ -145,66 +144,76 @@
                       ></textarea>
                     </mat-form-field>
 
-                    <div class="w-100">
-                      <button
-                        style="
-                          border: none;
-                          border-bottom: solid 1px #989696;
-                          border-radius: 0 !important;
-                        "
-                        mat-stroked-button
-                        class="mr-2 float-left w-100 text-left toggle-filter-btns"
-                        (click)="toggleOptionSelector($event)"
+                    <div class="w-100" style="margin-bottom: 15px">
+                      <p-multiSelect
+                        [options]="params?.responsibles"
+                        formControlName="responsibles"
+                        defaultLabel="Who is/are responsible?"
+                        optionLabel="name"
+                      ></p-multiSelect>
+                    </div>
+
+                    <div>
+                      <p class="text-left">Indicators</p>
+                      <p-pickList
+                        [responsive]="true"
+                        [source]="sourceIndicators"
+                        [target]="targetIndicators"
+                        sourceHeader="Available indicators"
+                        targetHeader="Selected indicators"
+                        [dragdrop]="true"
+                        [responsive]="true"
+                        [sourceStyle]="{ height: '18rem' }"
+                        [targetStyle]="{ height: '18rem' }"
+                        filterBy="name"
+                        sourceFilterPlaceholder="Search by name"
+                        targetFilterPlaceholder="Search by name"
                       >
-                        Indicator
-                        {{
-                          selectedIndicator
-                            ? selectedIndicator?.name
-                            : currentActivity
-                            ? currentActivity?.indicator?.name
-                            : ''
-                        }}
-                      </button>
-                      <mat-form-field
-                        class="w-100"
-                        style="border: solid 1px #eee"
-                        *ngIf="
-                          params?.indicators &&
-                          params?.indicators?.length > 0 &&
-                          showOptionSelector
-                        "
-                      >
-                        <mat-label>Search</mat-label>
-                        <input matInput (keyup)="onSearch($event)" />
-                      </mat-form-field>
-                      <div
-                        class="list-contents w-100"
-                        *ngIf="showOptionSelector"
-                      >
-                        <mat-nav-list>
-                          <a
-                            mat-list-item
-                            [ngClass]="{
-                              'selected-item':
-                                selectedIndicator?.id === option.id
-                            }"
-                            (click)="onSelectOption($event, option)"
-                            *ngFor="
-                              let option of params?.indicators
-                                | filterByInputText: searchString
-                            "
-                            >{{ option?.name }}</a
-                          >
-                        </mat-nav-list>
-                      </div>
-                      <button
-                        class="mr-2 float-left"
-                        mat-stroked-button
-                        *ngIf="showOptionSelector"
-                        (click)="hideOptionSection($event)"
-                      >
-                        Done
-                      </button>
+                        <ng-template let-indicator pTemplate="item">
+                          <div>
+                            <div
+                              style="
+                                font-size: 14px;
+                                float: left;
+                                margin: 15px 5px 0 0;
+                              "
+                            >
+                              {{ indicator?.name }}
+                            </div>
+                          </div>
+                        </ng-template>
+                      </p-pickList>
+                    </div>
+
+                    <div
+                      class="selected-indicators"
+                      *ngIf="targetIndicators && targetIndicators?.length > 0"
+                    >
+                      <p class="text-left" style="margin-top: 15px">
+                        Show on Indicators Matrix
+                      </p>
+                      <table class="table">
+                        <thead>
+                          <tr>
+                            <th>Indicator</th>
+                            <th>Show on matrix</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr *ngFor="let indicator of targetIndicators">
+                            <td>{{ indicator?.name }}</td>
+                            <td>
+                              <input
+                                type="checkbox"
+                                [checked]="keyedIndicators[indicator?.id]"
+                                (change)="
+                                  getIndicatorSelected($event, indicator)
+                                "
+                              />
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
                     </div>
 
                     <mat-form-field class="w-100" style="margin-top: 15px">
@@ -242,83 +251,13 @@
                       </button>
                       <!-- <app-targets-settings [key]="key"></app-targets-settings> -->
                     </div>
-
-                    <div class="w-100">
-                      <button
-                        style="
-                          border: none;
-                          border-bottom: solid 1px #989696;
-                          border-radius: 0 !important;
-                        "
-                        mat-stroked-button
-                        class="mr-2 float-left w-100 text-left toggle-filter-btns"
-                        (click)="toggleResponsibleSelector($event)"
-                      >
-                        Responsible
-                        {{
-                          responsible?.name
-                            ? responsible?.name
-                            : currentActivity
-                            ? currentActivity?.responsible?.name
-                            : ''
-                        }}
-                      </button>
-                      <mat-form-field
-                        class="w-100"
-                        style="border: solid 1px #eee"
-                        *ngIf="
-                          params?.responsibles &&
-                          params?.responsibles?.length > 0 &&
-                          showResponsibleSelector
-                        "
-                      >
-                        <mat-label>Search</mat-label>
-                        <input matInput (keyup)="onSearch($event)" />
-                      </mat-form-field>
-                      <div
-                        class="list-contents w-100"
-                        *ngIf="showResponsibleSelector"
-                      >
-                        <mat-nav-list>
-                          <a
-                            mat-list-item
-                            [ngClass]="{
-                              'selected-item': responsible?.id === option.id
-                            }"
-                            (click)="onSelectResponsibleOption($event, option)"
-                            *ngFor="
-                              let option of params?.responsibles
-                                | filterByInputText: searchString
-                            "
-                            >{{ option?.name }}</a
-                          >
-                        </mat-nav-list>
-                      </div>
-
-                      <mat-form-field class="w-100" style="margin-top: 15px">
-                        <input
-                          matInput
-                          min="1"
-                          placeholder="Budget"
-                          [type]="'number'"
-                          formControlName="budget"
-                        />
-                      </mat-form-field>
-                      <button
-                        class="mr-2 float-left"
-                        mat-stroked-button
-                        *ngIf="showResponsibleSelector"
-                        (click)="showResponsibleSelector = false"
-                      >
-                        Done
-                      </button>
-                    </div>
                   </form>
-                  <div class="w-100" style="padding: 15px">
+                  <div class="w-100" style="padding: 15px 0; margin-top: 15px">
                     <button
                       [disabled]="!activityForm.valid || saving"
                       mat-stroked-button
-                      class="mr-2 float-left"
+                      class="mr-2 float-left mel-themed-btn"
+                      style="margin-top: 15px"
                       (click)="
                         onSaveActivity($event, output, activityForm.value)
                       "
@@ -408,68 +347,65 @@
           />
         </mat-form-field>
 
-        <div class="w-100">
-          <button
-            style="
-              border: none;
-              border-bottom: solid 1px #989696;
-              border-radius: 0 !important;
-            "
-            mat-stroked-button
-            class="mr-2 float-left w-100 text-left toggle-filter-btns"
-            (click)="toggleOptionSelector($event)"
+        <div>
+          <p class="text-left">Indicators</p>
+          <p-pickList
+            [responsive]="true"
+            [source]="sourceIndicators"
+            [target]="targetIndicators"
+            sourceHeader="Available indicators"
+            targetHeader="Selected indicators"
+            [dragdrop]="true"
+            [responsive]="true"
+            [sourceStyle]="{ height: '18rem' }"
+            [targetStyle]="{ height: '18rem' }"
+            filterBy="name"
+            sourceFilterPlaceholder="Search by name"
+            targetFilterPlaceholder="Search by name"
           >
-            Indicator
-            {{
-              selectedIndicator
-                ? selectedIndicator?.name
-                : currentActivity
-                ? currentActivity?.indicator?.name
-                : ''
-            }}
-          </button>
-          <mat-form-field
-            class="w-100"
-            style="border: solid 1px #eee"
-            *ngIf="
-              params?.indicators &&
-              params?.indicators?.length > 0 &&
-              showOptionSelector
-            "
-          >
-            <mat-label>Search</mat-label>
-            <input matInput (keyup)="onSearch($event)" />
-          </mat-form-field>
-          <div class="list-contents w-100" *ngIf="showOptionSelector">
-            <mat-nav-list>
-              <a
-                mat-list-item
-                [ngClass]="{
-                  'selected-item': selectedIndicator?.id === option.id
-                }"
-                (click)="onSelectOption($event, option)"
-                *ngFor="
-                  let option of params?.indicators
-                    | filterByInputText: searchString
-                "
-                >{{ option?.name }}</a
-              >
-            </mat-nav-list>
-          </div>
-          <button
-            class="mr-2 float-left"
-            mat-stroked-button
-            *ngIf="showOptionSelector"
-            (click)="hideOptionSection($event)"
-          >
-            Done
-          </button>
+            <ng-template let-indicator pTemplate="item">
+              <div>
+                <div style="font-size: 14px; float: left; margin: 15px 5px 0 0">
+                  {{ indicator?.name }}
+                </div>
+              </div>
+            </ng-template>
+          </p-pickList>
+        </div>
+
+        <div
+          class="selected-indicators"
+          *ngIf="targetIndicators && targetIndicators?.length > 0"
+        >
+          <p class="text-left" style="margin-top: 15px">
+            Use on Indicator Matrix
+          </p>
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Indicator</th>
+                <th>Show on matrix</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let indicator of targetIndicators">
+                <td>{{ indicator?.name }}</td>
+                <td>
+                  <input
+                    type="checkbox"
+                    [checked]="keyedIndicators[indicator?.id]"
+                    (change)="getIndicatorSelected($event, indicator)"
+                  />
+                </td>
+              </tr>
+            </tbody>
+          </table>
         </div>
 
         <button
           [disabled]="!outputForm.valid || saving"
           mat-stroked-button
-          class="mr-2 float-left"
+          class="mr-2 float-left mel-themed-btn"
           (click)="onSaveOutput($event, outputForm.value)"
         >
           <mat-spinner
@@ -484,7 +420,10 @@
       </form>
     </div>
   </div>
-  <div class="btns" style="border-top: solid 1px #eee; padding: 5px">
+  <div
+    class="btns"
+    style="border-top: solid 1px #eee; padding: 5px; margin-top: 8px"
+  >
     <!-- <button mat-stroked-button class="mr-2 float-left">Save</button> -->
     <button
       [disabled]="saving"

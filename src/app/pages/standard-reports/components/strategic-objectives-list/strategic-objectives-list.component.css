@@ -9,3 +9,8 @@ button:hover {
   font-weight: 500px;
   color: #3ea9d9;
 }
+
+.btns {
+  padding: 5px 0 15px 0px;
+  margin-bottom: 25px;
+}

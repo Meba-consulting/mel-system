@@ -3,7 +3,8 @@
 }
 
 .outputs {
-  height: 550px;
+  min-height: 250px;
+  max-height: 550px;
   overflow: auto;
 }
 
@@ -17,6 +18,7 @@ button:hover {
 .add-activity-container {
   height: 350px;
   overflow: auto;
+  padding: 15px;
 }
 
 .dataset-form-full-width,
@@ -69,6 +71,10 @@ button:hover {
 
 .activities-list {
   min-height: 120px;
-  max-height: 300px;
+  max-height: 250px;
   overflow: auto;
+}
+
+::ng-deep .p-multiselect {
+  width: 100% !important;
 }

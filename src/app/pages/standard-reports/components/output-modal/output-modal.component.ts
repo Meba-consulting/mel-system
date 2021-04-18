@@ -9,7 +9,7 @@ import { NgxDhis2HttpClientService } from '@iapps/ngx-dhis2-http-client';
 import { Observable } from 'rxjs';
 import { ActivityTrackerService } from '../../services/activity-tracker.service';
 
-import { filter } from 'lodash';
+import { filter, keyBy } from 'lodash';
 import { TargetsSettingsComponent } from '../targets-settings/targets-settings.component';
 
 @Component({
@@ -30,7 +30,6 @@ export class OutputModalComponent implements OnInit {
   showActivityForm: boolean = false;
   activityForm: FormGroup;
   showActivityFor: any = {};
-  indicators$: Observable<any>;
   showOptionSelector: boolean = false;
   selectedIndicator: any;
   searchString: string = '';
@@ -38,6 +37,7 @@ export class OutputModalComponent implements OnInit {
   savingActivity: boolean = false;
   responsibles$: Observable<any>;
   responsible: any;
+  responsiblesSelected: any[] = [];
   showResponsibleSelector: boolean = false;
   isEditActivitySet: boolean = false;
   currentPeriodType: string;
@@ -45,6 +45,11 @@ export class OutputModalComponent implements OnInit {
   targetVariables: any[] = [];
   targets: any = [];
   targetsDisplayed: string = '';
+
+  selectedIndicators: any[] = [];
+  sourceIndicators: any[] = [];
+  targetIndicators: any[] = [];
+  keyedIndicators: any = {};
   constructor(
     private dialogRef: MatDialogRef<OutputModalComponent>,
     @Inject(MAT_DIALOG_DATA) data,
@@ -57,7 +62,7 @@ export class OutputModalComponent implements OnInit {
     this.objectives = data?.objectives;
     this.currentObjective = data?.objective;
     this.currentOutComeSn = data?.currentOutComeSn;
-    this.indicators$ = this.activityService.getIndicators();
+    this.sourceIndicators = data?.indicators;
   }
 
   ngOnInit(): void {
@@ -70,7 +75,7 @@ export class OutputModalComponent implements OnInit {
   }
 
   onAddNewOutput(e) {
-    e.stopPropagation();
+    // e.stopPropagation();
     this.showOutputForm = true;
     this.currentOutput = null;
     this.outputForm = new FormGroup({
@@ -95,7 +100,12 @@ export class OutputModalComponent implements OnInit {
           name: formValues?.name,
           label: formValues?.label,
           description: formValues?.description,
-          indicator: this.selectedIndicator,
+          indicator: (this.targetIndicators.map((indicator) => {
+            return {
+              ...indicator,
+              showOnMatrix: this.keyedIndicators[indicator?.id],
+            };
+          }) || [])[0],
           baseline: formValues?.baseline,
           targetPerYear: formValues?.targetPerYear,
           activities: this.currentOutput ? this.currentOutput?.activities : [],
@@ -141,8 +151,24 @@ export class OutputModalComponent implements OnInit {
   }
 
   onEditOutput(e, output) {
-    e.stopPropagation();
+    // e.stopPropagation();
     this.currentOutput = output;
+
+    this.targetIndicators = output?.indicator ? [output?.indicator] : [];
+    this.keyedIndicators =
+      this.targetIndicators && this.targetIndicators?.length > 0
+        ? keyBy(
+            this.targetIndicators
+              .filter((ind) => ind?.showOnMatrix === true)
+              .map((indicator) => {
+                return {
+                  id: indicator?.id,
+                  showOnMatrix: true,
+                };
+              }),
+            'id'
+          )
+        : {};
     this.outputForm = new FormGroup({
       name: new FormControl(output?.name, [
         Validators.required,
@@ -163,7 +189,7 @@ export class OutputModalComponent implements OnInit {
   }
 
   onAddActivity(e, output) {
-    e.stopPropagation();
+    // e.stopPropagation();
     this.currentOutput = output;
     this.showActivityFor[output?.id] = true;
     this.showActivityForm = true;
@@ -184,11 +210,12 @@ export class OutputModalComponent implements OnInit {
   }
 
   onViewActivities(e, output) {
-    e.stopPropagation();
+    // e.stopPropagation();
     this.showActivityFor[output?.id] = true;
     this.showActivityForm = false;
     this.currentOutput = output;
   }
+
   onOptionFilterUpdate(selectedOption, type) {
     console.log(selectedOption);
   }
@@ -223,21 +250,13 @@ export class OutputModalComponent implements OnInit {
     this.responsible = option;
   }
 
-  onRemoveItem(option, items) {
-    // const removedItem = _.find(items, ['id', option ? option.id : undefined]);
-    // const itemIndex = items.indexOf(removedItem);
-    // if (itemIndex !== -1) {
-    //   items = [...items.slice(0, itemIndex), ...items.slice(itemIndex + 1)];
-    // }
-    // return items;
-  }
-
   onSelectionChange(e, options) {
     filter(options, { id: e.value })[0];
   }
 
   onSaveActivity(e, output, formValues) {
     e.stopPropagation();
+    // console.log('formValues', formValues);
     this.currentOutput = output;
     this.savingActivity = true;
     this.httpClient.get('system/id.json').subscribe((res) => {
@@ -250,9 +269,14 @@ export class OutputModalComponent implements OnInit {
           budget: formValues?.budget,
           targetPerYear: formValues?.targetPerYear,
           baseline: formValues?.baseline,
-          indicator: this.selectedIndicator,
+          indicator: (this.targetIndicators.map((indicator) => {
+            return {
+              ...indicator,
+              showOnMatrix: this.keyedIndicators[indicator?.id],
+            };
+          }) || [])[0],
           targets: this.targets,
-          responsible: this.responsible,
+          responsibles: formValues?.responsibles,
         };
         this.currentOutput.activities = this.currentActivity
           ? this.currentOutput.activities.map((activity) => {
@@ -265,6 +289,8 @@ export class OutputModalComponent implements OnInit {
           : [...this.currentOutput.activities, newActivity];
 
         this.currentActivity = newActivity;
+
+        console.log('this.currentActivity', this.currentActivity);
 
         this.outCome.outputs = this.outCome.outputs.map((item) => {
           if (item?.id === this.currentOutput?.id) {
@@ -302,7 +328,7 @@ export class OutputModalComponent implements OnInit {
   }
 
   onDeleteActivity(e, output, currentActivity) {
-    e.stopPropagation();
+    // e.stopPropagation();
     this.currentOutput = output;
 
     this.currentOutput.activities = this.currentOutput.activities.filter(
@@ -349,13 +375,34 @@ export class OutputModalComponent implements OnInit {
   }
 
   onEditActivity(e, activity) {
-    e.stopPropagation();
+    // e.stopPropagation();
+    console.log('activity', activity);
     this.currentActivity = activity;
     this.selectedIndicator = activity?.indicator;
     this.responsible = activity?.responsible;
+    this.responsiblesSelected =
+      activity?.responsibles && activity?.responsibles?.length > 0
+        ? activity?.responsibles
+        : [];
     this.showActivityFor[this.currentOutput?.id] = true;
     this.showActivityForm = true;
     this.targets = this.currentActivity?.targets;
+
+    this.targetIndicators = activity?.indicator ? [activity?.indicator] : [];
+    this.keyedIndicators =
+      this.targetIndicators && this.targetIndicators?.length > 0
+        ? keyBy(
+            this.targetIndicators
+              .filter((ind) => ind?.showOnMatrix === true)
+              .map((indicator) => {
+                return {
+                  id: indicator?.id,
+                  showOnMatrix: true,
+                };
+              }),
+            'id'
+          )
+        : {};
     this.targetsDisplayed = this.formatTargets(this.targets);
     this.activityForm = new FormGroup({
       name: new FormControl(activity?.name, [
@@ -370,10 +417,10 @@ export class OutputModalComponent implements OnInit {
         Validators.minLength(8),
       ]),
       budget: new FormControl(activity?.budget),
-      targetPerYear: new FormControl(activity?.tergetPerYear),
+      targetPerYear: new FormControl(activity?.targetPerYear),
       baseline: new FormControl(activity?.baseline),
       indicator: new FormControl(''),
-      responsible: new FormControl(''),
+      responsibles: new FormControl(activity?.responsibles || []),
     });
   }
 
@@ -381,8 +428,8 @@ export class OutputModalComponent implements OnInit {
     e.stopPropagation();
     this.dialog
       .open(TargetsSettingsComponent, {
-        width: '50%',
-        height: '450px',
+        width: '40%',
+        height: '380px',
         disableClose: false,
         data: {
           key: key,
@@ -422,5 +469,13 @@ export class OutputModalComponent implements OnInit {
           .filter((formattedTarget) => formattedTarget)
           .join(', ')
       : '';
+  }
+
+  getIndicatorSelected(event, indicator) {
+    if (event?.target?.checked) {
+      this.keyedIndicators[indicator?.id] = true;
+    } else {
+      this.keyedIndicators[indicator?.id] = false;
+    }
   }
 }

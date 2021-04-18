@@ -205,7 +205,7 @@ tr.mat-footer-row {
 }
 
 .table th {
-  padding: 0.175rem;
+  padding: 0.575rem;
   vertical-align: middle !important;
   border-top: 1px solid #dee2e6;
 }
@@ -218,4 +218,8 @@ tr.mat-footer-row {
 
 .p-picklist .p-picklist-list .p-picklist-item {
   padding: 0.1rem 1rem !important;
+}
+
+button {
+  line-height: 2rem !important;
 }

@@ -42,15 +42,14 @@ export class StrategicObjectivesListComponent implements OnInit {
   }
 
   onEdit(e, objective) {
-    e.stopPropagation();
+    // e.stopPropagation();
     this.editObjective.emit(objective);
   }
 
   onAddOutCome(e, objective) {
-    e.stopPropagation();
     this.showOutComesFor[objective?.id] = true;
     this.currentObjective = objective;
-    e.stopPropagation();
+    // e.stopPropagation();
     this.outComeForm = new FormGroup({
       name: new FormControl('', [Validators.required, Validators.minLength(8)]),
       label: new FormControl('', [
@@ -62,13 +61,13 @@ export class StrategicObjectivesListComponent implements OnInit {
   }
 
   onViewOuComes(e, objective) {
-    e.stopPropagation();
+    // e.stopPropagation();
     this.currentObjective = objective;
     this.showOutComesFor = {};
   }
 
   onEditOutCome(e, outCome, objective) {
-    e.stopPropagation();
+    // e.stopPropagation();
     this.currentObjective = objective;
     this.currentOutCome = outCome;
     this.targetIndicators =
@@ -108,11 +107,12 @@ export class StrategicObjectivesListComponent implements OnInit {
 
   onAddOutput(e, outCome, currentOutComeSn) {
     this.currentOutCome = outCome;
-    e.stopPropagation();
+    // e.stopPropagation();
     this.dialog
       .open(OutputModalComponent, {
         width: '80%',
-        height: '700px',
+        minHeight: '400px',
+        maxHeight: '700px',
         disableClose: false,
         data: {
           objective: this.currentObjective,
@@ -120,6 +120,7 @@ export class StrategicObjectivesListComponent implements OnInit {
           key: this.key,
           objectives: this.activityDetails,
           currentOutComeSn: currentOutComeSn,
+          indicators: this.indicators,
         },
         panelClass: 'custom-dialog-container',
       })
@@ -140,17 +141,13 @@ export class StrategicObjectivesListComponent implements OnInit {
       });
   }
 
-  onViewOutputs(e, outCome) {
-    e.stopPropagation();
-  }
-
   onCancelOpenedObjective(e) {
     e.stopPropagation();
     this.currentObjective = null;
   }
 
   addOucomeToObjective(e) {
-    e.stopPropagation();
+    // e.stopPropagation();
     this.currentOutCome = null;
     this.targetIndicators = [];
     this.showOutComesFor[this.currentObjective?.id] = true;
@@ -165,7 +162,6 @@ export class StrategicObjectivesListComponent implements OnInit {
   }
 
   onSaveOutCome(e, activityDetails, formValues, selectedIndicators) {
-    console.log(formValues);
     e.stopPropagation();
     this.saving = true;
     this.httpClient.get('system/id.json').subscribe((res) => {
@@ -183,7 +179,6 @@ export class StrategicObjectivesListComponent implements OnInit {
           }),
           outputs: this.isEditOutComeSet ? this.currentOutCome?.outputs : [],
         };
-        console.log('isEditOutComeSet', this.isEditOutComeSet);
         this.currentObjective.outComes = this.isEditOutComeSet
           ? this.currentObjective.outComes.map((outcome) => {
               if (outcome?.id == newOutCome?.id) {
@@ -213,7 +208,7 @@ export class StrategicObjectivesListComponent implements OnInit {
   }
 
   getIndicatorSelected(event, indicator) {
-    console.log(event);
+    // console.log(event);
     if (event?.target?.checked) {
       this.keyedIndicators[indicator?.id] = true;
     } else {
