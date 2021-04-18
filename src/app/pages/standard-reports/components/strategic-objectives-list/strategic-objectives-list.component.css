@@ -4,3 +4,8 @@ button {
 button:hover {
   outline: none !important;
 }
+
+.selected-outcome {
+  font-weight: 500px;
+  color: #3ea9d9;
+}

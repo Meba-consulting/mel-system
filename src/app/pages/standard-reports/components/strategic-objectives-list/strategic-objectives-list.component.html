@@ -46,79 +46,99 @@
         </tr>
         <tr *ngIf="currentObjective && currentObjective?.id === objective?.id">
           <td colspan="4">
-            <table class="table p-3">
-              <thead>
-                <th>SN</th>
-                <th>Outcome</th>
-                <th>Description</th>
-                <th></th>
-              </thead>
-              <tbody>
-                <ng-container
-                  *ngIf="
-                    currentObjective?.outComes &&
-                    currentObjective?.outComes?.length > 0
-                  "
-                >
-                  <tr
-                    *ngFor="
-                      let outCome of currentObjective?.outComes;
-                      let outComeCount = index
+            <div style="height: 150px; overflow: auto">
+              <table class="table p-3">
+                <thead>
+                  <th>SN</th>
+                  <th>Outcome</th>
+                  <th>Description</th>
+                  <th></th>
+                </thead>
+                <tbody>
+                  <ng-container
+                    *ngIf="
+                      currentObjective?.outComes &&
+                      currentObjective?.outComes?.length > 0
                     "
                   >
-                    <td>{{ count + 1 }}.{{ outComeCount + 1 }}</td>
-                    <td>{{ outCome?.name }}</td>
-                    <td>{{ outCome?.description }}</td>
-                    <td>
-                      <button
-                        mat-icon-button
-                        [matMenuTriggerFor]="menu"
-                        matTooltip="More actions"
-                      >
-                        <mat-icon>more_vert</mat-icon>
-                      </button>
-                      <mat-menu #menu="matMenu" class="menu-options">
+                    <tr
+                      [ngClass]="{
+                        'selected-outcome': currentOutCome?.id === outCome?.id
+                      }"
+                      *ngFor="
+                        let outCome of currentObjective?.outComes;
+                        let outComeCount = index
+                      "
+                    >
+                      <td>{{ count + 1 }}.{{ outComeCount + 1 }}</td>
+                      <td>{{ outCome?.name }}</td>
+                      <td>{{ outCome?.description }}</td>
+                      <td>
                         <button
-                          (click)="onEditOutCome($event, outCome, objective)"
-                          mat-menu-item
+                          mat-icon-button
+                          [matMenuTriggerFor]="menu"
+                          matTooltip="More actions"
                         >
-                          <mat-icon>edit</mat-icon>
-                          <span>Edit</span>
+                          <mat-icon>more_vert</mat-icon>
                         </button>
-                        <button
-                          (click)="onAddOutput($event, outCome)"
-                          mat-menu-item
-                        >
-                          <mat-icon>add</mat-icon>
-                          <span>Add output</span>
-                        </button>
+                        <mat-menu #menu="matMenu" class="menu-options">
+                          <button
+                            (click)="onEditOutCome($event, outCome, objective)"
+                            mat-menu-item
+                          >
+                            <mat-icon>edit</mat-icon>
+                            <span>Edit</span>
+                          </button>
+                          <button
+                            (click)="
+                              onAddOutput(
+                                $event,
+                                outCome,
+                                count + 1 + '.' + (outComeCount + 1)
+                              )
+                            "
+                            mat-menu-item
+                          >
+                            <mat-icon>add</mat-icon>
+                            <span>Add output</span>
+                          </button>
 
-                        <button
-                          (click)="onAddOutput($event, outCome)"
-                          mat-menu-item
-                        >
-                          <mat-icon>remove_red_eye</mat-icon>
-                          <span>View outputs</span>
-                        </button>
-                      </mat-menu>
-                    </td>
-                  </tr>
-                </ng-container>
-                <ng-container
-                  *ngIf="
-                    !currentObjective?.outComes ||
-                    currentObjective?.outComes?.length === 0
-                  "
-                >
-                  <tr>
-                    <td colspan="4" class="text-center text-warning">
-                      <p>No outcome available</p>
-                    </td>
-                  </tr>
-                </ng-container>
-              </tbody>
-            </table>
-            <div *ngIf="showOutComesFor[currentObjective?.id]">
+                          <button
+                            (click)="
+                              onAddOutput(
+                                $event,
+                                outCome,
+                                count + 1 + '.' + (outComeCount + 1)
+                              )
+                            "
+                            mat-menu-item
+                          >
+                            <mat-icon>remove_red_eye</mat-icon>
+                            <span>View outputs</span>
+                          </button>
+                        </mat-menu>
+                      </td>
+                    </tr>
+                  </ng-container>
+                  <ng-container
+                    *ngIf="
+                      !currentObjective?.outComes ||
+                      currentObjective?.outComes?.length === 0
+                    "
+                  >
+                    <tr>
+                      <td colspan="4" class="text-center text-warning">
+                        <p>No outcome available</p>
+                      </td>
+                    </tr>
+                  </ng-container>
+                </tbody>
+              </table>
+            </div>
+            <div
+              *ngIf="showOutComesFor[currentObjective?.id]"
+              style="margin-top: 15px; padding: 15px 15px 0 15px"
+            >
               <form [formGroup]="outComeForm">
                 <mat-form-field class="w-100">
                   <input
@@ -149,40 +169,111 @@
                   ></textarea>
                 </mat-form-field>
 
-                <button
-                  [disabled]="!outComeForm.valid || saving"
-                  mat-stroked-button
-                  class="mr-2 float-left"
-                  (click)="
-                    onSaveOutCome($event, activityDetails, outComeForm.value)
-                  "
-                >
-                  <mat-spinner
-                    *ngIf="saving"
-                    color="accent"
-                    [diameter]="20"
-                    style="display: inline-block !important; margin-right: 4px"
+                <div>
+                  <p class="text-left">Indicators</p>
+                  <p-pickList
+                    [responsive]="true"
+                    [source]="sourceIndicators"
+                    [target]="targetIndicators"
+                    sourceHeader="Available indicators"
+                    targetHeader="Selected indicators"
+                    [dragdrop]="true"
+                    [responsive]="true"
+                    [sourceStyle]="{ height: '20rem' }"
+                    [targetStyle]="{ height: '20rem' }"
+                    filterBy="name"
+                    sourceFilterPlaceholder="Search by name"
+                    targetFilterPlaceholder="Search by name"
                   >
-                  </mat-spinner>
-                  Save
-                </button>
+                    <ng-template let-indicator pTemplate="item">
+                      <div>
+                        <div
+                          style="
+                            font-size: 14px;
+                            float: left;
+                            margin: 15px 5px 0 0;
+                          "
+                        >
+                          {{ indicator?.name }}
+                        </div>
+                      </div>
+                    </ng-template>
+                  </p-pickList>
+                </div>
+
+                <div
+                  class="selected-indicators"
+                  *ngIf="targetIndicators && targetIndicators?.length > 0"
+                >
+                  <p class="text-left" style="margin-top: 15px">
+                    Indicators to be used on indicator matrix
+                  </p>
+                  <table class="table">
+                    <thead>
+                      <tr>
+                        <th>Indicator</th>
+                        <th>Show on matrix</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let indicator of targetIndicators">
+                        <td>{{ indicator?.name }}</td>
+                        <td>
+                          <input
+                            type="checkbox"
+                            [checked]="keyedIndicators[indicator?.id]"
+                            (change)="getIndicatorSelected($event, indicator)"
+                          />
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+
+                <div style="margin-top: 20px">
+                  <button
+                    [disabled]="!outComeForm.valid || saving"
+                    mat-stroked-button
+                    class="mr-2 float-left"
+                    (click)="
+                      onSaveOutCome(
+                        $event,
+                        activityDetails,
+                        outComeForm.value,
+                        targetIndicators
+                      )
+                    "
+                  >
+                    <mat-spinner
+                      *ngIf="saving"
+                      color="accent"
+                      [diameter]="20"
+                      style="
+                        display: inline-block !important;
+                        margin-right: 4px;
+                      "
+                    >
+                    </mat-spinner>
+                    Save
+                  </button>
+                </div>
               </form>
             </div>
 
             <div class="btns">
               <button
                 mat-stroked-button
-                class="mr-2 float-left"
-                (click)="addOucomeToObjective($event)"
-              >
-                New ouctome
-              </button>
-              <button
-                mat-stroked-button
-                class="mr-2 float-left"
+                class="mr-2 float-right"
                 (click)="onCancelOpenedObjective($event)"
               >
                 Cancel
+              </button>
+              <button
+                mat-stroked-button
+                class="mr-2 float-right mel-themed-btn"
+                (click)="addOucomeToObjective($event)"
+              >
+                New ouctome
               </button>
             </div>
           </td>

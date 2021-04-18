@@ -19,6 +19,7 @@ import { TargetsSettingsComponent } from '../targets-settings/targets-settings.c
 })
 export class OutputModalComponent implements OnInit {
   outCome: any;
+  currentOutComeSn: string;
   key: string;
   objectives: any;
   currentObjective: any;
@@ -55,6 +56,7 @@ export class OutputModalComponent implements OnInit {
     this.key = data?.key;
     this.objectives = data?.objectives;
     this.currentObjective = data?.objective;
+    this.currentOutComeSn = data?.currentOutComeSn;
     this.indicators$ = this.activityService.getIndicators();
   }
 

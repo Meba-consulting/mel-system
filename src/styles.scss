@@ -187,3 +187,35 @@ tr.mat-footer-row {
   text-decoration: none !important;
   outline: none !important;
 }
+
+.p-component,
+.p-component * {
+  box-sizing: border-box;
+  font-size: 0.8rem !important;
+}
+
+.table tbody + tbody {
+  border-top: 1px solid #dee2e6 !important;
+}
+
+.table td {
+  padding: 0.075rem !important;
+  vertical-align: middle !important;
+  border-top: 1px solid #dee2e6;
+}
+
+.table th {
+  padding: 0.175rem;
+  vertical-align: middle !important;
+  border-top: 1px solid #dee2e6;
+}
+
+.mel-themed-btn {
+  background-color: #3ea9d9 !important;
+  color: #fff !important;
+  font-weight: 600 !important;
+}
+
+.p-picklist .p-picklist-list .p-picklist-item {
+  padding: 0.1rem 1rem !important;
+}

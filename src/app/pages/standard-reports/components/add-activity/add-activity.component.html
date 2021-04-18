@@ -7,13 +7,14 @@
     <app-strategic-objectives-list
       [activityDetails]="params?.activityDetails"
       [key]="key"
+      [indicators]="indicators"
       (editObjective)="onEditObjective($event)"
     ></app-strategic-objectives-list>
 
     <div class="btns" *ngIf="!showFormForAddingNewObjective">
       <button
         mat-stroked-button
-        class="float-right"
+        class="float-right mel-themed-btn"
         (click)="onAddNewObjective($event, key)"
       >
         New Objective

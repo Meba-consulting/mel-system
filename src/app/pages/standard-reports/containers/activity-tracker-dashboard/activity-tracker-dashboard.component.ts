@@ -10,6 +10,7 @@ import { AddYearOfActivityModalComponent } from '../../components/add-year-of-ac
 })
 export class ActivityTrackerDashboardComponent implements OnInit {
   @Input() keys: string[];
+  @Input() indicators: any[];
   selectedTab = new FormControl(0);
   @Output() reloadData = new EventEmitter<any>();
   constructor(private dialog: MatDialog) {}
@@ -21,7 +22,7 @@ export class ActivityTrackerDashboardComponent implements OnInit {
     this.dialog
       .open(AddYearOfActivityModalComponent, {
         width: '20%',
-        height: '250px',
+        height: '180px',
         disableClose: false,
         data: { availableOptions: this.keys },
         panelClass: 'custom-dialog-container',

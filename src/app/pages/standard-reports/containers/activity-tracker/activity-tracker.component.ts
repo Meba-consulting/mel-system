@@ -10,9 +10,11 @@ import { ActivityTrackerService } from '../../services/activity-tracker.service'
 export class ActivityTrackerComponent implements OnInit {
   @Input() currentUser: any;
   activityTrackerYears$: Observable<any>;
+  indicators$: Observable<any>;
   constructor(private activityTrackerService: ActivityTrackerService) {}
 
   ngOnInit(): void {
     this.activityTrackerYears$ = this.activityTrackerService.getActivityTrackerYears();
+    this.indicators$ = this.activityTrackerService.getIndicators();
   }
 }

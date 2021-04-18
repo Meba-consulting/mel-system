@@ -2,8 +2,11 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { NgxDhis2HttpClientService } from '@iapps/ngx-dhis2-http-client';
+import { PrimeNGConfig } from 'primeng/api';
 import { ActivityTrackerService } from '../../services/activity-tracker.service';
 import { OutputModalComponent } from '../output-modal/output-modal.component';
+
+import { keyBy } from 'lodash';
 
 @Component({
   selector: 'app-strategic-objectives-list',
@@ -13,6 +16,7 @@ import { OutputModalComponent } from '../output-modal/output-modal.component';
 export class StrategicObjectivesListComponent implements OnInit {
   @Input() activityDetails: any[];
   @Input() key: string;
+  @Input() indicators: any[];
   @Output() editObjective = new EventEmitter<any>();
   showOutComesFor: any = {};
   currentObjective: any;
@@ -20,13 +24,22 @@ export class StrategicObjectivesListComponent implements OnInit {
   saving: boolean = false;
   currentOutCome: any;
   isEditOutComeSet: boolean = false;
+  selectedIndicators: any[] = [];
+  sourceIndicators: any[] = [];
+  targetIndicators: any[] = [];
+  keyedIndicators: any = {};
   constructor(
     private httpClient: NgxDhis2HttpClientService,
     private activityService: ActivityTrackerService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private primengConfig: PrimeNGConfig
   ) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.primengConfig.ripple = true;
+    this.sourceIndicators = this.indicators;
+    this.selectedIndicators = [];
+  }
 
   onEdit(e, objective) {
     e.stopPropagation();
@@ -58,6 +71,24 @@ export class StrategicObjectivesListComponent implements OnInit {
     e.stopPropagation();
     this.currentObjective = objective;
     this.currentOutCome = outCome;
+    this.targetIndicators =
+      outCome?.indicators && outCome?.indicators?.length > 0
+        ? outCome?.indicators
+        : [];
+    this.keyedIndicators =
+      this.targetIndicators && this.targetIndicators?.length > 0
+        ? keyBy(
+            this.targetIndicators
+              .filter((ind) => ind?.showOnMatrix === true)
+              .map((indicator) => {
+                return {
+                  id: indicator?.id,
+                  showOnMatrix: true,
+                };
+              }),
+            'id'
+          )
+        : {};
     this.outComeForm = new FormGroup({
       name: new FormControl(outCome?.name, [
         Validators.required,
@@ -75,7 +106,7 @@ export class StrategicObjectivesListComponent implements OnInit {
     this.isEditOutComeSet = true;
   }
 
-  onAddOutput(e, outCome) {
+  onAddOutput(e, outCome, currentOutComeSn) {
     this.currentOutCome = outCome;
     e.stopPropagation();
     this.dialog
@@ -88,6 +119,7 @@ export class StrategicObjectivesListComponent implements OnInit {
           outCome: this.currentOutCome,
           key: this.key,
           objectives: this.activityDetails,
+          currentOutComeSn: currentOutComeSn,
         },
         panelClass: 'custom-dialog-container',
       })
@@ -119,6 +151,8 @@ export class StrategicObjectivesListComponent implements OnInit {
 
   addOucomeToObjective(e) {
     e.stopPropagation();
+    this.currentOutCome = null;
+    this.targetIndicators = [];
     this.showOutComesFor[this.currentObjective?.id] = true;
     this.outComeForm = new FormGroup({
       name: new FormControl('', [Validators.required, Validators.minLength(8)]),
@@ -130,7 +164,7 @@ export class StrategicObjectivesListComponent implements OnInit {
     });
   }
 
-  onSaveOutCome(e, activityDetails, formValues) {
+  onSaveOutCome(e, activityDetails, formValues, selectedIndicators) {
     console.log(formValues);
     e.stopPropagation();
     this.saving = true;
@@ -141,6 +175,12 @@ export class StrategicObjectivesListComponent implements OnInit {
           name: formValues?.name,
           label: formValues?.label,
           description: formValues?.description,
+          indicators: selectedIndicators.map((indicator) => {
+            return {
+              ...indicator,
+              showOnMatrix: this.keyedIndicators[indicator?.id],
+            };
+          }),
           outputs: this.isEditOutComeSet ? this.currentOutCome?.outputs : [],
         };
         console.log('isEditOutComeSet', this.isEditOutComeSet);
@@ -170,5 +210,14 @@ export class StrategicObjectivesListComponent implements OnInit {
           });
       }
     });
+  }
+
+  getIndicatorSelected(event, indicator) {
+    console.log(event);
+    if (event?.target?.checked) {
+      this.keyedIndicators[indicator?.id] = true;
+    } else {
+      this.keyedIndicators[indicator?.id] = false;
+    }
   }
 }

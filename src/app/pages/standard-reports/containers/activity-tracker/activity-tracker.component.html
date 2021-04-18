@@ -1,7 +1,12 @@
-<div *ngIf="{ activityTrackerYears: activityTrackerYears$ | async } as params">
+<div
+  *ngIf="{
+    activityTrackerYears: activityTrackerYears$ | async,
+    indicators: indicators$ | async
+  } as params"
+>
   <mat-progress-bar
     mode="indeterminate"
-    *ngIf="!params?.activityTrackerYears"
+    *ngIf="!params?.activityTrackerYears || !params?.indicators"
   ></mat-progress-bar>
   <div
     *ngIf="
@@ -15,11 +20,14 @@
 
   <div
     *ngIf="
-      params?.activityTrackerYears && !params?.activityTrackerYears?.message
+      params?.activityTrackerYears &&
+      !params?.activityTrackerYears?.message &&
+      params?.indicators
     "
   >
     <app-activity-tracker-dashboard
       [keys]="params?.activityTrackerYears"
+      [indicators]="params?.indicators"
     ></app-activity-tracker-dashboard>
   </div>
 </div>

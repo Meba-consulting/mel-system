@@ -11,6 +11,7 @@ import { ActivityTrackerService } from '../../services/activity-tracker.service'
 })
 export class AddActivityComponent implements OnInit {
   @Input() key: string;
+  @Input() indicators: any[];
   activityDetails$: Observable<any>;
   showFormForAddingNewObjective: boolean = false;
   objectiveForm: FormGroup;

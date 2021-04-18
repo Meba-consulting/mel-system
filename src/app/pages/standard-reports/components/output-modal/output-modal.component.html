@@ -22,7 +22,7 @@
       <ng-container *ngIf="outCome?.outputs && outCome?.outputs?.length > 0">
         <tbody *ngFor="let output of outCome?.outputs; let count = index">
           <tr>
-            <td>{{ count + 1 }}</td>
+            <td>{{ currentOutComeSn }}.{{ count + 1 }}</td>
             <td>{{ output?.name }}</td>
             <td>{{ output?.description }}</td>
             <td>
@@ -74,7 +74,11 @@
                           let activityCount = index
                         "
                       >
-                        <td>{{ count + 1 }}.{{ activityCount + 1 }}</td>
+                        <td>
+                          {{ currentOutComeSn }}.{{ count + 1 }}.{{
+                            activityCount + 1
+                          }}
+                        </td>
                         <td>{{ activity?.name }}</td>
                         <td>{{ activity?.description }}</td>
                         <td>{{ activity?.indicator?.name }}</td>
@@ -485,7 +489,7 @@
     <button
       [disabled]="saving"
       mat-stroked-button
-      class="mr-2 float-left"
+      class="mr-2 float-left mel-themed-btn"
       (click)="onAddNewOutput($event)"
     >
       New output

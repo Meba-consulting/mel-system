@@ -13,7 +13,10 @@
         style="background-color: transparent"
         *ngIf="selectedTab.value == count"
       >
-        <app-add-activity [key]="key"></app-add-activity>
+        <app-add-activity
+          [indicators]="indicators"
+          [key]="key"
+        ></app-add-activity>
       </div>
     </mat-tab>
   </mat-tab-group>
