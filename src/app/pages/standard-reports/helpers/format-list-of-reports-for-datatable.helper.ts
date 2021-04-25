@@ -46,21 +46,18 @@ export function formatReportsForDataTable(items, reportGroup) {
   return formattedItems;
 }
 
-export function getReportGroups(userGroups) {
+export function getReportGroups(userGroups, type?) {
   let groups = [];
   _.each(userGroups, (userGroup) => {
     if (
-      userGroup.name.toLowerCase().indexOf('_report') > -1 &&
-      userGroup.name.toLowerCase().indexOf('_reports_') == -1 &&
-      userGroup.name.toLowerCase() !== '_reports'
+      userGroup.name.toLowerCase().indexOf(type.toLowerCase()) == 0 &&
+      userGroup.name.toLowerCase() !== type.toLowerCase()
     ) {
       groups.push({
         id: userGroup.id,
         name: userGroup.name
-          .replace('_REPORTS ', '')
-          .replace('_reports ', '')
-          .replace('_REPORT ', '')
-          .replace('_report ', ''),
+          .replace(type + '', '')
+          .replace(type.toLowerCase() + '', ''),
       });
     }
   });

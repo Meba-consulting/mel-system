@@ -4,17 +4,18 @@ import { getReportGroups } from '../../helpers/format-list-of-reports-for-datata
 @Component({
   selector: 'app-report-groups',
   templateUrl: './report-groups.component.html',
-  styleUrls: ['./report-groups.component.css']
+  styleUrls: ['./report-groups.component.css'],
 })
 export class ReportGroupsComponent implements OnInit {
   @Input() currentUser: any;
+  @Input() type: string;
   reportGroups: Array<any>;
   currentGroup: any;
   @Output() selectedReportGroup: EventEmitter<any> = new EventEmitter<any>();
   constructor() {}
 
   ngOnInit(): void {
-    this.reportGroups = getReportGroups(this.currentUser.userGroups);
+    this.reportGroups = getReportGroups(this.currentUser.userGroups, this.type);
     this.currentGroup = this.reportGroups[0];
     this.selectedReportGroup.emit(this.reportGroups[0]);
   }

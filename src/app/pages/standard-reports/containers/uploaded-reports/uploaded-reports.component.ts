@@ -40,7 +40,6 @@ export class UploadedReportsComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.userGroups$ = this.store.select(getAllUserGroups);
-    console.log(this.route.snapshot.queryParams.status);
     this.allDataLoaded = false;
     this.store.dispatch(loadSSBResources({ reload: true }));
     setTimeout(() => {

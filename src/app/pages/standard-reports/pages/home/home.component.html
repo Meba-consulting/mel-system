@@ -22,9 +22,9 @@
         *ngFor="let reportArea of reportsAreas; let count = index"
         [selected]="count == 0"
       >
-        <div class="h6">
+        <!-- <div class="h6">
           <b>{{ reportArea.name }}</b>
-        </div>
+        </div> -->
 
         <ng-template
           pTemplate="content"
@@ -35,6 +35,7 @@
               <div class="col-md-12">
                 <div *ngIf="currentUser$ | async">
                   <app-report-groups
+                    [type]="'_REPORTS '"
                     [currentUser]="currentUser$ | async"
                     (selectedReportGroup)="onSelectReportGroup($event)"
                   >
