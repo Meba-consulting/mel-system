@@ -6,7 +6,7 @@
   color: #42a6d7;
   outline: none;
   font-weight: 600 !important;
-  background-color: transparent;
+  background-color: #f2f2f2 !important;
 }
 
 .footer {
@@ -73,11 +73,13 @@ a {
   cursor: pointer;
   background-color: transparent;
   outline: none;
+  border-top: solid 1px #d9d9d9 !important;
 }
 
 .list-group-item:hover {
   outline: none !important;
   border: none !important;
+  border-top: solid 1px #d9d9d9 !important;
 }
 
 .header-banner button {

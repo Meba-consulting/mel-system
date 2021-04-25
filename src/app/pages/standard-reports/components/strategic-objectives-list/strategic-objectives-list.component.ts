@@ -77,14 +77,16 @@ export class StrategicObjectivesListComponent implements OnInit {
     this.keyedIndicators =
       this.targetIndicators && this.targetIndicators?.length > 0
         ? keyBy(
-            this.targetIndicators
-              .filter((ind) => ind?.showOnMatrix === true)
-              .map((indicator) => {
-                return {
-                  id: indicator?.id,
-                  showOnMatrix: true,
-                };
-              }),
+            this.targetIndicators.map((indicator) => {
+              return {
+                id: indicator?.id,
+                showOnMatrix: indicator?.showOnMatrix,
+                targetPerYear: indicator?.targetPerYear
+                  ? indicator?.targetPerYear
+                  : null,
+                baseline: indicator?.baseline ? indicator?.baseline : null,
+              };
+            }),
             'id'
           )
         : {};
@@ -174,7 +176,9 @@ export class StrategicObjectivesListComponent implements OnInit {
           indicators: selectedIndicators.map((indicator) => {
             return {
               ...indicator,
-              showOnMatrix: this.keyedIndicators[indicator?.id],
+              showOnMatrix: this.keyedIndicators[indicator?.id]?.showOnMatrix,
+              targetPerYear: this.keyedIndicators[indicator?.id]?.targetPerYear,
+              baseline: this.keyedIndicators[indicator?.id]?.baseline,
             };
           }),
           outputs: this.isEditOutComeSet ? this.currentOutCome?.outputs : [],
@@ -210,9 +214,31 @@ export class StrategicObjectivesListComponent implements OnInit {
   getIndicatorSelected(event, indicator) {
     // console.log(event);
     if (event?.target?.checked) {
-      this.keyedIndicators[indicator?.id] = true;
+      this.keyedIndicators[indicator?.id] = this.keyedIndicators[indicator?.id]
+        ? { ...this.keyedIndicators[indicator?.id], showOnMatrix: true }
+        : { showOnMatrix: true };
     } else {
-      this.keyedIndicators[indicator?.id] = false;
+      this.keyedIndicators[indicator?.id] = this.keyedIndicators[indicator?.id]
+        ? { ...this.keyedIndicators[indicator?.id], showOnMatrix: false }
+        : { showOnMatrix: false };
     }
+  }
+
+  getBaselineValue(event, indicator) {
+    this.keyedIndicators[indicator?.id] = this.keyedIndicators[indicator?.id]
+      ? {
+          ...this.keyedIndicators[indicator?.id],
+          baseline: event?.target?.value,
+        }
+      : { baseline: event?.target?.value };
+  }
+
+  getTargetValue(event, indicator) {
+    this.keyedIndicators[indicator?.id] = this.keyedIndicators[indicator?.id]
+      ? {
+          ...this.keyedIndicators[indicator?.id],
+          targetPerYear: event?.target?.value,
+        }
+      : { targetPerYear: event?.target?.value };
   }
 }

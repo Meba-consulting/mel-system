@@ -248,7 +248,7 @@ export class TrackerGeneralRegistrationComponent implements OnInit {
             this.savingMessage = '';
             this.editData = true;
           }, 1000);
-          console.log('program', currentProgram);
+          // console.log('program', currentProgram);
           // Check if the program has to accommodate stages entry
           if (
             (

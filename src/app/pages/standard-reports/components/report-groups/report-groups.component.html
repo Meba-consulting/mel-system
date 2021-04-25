@@ -1,5 +1,14 @@
 <div *ngIf="currentUser && reportGroups && reportGroups.length > 0">
-  <ul class="list-group">
+  <p-chip
+    [ngClass]="{
+      'active-department': currentGroup.id == reportGroup.id
+    }"
+    (click)="onSetCurrentGroup(reportGroup)"
+    class="reports-groups-chips"
+    label="{{ reportGroup.name }}"
+    *ngFor="let reportGroup of reportGroups"
+  ></p-chip>
+  <!-- <ul class="list-group">
     <li
       class="list-group-item-header"
       style="border: none !important; margin-left: -15px"
@@ -59,7 +68,7 @@
         </div>
       </div>
     </li>
-  </ul>
+  </ul> -->
 </div>
 <div *ngIf="!currentUser || !reportGroups || reportGroups.length == 0">
   <mat-progress-bar mode="indeterminate"></mat-progress-bar>

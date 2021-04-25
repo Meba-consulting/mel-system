@@ -12,6 +12,7 @@ import { TabViewModule } from 'primeng/tabview';
 import { PickListModule } from 'primeng/picklist';
 import { CheckboxModule } from 'primeng/checkbox';
 import { MultiSelectModule } from 'primeng/multiselect';
+import { ChipModule } from 'primeng/chip';
 
 export const primeNgModules: any[] = [
   TieredMenuModule,
@@ -27,4 +28,5 @@ export const primeNgModules: any[] = [
   PickListModule,
   CheckboxModule,
   MultiSelectModule,
+  ChipModule,
 ];

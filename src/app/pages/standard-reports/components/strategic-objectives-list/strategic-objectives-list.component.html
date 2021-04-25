@@ -213,6 +213,8 @@
                       <tr>
                         <th>Indicator</th>
                         <th>Show on matrix</th>
+                        <th>Baseline</th>
+                        <th>Target per Year</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -221,8 +223,22 @@
                         <td>
                           <input
                             type="checkbox"
-                            [checked]="keyedIndicators[indicator?.id]"
+                            [checked]="
+                              keyedIndicators[indicator?.id]?.showOnMatrix
+                            "
                             (change)="getIndicatorSelected($event, indicator)"
+                          />
+                        </td>
+                        <td>
+                          <input
+                            type="number"
+                            (change)="getBaselineValue($event, indicator)"
+                          />
+                        </td>
+                        <td>
+                          <input
+                            type="number"
+                            (change)="getTargetValue($event, indicator)"
                           />
                         </td>
                       </tr>

@@ -100,14 +100,16 @@ export class OutputModalComponent implements OnInit {
           name: formValues?.name,
           label: formValues?.label,
           description: formValues?.description,
-          indicator: (this.targetIndicators.map((indicator) => {
-            return {
-              ...indicator,
-              showOnMatrix: this.keyedIndicators[indicator?.id],
-            };
-          }) || [])[0],
-          baseline: formValues?.baseline,
-          targetPerYear: formValues?.targetPerYear,
+          indicators:
+            this.targetIndicators.map((indicator) => {
+              return {
+                ...indicator,
+                showOnMatrix: this.keyedIndicators[indicator?.id]?.showOnMatrix,
+                targetPerYear: this.keyedIndicators[indicator?.id]
+                  ?.targetPerYear,
+                baseline: this.keyedIndicators[indicator?.id]?.baseline,
+              };
+            }) || [],
           activities: this.currentOutput ? this.currentOutput?.activities : [],
         };
         // console.log('new', newOutput);
@@ -154,18 +156,18 @@ export class OutputModalComponent implements OnInit {
     // e.stopPropagation();
     this.currentOutput = output;
 
-    this.targetIndicators = output?.indicator ? [output?.indicator] : [];
+    this.targetIndicators = output?.indicators ? output?.indicators : [];
     this.keyedIndicators =
       this.targetIndicators && this.targetIndicators?.length > 0
         ? keyBy(
-            this.targetIndicators
-              .filter((ind) => ind?.showOnMatrix === true)
-              .map((indicator) => {
-                return {
-                  id: indicator?.id,
-                  showOnMatrix: true,
-                };
-              }),
+            this.targetIndicators.map((indicator) => {
+              return {
+                id: indicator?.id,
+                showOnMatrix: indicator?.showOnMatrix,
+                targetPerYear: indicator?.targetPerYear,
+                baseline: indicator?.baseline,
+              };
+            }),
             'id'
           )
         : {};
@@ -178,10 +180,6 @@ export class OutputModalComponent implements OnInit {
         Validators.required,
         Validators.minLength(8),
       ]),
-      description: new FormControl(output?.description, [
-        Validators.minLength(8),
-      ]),
-      baseline: new FormControl(output?.baseline),
       targetPerYear: new FormControl(output?.targetPerYear),
     });
     this.selectedIndicator = output?.indicator;
@@ -201,10 +199,8 @@ export class OutputModalComponent implements OnInit {
         Validators.minLength(8),
       ]),
       description: new FormControl('', [Validators.minLength(8)]),
-      targetPerYear: new FormControl(''),
-      baseline: new FormControl(''),
       budget: new FormControl(''),
-      indicator: new FormControl(''),
+      indicators: new FormControl(''),
       responsible: new FormControl(''),
     });
   }
@@ -267,14 +263,16 @@ export class OutputModalComponent implements OnInit {
           label: formValues?.label,
           description: formValues?.description,
           budget: formValues?.budget,
-          targetPerYear: formValues?.targetPerYear,
-          baseline: formValues?.baseline,
-          indicator: (this.targetIndicators.map((indicator) => {
-            return {
-              ...indicator,
-              showOnMatrix: this.keyedIndicators[indicator?.id],
-            };
-          }) || [])[0],
+          indicators:
+            this.targetIndicators.map((indicator) => {
+              return {
+                ...indicator,
+                showOnMatrix: this.keyedIndicators[indicator?.id]?.showOnMatrix,
+                targetPerYear: this.keyedIndicators[indicator?.id]
+                  ?.targetPerYear,
+                baseline: this.keyedIndicators[indicator?.id]?.baseline,
+              };
+            }) || [],
           targets: this.targets,
           responsibles: formValues?.responsibles,
         };
@@ -378,7 +376,7 @@ export class OutputModalComponent implements OnInit {
     // e.stopPropagation();
     console.log('activity', activity);
     this.currentActivity = activity;
-    this.selectedIndicator = activity?.indicator;
+    this.selectedIndicator = activity?.indicators;
     this.responsible = activity?.responsible;
     this.responsiblesSelected =
       activity?.responsibles && activity?.responsibles?.length > 0
@@ -388,7 +386,7 @@ export class OutputModalComponent implements OnInit {
     this.showActivityForm = true;
     this.targets = this.currentActivity?.targets;
 
-    this.targetIndicators = activity?.indicator ? [activity?.indicator] : [];
+    this.targetIndicators = activity?.indicators ? activity?.indicators : [];
     this.keyedIndicators =
       this.targetIndicators && this.targetIndicators?.length > 0
         ? keyBy(
@@ -397,7 +395,9 @@ export class OutputModalComponent implements OnInit {
               .map((indicator) => {
                 return {
                   id: indicator?.id,
-                  showOnMatrix: true,
+                  showOnMatrix: indicator?.showOnMatrix,
+                  targetPerYear: indicator?.targetPerYear,
+                  baseline: indicator?.baseline,
                 };
               }),
             'id'
@@ -417,9 +417,6 @@ export class OutputModalComponent implements OnInit {
         Validators.minLength(8),
       ]),
       budget: new FormControl(activity?.budget),
-      targetPerYear: new FormControl(activity?.targetPerYear),
-      baseline: new FormControl(activity?.baseline),
-      indicator: new FormControl(''),
       responsibles: new FormControl(activity?.responsibles || []),
     });
   }
@@ -472,10 +469,33 @@ export class OutputModalComponent implements OnInit {
   }
 
   getIndicatorSelected(event, indicator) {
+    // console.log(event);
     if (event?.target?.checked) {
-      this.keyedIndicators[indicator?.id] = true;
+      this.keyedIndicators[indicator?.id] = this.keyedIndicators[indicator?.id]
+        ? { ...this.keyedIndicators[indicator?.id], showOnMatrix: true }
+        : { showOnMatrix: true };
     } else {
-      this.keyedIndicators[indicator?.id] = false;
+      this.keyedIndicators[indicator?.id] = this.keyedIndicators[indicator?.id]
+        ? { ...this.keyedIndicators[indicator?.id], showOnMatrix: false }
+        : { showOnMatrix: false };
     }
+  }
+
+  getBaselineValue(event, indicator) {
+    this.keyedIndicators[indicator?.id] = this.keyedIndicators[indicator?.id]
+      ? {
+          ...this.keyedIndicators[indicator?.id],
+          baseline: event?.target?.value,
+        }
+      : { baseline: event?.target?.value };
+  }
+
+  getTargetValue(event, indicator) {
+    this.keyedIndicators[indicator?.id] = this.keyedIndicators[indicator?.id]
+      ? {
+          ...this.keyedIndicators[indicator?.id],
+          targetPerYear: event?.target?.value,
+        }
+      : { targetPerYear: event?.target?.value };
   }
 }

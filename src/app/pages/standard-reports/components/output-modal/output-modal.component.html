@@ -197,6 +197,8 @@
                           <tr>
                             <th>Indicator</th>
                             <th>Show on matrix</th>
+                            <th>Baseline</th>
+                            <th>Target per Year</th>
                           </tr>
                         </thead>
                         <tbody>
@@ -209,6 +211,19 @@
                                 (change)="
                                   getIndicatorSelected($event, indicator)
                                 "
+                              />
+                            </td>
+
+                            <td>
+                              <input
+                                type="number"
+                                (change)="getBaselineValue($event, indicator)"
+                              />
+                            </td>
+                            <td>
+                              <input
+                                type="number"
+                                (change)="getTargetValue($event, indicator)"
                               />
                             </td>
                           </tr>
@@ -385,6 +400,8 @@
               <tr>
                 <th>Indicator</th>
                 <th>Show on matrix</th>
+                <th>Baseline</th>
+                <th>Target per Year</th>
               </tr>
             </thead>
             <tbody>
@@ -395,6 +412,18 @@
                     type="checkbox"
                     [checked]="keyedIndicators[indicator?.id]"
                     (change)="getIndicatorSelected($event, indicator)"
+                  />
+                </td>
+                <td>
+                  <input
+                    type="number"
+                    (change)="getBaselineValue($event, indicator)"
+                  />
+                </td>
+                <td>
+                  <input
+                    type="number"
+                    (change)="getTargetValue($event, indicator)"
                   />
                 </td>
               </tr>

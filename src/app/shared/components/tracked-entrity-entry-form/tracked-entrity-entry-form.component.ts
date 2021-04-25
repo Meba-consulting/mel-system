@@ -74,7 +74,8 @@ export class TrackedEntrityEntryFormComponent implements OnInit, OnChanges {
                 attribute?.trackedEntityAttribute?.valueType == 'TEXT' &&
                 !attribute?.trackedEntityAttribute?.optionSet
                   ? 'textbox'
-                  : attribute?.trackedEntityAttribute?.valueType == 'TEXT' &&
+                  : attribute?.trackedEntityAttribute?.valueType ==
+                      'LONG_TEXT' &&
                     !attribute?.trackedEntityAttribute?.optionSet
                   ? 'textarea'
                   : attribute?.trackedEntityAttribute?.valueType == 'DATE' &&
