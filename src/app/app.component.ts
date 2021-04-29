@@ -7,7 +7,7 @@ import {
 import { Store } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
 import { of, Observable } from 'rxjs';
-import { catchError, take, window } from 'rxjs/operators';
+import { catchError, take } from 'rxjs/operators';
 import { Fn } from '@iapps/function-analytics';
 
 import {
@@ -167,7 +167,7 @@ export class AppComponent implements OnInit {
     this.dialog
       .open(UserSettingsComponent, {
         width: '40%',
-        height: '470px',
+        height: '300px',
         disableClose: true,
         data: { user: user },
         panelClass: 'custom-dialog-container',
@@ -193,5 +193,11 @@ export class AppComponent implements OnInit {
       data: { user: user },
       panelClass: 'custom-dialog-container',
     });
+  }
+
+  deleteIndexDB(e) {
+    e.stopPropagation();
+    window.indexedDB.deleteDatabase('iapps');
+    window.location.reload();
   }
 }

@@ -526,7 +526,7 @@ export class ProgramEntryComponent implements OnInit {
     this.dialog
       .open(SetColumnsModalComponent, {
         width: '40%',
-        height: '650px',
+        height: '450px',
         disableClose: false,
         data: { columnsInfo: columnsInfo, programId: this.program?.id },
         panelClass: 'custom-dialog-container',

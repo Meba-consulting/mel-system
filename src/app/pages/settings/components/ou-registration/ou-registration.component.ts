@@ -143,7 +143,6 @@ export class OuRegistrationComponent implements OnInit {
   }
 
   onFilterUpdate(selections) {
-    console.log(selections);
     this.ouFilterIsSet = false;
     this.formValues['parent'] = { value: selections?.items[0]?.id };
     this.selectedOrgUnits = selections?.items;

@@ -6,7 +6,14 @@
       (click)="onToggleOrgUnitChildren($event)"
       *ngIf="(orgUnit$ | async)?.children.length > 0"
     >
-      <mat-icon *ngIf="expanded">arrow_drop_down</mat-icon>
+      <mat-icon *ngIf="expanded">
+        <img
+          class="rotated"
+          style="transform: rotate(90deg); -ms-transform: rotate(90deg)"
+          height="15"
+          src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAABmJLR0QA/wD/AP+gvaeTAAAAW0lEQVRIie3OMQoAIQxE0Y8Xd0tvvGWshEUMCM4UC06f/wJ3f1hzA+FGwo0EZiQwIzMgR1aAFMmALaQc4u/hPZB/XxXxDJDFV4A0PgPy+BewxAdgiwM8zvidfx0dXTmD+61Q3wAAAABJRU5ErkJggg=="
+        />
+      </mat-icon>
       <mat-icon *ngIf="!expanded"
         ><img
           height="15"
