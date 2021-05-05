@@ -29,14 +29,46 @@
                 <mat-icon>arrow_forward</mat-icon>
               </button>
             </div>
-            <div *ngIf="isReportSet" class="w-100">
+            <div>
+              <button
+                class="w-100 text-left p-2"
+                (click)="onToggleRegisteringUnitFilter($event)"
+                mat-stroked-button
+              >
+                Organisation Unit:
+                <b>
+                  <span
+                    *ngIf="
+                      selectedRegisteringUnits &&
+                      selectedRegisteringUnits?.length > 0
+                    "
+                    >{{ selectedRegisteringUnits[0]?.name }}</span
+                  >
+                </b>
+              </button>
+              <div *ngIf="registeringUnitFilterIsSet">
+                <ngx-dhis2-org-unit-filter
+                  [maxHeight]="'320px'"
+                  [selectedOrgUnitItems]="selectedRegisteringUnits"
+                  [assignedOrgUnits]="program?.organisationUnits"
+                  [orgUnitFilterConfig]="orgUnitFilterConfig"
+                  (orgUnitClose)="onFilterClose($event)"
+                  (orgUnitUpdate)="onOuUpdate($event)"
+                ></ngx-dhis2-org-unit-filter>
+              </div>
+            </div>
+            <div
+              *ngIf="isReportSet && selectedRegisteringUnits?.length > 0"
+              class="w-100"
+            >
               <app-trainings-list
                 [program]="program"
-                [ouId]="'zs9X8YYBOnK'"
+                [ouId]="selectedRegisteringUnits[0].id"
                 (edit)="onSetEdit($event, program)"
+                [orgUnit]="selectedRegisteringUnits[0]"
               ></app-trainings-list>
             </div>
-            <div *ngIf="!isReportSet">
+            <div *ngIf="!isReportSet && selectedRegisteringUnits?.length > 0">
               <div
                 class="success-save-message"
                 *ngIf="!savingData && savingMessage != '' && !hasError"
@@ -141,7 +173,10 @@
       </mat-form-field>
     </div> -->
   </div>
-  <div [ngClass]="{ 'col-md-3': !isReportSet, '': isReportSet }">
+  <div
+    [ngClass]="{ 'col-md-3': !isReportSet, '': isReportSet }"
+    [ngStyle]="{ display: isReportSet ? 'none' : 'block' }"
+  >
     <div class="summary" *ngIf="params?.programDataStoreConfigs">
       <app-entry-side-bar-summary
         [program]="currentProgram"

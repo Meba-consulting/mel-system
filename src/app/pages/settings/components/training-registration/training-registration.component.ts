@@ -26,11 +26,13 @@ export class TrainingRegistrationComponent implements OnInit {
     showOrgUnitLevelGroupSection: false,
     showOrgUnitGroupSection: false,
     showOrgUnitLevelSection: false,
+    updateOnSelect: true,
     reportUse: false,
     additionalQueryFields: [],
     batchSize: 400,
     selectedOrgUnitItems: [],
   };
+  selectedRegisteringUnits: any = [];
   selectedOrgUnits: Array<any> = [];
   ouFilterIsSet: boolean = false;
   ouId: string;
@@ -57,6 +59,7 @@ export class TrainingRegistrationComponent implements OnInit {
   selectedTab = new FormControl(0);
   currentTabValue = 0;
   programDataStoreConfigs$: Observable<any>;
+  registeringUnitFilterIsSet: boolean = false;
   constructor(
     private dataService: DataService,
     private ouService: OuService,
@@ -107,6 +110,17 @@ export class TrainingRegistrationComponent implements OnInit {
     this.savedData = false;
     this.savingData = false;
     this.savingMessage = '';
+  }
+
+  onToggleRegisteringUnitFilter(e) {
+    e.stopPropagation();
+    this.registeringUnitFilterIsSet = !this.registeringUnitFilterIsSet;
+  }
+
+  onOuUpdate(selections) {
+    this.selectedRegisteringUnits = selections?.items;
+    this.registeringUnitFilterIsSet = false;
+    this.isReportSet = true;
   }
 
   getTrackedEntityInstanceData(parameters) {
