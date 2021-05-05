@@ -190,7 +190,7 @@ export class AddClubModalComponent implements OnInit {
   onSaveClubDetails(e) {
     e.stopPropagation();
     const clubDetails = getClubInfoFromFormValues(this.formValues);
-    console.log('clubDetails', clubDetails);
+    // console.log('clubDetails', clubDetails);
     this.store.dispatch(saveClub({ clubDetails }));
     this.isClubAdded = true;
     this.store.select(getClubSavedState).subscribe((response) => {

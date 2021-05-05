@@ -9,7 +9,7 @@ import {
   DATA_ICON,
   FILTER_ICON,
   PERIOD_ICON,
-  TREE_ICON
+  TREE_ICON,
 } from '../../icons';
 import { SelectionFilterConfig } from '../../models/selected-filter-config.model';
 
@@ -17,7 +17,7 @@ import { SelectionFilterConfig } from '../../models/selected-filter-config.model
   // tslint:disable-next-line:component-selector
   selector: 'ngx-dhis2-selection-filters',
   templateUrl: './ngx-dhis2-selection-filters.component.html',
-  styleUrls: ['./ngx-dhis2-selection-filters.component.css']
+  styleUrls: ['./ngx-dhis2-selection-filters.component.css'],
 })
 export class NgxDhis2SelectionFiltersComponent implements OnInit {
   @Input()
@@ -87,11 +87,11 @@ export class NgxDhis2SelectionFiltersComponent implements OnInit {
 
   get layoutItem(): any {
     return _.groupBy(
-      _.map(this.dataSelections, dataSelection => {
+      _.map(this.dataSelections, (dataSelection) => {
         return {
           name: dataSelection.name,
           value: dataSelection.dimension,
-          layout: dataSelection.layout
+          layout: dataSelection.layout,
         };
       }),
       'layout'
@@ -101,7 +101,7 @@ export class NgxDhis2SelectionFiltersComponent implements OnInit {
   get filterConfig(): SelectionFilterConfig {
     return {
       ...SELECTION_FILTER_CONFIG,
-      ...(this.selectionFilterConfig || {})
+      ...(this.selectionFilterConfig || {}),
     };
   }
 
@@ -115,7 +115,7 @@ export class NgxDhis2SelectionFiltersComponent implements OnInit {
   }
 
   private _setSelectionParameters() {
-    console.log('dataSelections', this.dataSelections);
+    // console.log('dataSelections', this.dataSelections);
     // get selected periods
     const periodObject = _.find(this.dataSelections || [], ['dimension', 'pe']);
     this.selectedPeriods = periodObject ? periodObject.items : [];
@@ -123,14 +123,14 @@ export class NgxDhis2SelectionFiltersComponent implements OnInit {
     // get selected orgunits
     const orgUnitObject = _.find(this.dataSelections || [], [
       'dimension',
-      'ou'
+      'ou',
     ]);
     this.selectedOrgUnits = orgUnitObject ? orgUnitObject.items : [];
 
     // set interventions
     const interventionObject = _.find(this.dataSelections || [], [
       'dimension',
-      'intervention'
+      'intervention',
     ]);
 
     this.selectedInterventions = interventionObject
@@ -168,14 +168,14 @@ export class NgxDhis2SelectionFiltersComponent implements OnInit {
     if (selectedItems && selectedItems.items.length > 0) {
       this.dataSelections = !_.find(this.dataSelections, [
         'dimension',
-        selectedItems.dimension
+        selectedItems.dimension,
       ])
         ? [...this.dataSelections, { ...selectedItems, layout: 'columns' }]
         : [
             ...this.updateDataSelectionWithNewSelections(
               this.dataSelections,
               selectedItems
-            )
+            ),
           ];
     }
 
@@ -187,14 +187,14 @@ export class NgxDhis2SelectionFiltersComponent implements OnInit {
   onFilterUpdate(selectedItems, selectedFilter) {
     this.dataSelections = !_.find(this.dataSelections, [
       'dimension',
-      selectedItems.dimension
+      selectedItems.dimension,
     ])
       ? [...this.dataSelections, { ...selectedItems, layout: 'rows' }]
       : [
           ...this.updateDataSelectionWithNewSelections(
             this.dataSelections,
             selectedItems
-          )
+          ),
         ];
 
     // also update selection parameters
@@ -218,7 +218,7 @@ export class NgxDhis2SelectionFiltersComponent implements OnInit {
   ): any[] {
     const selectedDimension = _.find(dataSelections, [
       'dimension',
-      selectedObject.dimension
+      selectedObject.dimension,
     ]);
     const selectedDimensionIndex = selectedDimension
       ? dataSelections.indexOf(selectedDimension)
@@ -227,7 +227,7 @@ export class NgxDhis2SelectionFiltersComponent implements OnInit {
       ? [
           ...dataSelections.slice(0, selectedDimensionIndex),
           { ...selectedDimension, ...selectedObject },
-          ...dataSelections.slice(selectedDimensionIndex + 1)
+          ...dataSelections.slice(selectedDimensionIndex + 1),
         ]
       : dataSelections
       ? [...dataSelections, selectedObject]

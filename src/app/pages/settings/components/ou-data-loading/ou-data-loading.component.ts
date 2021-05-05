@@ -24,7 +24,7 @@ export class OuDataLoadingComponent implements OnInit {
   onAddOu(e, group) {
     e.stopPropagation();
 
-    console.log('sjfdse', group);
+    // console.log('sjfdse', group);
 
     if (group?.id === 'GOMCSNn5OdW') {
       this.dialog.open(AddClubModalComponent, {

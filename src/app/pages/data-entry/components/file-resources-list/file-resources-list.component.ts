@@ -11,7 +11,7 @@ import * as _ from 'lodash';
 @Component({
   selector: 'app-file-resources-list',
   templateUrl: './file-resources-list.component.html',
-  styleUrls: ['./file-resources-list.component.css']
+  styleUrls: ['./file-resources-list.component.css'],
 })
 export class FileResourcesListComponent implements OnInit {
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
@@ -24,7 +24,7 @@ export class FileResourcesListComponent implements OnInit {
     'name',
     'status',
     'currentGroupActed',
-    'action'
+    'action',
   ];
   dataSource: any;
   openedEventArea: boolean = false;
@@ -39,7 +39,7 @@ export class FileResourcesListComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    console.log('dataEntryFlow', this.dataEntryFlow);
+    // console.log('dataEntryFlow', this.dataEntryFlow);
     this.dataSource = new MatTableDataSource(
       formatFileResourcesForDataTable(
         this.fileResources,
@@ -68,9 +68,11 @@ export class FileResourcesListComponent implements OnInit {
   openActOnThisEvent(data) {
     this.openedEventArea = true;
     this.selectedEventData = data;
-    this.httpClient.get('events/' + data.eventUid).subscribe(eventResponse => {
-      this.eventToUpdate = eventResponse;
-    });
+    this.httpClient
+      .get('events/' + data.eventUid)
+      .subscribe((eventResponse) => {
+        this.eventToUpdate = eventResponse;
+      });
   }
 
   close() {
@@ -84,7 +86,7 @@ export class FileResourcesListComponent implements OnInit {
       resourceType: 'DATA_VALUE',
       attachment: true,
       file: event.target.files[0],
-      url: ''
+      url: '',
     };
     event.srcElement.value = null;
   }
@@ -95,7 +97,7 @@ export class FileResourcesListComponent implements OnInit {
         'Saving updated data for ' + this.fileResourceInfo.resourceName;
       this.resourceService
         .uploadDataValueResource(this.fileResourceInfo)
-        .subscribe(response => {
+        .subscribe((response) => {
           const groupToAct = this.getNextGroup(
             this.dataEntryFlow.groups,
             this.eventToUpdate
@@ -116,22 +118,22 @@ export class FileResourcesListComponent implements OnInit {
             dataValues: [
               {
                 dataElement: 'TebwJX5PGqd',
-                value: response.response.fileResource.id
+                value: response.response.fileResource.id,
               },
               {
                 dataElement: 'MFBuF12a58L',
-                value: groupToAct[0].name
+                value: groupToAct[0].name,
               },
               {
                 dataElement: 'JGV9wKloWLo',
-                value: groupToAct[0].id
-              }
-            ]
+                value: groupToAct[0].id,
+              },
+            ],
           };
           document.getElementById('fileSelector').innerHTML = '';
           this.httpClient
             .put('events/' + this.eventToUpdate.event + '.json', eventData)
-            .subscribe(eventResponse => {
+            .subscribe((eventResponse) => {
               setTimeout(() => {
                 this.message = 'Data Updated !';
                 this.fileResourceInfo = null;
@@ -150,7 +152,7 @@ export class FileResourcesListComponent implements OnInit {
 
   getNextGroup(groups, event) {
     const currentGroupId = _.filter(event['dataValues'], {
-      dataElement: 'JGV9wKloWLo'
+      dataElement: 'JGV9wKloWLo',
     })[0].value;
     const maxOrder = this.getMaxLevel(groups);
     let currOrder = _.filter(groups, { id: currentGroupId })[0].order;

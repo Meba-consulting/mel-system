@@ -151,7 +151,7 @@ export class ResourceFormComponent implements OnInit {
     } else if (this.name && !this.file && !this.url) {
       this.requiredField = true;
     } else {
-      console.log('url', this.url);
+      // console.log('url', this.url);
       let data = {
         name: this.name,
         type: 'EXTERNAL_URL',
@@ -159,9 +159,9 @@ export class ResourceFormComponent implements OnInit {
         url: this.url,
         external: true,
       };
-      console.log('data');
+      // console.log('data');
       this.resourceService.saveDocument(data).subscribe((response) => {
-        console.log('response', response);
+        // console.log('response', response);
         this.store.dispatch(loadResources({ reload: true }));
         // this.router.navigate(['/resources/documents']);
         setTimeout(() => {

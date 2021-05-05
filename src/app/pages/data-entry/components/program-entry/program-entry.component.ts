@@ -350,8 +350,8 @@ export class ProgramEntryComponent implements OnInit {
   onSetDelete(e) {
     this.dialog
       .open(ConfirmDeleteModalComponent, {
-        width: '30%',
-        height: '250px',
+        width: '20%',
+        height: '150px',
         disableClose: false,
         data: { message: 'Are you sure?', item: '' },
         panelClass: 'custom-dialog-container',
@@ -395,7 +395,7 @@ export class ProgramEntryComponent implements OnInit {
 
     this.dialog.open(StageEntryUpdatesModelComponent, {
       width: '70%',
-      height: '650px',
+      height: '450px',
       disableClose: false,
       data: {
         program: this.program,
@@ -491,7 +491,7 @@ export class ProgramEntryComponent implements OnInit {
           this.shouldOpenStagesForEntry = true;
           this.dialog.open(StageEntryUpdatesModelComponent, {
             width: '70%',
-            height: '650px',
+            height: '450px',
             disableClose: false,
             data: {
               program: this.program,
@@ -558,8 +558,8 @@ export class ProgramEntryComponent implements OnInit {
   onDeleteEvent(e) {
     this.dialog
       .open(ConfirmDeleteModalComponent, {
-        width: '30%',
-        height: '250px',
+        width: '20%',
+        height: '150px',
         disableClose: false,
         data: { message: 'Are you sure?', item: '' },
         panelClass: 'custom-dialog-container',

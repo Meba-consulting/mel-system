@@ -99,11 +99,19 @@ export class StageEntryUpdatesModelComponent implements OnInit {
       (element) => {
         return {
           dataElement: element,
-          value: values[element]?.value,
+          value: !(stageDataElements.filter(
+            (stageDataElement) => stageDataElement?.dataElement?.id == element
+          ) || [])[0]?.dataElement?.optionSet
+            ? values[element]?.value
+            : ((stageDataElements.filter(
+                (stageDataElement) =>
+                  stageDataElement?.dataElement?.id == element
+              ) || [])[0]?.dataElement?.optionSet.options.filter(
+                (option) => option.id === values[element]?.value
+              ) || [])[0]?.name,
         };
       }
     );
-    console.log(stageDataElements);
   }
 
   changeTabForData(e, val) {
@@ -115,8 +123,8 @@ export class StageEntryUpdatesModelComponent implements OnInit {
   onDeleteEvent(e) {
     this.dialog
       .open(ConfirmDeleteModalComponent, {
-        width: '30%',
-        height: '250px',
+        width: '20%',
+        height: '150px',
         disableClose: false,
         data: { message: 'Are you sure?', item: '' },
         panelClass: 'custom-dialog-container',
@@ -169,7 +177,6 @@ export class StageEntryUpdatesModelComponent implements OnInit {
           .subscribe((response) => {
             this.savingMessage = 'Saved data successfully';
             this.savingProgramData = false;
-            console.log(response);
             this.loadStageData = true;
             setTimeout(() => {
               this.savingMessage = '';
@@ -184,7 +191,6 @@ export class StageEntryUpdatesModelComponent implements OnInit {
           .subscribe((response) => {
             this.savingMessage = 'Saved data successfully';
             this.savingProgramData = false;
-            console.log(response);
             this.loadStageData = true;
             this.programStageFormData = {};
             this.currentEventToEdit = null;

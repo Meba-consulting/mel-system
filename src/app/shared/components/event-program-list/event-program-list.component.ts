@@ -46,12 +46,12 @@ export class EventProgramListComponent implements OnInit {
   }
 
   onEditEvent(e, event) {
-    e.stopPropagation();
+    // e.stopPropagation();
     this.editEvent.emit(event);
   }
 
   onDeleteEvent(e, event) {
-    e.stopPropagation();
+    // e.stopPropagation();
     this.deleteEvent.emit(event);
   }
 

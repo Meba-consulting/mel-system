@@ -1,7 +1,7 @@
 import {
   ActivatedRouteSnapshot,
   RouterStateSnapshot,
-  Resolve
+  Resolve,
 } from '@angular/router';
 import { Observable, NEVER } from 'rxjs';
 
@@ -14,7 +14,7 @@ export class RouteResolver implements Resolve<any> {
   ): Observable<any> {
     if (this.refresh(state.url)) {
       this.previousUrl = state.url;
-      console.log('here');
+      // console.log('here');
     }
     this.previousUrl = state.url;
     return NEVER;

@@ -77,7 +77,7 @@ export class UserSettingsComponent implements OnInit {
       this.errorMessage = '';
     }
     this.passwordsMatch = pwd == repeatPwd ? true : false;
-    console.log('isPassWordCorrect', isPassWordCorrect);
+    // console.log('isPassWordCorrect', isPassWordCorrect);
     return this.changePassword.get('repeatPassword');
   }
   constructor(

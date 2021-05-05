@@ -119,7 +119,6 @@ export class DataEntryDashboardComponent implements OnInit {
     this.selectedOu = null;
     setTimeout(() => {
       this.currentProgram = form;
-      console.log('currentProgram', this.currentProgram);
       this.isFormSelected = true;
       this.programDataStoreConfigs$ = this.httpClient.get(
         'dataStore/programs/' + this.currentProgram?.id

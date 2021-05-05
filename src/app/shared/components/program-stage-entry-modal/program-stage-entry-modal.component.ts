@@ -12,6 +12,7 @@ import { formatDateToYYMMDD } from 'src/app/pages/data-entry/helpers';
 import * as _ from 'lodash';
 import { ConfirmDeleteEventComponent } from 'src/app/pages/settings/components/confirm-delete-event/confirm-delete-event.component';
 import { FormControl } from '@angular/forms';
+import { ConfirmDeleteModalComponent } from '../confirm-delete-modal/confirm-delete-modal.component';
 
 @Component({
   selector: 'app-program-stage-entry-modal',
@@ -35,6 +36,8 @@ export class ProgramStageEntryModalComponent implements OnInit {
   isFormValid: boolean = false;
   countOfEvents: number = 0;
   index: number = 0;
+
+  eventDeletingMessage = '';
   constructor(
     private dialogRef: MatDialogRef<ProgramStageEntryModalComponent>,
     @Inject(MAT_DIALOG_DATA) data,
@@ -113,6 +116,12 @@ export class ProgramStageEntryModalComponent implements OnInit {
             this.savingMessage = 'Saved data successfully';
             this.savingProgramData = false;
             this.index = 0;
+            this.queryResponseData$ = this.dataService.getTrackedEntityInstances(
+              {
+                orgUnit: this.orgUnit?.id,
+                program: this.program?.id,
+              }
+            );
             setTimeout(() => {
               this.savingMessage = '';
             }, 1000);
@@ -127,6 +136,12 @@ export class ProgramStageEntryModalComponent implements OnInit {
             this.isEditSet = false;
             this.selectedTab.setValue(0);
             this.index = 0;
+            this.queryResponseData$ = this.dataService.getTrackedEntityInstances(
+              {
+                orgUnit: this.orgUnit?.id,
+                program: this.program?.id,
+              }
+            );
             setTimeout(() => {
               this.savingMessage = '';
             }, 1000);
@@ -134,7 +149,6 @@ export class ProgramStageEntryModalComponent implements OnInit {
   }
 
   onGetFormValidity(formValidity) {
-    console.log(formValidity);
     this.isFormValid = formValidity;
   }
 
@@ -152,13 +166,37 @@ export class ProgramStageEntryModalComponent implements OnInit {
   }
 
   onDeleteEvent(e) {
-    this.dialog.open(ConfirmDeleteEventComponent, {
-      width: '30%',
-      height: '250px',
-      disableClose: false,
-      data: e,
-      panelClass: 'custom-dialog-container',
-    });
+    this.dialog
+      .open(ConfirmDeleteModalComponent, {
+        width: '20%',
+        height: '150px',
+        disableClose: false,
+        data: {
+          message: 'Are you sure you want to delete this record?',
+          item: null,
+        },
+        panelClass: 'custom-dialog-container',
+      })
+      .afterClosed()
+      .subscribe((confirmed) => {
+        if (confirmed == true) {
+          this.eventDeletingMessage = 'Deleting selected item';
+          this.dataService.deleteEvent(e.event).subscribe((deleteResponse) => {
+            if (deleteResponse) {
+              this.eventDeletingMessage = 'Successfully deleted the item';
+              setTimeout(() => {
+                this.eventDeletingMessage = '';
+                this.queryResponseData$ = this.dataService.getTrackedEntityInstances(
+                  {
+                    orgUnit: this.orgUnit?.id,
+                    program: this.program?.id,
+                  }
+                );
+              }, 500);
+            }
+          });
+        }
+      });
   }
 
   onClose(e) {

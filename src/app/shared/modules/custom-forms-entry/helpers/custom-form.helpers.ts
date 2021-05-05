@@ -148,7 +148,7 @@ export function onFormReady(
   elementsToDisable,
   formReadyFunc
 ) {
-  console.log('dataValues::::: dataValues', dataValues);
+  // console.log('dataValues::::: dataValues', dataValues);
 
   // Find input items and set required properties to them
   const dataElementObjects = _.keyBy(dataElements, 'id');

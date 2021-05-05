@@ -83,7 +83,7 @@ export class ProgramsListComponent implements OnInit {
     this.programConfigs$.subscribe((configs) => {
       if (configs) {
         this.configuredGroups = configs.groups;
-        console.log('configuredGroups', this.configuredGroups);
+        // console.log('configuredGroups', this.configuredGroups);
         this.level = _.orderBy(
           this.configuredGroups,
           ['order'],

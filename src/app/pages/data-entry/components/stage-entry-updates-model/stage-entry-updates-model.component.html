@@ -9,13 +9,13 @@
       label="{{ stage?.name }}"
       (click)="changeTab(count)"
     >
-      <div class="p-3" *ngIf="count == selectedTab.value">
+      <div class="p-2" *ngIf="count == selectedTab.value">
         <mat-tab-group
           [selectedIndex]="selectedTabForDataSection.value"
           (selectedIndexChange)="selectedTabForDataSection.setValue($event)"
         >
           <mat-tab label="Entry" (click)="changeTabForData($event, 0)">
-            <div class="p-3" *ngIf="selectedTabForDataSection.value == 0">
+            <div class="p-1" *ngIf="selectedTabForDataSection.value == 0">
               <div class="success-save-message" *ngIf="savingMessage !== ''">
                 {{ savingMessage }}
               </div>
@@ -33,7 +33,7 @@
             </div>
           </mat-tab>
           <mat-tab label="Data" (click)="changeTabForData($event, 1)">
-            <div class="p-3" *ngIf="selectedTabForDataSection.value == 1">
+            <div class="p-1" *ngIf="selectedTabForDataSection.value == 1">
               <app-program-stage-data
                 [program]="program"
                 [trackedEntityInstanceId]="currentTrackedEntityInstanceId"
@@ -45,21 +45,23 @@
           </mat-tab>
         </mat-tab-group>
 
-        <button
-          mat-stroked-button
-          class="mr-2"
-          (click)="onSaveData($event, stage, isEditSet)"
-          [disabled]="!isFormValid"
-        >
-          <mat-spinner
-            *ngIf="savingProgramData"
-            color="accent"
-            [diameter]="20"
-            style="display: inline-block !important; margin-right: 4px"
+        <div class="d-flex justify-content-end">
+          <button
+            mat-stroked-button
+            class="mr-2 float-right mel-btn-primary"
+            (click)="onSaveData($event, stage, isEditSet)"
+            [disabled]="!isFormValid"
           >
-          </mat-spinner>
-          Save
-        </button>
+            <mat-spinner
+              *ngIf="savingProgramData"
+              color="accent"
+              [diameter]="20"
+              style="display: inline-block !important; margin-right: 4px"
+            >
+            </mat-spinner>
+            Save
+          </button>
+        </div>
       </div>
     </mat-tab>
   </mat-tab-group>

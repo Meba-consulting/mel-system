@@ -166,7 +166,7 @@ export class OuRegistrationComponent implements OnInit {
   onSave(e) {
     e.stopPropagation();
     const ouDetails = this.getOuInfoFromFormValues(this.formValues);
-    console.log('ouDetails', ouDetails);
+    // console.log('ouDetails', ouDetails);
     this.saving = true;
     this.saveOuResponse$ = this.httpClient
       .post('organisationUnits', ouDetails)
@@ -186,14 +186,14 @@ export class OuRegistrationComponent implements OnInit {
       );
 
     this.saveOuResponse$.subscribe((response) => {
-      console.log('response', response);
+      // console.log('response', response);
     });
   }
 
   onEdit(e, ou) {
     e.stopPropagation();
     const ouDetails = this.getOuInfoFromFormValues(this.formValues);
-    console.log('ouDetails', ouDetails);
+    // console.log('ouDetails', ouDetails);
   }
 
   getOuInfoFromFormValues(values) {

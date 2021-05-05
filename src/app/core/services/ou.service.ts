@@ -22,7 +22,7 @@ export class OuService {
   }
 
   deleteOu(id): Observable<any> {
-    console.log('delete', id);
+    // console.log('delete', id);
     return this.httpClient.delete('../../../api/organisationUnits/' + id).pipe(
       map((response) => {
         console.log(response);

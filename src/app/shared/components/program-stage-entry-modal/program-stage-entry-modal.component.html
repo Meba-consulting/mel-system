@@ -30,6 +30,12 @@
           </div>
 
           <ng-template pTemplate="content">
+            <div
+              class="h5 text-center text-success"
+              *ngIf="eventDeletingMessage != ''"
+            >
+              {{ eventDeletingMessage }}
+            </div>
             <div class="p-2">
               <app-program-stage-data
                 [program]="program"

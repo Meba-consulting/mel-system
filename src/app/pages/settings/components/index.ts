@@ -42,8 +42,8 @@ export const settingsComponents: any[] = [
   StagesEntryModalComponent,
   NonRepeatableEntryComponent,
   NonRepeatableStageComponent,
-  ConfirmDeleteEventComponent,
   OuDataLoadingComponent,
   FormEntryModalComponent,
   FormsDataListModalComponent,
+  ConfirmDeleteEventComponent,
 ];

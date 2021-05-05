@@ -64,7 +64,7 @@ export class TrackedEntityInstanceListComponent implements OnInit {
   }
 
   onControlList(e, allColumns, savedUserDataStore) {
-    e.stopPropagation();
+    // e.stopPropagation();
     this.setColumnsToShow.emit({
       allColumns: allColumns,
       savedColumns: savedUserDataStore,
@@ -72,7 +72,7 @@ export class TrackedEntityInstanceListComponent implements OnInit {
   }
 
   onEnterDataForStage(e, programStage, enrollmentData) {
-    e.stopPropagation();
+    // e.stopPropagation();
     console.log(enrollmentData);
     this.dialog.open(ProgramStageEntryModalComponent, {
       width: '60%',

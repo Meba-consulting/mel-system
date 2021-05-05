@@ -1,20 +1,21 @@
-<div>
-  <mat-toolbar class="modal-header">Delete confirmation</mat-toolbar>
-  <div class="p-5">
-    <p class="text-center p-1">{{ message }}</p>
-    <button
-      (click)="onConfirm($event)"
-      mat-stroked-button
-      class="mr-2 float-left"
-    >
-      Confirm
-    </button>
+<div style="padding: 20px 20px">
+  <div style="height: 80px">
+    <div class="text-left h5">{{ message }}</div>
+  </div>
+  <div class="d-flex justify-content-end">
     <button
       (click)="onCancel($event)"
       mat-stroked-button
       class="mr-2 float-right"
     >
       Close
+    </button>
+    <button
+      (click)="onConfirm($event)"
+      mat-stroked-button
+      class="mr-2 float-right mel-btn-primary"
+    >
+      Confirm
     </button>
   </div>
 </div>

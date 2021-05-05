@@ -36,8 +36,8 @@ export class TrainingsListComponent implements OnInit {
   onSetDelete(e) {
     this.dialog
       .open(ConfirmDeleteModalComponent, {
-        width: '30%',
-        height: '250px',
+        width: '20%',
+        height: '150px',
         disableClose: false,
         data: { message: 'Are you sure?', item: '' },
         panelClass: 'custom-dialog-container',

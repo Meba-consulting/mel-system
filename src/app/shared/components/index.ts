@@ -11,6 +11,7 @@ import { ProgramStageEntryModalComponent } from './program-stage-entry-modal/pro
 import { RenderProgramStageDataComponent } from './render-program-stage-data/render-program-stage-data.component';
 import { SetColumnsModalComponent } from './set-columns-modal/set-columns-modal.component';
 import { SharingSettingsComponent } from './sharing-settings/sharing-settings.component';
+import { SuccessErrorModalComponent } from './success-error-modal/success-error-modal.component';
 import { TrackedEntityInstanceListComponent } from './tracked-entity-instance-list/tracked-entity-instance-list.component';
 import { TrackedEntityInstanceSelectorComponent } from './tracked-entity-instance-selector/tracked-entity-instance-selector.component';
 import { TrackedEntrityEntryFormComponent } from './tracked-entrity-entry-form/tracked-entrity-entry-form.component';
@@ -40,4 +41,5 @@ export const sharedComponents: any[] = [
   EntrySideBarSummaryComponent,
   ProgramStageEntryModalComponent,
   UpdateStatusModalComponent,
+  SuccessErrorModalComponent,
 ];
