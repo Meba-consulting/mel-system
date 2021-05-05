@@ -112,9 +112,11 @@ export class DataEntryDashboardComponent implements OnInit {
 
   onGetSelectedProgram(itemSelection) {
     const form = itemSelection?.items[0];
+    this.selectedOrgUnits = [];
     this.isFormSelected = false;
     this.currentProgram = null;
     this.paramersSet = false;
+    this.selectedOu = null;
     setTimeout(() => {
       this.currentProgram = form;
       console.log('currentProgram', this.currentProgram);
@@ -127,7 +129,6 @@ export class DataEntryDashboardComponent implements OnInit {
         this.paramersSet = true;
       }
     }, 600);
-    this.selectedOrgUnits = [];
   }
 
   toggleSubItems() {

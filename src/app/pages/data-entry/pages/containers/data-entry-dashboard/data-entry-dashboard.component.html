@@ -35,7 +35,8 @@
           (selectedOu && isFormSelected) || !isFormSelected ? false : true
         "
       >
-        <ng-template pTemplate="content">
+        <div *ngIf="currentProgram">
+          <!-- <ng-template pTemplate="content"> -->
           <ngx-dhis2-org-unit-filter
             [maxHeight]="'320px'"
             [assignedOrgUnits]="currentProgram?.organisationUnits"
@@ -44,7 +45,8 @@
             (orgUnitClose)="onFilterClose($event)"
             (orgUnitUpdate)="onFilterUpdate($event)"
           ></ngx-dhis2-org-unit-filter>
-        </ng-template>
+          <!-- </ng-template> -->
+        </div>
       </p-accordionTab>
     </p-accordion>
 
