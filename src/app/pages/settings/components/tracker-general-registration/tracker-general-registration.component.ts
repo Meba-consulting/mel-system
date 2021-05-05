@@ -106,7 +106,12 @@ export class TrackerGeneralRegistrationComponent implements OnInit {
     this.isReportSet = true;
   }
 
-  onLocationUpdate() {}
+  onLocationUpdate(selections) {
+    this.ouFilterIsSet = false;
+    this.ouId = selections?.items[0]?.id;
+    this.selectedOrgUnits = selections?.items;
+    this.selectedOu = selections?.items[0];
+  }
 
   onFilterUpdate(selections) {
     this.savedData = false;

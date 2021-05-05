@@ -17,18 +17,6 @@
         </div>
         <ng-template pTemplate="content">
           <div class="p-2">
-            <!-- <div class="h5 w-100 text-left">{{ program?.name }}</div> -->
-            <div class="control-btn w-100 p-2" style="height: 52px">
-              <button
-                mat-stroked-button
-                class="mr-2 float-left"
-                (click)="onToggleReportAndTraining($event)"
-              >
-                <span *ngIf="isReportSet">New Training</span>
-                <span *ngIf="!isReportSet">Registered trainings</span>
-                <mat-icon>arrow_forward</mat-icon>
-              </button>
-            </div>
             <div>
               <button
                 class="w-100 text-left p-2"
@@ -56,6 +44,18 @@
                   (orgUnitUpdate)="onOuUpdate($event)"
                 ></ngx-dhis2-org-unit-filter>
               </div>
+            </div>
+            <!-- <div class="h5 w-100 text-left">{{ program?.name }}</div> -->
+            <div class="control-btn w-100 p-2" style="height: 52px">
+              <button
+                mat-stroked-button
+                class="mr-2 float-left"
+                (click)="onToggleReportAndTraining($event)"
+              >
+                <span *ngIf="isReportSet">New Training</span>
+                <span *ngIf="!isReportSet">Registered trainings</span>
+                <!-- <mat-icon>arrow_forward</mat-icon> -->
+              </button>
             </div>
             <div
               *ngIf="isReportSet && selectedRegisteringUnits?.length > 0"
@@ -107,7 +107,7 @@
                     [selectedOrgUnitItems]="selectedOrgUnits"
                     [orgUnitFilterConfig]="orgUnitFilterConfig"
                     (orgUnitClose)="onFilterClose($event)"
-                    (orgUnitUpdate)="onFilterUpdate($event)"
+                    (orgUnitUpdate)="onOuFilterUpdate($event)"
                   ></ngx-dhis2-org-unit-filter>
                 </div>
                 <app-tracked-entrity-entry-form

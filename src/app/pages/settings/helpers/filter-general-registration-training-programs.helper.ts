@@ -17,7 +17,6 @@ export function filterBillingLawsAndPoliciesPrograms(
   userGroups,
   selectedGroup
 ) {
-  console.log('Slet', selectedGroup);
   const keyValuePairedUserGroups = _.keyBy(currentUser?.userGroups, 'id');
   let tabGroupForProgram = (((
     _.filter(userGroups, { id: selectedGroup?.id }) || []

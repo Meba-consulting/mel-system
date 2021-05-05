@@ -33,7 +33,7 @@ export class TrainingRegistrationComponent implements OnInit {
     selectedOrgUnitItems: [],
   };
   selectedRegisteringUnits: any = [];
-  selectedOrgUnits: Array<any> = [];
+  selectedOrgUnits: any = [];
   ouFilterIsSet: boolean = false;
   ouId: string;
   programId: string;
@@ -87,7 +87,7 @@ export class TrainingRegistrationComponent implements OnInit {
     this.formData = {};
   }
 
-  onFilterUpdate(selections) {
+  onOuFilterUpdate(selections) {
     this.savedData = false;
     this.savingData = false;
     this.savingMessage = '';

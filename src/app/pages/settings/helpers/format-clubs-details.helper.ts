@@ -26,7 +26,7 @@ export function getClubInfoFromFormValues(values) {
 }
 
 export function formatClubsForDatatableList(ous) {
-  console.log('ous', ous);
+  // console.log('ous', ous);
   return _.map(ous?.listGrid?.rows, (ou, index) => {
     return {
       position: index + 1,
