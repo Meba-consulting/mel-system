@@ -1,6 +1,6 @@
 <div
   class="stages-updates"
-  class="p-3"
+  style="padding: 25px 20px 15px 20px"
   *ngIf="{
     programDataStoreConfigs: programDataStoreConfigs$ | async,
     queryResponseData: queryResponseData$ | async
@@ -25,11 +25,11 @@
       (click)="changeTab(count)"
     >
       <div
-        class="p-2"
-        *ngIf="count == selectedTab.value && stage?.repeatable"
-        style="height: 450px; overflow: auto"
+        class="p-1"
+        *ngIf="count == selectedTab.value"
+        style="max-height: 450px; overflow: auto"
       >
-        <mat-tab-group
+        <!-- <mat-tab-group
           [selectedIndex]="selectedTabForDataSection.value"
           (selectedIndexChange)="selectedTabForDataSection.setValue($event)"
         >
@@ -80,19 +80,24 @@
               ></app-program-stage-data>
             </div>
           </mat-tab>
-        </mat-tab-group>
+        </mat-tab-group> -->
+        <app-program-stage-entry-modal
+          *ngIf="stage"
+          [currentProgramStage]="stage"
+          [currentProgram]="program"
+          [trackedEntityInstanceId]="currentTrackedEntityInstanceId"
+          [selectedOrgUnit]="orgUnit"
+        ></app-program-stage-entry-modal>
+        <mat-progress-bar
+          mode="indeterminate"
+          *ngIf="!stage"
+        ></mat-progress-bar>
       </div>
-      <div
+      <!-- <div
         class="p-2"
         *ngIf="count == selectedTab.value && !stage?.repeatable"
-        style="height: 450px; overflow: auto"
+        style="height: 450px; overflow: auto; display: none"
       >
-        <!-- {{ stage | json }} -->
-        <!-- <app-non-repeatable-entry
-          [stage]="stage"
-          [programDataStoreConfigs]="params?.programDataStoreConfigs"
-        ></app-non-repeatable-entry> -->
-
         <app-non-repeatable-stage
           [trackedEntityInstanceId]="currentTrackedEntityInstanceId"
           [program]="program"
@@ -115,13 +120,13 @@
           </mat-spinner>
           Save
         </button>
-      </div>
+      </div> -->
     </mat-tab>
   </mat-tab-group>
 
-  <div class="p-3" style="border-top: solid 1px #eee">
+  <!-- <div class="p-3" style="border-top: solid 1px #eee">
     <button class="float-left" mat-stroked-button (click)="onClose($event)">
       Close
     </button>
-  </div>
+  </div> -->
 </div>

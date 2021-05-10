@@ -263,8 +263,8 @@ export class TrackerGeneralRegistrationComponent implements OnInit {
             )?.length > 0
           ) {
             this.dialog.open(StagesEntryModalComponent, {
-              width: '70%',
-              height: '600px',
+              width: '50%',
+              height: '500px',
               disableClose: false,
               data: {
                 program: currentProgram,
@@ -292,8 +292,8 @@ export class TrackerGeneralRegistrationComponent implements OnInit {
   onUpdateStages(e, program, currentTrackedEntityInstanceId) {
     e.stopPropagation();
     this.dialog.open(StagesEntryModalComponent, {
-      width: '70%',
-      height: '600px',
+      width: '50%',
+      height: '500px',
       disableClose: false,
       data: {
         program: program,

@@ -1,14 +1,14 @@
 <div
-  class="stage-entry-container"
+  [ngClass]="{ 'stage-entry-container': !trackedEntityInstanceId }"
   *ngIf="{
     programDataStoreConfigs: programDataStoreConfigs$ | async,
     queryResponseData: queryResponseData$ | async
   } as params"
 >
-  <div class="header h4">
+  <div class="header h4" *ngIf="!trackedEntityInstanceId">
     {{ programStage?.name }}
   </div>
-  <hr style="margin: 5px 0" />
+  <hr *ngIf="!trackedEntityInstanceId" style="margin: 5px 0" />
 
   <mat-progress-bar
     mode="indeterminate"
@@ -150,10 +150,17 @@
       </mat-tab-group> -->
     </div>
   </div>
-  <div class="footer-btns">
+  <div class="footer-btns d-flex justify-content-end">
+    <button
+      class="mr-2 float-left"
+      mat-stroked-button
+      (click)="onClose($event)"
+    >
+      Close
+    </button>
     <button
       [disabled]="!isFormValid"
-      class="mr-2 float-left"
+      class="mr-2 float-left mel-btn-primary"
       mat-stroked-button
       (click)="onSaveData($event, programStage, isEditSet)"
     >
@@ -165,13 +172,6 @@
       >
       </mat-spinner>
       Save
-    </button>
-    <button
-      class="mr-2 float-left"
-      mat-stroked-button
-      (click)="onClose($event)"
-    >
-      Close
     </button>
   </div>
 </div>

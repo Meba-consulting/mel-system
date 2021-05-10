@@ -52,7 +52,7 @@
               Update status
             </button>
             <button (click)="onDelete($event, row)" mat-menu-item>
-              <mat-icon>remove</mat-icon>
+              <mat-icon>delete</mat-icon>
               <span>Delete</span>
             </button>
           </mat-menu>
@@ -60,6 +60,9 @@
       </tr>
     </tbody>
   </table>
+</div>
+<div *ngIf="eventsData && eventsData?.length === 0" class="text-center p-3">
+  <p>No data, use <b>Entry</b> to feed data</p>
 </div>
 
 <mat-progress-bar mode="indeterminate" *ngIf="!eventsData"></mat-progress-bar>

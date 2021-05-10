@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject, Input, OnInit } from '@angular/core';
 import {
   MatDialog,
   MatDialogRef,
@@ -20,6 +20,10 @@ import { ConfirmDeleteModalComponent } from '../confirm-delete-modal/confirm-del
   styleUrls: ['./program-stage-entry-modal.component.css'],
 })
 export class ProgramStageEntryModalComponent implements OnInit {
+  @Input() currentProgramStage: any;
+  @Input() currentProgram: any;
+  @Input() trackedEntityInstanceId: string;
+  @Input() selectedOrgUnit: any;
   programStage: any;
   program: any;
   programDataStoreConfigs$: Observable<any>;
@@ -49,28 +53,40 @@ export class ProgramStageEntryModalComponent implements OnInit {
     this.program = data?.program;
     this.currentTrackedEntityInstanceId = data?.currentTrackedEntityInstanceId;
     this.orgUnit = data?.orgUnit;
-    this.programDataStoreConfigs$ = this.httpClient.get(
-      'dataStore/programs/' + this.program?.id
-    );
   }
 
   ngOnInit(): void {
-    this.queryResponseData$ = this.dataService.getTrackedEntityInstances({
-      orgUnit: this.orgUnit?.id,
-      program: this.program?.id,
-    });
+    this.programStage = this.programStage
+      ? this.programStage
+      : this.currentProgramStage;
+    this.program = this.program ? this.program : this.currentProgram;
 
-    this.eventsData = {
-      trackedEntityInstance: this.currentTrackedEntityInstanceId,
-      program: this.program?.id,
-      programStage: '',
-      enrollment: this.currentTrackedEntityInstanceId,
-      orgUnit: this.orgUnit?.id,
-      notes: [],
-      dataValues: [],
-      status: 'ACTIVE',
-      eventDate: formatDateToYYMMDD(new Date()),
-    };
+    this.currentTrackedEntityInstanceId = this.currentTrackedEntityInstanceId
+      ? this.currentTrackedEntityInstanceId
+      : this.trackedEntityInstanceId;
+
+    this.orgUnit = this.orgUnit ? this.orgUnit : this.selectedOrgUnit;
+    this.programDataStoreConfigs$ = this.httpClient.get(
+      'dataStore/programs/' + this.program?.id
+    );
+    if (this.orgUnit && this.program) {
+      this.queryResponseData$ = this.dataService.getTrackedEntityInstances({
+        orgUnit: this.orgUnit?.id,
+        program: this.program?.id,
+      });
+
+      this.eventsData = {
+        trackedEntityInstance: this.currentTrackedEntityInstanceId,
+        program: this.program?.id,
+        programStage: '',
+        enrollment: this.currentTrackedEntityInstanceId,
+        orgUnit: this.orgUnit?.id,
+        notes: [],
+        dataValues: [],
+        status: 'ACTIVE',
+        eventDate: formatDateToYYMMDD(new Date()),
+      };
+    }
   }
 
   getCountOfEvents(eventsCount) {

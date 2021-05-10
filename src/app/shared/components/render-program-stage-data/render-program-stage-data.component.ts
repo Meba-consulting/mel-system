@@ -57,6 +57,10 @@ export class RenderProgramStageDataComponent implements OnInit {
       ),
       'dataElement'
     );
+    console.log(
+      'formattedDataElements',
+      JSON.stringify(this.formattedDataElements)
+    );
 
     this.formattedDataElements = _.filter(this.formattedDataElements, {
       displayInReports: true,
@@ -64,7 +68,6 @@ export class RenderProgramStageDataComponent implements OnInit {
 
     this.eventsData = [];
 
-    // console.log('formattedDataElements', this.formattedDataElements);
     _.map(
       _.filter(this.data?.enrollments[0]?.events, {
         programStage: this.programStage?.id,
