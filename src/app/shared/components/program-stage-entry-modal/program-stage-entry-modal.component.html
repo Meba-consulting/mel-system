@@ -66,27 +66,54 @@
             countOfEvents === 0
           "
         >
-          <div class="h5">Entry</div>
-          <ng-template pTemplate="content">
-            <div class="p-2">
-              <app-program-stage-data-entry
-                [queryResponseData]="params?.queryResponseData"
-                [programStateDataElements]="
-                  programStage?.programStageDataElements
-                "
-                [programStageFormData]="programStageFormData"
-                [stage]="programStage"
-                [programDataStoreConfigs]="params?.programDataStoreConfigs"
-                (formValuesData)="
-                  onGetFormValuesData(
+          <div class="w-100 d-flex" style="height: 20px">
+            <div class="w-50 h5 text-left">Entry</div>
+            <div class="w-50">
+              <a
+                class="float-right"
+                (click)="
+                  onGetExcelTemplate(
                     $event,
-                    programStage?.programStageDataElements
+                    programStage,
+                    params?.programDataStoreConfigs
                   )
                 "
-                (isFormValid)="onGetFormValidity($event)"
-              ></app-program-stage-data-entry>
+                >Get {{ programStage?.name }} import template</a
+              >
+            </div>
+          </div>
+          <ng-template pTemplate="content">
+            <div class="p-2">
+              <div class="w-100">
+                <app-program-stage-data-entry
+                  [queryResponseData]="params?.queryResponseData"
+                  [programStateDataElements]="
+                    programStage?.programStageDataElements
+                  "
+                  [programStageFormData]="programStageFormData"
+                  [stage]="programStage"
+                  [programDataStoreConfigs]="params?.programDataStoreConfigs"
+                  (formValuesData)="
+                    onGetFormValuesData(
+                      $event,
+                      programStage?.programStageDataElements
+                    )
+                  "
+                  (isFormValid)="onGetFormValidity($event)"
+                ></app-program-stage-data-entry>
+              </div>
             </div>
           </ng-template>
+
+          <div class="w-100">
+            <button
+              mat-stroked-button
+              (click)="onOpenFileUploadForEvents($event)"
+              class="ml-2 float-right"
+            >
+              Upload data
+            </button>
+          </div>
         </p-tabPanel>
       </p-tabView>
       <!-- <mat-tab-group

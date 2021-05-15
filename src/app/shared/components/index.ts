@@ -16,6 +16,7 @@ import { TrackedEntityInstanceListComponent } from './tracked-entity-instance-li
 import { TrackedEntityInstanceSelectorComponent } from './tracked-entity-instance-selector/tracked-entity-instance-selector.component';
 import { TrackedEntrityEntryFormComponent } from './tracked-entrity-entry-form/tracked-entrity-entry-form.component';
 import { UpdateStatusModalComponent } from './update-status-modal/update-status-modal.component';
+import { UploadExcelDataModalComponent } from './upload-excel-data-modal/upload-excel-data-modal.component';
 import { UserProfileComponent } from './user-profile/user-profile.component';
 import { UserRolesPanelSelectorComponent } from './user-roles-panel-selector/user-roles-panel-selector.component';
 import { UserSettingsComponent } from './user-settings/user-settings.component';
@@ -42,4 +43,5 @@ export const sharedComponents: any[] = [
   ProgramStageEntryModalComponent,
   UpdateStatusModalComponent,
   SuccessErrorModalComponent,
+  UploadExcelDataModalComponent,
 ];

@@ -13,6 +13,7 @@ import * as _ from 'lodash';
 import { ConfirmDeleteEventComponent } from 'src/app/pages/settings/components/confirm-delete-event/confirm-delete-event.component';
 import { FormControl } from '@angular/forms';
 import { ConfirmDeleteModalComponent } from '../confirm-delete-modal/confirm-delete-modal.component';
+import { ExportToExcelJsonService } from 'src/app/core/services/export-to-excel-json.service';
 
 @Component({
   selector: 'app-program-stage-entry-modal',
@@ -47,7 +48,8 @@ export class ProgramStageEntryModalComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) data,
     private httpClient: NgxDhis2HttpClientService,
     private dataService: DataService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private excelService: ExportToExcelJsonService
   ) {
     this.programStage = data?.programStage;
     this.program = data?.program;
@@ -132,12 +134,11 @@ export class ProgramStageEntryModalComponent implements OnInit {
             this.savingMessage = 'Saved data successfully';
             this.savingProgramData = false;
             this.index = 0;
-            this.queryResponseData$ = this.dataService.getTrackedEntityInstances(
-              {
+            this.queryResponseData$ =
+              this.dataService.getTrackedEntityInstances({
                 orgUnit: this.orgUnit?.id,
                 program: this.program?.id,
-              }
-            );
+              });
             setTimeout(() => {
               this.savingMessage = '';
             }, 1000);
@@ -152,12 +153,11 @@ export class ProgramStageEntryModalComponent implements OnInit {
             this.isEditSet = false;
             this.selectedTab.setValue(0);
             this.index = 0;
-            this.queryResponseData$ = this.dataService.getTrackedEntityInstances(
-              {
+            this.queryResponseData$ =
+              this.dataService.getTrackedEntityInstances({
                 orgUnit: this.orgUnit?.id,
                 program: this.program?.id,
-              }
-            );
+              });
             setTimeout(() => {
               this.savingMessage = '';
             }, 1000);
@@ -202,12 +202,11 @@ export class ProgramStageEntryModalComponent implements OnInit {
               this.eventDeletingMessage = 'Successfully deleted the item';
               setTimeout(() => {
                 this.eventDeletingMessage = '';
-                this.queryResponseData$ = this.dataService.getTrackedEntityInstances(
-                  {
+                this.queryResponseData$ =
+                  this.dataService.getTrackedEntityInstances({
                     orgUnit: this.orgUnit?.id,
                     program: this.program?.id,
-                  }
-                );
+                  });
               }, 500);
             }
           });
@@ -218,5 +217,50 @@ export class ProgramStageEntryModalComponent implements OnInit {
   onClose(e) {
     e.stopPropagation();
     this.dialogRef.close();
+  }
+
+  onGetExcelTemplate(e, stage, configs): void {
+    e.stopPropagation();
+    let dataElementsAsColumns = {};
+    stage.programStageDataElements.forEach((programStageDataElement) => {
+      dataElementsAsColumns[programStageDataElement?.dataElement?.name] = '';
+    });
+    let otherDetails = {
+      orgUnit: this.orgUnit?.id,
+      form_id: this.program.id,
+      form_name: this.program.name,
+      reference_id: this.currentTrackedEntityInstanceId,
+    };
+    this.excelService.generateExcel(
+      [{ ...otherDetails, ...dataElementsAsColumns }],
+      [
+        'orgunit',
+        'form_id',
+        'form_name',
+        'reference_id',
+        ...stage.programStageDataElements.map((programStageDataElement) => {
+          return programStageDataElement.dataElement?.name;
+        }),
+      ],
+      stage.programStageDataElements
+        .map((programStageDataElement, index) => {
+          return {
+            id: programStageDataElement.dataElement?.id,
+            name: programStageDataElement.dataElement?.name,
+            index: index + 4,
+            options:
+              programStageDataElement.dataElement?.optionSet &&
+              programStageDataElement.dataElement?.optionSet?.options &&
+              programStageDataElement.dataElement?.optionSet?.options?.length >
+                0
+                ? programStageDataElement.dataElement?.optionSet?.options.map(
+                    (option) => option?.code.split(' ').join('_')
+                  )
+                : [],
+          };
+        })
+        .filter((formattedElem) => formattedElem?.options?.length > 0) || [],
+      stage?.name
+    );
   }
 }
