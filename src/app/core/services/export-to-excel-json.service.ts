@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import * as FileSaver from 'file-saver';
 import * as XLSX from 'xlsx';
 import * as Excel from 'exceljs/dist/exceljs.min.js';
+import * as ExcelJS from 'exceljs';
+
 import * as _ from 'lodash';
 const EXCEL_TYPE =
   'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
@@ -31,6 +33,7 @@ const excelTablesHeaders: any = [
 })
 export class ExportToExcelJsonService {
   constructor() {}
+
   public exportAsExcelFile(
     jsonData: any[],
     jsonReference: any[],
@@ -50,6 +53,7 @@ export class ExportToExcelJsonService {
     //const excelBuffer: any = XLSX.write(workbook, { bookType: 'xlsx', type: 'buffer' });
     this.saveAsExcelFile(excelBuffer, excelFileName);
   }
+
   private saveAsExcelFile(buffer: any, fileName: string): void {
     const data: Blob = new Blob([buffer], {
       type: EXCEL_TYPE,
@@ -76,8 +80,8 @@ export class ExportToExcelJsonService {
     }
     console.log(data);
     //Create workbook and worksheet
-    let workbook = new Excel.WorkBook();
-    let worksheet = workbook.addWorksheet('Candidate Report');
+    let workbook = new ExcelJS.Workbook();
+    let worksheet = workbook.addWorksheet('data');
 
     //Add Header Row
     let headerRow = worksheet.addRow(header);

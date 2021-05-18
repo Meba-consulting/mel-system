@@ -39,7 +39,10 @@
               "node_modules/leaflet/dist/leaflet.css",
               "src/styles.scss"
             ],
-            "scripts": ["node_modules/jquery/dist/jquery.js"]
+            "scripts": [
+              "node_modules/jquery/dist/jquery.js",
+              "node_modules/exceljs/dist/exceljs.min.js"
+            ]
           },
           "configurations": {
             "production": {

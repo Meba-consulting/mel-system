@@ -82,7 +82,7 @@
               >
             </div>
           </div>
-          <ng-template pTemplate="content">
+          <ng-template class="w-100" pTemplate="content">
             <div class="p-2">
               <div class="w-100">
                 <app-program-stage-data-entry
@@ -102,18 +102,17 @@
                   (isFormValid)="onGetFormValidity($event)"
                 ></app-program-stage-data-entry>
               </div>
+              <div class="w-100" style="height: 40px">
+                <button
+                  mat-stroked-button
+                  (click)="onOpenFileUploadForEvents($event)"
+                  class="ml-2 float-right"
+                >
+                  Upload data
+                </button>
+              </div>
             </div>
           </ng-template>
-
-          <div class="w-100">
-            <button
-              mat-stroked-button
-              (click)="onOpenFileUploadForEvents($event)"
-              class="ml-2 float-right"
-            >
-              Upload data
-            </button>
-          </div>
         </p-tabPanel>
       </p-tabView>
       <!-- <mat-tab-group

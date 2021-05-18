@@ -1,1 +1,31 @@
-<p>upload-excel-data-modal works!</p>
+<div class="upload-data-container">
+  <div class="h4 text-left">Upload {{ programStage?.name }} data</div>
+  <hr style="margin: 3px" />
+  <div class="w-100 upload-section">
+    <input
+      type="file"
+      style="border: none; background-color: transparent; float: left"
+      name="file"
+      accept=".xls, .xlsx"
+      title=""
+      id="fileSelector"
+      (change)="fileSelection($event)"
+    />
+    <!-- <span *ngIf="fileDetails">
+      {{ fileDetails?.name }}
+    </span> -->
+  </div>
+  <div class="w-100 d-flex justify-content-end">
+    <button class="ml-2" mat-stroked-button (click)="onClose($event)">
+      Cancel
+    </button>
+    <button
+      style="margin-left: 6px"
+      class="ml-2 mel-btn-primary"
+      mat-stroked-button
+      (click)="onSave($event)"
+    >
+      Save
+    </button>
+  </div>
+</div>

@@ -14,6 +14,7 @@ import { ConfirmDeleteEventComponent } from 'src/app/pages/settings/components/c
 import { FormControl } from '@angular/forms';
 import { ConfirmDeleteModalComponent } from '../confirm-delete-modal/confirm-delete-modal.component';
 import { ExportToExcelJsonService } from 'src/app/core/services/export-to-excel-json.service';
+import { UploadExcelDataModalComponent } from '../upload-excel-data-modal/upload-excel-data-modal.component';
 
 @Component({
   selector: 'app-program-stage-entry-modal',
@@ -262,5 +263,21 @@ export class ProgramStageEntryModalComponent implements OnInit {
         .filter((formattedElem) => formattedElem?.options?.length > 0) || [],
       stage?.name
     );
+  }
+
+  onOpenFileUploadForEvents(e) {
+    e.stopPropagation();
+    this.dialog.open(UploadExcelDataModalComponent, {
+      width: '500px',
+      height: '170px',
+      disableClose: false,
+      data: {
+        trackedEntityInstanceId: this.currentTrackedEntityInstanceId,
+        orgUnit: this.orgUnit,
+        programStage: this.programStage,
+        program: this.program,
+      },
+      panelClass: 'custom-dialog-container',
+    });
   }
 }
