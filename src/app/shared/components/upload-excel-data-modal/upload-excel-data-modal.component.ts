@@ -7,6 +7,7 @@ import {
   ViewChild,
 } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { DataService } from 'src/app/core/services/data.service';
 import { ProcessExcelUploadedFileService } from 'src/app/core/services/process-excel-uploaded-file.service';
 
 @Component({
@@ -23,10 +24,13 @@ export class UploadExcelDataModalComponent implements OnInit {
   fileDetails: any;
   formattedDataAsEvents: any;
   @ViewChild('fileSelector') fileSelectorInput: ElementRef;
+  savingData: boolean = false;
+  savingMessage: string = '';
   constructor(
     private dialogRef: MatDialogRef<UploadExcelDataModalComponent>,
     @Inject(MAT_DIALOG_DATA) data,
-    private processExcelFileService: ProcessExcelUploadedFileService
+    private processExcelFileService: ProcessExcelUploadedFileService,
+    private dataService: DataService
   ) {
     this.trackedEntityInstanceId = data?.trackedEntityInstanceId;
     this.programStage = data?.programStage;
@@ -50,10 +54,16 @@ export class UploadExcelDataModalComponent implements OnInit {
     e.stopPropagation();
     var reader = new FileReader();
     let self = this;
+    this.savingData = true;
+    this.savingMessage = 'Saving data';
     if (reader.readAsBinaryString) {
       reader.onload = function (e) {
         self.formattedDataAsEvents =
-          self.processExcelFileService.processExcelFileData(e.target.result);
+          self.processExcelFileService.processExcelFileData(
+            e.target.result,
+            self.programStage?.programStageDataElements
+          );
+        self.saveData(self.formattedDataAsEvents);
       };
       reader.readAsBinaryString(this.fileDetails.data);
     }
@@ -62,5 +72,25 @@ export class UploadExcelDataModalComponent implements OnInit {
   onClose(e) {
     e.stopPropagation();
     this.dialogRef.close();
+  }
+
+  saveData(data) {
+    // console.log(data);
+    this.dataService
+      .saveEventsData({
+        events: data,
+      })
+      .subscribe((response) => {
+        if (response) {
+          this.savingMessage = 'Successful sent data !';
+          this.savingData = false;
+          setTimeout(() => {
+            this.savingMessage = '';
+            this.dialogRef.close(true);
+          }, 2000);
+        }
+      });
+
+    // console.log('response', response);
   }
 }

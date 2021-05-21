@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import * as FileSaver from 'file-saver';
 import * as XLSX from 'xlsx';
 import * as Excel from 'exceljs/dist/exceljs.min.js';
-import * as ExcelJS from 'exceljs';
+// import * as ExcelJS from 'exceljs';
 
 import * as _ from 'lodash';
 const EXCEL_TYPE =
@@ -64,7 +64,7 @@ export class ExportToExcelJsonService {
     );
   }
 
-  generateExcel(list, header, elementsData, fileName) {
+  generateExcel(list, header, elementsData, fileName, dataElements?) {
     let data: any = [];
     const wb: XLSX.WorkBook = {
       Sheets: { data },
@@ -78,9 +78,8 @@ export class ExportToExcelJsonService {
       });
       data.push(arr);
     }
-    console.log(data);
     //Create workbook and worksheet
-    let workbook = new ExcelJS.Workbook();
+    let workbook = new Excel.Workbook();
     let worksheet = workbook.addWorksheet('data');
 
     //Add Header Row
@@ -101,7 +100,17 @@ export class ExportToExcelJsonService {
         right: { style: 'thin' },
       };
     });
-    worksheet.getColumn(3).width = 30;
+    // worksheet.getColumn(3).width = 30;
+    dataElements.forEach((elem, index) => {
+      if (elem.dataElement.valueType === 'DATE') {
+        const cell = worksheet.getColumn(index);
+        cell.eachCell((c, rowNumber) => {
+          // console.log('rowNumber', rowNumber);
+          c.numFmt = 'yyyy/m/d';
+        });
+      }
+    });
+
     data.forEach((d) => {
       let row = worksheet.addRow(d);
     });

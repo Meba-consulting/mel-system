@@ -86,7 +86,7 @@ export class ProgramStageEntryModalComponent implements OnInit {
         orgUnit: this.orgUnit?.id,
         notes: [],
         dataValues: [],
-        status: 'ACTIVE',
+        status: 'COMPLETE',
         eventDate: formatDateToYYMMDD(new Date()),
       };
     }
@@ -227,8 +227,8 @@ export class ProgramStageEntryModalComponent implements OnInit {
       dataElementsAsColumns[programStageDataElement?.dataElement?.name] = '';
     });
     let otherDetails = {
-      orgUnit: this.orgUnit?.id,
-      form_id: this.program.id,
+      orgunit: this.orgUnit?.id,
+      form_reference: this.program.id + '_' + stage?.id,
       form_name: this.program.name,
       reference_id: this.currentTrackedEntityInstanceId,
     };
@@ -236,7 +236,7 @@ export class ProgramStageEntryModalComponent implements OnInit {
       [{ ...otherDetails, ...dataElementsAsColumns }],
       [
         'orgunit',
-        'form_id',
+        'form_reference',
         'form_name',
         'reference_id',
         ...stage.programStageDataElements.map((programStageDataElement) => {
@@ -261,23 +261,36 @@ export class ProgramStageEntryModalComponent implements OnInit {
           };
         })
         .filter((formattedElem) => formattedElem?.options?.length > 0) || [],
-      stage?.name
+      stage?.name,
+      stage.programStageDataElements
     );
   }
 
   onOpenFileUploadForEvents(e) {
     e.stopPropagation();
-    this.dialog.open(UploadExcelDataModalComponent, {
-      width: '500px',
-      height: '170px',
-      disableClose: false,
-      data: {
-        trackedEntityInstanceId: this.currentTrackedEntityInstanceId,
-        orgUnit: this.orgUnit,
-        programStage: this.programStage,
-        program: this.program,
-      },
-      panelClass: 'custom-dialog-container',
-    });
+    this.dialog
+      .open(UploadExcelDataModalComponent, {
+        width: '500px',
+        height: '170px',
+        disableClose: false,
+        data: {
+          trackedEntityInstanceId: this.currentTrackedEntityInstanceId,
+          orgUnit: this.orgUnit,
+          programStage: this.programStage,
+          program: this.program,
+        },
+        panelClass: 'custom-dialog-container',
+      })
+      .afterClosed()
+      .subscribe((response) => {
+        if (response === true) {
+          this.selectedTab.setValue(0);
+          this.index = 0;
+          this.queryResponseData$ = this.dataService.getTrackedEntityInstances({
+            orgUnit: this.orgUnit?.id,
+            program: this.program?.id,
+          });
+        }
+      });
   }
 }

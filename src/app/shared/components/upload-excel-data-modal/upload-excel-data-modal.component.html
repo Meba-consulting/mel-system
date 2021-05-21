@@ -15,6 +15,13 @@
       {{ fileDetails?.name }}
     </span> -->
   </div>
+  <div
+    style="height: 30px"
+    class="tex-center text-success"
+    *ngIf="savingMessage !== ''"
+  >
+    {{ savingMessage }}
+  </div>
   <div class="w-100 d-flex justify-content-end">
     <button class="ml-2" mat-stroked-button (click)="onClose($event)">
       Cancel
@@ -24,7 +31,15 @@
       class="ml-2 mel-btn-primary"
       mat-stroked-button
       (click)="onSave($event)"
+      [disabled]="savingMessage !== ''"
     >
+      <mat-spinner
+        *ngIf="savingData"
+        color="accent"
+        [diameter]="20"
+        style="display: inline-block !important; margin-right: 4px"
+      >
+      </mat-spinner>
       Save
     </button>
   </div>

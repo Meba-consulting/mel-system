@@ -132,4 +132,8 @@ export class DataService {
   completeEnrollment(id, data): Observable<any> {
     return this.httpClient.put('enrollments/' + id, data);
   }
+
+  async saveEventsFromExcel(data) {
+    return await this.httpClient.post('events', data).toPromise();
+  }
 }
