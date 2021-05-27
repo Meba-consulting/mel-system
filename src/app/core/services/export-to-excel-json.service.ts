@@ -1,10 +1,12 @@
 import { Injectable } from '@angular/core';
 import * as FileSaver from 'file-saver';
 import * as XLSX from 'xlsx';
+import date from 'date-and-time';
 import * as Excel from 'exceljs/dist/exceljs.min.js';
 // import * as ExcelJS from 'exceljs';
 
 import * as _ from 'lodash';
+import { formatDateYYMMDD } from 'src/app/pages/data-entry/helpers';
 const EXCEL_TYPE =
   'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
 const EXCEL_EXTENSION = '.xlsx';
@@ -87,12 +89,16 @@ export class ExportToExcelJsonService {
 
     // Cell Style : Fill and Border
     headerRow.eachCell((cell, number) => {
-      cell.fill = {
-        type: 'pattern',
-        pattern: 'solid',
-        fgColor: { argb: 'FFFFFF00' },
-        bgColor: { argb: 'FF0000FF' },
-      };
+      if (number < 5) {
+        cell.fill = {
+          type: 'pattern',
+          pattern: 'solid',
+          fgColor: { argb: 'FFFFFF00' },
+          bgColor: { argb: 'FF0000FF' },
+        };
+
+        worksheet.getColumn(number).width = 15;
+      }
       cell.border = {
         top: { style: 'thin' },
         left: { style: 'thin' },
@@ -100,13 +106,46 @@ export class ExportToExcelJsonService {
         right: { style: 'thin' },
       };
     });
-    // worksheet.getColumn(3).width = 30;
+
+    const today = date.format(new Date(), 'DD/MM/YYYY');
     dataElements.forEach((elem, index) => {
+      worksheet.getColumn(index + 5).width = elem.dataElement.name.length + 5;
       if (elem.dataElement.valueType === 'DATE') {
-        const cell = worksheet.getColumn(index);
-        cell.eachCell((c, rowNumber) => {
+        const column = worksheet.getColumn(index + 5);
+
+        column.numFmt = 'dd/mm/yyyy';
+        column.tooltip = 'Date Format - 1/1/2021';
+        column.rules = [
+          {
+            type: 'expression',
+            formulae: ['dd/mm/yyyy'],
+            style: {
+              fill: {
+                type: 'pattern',
+                'dd/mm/yyyy': 'solid',
+                bgColor: { argb: 'FF00FF00' },
+                with: 30,
+              },
+            },
+          },
+        ];
+        column.eachCell((cell, rowNumber) => {
           // console.log('rowNumber', rowNumber);
-          c.numFmt = 'yyyy/m/d';
+          // cell.numFmt = 'dd/mm/yyyy';
+          cell.dataValidation = {
+            type: 'date',
+            with: 30,
+            operator: 'greaterThan',
+            formulae: [new Date('1/1/1920')],
+            showInputMessage: true,
+            allowBlank: true,
+            promptTitle: 'Valid Date',
+            prompt: `Format (DD/MM/YYYY) Eg: ${today}`,
+            showErrorMessage: true,
+            errorStyle: 'error',
+            errorTitle: 'Invalid Date',
+            error: `Format (DD/MM/YYYY) Eg: ${today}`,
+          };
         });
       }
     });
@@ -115,7 +154,7 @@ export class ExportToExcelJsonService {
       let row = worksheet.addRow(d);
     });
     elementsData.forEach((element, index) => {
-      const options = element.options.join(',');
+      const options = '"' + element.options.join(',') + '"';
       worksheet.getCell(
         excelTablesHeaders[element?.index] + '2'
       ).dataValidation = {
@@ -129,7 +168,14 @@ export class ExportToExcelJsonService {
       let blob = new Blob([data], {
         type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
       });
-      FileSaver.saveAs(blob, 'entry_data_for_' + fileName + '.xlsx');
+      FileSaver.saveAs(
+        blob,
+        'entry_data_for_' +
+          fileName +
+          '_' +
+          formatDateYYMMDD(new Date()) +
+          '.xlsx'
+      );
     });
   }
 }

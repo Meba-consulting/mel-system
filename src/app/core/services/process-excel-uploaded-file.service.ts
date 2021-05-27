@@ -45,6 +45,7 @@ export class ProcessExcelUploadedFileService {
         dataValues: keys
           .filter((key, index) => index > 3)
           .map((key) => {
+            console.log('excelRow[key]', excelRow[key]);
             return {
               dataElement: keyValuePairedDataElements[key]?.id,
               value:
@@ -61,13 +62,13 @@ export class ProcessExcelUploadedFileService {
                       ]?.optionSet?.options.filter(
                         (option) =>
                           option?.code.toLowerCase() ===
-                          excelRow[key].split('_').join(' ')
+                          excelRow[key].toLowerCase()
                       ) || []
                     )?.length > 0
                   ? (keyValuePairedDataElements[key]?.optionSet?.options.filter(
                       (option) =>
                         option?.code.toLowerCase() ===
-                        excelRow[key].split('_').join(' ')
+                        excelRow[key].toLowerCase()
                     ) || [])[0]?.code
                   : '',
             };

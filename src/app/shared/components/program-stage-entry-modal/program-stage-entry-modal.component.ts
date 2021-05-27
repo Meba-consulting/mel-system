@@ -86,7 +86,7 @@ export class ProgramStageEntryModalComponent implements OnInit {
         orgUnit: this.orgUnit?.id,
         notes: [],
         dataValues: [],
-        status: 'COMPLETE',
+        status: 'COMPLETED',
         eventDate: formatDateToYYMMDD(new Date()),
       };
     }
@@ -255,7 +255,7 @@ export class ProgramStageEntryModalComponent implements OnInit {
               programStageDataElement.dataElement?.optionSet?.options?.length >
                 0
                 ? programStageDataElement.dataElement?.optionSet?.options.map(
-                    (option) => option?.code.split(' ').join('_')
+                    (option) => option?.code
                   )
                 : [],
           };

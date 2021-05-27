@@ -16,7 +16,7 @@
     </span> -->
   </div>
   <div
-    style="height: 30px"
+    style="height: 15px"
     class="tex-center text-success"
     *ngIf="savingMessage !== ''"
   >
@@ -29,9 +29,10 @@
     <button
       style="margin-left: 6px"
       class="ml-2 mel-btn-primary"
+      title="{{ !file ? 'Upload file first' : 'You can save' }}"
       mat-stroked-button
       (click)="onSave($event)"
-      [disabled]="savingMessage !== ''"
+      [disabled]="savingMessage !== '' || !file"
     >
       <mat-spinner
         *ngIf="savingData"
