@@ -3,7 +3,7 @@ import * as _ from 'lodash';
 import { DataFilter } from '../../models/data-filter.model';
 import {
   DataFilterActions,
-  DataFilterActionTypes
+  DataFilterActionTypes,
 } from '../actions/data-filter.actions';
 import { createFeatureSelector } from '@ngrx/store';
 
@@ -13,14 +13,13 @@ export interface State extends EntityState<DataFilter> {
   currentDataFilterGroupId: string;
 }
 
-export const adapter: EntityAdapter<DataFilter> = createEntityAdapter<
-  DataFilter
->();
+export const adapter: EntityAdapter<DataFilter> =
+  createEntityAdapter<DataFilter>();
 
 export const initialState: State = adapter.getInitialState({
   // additional entity state properties
-  activeDataFilterSelections: ['all'],
-  currentDataFilterGroupId: 'all'
+  activeDataFilterSelections: ['in'],
+  currentDataFilterGroupId: 'in',
 });
 
 export function reducer(
@@ -77,7 +76,7 @@ export function reducer(
             (dataSelection: any) => dataSelection.selected
           ),
           (dataSelection: any) => dataSelection.prefix
-        )
+        ),
       };
     }
 
@@ -93,9 +92,5 @@ export function reducer(
 
 export const getDataFilterState = createFeatureSelector<State>('dataFilter');
 
-export const {
-  selectIds,
-  selectEntities,
-  selectAll,
-  selectTotal
-} = adapter.getSelectors();
+export const { selectIds, selectEntities, selectAll, selectTotal } =
+  adapter.getSelectors();

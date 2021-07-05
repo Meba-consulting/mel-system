@@ -54,6 +54,10 @@
               <mat-icon>settings</mat-icon>
               Change password
             </button>
+            <button mat-menu-item (click)="deleteIndexDB($event)">
+              <mat-icon>clear</mat-icon>
+              Clear cache
+            </button>
             <button mat-menu-item (click)="onLogOut($event)">
               <img
                 style="margin-right: 16px; vertical-align: middle"
@@ -61,10 +65,6 @@
               />
               Logout
               <!-- <mat-icon>login</mat-icon> -->
-            </button>
-            <button mat-menu-item (click)="deleteIndexDB($event)">
-              <mat-icon>clear</mat-icon>
-              Clear cache
             </button>
           </mat-menu>
         </div>

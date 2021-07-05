@@ -7,18 +7,18 @@ export function createTabsForGeneralRegistration(userGroups, currentUser) {
   return _.orderBy(
     _.map(generalRegUserGroup?.managedGroups, (group) => {
       return {
-        name: group?.name
-          .toLowerCase()
-          ?.replace('_general registration', '')
-          .toUpperCase(),
+        name: _.startCase(
+          group?.name.toLowerCase()?.replace('_general registration', '')
+        ),
         id: group?.id,
         managedGroups: _.map(group?.managedGroups, (managedGroup) => {
           return {
             id: managedGroup?.id,
-            name: managedGroup?.name
-              ?.toLowerCase()
-              ?.replace('_general registration ', '')
-              .toUpperCase(),
+            name: _.startCase(
+              managedGroup?.name
+                ?.toLowerCase()
+                ?.replace('_general registration ', '')
+            ),
           };
         }).filter(
           (managedGroupToFilter) =>

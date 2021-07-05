@@ -50,6 +50,7 @@ import { take } from 'rxjs/operators';
 import { openAnimation } from '../../../../../animations';
 import { VisualizationBodySectionComponent } from '../../components/visualization-body-section/visualization-body-section';
 import { getCurrentGlobalDataSelections } from 'src/app/pages/dashboard/pages/store/selectors';
+import { Fn } from '@iapps/function-analytics';
 
 @Component({
   selector: 'ngx-dhis2-visualization',
@@ -80,6 +81,8 @@ export class VisualizationComponent implements OnInit, OnChanges {
   @Input()
   systemInfo: any;
   cardFocused: boolean;
+
+  @Input() hideHeader: boolean;
 
   @Output()
   toggleFullScreen: EventEmitter<any> = new EventEmitter<any>();
@@ -281,5 +284,64 @@ export class VisualizationComponent implements OnInit, OnChanges {
         downloadDetails.downloadFormat
       );
     }
+  }
+
+  setVisualization(dataSelections: any[], vizLayers?) {
+    const visualizationLayerPromises = [1].map((item) => {
+      const analytics = new Fn.Analytics();
+
+      (dataSelections || []).forEach((dataSelection) => {
+        switch (dataSelection.dimension) {
+          case 'dx':
+            analytics.setData(
+              dataSelection.items.map((item) => item.id).join(';')
+            );
+            console.log('analytucs', analytics);
+            break;
+
+          case 'pe':
+            analytics.setPeriod(
+              dataSelection.items.map((item) => item.id).join(';')
+            );
+            break;
+
+          case 'ou':
+            analytics.setOrgUnit(
+              dataSelection.items.map((item) => item.id).join(';')
+            );
+            break;
+          default:
+            analytics.setDimension(
+              dataSelection?.id,
+              dataSelection.items.map((item) => item.id).join(';')
+            );
+            break;
+        }
+      });
+      console.log('analytics');
+      return analytics;
+    });
+
+    this.visualizationLayers$ = new Observable((observer) => {
+      Fn.all(visualizationLayerPromises)
+        .postProcess((analyticsArray) => {
+          return analyticsArray.map((analyticsResult, index) => {
+            const visualizationLayer = {};
+            return {
+              ...visualizationLayer,
+              analytics: analyticsResult._data,
+            };
+          });
+        })
+        .get()
+        .then((results) => {
+          observer.next(results);
+          observer.complete();
+        })
+        .catch((error) => {
+          observer.next([]);
+          observer.complete();
+        });
+    });
   }
 }

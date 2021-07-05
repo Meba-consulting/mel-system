@@ -11,8 +11,11 @@ export class IndicatorService {
   }
 
   private _loadFromApi() {
+    /**
+     * TODO: Load both program indicators and indicators
+     */
     return this.http
-      .get('indicators.json?fields=id,name,code&paging=false')
-      .pipe(map(res => res.indicators || []));
+      .get('programIndicators.json?fields=id,name,code&paging=false')
+      .pipe(map((res) => res.programIndicators || []));
   }
 }

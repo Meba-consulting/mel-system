@@ -64,8 +64,10 @@ body {
 }
 body {
   margin: 0;
-  font-family: Roboto, 'Helvetica Neue', sans-serif;
+  // font-family: Roboto, 'Helvetica Neue', sans-serif;
   font-size: 0.8rem !important;
+
+  font-family: 'Times New Roman', Times, serif !important;
 }
 
 .mat-tab-body-wrapper {
@@ -227,4 +229,30 @@ button {
 .mel-btn-primary {
   background-color: #3ea9d9 !important;
   color: #fff !important;
+}
+
+.mat-table {
+  // font-family: Roboto, "Helvetica Neue", sans-serif;
+  font-family: 'Times New Roman', Times, serif !important;
+}
+
+body .table td {
+  line-height: 1.2rem !important;
+}
+
+.mat-expansion-panel-content {
+  font: 400 12px/18px Roboto, 'Times New Roman', Times, serif !important;
+  letter-spacing: normal;
+}
+
+.mat-expansion-panel-header {
+  font-family: Roboto, 'Times New Roman', Times, serif !important;
+  font-size: 15px;
+  font-weight: 400;
+}
+
+.mat-menu-item {
+  font-family: Roboto, 'Times New Roman', Times, serif !important;
+  font-size: 14px;
+  font-weight: 400;
 }

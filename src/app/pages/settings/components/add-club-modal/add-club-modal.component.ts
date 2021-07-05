@@ -37,7 +37,7 @@ export class AddClubModalComponent implements OnInit {
     selectedOrgUnitItems: [],
   };
   selectedOrgUnits: Array<any> = [];
-  ouFilterIsSet: boolean = false;
+  ouFilterIsSet: boolean = true;
 
   formValues: any = {};
   isFormValid: boolean;
@@ -193,12 +193,30 @@ export class AddClubModalComponent implements OnInit {
     // console.log('clubDetails', clubDetails);
     this.store.dispatch(saveClub({ clubDetails }));
     this.isClubAdded = true;
-    this.store.select(getClubSavedState).subscribe((response) => {
+    this.store.select(getCurrentClub).subscribe((response) => {
       if (response) {
-        this.savingClubMessage = 'Successfuly added ' + clubDetails?.name;
-        setTimeout(() => {
-          this.savingClubMessage = '';
-        }, 1000);
+        console.log('RESPONSE', response);
+        const data = {
+          id: 'ozvf0hQc7yB',
+          attributeValues: [],
+          name: 'Club',
+          shortName: 'Club',
+          translations: [],
+          organisationUnits: [{ id: response?.id }],
+          userGroupAccesses: [],
+          userAccesses: [],
+        };
+        this.ouService
+          .addOuGroupMembers(data, 'ozvf0hQc7yB')
+          .subscribe((groupMemberResponse) => {
+            if (groupMemberResponse) {
+              console.log('groupMemberResponse', groupMemberResponse);
+              this.savingClubMessage = 'Successfuly added ' + clubDetails?.name;
+              setTimeout(() => {
+                this.savingClubMessage = '';
+              }, 1000);
+            }
+          });
       }
     });
     this.currentClub$ = this.store.select(getCurrentClub);

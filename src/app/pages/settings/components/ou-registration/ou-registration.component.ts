@@ -28,7 +28,7 @@ export class OuRegistrationComponent implements OnInit {
     selectedOrgUnitItems: [],
   };
   selectedOrgUnits: Array<any> = [];
-  ouFilterIsSet: boolean = false;
+  ouFilterIsSet: boolean = true;
 
   formValues: any = {};
   isOuAdded: boolean = false;
@@ -39,11 +39,14 @@ export class OuRegistrationComponent implements OnInit {
   isFormValid: boolean = false;
   saveOuResponse$: Observable<any>;
   saving: boolean = false;
+  group: any;
   constructor(
     private dialogRef: MatDialogRef<OuRegistrationComponent>,
     @Inject(MAT_DIALOG_DATA) data,
     private httpClient: NgxDhis2HttpClientService
-  ) {}
+  ) {
+    this.group = data?.group;
+  }
 
   ngOnInit(): void {
     this.formFields = [
@@ -70,42 +73,6 @@ export class OuRegistrationComponent implements OnInit {
         controlType: 'textbox',
         name: 'Short name',
         required: true,
-      },
-      {
-        id: 'wards',
-        label: 'Wards',
-        key: 'wards',
-        controlType: 'number',
-        name: 'Wards',
-        required: true,
-      },
-      {
-        id: 'zone',
-        label: 'Zone',
-        key: 'zone',
-        controlType: 'dropdown',
-        name: 'Zone',
-        required: true,
-        options: [
-          {
-            id: 'ZjQgxnUBzhC',
-            name: 'Lake',
-            label: 'Lake',
-            key: 'ZjQgxnUBzhC',
-          },
-          {
-            id: 'UHSxpoSJ1Eq',
-            name: 'Northen',
-            label: 'Northen',
-            key: 'UHSxpoSJ1Eq',
-          },
-          {
-            id: 'UZsHQuvWYIz',
-            name: 'Eastern',
-            label: 'Eastern',
-            key: 'UZsHQuvWYIz',
-          },
-        ],
       },
       {
         id: 'contactperson',

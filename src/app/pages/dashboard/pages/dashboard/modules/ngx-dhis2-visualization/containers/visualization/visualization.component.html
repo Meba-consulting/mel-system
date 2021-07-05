@@ -45,10 +45,7 @@
     *ngIf="(visualizationUiConfig$ | async)?.showBody"
   >
     <!--visualization body header-->
-    <div
-      class="visualization-body-header-block no-print"
-      *ngIf="!(visualizationUiConfig$ | async)?.hideHeader"
-    >
+    <div class="visualization-body-header-block no-print" *ngIf="!hideHeader">
       <visualization-header-section
         [id]="id"
         [uiConfigId]="(visualizationUiConfig$ | async)?.id"

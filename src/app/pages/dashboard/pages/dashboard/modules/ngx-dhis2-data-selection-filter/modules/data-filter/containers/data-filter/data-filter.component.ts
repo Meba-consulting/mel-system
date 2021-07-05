@@ -4,7 +4,7 @@ import {
   Input,
   OnInit,
   Output,
-  OnDestroy
+  OnDestroy,
 } from '@angular/core';
 import * as _ from 'lodash';
 import { Observable } from 'rxjs';
@@ -19,12 +19,13 @@ import * as fromHelpers from '../../helpers';
 import * as fromDataFilterReducer from '../../store/reducers/data-filter.reducer';
 import * as fromDataFilterActions from '../../store/actions/data-filter.actions';
 import * as fromDataFilterSelectors from '../../store/selectors/data-filter.selectors';
+import { getAllIndicators } from '../../store/selectors/indicator.selectors';
 
 @Component({
   // tslint:disable-next-line:component-selector
   selector: 'app-data-filter',
   templateUrl: './data-filter.component.html',
-  styleUrls: ['./data-filter.component.css']
+  styleUrls: ['./data-filter.component.css'],
 })
 export class DataFilterComponent implements OnInit, OnDestroy {
   dataGroups: any[] = [];
@@ -74,20 +75,21 @@ export class DataFilterComponent implements OnInit, OnDestroy {
   currentDataFilterGroup$: Observable<any>;
   dataFilterItems$: Observable<any[]>;
   dataFilterLoading$: Observable<boolean>;
+  selected: any[] = [];
 
   constructor(private dataFilterStore: Store<fromDataFilterReducer.State>) {
     // Set default data filter preferences
     this.dataFilterPreferences = {
-      enabledSelections: ['in', 'fn'],
+      enabledSelections: ['in'],
       singleSelection: false,
       showGroupsOnStartup: true,
-      hideSelectedPanel: true
+      hideSelectedPanel: true,
     };
 
     // Set default data group preferences
     this.dataGroupPreferences = {
       maximumNumberOfGroups: 6,
-      maximumItemPerGroup: 3
+      maximumItemPerGroup: 3,
     };
     // Load data filter items
     dataFilterStore.dispatch(new fromDataFilterActions.LoadDataFilters());
@@ -100,9 +102,7 @@ export class DataFilterComponent implements OnInit, OnDestroy {
       fromDataFilterSelectors.getCurrentDataFilterGroup
     );
 
-    this.dataFilterItems$ = dataFilterStore.select(
-      fromDataFilterSelectors.getDataFilterItems
-    );
+    this.dataFilterItems$ = dataFilterStore.select(getAllIndicators);
 
     this.dataFilterLoading$ = dataFilterStore.select(
       fromDataFilterSelectors.getDataFilterLoadingStatus
@@ -119,10 +119,7 @@ export class DataFilterComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     // set data filter selections
-    const enabledSelections = _.uniq([
-      'all',
-      ...this.dataFilterPreferences.enabledSelections
-    ]);
+    const enabledSelections = _.uniq(['in']);
     this.dataFilterSelections = _.filter(
       fromConstants.DATA_FILTER_SELECTIONS || [],
       (dataFilterSelection: fromModels.DataFilterSelection) => {
@@ -160,22 +157,17 @@ export class DataFilterComponent implements OnInit, OnDestroy {
   // this will add a selected item in a list function
   onSelectDataItem(item: any, e) {
     e.stopPropagation();
-    if (this.dataFilterPreferences.singleSelection) {
-      this.onDeselectAllItems();
-    }
-
-    if (!_.find(this.selectedItems, ['id', item.id])) {
-      this.selectedItems =
-        this.dataGroupPreferences &&
-        this.dataGroupPreferences.maximumItemPerGroup &&
-        this.dataGroupPreferences.maximumNumberOfGroups
-          ? _.slice(
-              [...this.selectedItems, item],
-              0,
-              this.dataGroupPreferences.maximumItemPerGroup *
-                this.dataGroupPreferences.maximumNumberOfGroups
-            )
-          : [...this.selectedItems, item];
+    // if (this.dataFilterPreferences.singleSelection) {
+    //   this.onDeselectAllItems();
+    // }
+    if (
+      (
+        this.selected.filter((selectedItem) => selectedItem?.id === item?.id) ||
+        []
+      )?.length === 0
+    ) {
+      this.selected = [...this.selected, item];
+      console.log('item', this.selected);
     }
   }
 
@@ -184,14 +176,14 @@ export class DataFilterComponent implements OnInit, OnDestroy {
     if (e) {
       e.stopPropagation();
     }
-    const itemIndex = this.selectedItems.indexOf(
-      _.find(this.selectedItems, ['id', dataItem.id])
+    const itemIndex = this.selected.indexOf(
+      _.find(this.selected, ['id', dataItem.id])
     );
 
     if (itemIndex !== -1) {
-      this.selectedItems = [
-        ...this.selectedItems.slice(0, itemIndex),
-        ...this.selectedItems.slice(itemIndex + 1)
+      this.selected = [
+        ...this.selected.slice(0, itemIndex),
+        ...this.selected.slice(itemIndex + 1),
       ];
     }
   }
@@ -236,12 +228,12 @@ export class DataFilterComponent implements OnInit, OnDestroy {
 
   emit() {
     return {
-      items: this.selectedItems,
+      items: this.selected,
       groups: _.map(this.selectedGroups, (dataGroup: any) =>
         _.omit(dataGroup, ['current'])
       ),
       dimension: 'dx',
-      changed: true
+      changed: true,
     };
   }
 
@@ -274,7 +266,7 @@ export class DataFilterComponent implements OnInit, OnDestroy {
               ? dataFilterSelection.prefix === 'all'
                 ? false
                 : dataFilterSelection.selected
-              : false
+              : false,
         };
       }
     );

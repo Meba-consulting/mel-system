@@ -1,0 +1,134 @@
+<!-- <p>analysis-dashboard works!</p> -->
+<div
+  class="analysis-container"
+  *ngIf="{ currentDashboard: currentDashboard$ | async } as params"
+>
+  <mat-progress-bar
+    *ngIf="!params?.currentDashboard"
+    mode="indeterminate"
+  ></mat-progress-bar>
+  <div class="row" *ngIf="params?.currentDashboard">
+    <div class="col-12 playground-top-bar mat-elevation-z1">
+      <button
+        mat-flat-button
+        routerLink="/dashboards/{{ params?.currentDashboard }}"
+      >
+        <mat-icon>arrow_back</mat-icon>
+        <span class="ml-2">BACK TO DASHBOARDS</span>
+      </button>
+    </div>
+
+    <div class="col-12" style="margin-top: 20px">
+      <div>
+        <mat-form-field class="ml-3 w-25">
+          <input
+            type="text"
+            matInput
+            [value]="favoriteTitle"
+            (keyup)="onUpdateVisualizationName($event)"
+            placeholder="Title"
+          />
+        </mat-form-field>
+      </div>
+      <div class="d-flex bg-white border-bottom" cdkDropListGroup>
+        <div class="w-25 border-right">
+          <div class="border-bottom p-2 d-flex">
+            <small class="text-muted mr-2">Columns:</small>
+            <div
+              class="selection-list"
+              [id]="'columns'"
+              cdkDropList
+              [cdkDropListData]="visualizationLayout.columns"
+              (cdkDropListDropped)="drop($event)"
+            >
+              <span
+                *ngFor="let column of visualizationLayout?.columns"
+                class="ml-2 selection-button"
+                (click)="toggleCurrentFilter($event, column.id, 'columns')"
+                cdkDrag
+              >
+                <mat-icon class="text-muted" inline="true">{{
+                  column.icon
+                }}</mat-icon>
+                <span class="ml-1"
+                  >{{ column?.name }}
+                  {{
+                    selectedCounts[column.id]
+                      ? ': ' + selectedCounts[column.id] + ' Selected'
+                      : ''
+                  }}</span
+                >
+              </span>
+            </div>
+          </div>
+          <div class="p-2 d-flex">
+            <small class="text-muted mr-2">Rows:</small>
+            <div
+              class="selection-list"
+              [id]="'rows'"
+              cdkDropList
+              [cdkDropListData]="visualizationLayout.rows"
+              (cdkDropListDropped)="drop($event)"
+            >
+              <span
+                *ngFor="let row of visualizationLayout.rows"
+                class="ml-2 selection-button d-flex align-items-center"
+                (click)="toggleCurrentFilter($event, row.id, 'rows')"
+                cdkDrag
+              >
+                <mat-icon class="text-muted" inline="true">{{
+                  row.icon
+                }}</mat-icon>
+                <span class="ml-1"
+                  >{{ row.name
+                  }}{{
+                    selectedCounts[row.id]
+                      ? ': ' + selectedCounts[row.id] + ' Selected'
+                      : ''
+                  }}</span
+                >
+              </span>
+            </div>
+          </div>
+        </div>
+        <div class="w-75 p-2 d-flex">
+          <small class="text-muted mr-2">Filters:</small>
+          <div
+            class="selection-list"
+            [id]="'filters'"
+            cdkDropList
+            [cdkDropListData]="visualizationLayout.filters"
+            (cdkDropListDropped)="drop($event)"
+          >
+            <span
+              *ngFor="let filter of visualizationLayout.filters"
+              class="ml-2 selection-button d-flex align-items-center"
+              (click)="toggleCurrentFilter($event, filter.id, 'filters')"
+              cdkDrag
+            >
+              <mat-icon class="text-muted" inline="true">{{
+                filter.icon
+              }}</mat-icon>
+              <span class="ml-1"
+                >{{ filter.name
+                }}{{
+                  selectedCounts[filter.id]
+                    ? ': ' + selectedCounts[filter.id] + ' Selected'
+                    : ''
+                }}</span
+              >
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- {{ dataSelections?.length }} -->
+    <div class="col-12" *ngIf="dataSelections && dataSelections?.length > 2">
+      <app-current-playground-visualization
+        [dataSelections]="dataSelections"
+        [layout]="layout"
+        [favoriteTitle]="favoriteTitle"
+      ></app-current-playground-visualization>
+    </div>
+  </div>
+</div>

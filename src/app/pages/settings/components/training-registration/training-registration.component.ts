@@ -77,9 +77,9 @@ export class TrainingRegistrationComponent implements OnInit {
     );
   }
 
-  onToggleReportAndTraining(e) {
+  onToggleReportAndTraining(e, type) {
     e.stopPropagation();
-    this.isReportSet = !this.isReportSet;
+    this.isReportSet = type === 'new' ? false : true;
     this.hasError = false;
     this.savingData = false;
     this.savedData = false;
@@ -278,10 +278,9 @@ export class TrainingRegistrationComponent implements OnInit {
                     }
                   ),
                   {
-                    name:
-                      trackedEntityInstance[
-                        attribute?.trackedEntityAttribute?.id
-                      ],
+                    name: trackedEntityInstance[
+                      attribute?.trackedEntityAttribute?.id
+                    ],
                   }
                 ) || [])[0]?.id
               : trackedEntityInstance[attribute?.trackedEntityAttribute?.id],

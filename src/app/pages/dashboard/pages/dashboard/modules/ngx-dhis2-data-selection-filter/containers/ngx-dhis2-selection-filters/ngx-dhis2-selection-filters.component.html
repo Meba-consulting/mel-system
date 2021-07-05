@@ -1,6 +1,6 @@
 <div class="selection-filter-container">
   <!--selection filter header-->
-  <div class="selection-filter-header">
+  <div class="selection-filter-header" *ngIf="!showFilterByDefault">
     <button
       mat-stroked-button
       (click)="toggleFilters($event)"
@@ -22,7 +22,7 @@
         (click)="toggleCurrentFilter($event, 'DATA')"
       >
         <img [src]="dataIcon" alt="" />&nbsp;{{
-          'Data Mapping' | translate
+          'Indicators' | translate
         }}&nbsp;
         <img
           [ngClass]="{ 'arrow-up': selectedFilter === 'DATA' }"
@@ -73,12 +73,20 @@
       <!-- end of orgunit filter button -->
 
       <!-- layout filter -->
-      <!-- <button mat-stroked-button *ngIf="filterConfig?.showLayout" [ngClass]="{
+      <!-- <button
+        mat-stroked-button
+        *ngIf="filterConfig?.showLayout"
+        [ngClass]="{
           'selection-filter-btn': true,
           'active-filter': selectedFilter === 'LAYOUT'
-        }" [title]="'Layout' | translate" (click)="toggleCurrentFilter($event, 'LAYOUT')">
+        }"
+        [title]="'Layout' | translate"
+        (click)="toggleCurrentFilter($event, 'LAYOUT')"
+      >
         <img [src]="orgUnitIcon" alt="" />&nbsp;{{ 'Layout' | translate }}&nbsp;
-        <i class="fa fa-caret-{{selectedFilter === 'LAYOUT' ? 'up' : 'down'}}"></i>
+        <i
+          class="fa fa-caret-{{ selectedFilter === 'LAYOUT' ? 'up' : 'down' }}"
+        ></i>
       </button> -->
       <!--end of layout button-->
 

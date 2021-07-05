@@ -5,7 +5,6 @@ import * as _ from 'lodash';
 import { Store } from '@ngrx/store';
 import { State } from 'src/app/store';
 import { from, Observable } from 'rxjs';
-import { getClubsSavingState } from '../../store/selectors';
 import { OuService } from 'src/app/core/services/ou.service';
 import { AddClubModalComponent } from '../add-club-modal/add-club-modal.component';
 import { MatDialog } from '@angular/material/dialog';
@@ -72,6 +71,7 @@ export class CreateOrganisationUnitComponent implements OnInit {
   }
 
   getClubsData(id) {
+    // console.log('id', id);
     this.clubsData$ = from([null]);
     this.loadingClubsData = true;
     this.clubsData$ = this.ouService.getClubsFromSQLVIEW('GOMCSNn5OdW');
@@ -82,8 +82,8 @@ export class CreateOrganisationUnitComponent implements OnInit {
   onAddClub(e) {
     e.stopPropagation();
     this.dialog.open(AddClubModalComponent, {
-      width: '70%',
-      height: '700px',
+      width: '50%',
+      height: '600px',
       disableClose: false,
       data: { clubCategories: this.clubCategories },
       panelClass: 'custom-dialog-container',
@@ -97,10 +97,13 @@ export class CreateOrganisationUnitComponent implements OnInit {
     e.stopPropagation();
     this.dialog
       .open(OuRegistrationComponent, {
-        width: '70%',
-        height: '630px',
+        width: '50%',
+        height: '600px',
         disableClose: false,
-        data: { clubCategories: this.clubCategories },
+        data: {
+          clubCategories: this.clubCategories,
+          group: this.selectedGroup,
+        },
         panelClass: 'custom-dialog-container',
       })
       .afterClosed()

@@ -90,9 +90,9 @@ export class TrackerGeneralRegistrationComponent implements OnInit {
     this.currentTrackedEntityInstanceId = this.systemIds[0];
   }
 
-  onToggleReport(e) {
+  onToggleReport(e, type) {
     e.stopPropagation();
-    this.isReportSet = !this.isReportSet;
+    this.isReportSet = type === 'new' ? false : true;
     this.hasError = false;
     this.savingData = false;
     this.savedData = false;
@@ -334,10 +334,9 @@ export class TrackerGeneralRegistrationComponent implements OnInit {
                     }
                   ),
                   {
-                    name:
-                      trackedEntityInstance[
-                        attribute?.trackedEntityAttribute?.id
-                      ],
+                    name: trackedEntityInstance[
+                      attribute?.trackedEntityAttribute?.id
+                    ],
                   }
                 ) || [])[0]?.id
               : trackedEntityInstance[attribute?.trackedEntityAttribute?.id],

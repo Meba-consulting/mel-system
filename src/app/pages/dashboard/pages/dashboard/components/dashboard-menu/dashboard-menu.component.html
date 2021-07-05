@@ -12,7 +12,7 @@
     </li>
   </ul>
   <!-- / tabs -->
-  <div class="dashboard-menu">
+  <div class="dashboard-menu d-flex justify-content-between">
     <ul class="dashboard-menu-list">
       <!-- Hide add dashboard actions -->
       <li>
@@ -32,7 +32,18 @@
         ></app-dashboard-menu-item>
       </li>
     </ul>
+    <div>
+      <button
+        color="primary"
+        mat-stroked-button
+        routerLink="/dashboards/analysis/playground"
+        class="float-right"
+      >
+        Playground
+      </button>
+    </div>
   </div>
+
   <!-- / tab_content -->
 </div>
 <!-- / tab -->

@@ -46,15 +46,36 @@
               </div>
             </div>
             <!-- <div class="h5 w-100 text-left">{{ program?.name }}</div> -->
-            <div class="control-btn w-100 p-2" style="height: 52px">
+            <div
+              class="control-btn w-100 d-flex justify-content-end"
+              style="margin-top: 8px"
+            >
               <button
+                style="margin-right: 6px"
                 mat-stroked-button
-                class="mr-2 float-left"
-                (click)="onToggleReportAndTraining($event)"
+                [title]="'Register a training'"
+                [ngClass]="{ 'mel-btn-primary': !isReportSet }"
+                (click)="onToggleReportAndTraining($event, 'new')"
               >
-                <span *ngIf="isReportSet">New Training</span>
-                <span *ngIf="!isReportSet">Registered trainings</span>
-                <!-- <mat-icon>arrow_forward</mat-icon> -->
+                <span>New Training</span>
+              </button>
+
+              <button
+                [disabled]="
+                  !selectedRegisteringUnits ||
+                  selectedRegisteringUnits?.length === 0
+                "
+                [title]="
+                  !selectedRegisteringUnits ||
+                  selectedRegisteringUnits?.length === 0
+                    ? 'Select Organisation Unit'
+                    : 'Click to view registered trainings for selected Org. Unit'
+                "
+                [ngClass]="{ 'mel-btn-primary': isReportSet }"
+                mat-stroked-button
+                (click)="onToggleReportAndTraining($event, 'report')"
+              >
+                <span>Registered trainings</span>
               </button>
             </div>
             <div

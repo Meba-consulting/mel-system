@@ -62,20 +62,20 @@ export const getDataFilterGroups = createSelector(
       {
         id: 'all',
         name: '[ All ]',
-        selected: currentDataFilterGroupId === 'all'
+        selected: currentDataFilterGroupId === 'all',
       },
       ..._.sortBy(
         _.map(dataFilterGroupWithItems, (dataFilterGroup: any) =>
           _.omit(
             {
               ...dataFilterGroup,
-              selected: dataFilterGroup.id === currentDataFilterGroupId
+              selected: dataFilterGroup.id === currentDataFilterGroupId,
             },
             ['items']
           )
         ),
         'name'
-      )
+      ),
     ];
   }
 );
@@ -95,6 +95,12 @@ export const getDataFilterItems = createSelector(
     if (!currentDataFilterGroup) {
       return [];
     }
+
+    console.log(
+      'getDataFilterGroupsWithItems',
+      dataFilterGroups,
+      currentDataFilterGroup
+    );
 
     if (currentDataFilterGroup.id === 'all') {
       return _.sortBy(

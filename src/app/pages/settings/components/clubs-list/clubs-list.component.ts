@@ -55,8 +55,8 @@ export class ClubsListComponent implements OnInit {
       if (response) {
         // console.log('response', response);
         this.dialog.open(AddClubModalComponent, {
-          width: '70%',
-          height: '700px',
+          width: '50%',
+          height: '680px',
           disableClose: false,
           data: { clubCategories: this.clubCategories, club: response },
           panelClass: 'custom-dialog-container',
@@ -68,8 +68,8 @@ export class ClubsListComponent implements OnInit {
   onAddClubMember(e, club) {
     e.stopPropagation();
     this.dialog.open(AddClubMemberComponent, {
-      width: '70%',
-      height: '700px',
+      width: '50%',
+      height: '680px',
       disableClose: false,
       data: club,
       panelClass: 'custom-dialog-container',
@@ -79,7 +79,7 @@ export class ClubsListComponent implements OnInit {
   onViewClubMembers(e, club) {
     e.stopPropagation();
     this.dialog.open(ClubMembersListComponent, {
-      width: '80%',
+      width: '70%',
       height: '600px',
       disableClose: false,
       data: club,

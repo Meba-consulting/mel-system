@@ -4,8 +4,9 @@ import {
   DashboardComponent,
   DashboardHomeComponent,
   CurrentDashboardComponent,
-  CurrentDashboardVisualizationComponent
+  CurrentDashboardVisualizationComponent,
 } from './containers';
+import { AnalysisDashboardComponent } from './containers/analysis-dashboard/analysis-dashboard.component';
 
 const routes: Routes = [
   {
@@ -14,22 +15,26 @@ const routes: Routes = [
     children: [
       {
         path: '',
-        component: DashboardHomeComponent
+        component: DashboardHomeComponent,
       },
       {
         path: ':id/fullScreen/:visualizationId',
-        component: CurrentDashboardVisualizationComponent
+        component: CurrentDashboardVisualizationComponent,
       },
       {
         path: ':id',
-        component: CurrentDashboardComponent
-      }
-    ]
-  }
+        component: CurrentDashboardComponent,
+      },
+    ],
+  },
+  {
+    path: 'analysis/playground',
+    component: AnalysisDashboardComponent,
+  },
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
 export class DashboardRoutingModule {}

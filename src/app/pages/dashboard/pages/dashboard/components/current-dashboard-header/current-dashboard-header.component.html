@@ -1,9 +1,9 @@
 <div class="dashboard-header-container">
-  <div class="dashboard-title-block" style="margin-top: 70px;">
+  <div class="dashboard-title-block" style="margin-top: 70px">
     <div class="dashboard-title">
       <div
         *ngIf="dashboardLoading || dashboardGroupsLoading"
-        style="height: 34px; width: 200px;"
+        style="height: 34px; width: 200px"
       >
         <app-dashboard-progress [borderRadius]="'3px'"></app-dashboard-progress>
       </div>
@@ -17,11 +17,11 @@
     <div class="dashboard-options">
       <div
         *ngIf="dashboardLoading || dashboardGroupsLoading"
-        style="display: flex;"
+        style="display: flex"
       >
         <div
           *ngIf="showSharing"
-          style="height: 34px; width: 34px; margin-left: 7px;"
+          style="height: 34px; width: 34px; margin-left: 7px"
         >
           <app-dashboard-progress
             [borderRadius]="'17px'"
@@ -29,13 +29,13 @@
         </div>
         <div
           *ngIf="showBookmark"
-          style="height: 34px; width: 34px; margin-left: 7px;"
+          style="height: 34px; width: 34px; margin-left: 7px"
         >
           <app-dashboard-progress
             [borderRadius]="'17px'"
           ></app-dashboard-progress>
         </div>
-        <div style="height: 34px; width: 50px; margin-left: 7px;">
+        <div style="height: 34px; width: 50px; margin-left: 7px">
           <app-dashboard-progress
             [borderRadius]="'17px'"
           ></app-dashboard-progress>
@@ -63,9 +63,10 @@
         ></app-current-dashboard-bookmark>
       </div>
       <div
-        class="current-dashboard-global-filter  no-print"
+        class="current-dashboard-global-filter no-print"
         *ngIf="dashboardLoaded && dashboardGroupsLoaded"
       >
+        <!-- {{ globalDataSelections | json }} -->
         <ngx-dhis2-selection-filters
           (filterUpdate)="onFilterUpdateAction($event)"
           [dataSelections]="globalDataSelections"
@@ -77,10 +78,10 @@
   </div>
 
   <!-- hide search and add dashboard item. to revert remove ngif=false -->
-  <div class="dashboard-search-block no-print" style="margin-top: 60px;">
+  <div class="dashboard-search-block no-print" style="margin-top: 60px">
     <div *ngIf="!showFavoriteFilter">&nbsp;</div>
     <div
-      style="height: 40px; width: 100%;"
+      style="height: 40px; width: 100%"
       *ngIf="showFavoriteFilter && (dashboardLoading || dashboardGroupsLoading)"
     >
       <app-dashboard-progress [borderRadius]="'5px'"></app-dashboard-progress>

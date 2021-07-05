@@ -41,6 +41,7 @@ export class OuService {
   }
 
   getClubsFromSQLVIEW(id): Observable<any> {
+    // console.log('tete', id);
     if (id === 'GOMCSNn5OdW') {
       return this.httpClient.get('sqlViews/XdKuQ1Z92PC/data?paging=false').pipe(
         map((response) => {
@@ -69,5 +70,12 @@ export class OuService {
         })
       );
     }
+  }
+
+  addOuGroupMembers(data, groupId): Observable<any> {
+    return this.httpClient.put(
+      `organisationUnitGroups/${groupId}?mergeMode=MERGE`,
+      data
+    );
   }
 }

@@ -19,6 +19,8 @@ import { dashboardReducers } from '../store/reducers';
 import { effects } from '../store/effects';
 import { materialModules } from 'src/app/shared/materials-modules';
 import { DashboardItemEditComponent } from './components/dashboard-item-edit/dashboard-item-edit.component';
+import { DragDropModule } from '@angular/cdk/drag-drop';
+import { SelectionFiltersModalComponent } from './components/selection-filters-modal/selection-filters-modal.component';
 
 @NgModule({
   imports: [
@@ -31,11 +33,12 @@ import { DashboardItemEditComponent } from './components/dashboard-item-edit/das
     TranslateModule.forChild(),
     SharingFilterModule,
     FavoriteFilterModule,
+    DragDropModule,
     ...dashboardReducers,
     ...materialModules,
-    EffectsModule.forFeature(effects)
+    EffectsModule.forFeature(effects),
   ],
   declarations: [...containers, ...components, ...pipes],
-  entryComponents: [DashboardItemEditComponent]
+  entryComponents: [DashboardItemEditComponent, SelectionFiltersModalComponent],
 })
 export class DashboardModule {}

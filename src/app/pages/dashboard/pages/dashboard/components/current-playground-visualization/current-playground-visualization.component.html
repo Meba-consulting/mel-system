@@ -1,0 +1,13 @@
+<div *ngIf="visualizationLayers$ | async as visualizationLayers">
+  <ngx-dhis2-visualization
+    *ngIf="visualizationLayers"
+    [visualizationLayers]="visualizationLayers"
+    [id]="'favorite'"
+    [name]="'Testing'"
+    [hideHeader]="true"
+  ></ngx-dhis2-visualization>
+  <mat-progress-bar
+    *ngIf="!visualizationLayers"
+    mode="indeterminate"
+  ></mat-progress-bar>
+</div>

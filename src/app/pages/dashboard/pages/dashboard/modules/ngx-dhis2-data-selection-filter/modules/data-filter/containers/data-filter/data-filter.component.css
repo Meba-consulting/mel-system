@@ -3,9 +3,9 @@
 }
 
 .data-filter-content {
-  width: 400px;
+  /* width: 300px; */
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   padding: 0.2em;
 }
 
@@ -14,7 +14,7 @@
 }
 
 .data-filter-selections-block {
-  grid-column: span 2;
+  grid-column: span 4;
   padding: 2px;
 }
 
@@ -149,7 +149,7 @@
 }
 
 .data-filter-list-search {
-  grid-column: span 2;
+  grid-column: span 4;
   display: flex;
   margin-top: 5px;
   margin-bottom: 5px;

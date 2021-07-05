@@ -1,4 +1,5 @@
 <div
+  style="padding: 0 5px"
   *ngIf="{
     clubSavingState: clubSavingState$ | async,
     currentClub: currentClub$ | async,
@@ -18,7 +19,7 @@
     >
       {{ savingClubMessage }}
     </div>
-    <div style="height: 480px">
+    <div style="height: 470px">
       <div>
         <button
           class="w-100 text-left p-2"
@@ -50,19 +51,22 @@
         </app-form>
       </div>
     </div>
-    <div class="p-2" style="border-top: solid 1px #eee">
+    <div
+      class="p-2 d-flex justify-content-end"
+      style="border-top: solid 1px #eee"
+    >
       <button
+        style="margin-right: 8px"
         mat-stroked-button
         (click)="onClose($event)"
-        class="mr-2 float-right"
       >
         Close
       </button>
       <button
         *ngIf="isAddingClub"
         [disabled]="!isFormValid || isClubAdded"
-        class="mr-2 float-right"
         mat-stroked-button
+        class="mel-btn-primary"
         (click)="onSaveClubDetails($event)"
       >
         <mat-spinner
@@ -77,8 +81,8 @@
       <button
         *ngIf="!isAddingClub"
         [disabled]="!isFormValid || isClubEdited"
-        class="mr-2 float-right"
         mat-stroked-button
+        class="mel-btn-primary"
         (click)="onEditClubDetails($event, params?.currentClub)"
       >
         <mat-spinner

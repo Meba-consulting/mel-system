@@ -4,7 +4,7 @@ import {
   OnInit,
   ViewChild,
   Output,
-  EventEmitter
+  EventEmitter,
 } from '@angular/core';
 import * as _ from 'lodash';
 import { ChartItemComponent } from '../chart-item/chart-item.component';
@@ -14,7 +14,7 @@ import { getChartConfiguration } from '../../helpers';
   // tslint:disable-next-line:component-selector
   selector: 'ngx-dhis2-chart-list',
   templateUrl: './chart-list.component.html',
-  styleUrls: ['./chart-list.component.css']
+  styleUrls: ['./chart-list.component.css'],
 })
 export class ChartListComponent implements OnInit {
   @Input()
@@ -47,12 +47,12 @@ export class ChartListComponent implements OnInit {
           return {
             chartConfiguration: getChartConfiguration(
               layer.config || {},
-              layer.id,
+              layer.id == '' ? 'favorite' : layer.id,
               layer.layout,
               '',
               this.legendSets
             ),
-            analyticsObject: layer.analytics
+            analyticsObject: layer.analytics,
           };
         }
       );
@@ -74,21 +74,21 @@ export class ChartListComponent implements OnInit {
   onChartItemUpdate(chartItem) {
     const visualizationLayer = _.find(this.visualizationLayers, [
       'id',
-      chartItem.id
+      chartItem.id,
     ]);
 
     if (visualizationLayer) {
       const newVisualizationLayer = _.omit(visualizationLayer, [
         'layout',
-        'metadataIdentifiers'
+        'metadataIdentifiers',
       ]);
 
       this.updateChartVisualizationLayer.emit({
         ...newVisualizationLayer,
         config: {
           ...newVisualizationLayer.config,
-          ...chartItem
-        }
+          ...chartItem,
+        },
       });
     }
   }

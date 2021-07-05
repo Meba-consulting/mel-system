@@ -45,17 +45,33 @@
             </div>
             <!-- <div class="h5 w-100 text-left">{{ program?.name }}</div> -->
             <div
-              class="control-btn w-100 p-2"
-              style="height: 52px"
-              *ngIf="selectedRegisteringUnits?.length > 0"
+              class="control-btn w-100 d-flex justify-content-end"
+              style="margin-top: 10px"
             >
               <button
+                style="margin-right: 6px"
+                [ngClass]="{ 'mel-btn-primary': !isReportSet }"
                 mat-stroked-button
-                class="mr-2 float-left"
-                (click)="onToggleReport($event)"
+                (click)="onToggleReport($event, 'new')"
               >
-                <span *ngIf="isReportSet">New</span>
-                <span *ngIf="!isReportSet">Registered</span>
+                <span>New</span>
+              </button>
+              <button
+                [ngClass]="{ 'mel-btn-primary': isReportSet }"
+                [disabled]="
+                  !selectedRegisteringUnits ||
+                  selectedRegisteringUnits?.length === 0
+                "
+                [title]="
+                  !selectedRegisteringUnits ||
+                  selectedRegisteringUnits?.length === 0
+                    ? 'Select Organisation Unit'
+                    : 'Click to view list report for selected Org. Unit'
+                "
+                mat-stroked-button
+                (click)="onToggleReport($event, 'report')"
+              >
+                <span>List Report</span>
               </button>
             </div>
             <div
