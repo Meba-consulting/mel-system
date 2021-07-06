@@ -71,8 +71,8 @@ export class ReportsListComponent implements OnInit {
   onOpenSharingSettings(e, item) {
     e.stopPropagation();
     this.dialog.open(SharingSettingsComponent, {
-      width: '60%',
-      height: '770px',
+      width: '50%',
+      height: '570px',
       disableClose: true,
       data: {
         resource: item,

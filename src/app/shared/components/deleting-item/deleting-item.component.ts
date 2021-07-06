@@ -1,6 +1,8 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { NgxDhis2HttpClientService } from '@iapps/ngx-dhis2-http-client';
+import { Observable } from 'rxjs';
+import { catchError, map } from 'rxjs/operators';
+import { DeleteItemService } from 'src/app/core/services/delete-item.service';
 
 @Component({
   selector: 'app-deleting-item',
@@ -13,10 +15,11 @@ export class DeletingItemComponent implements OnInit {
   message: string;
   deletedItem: boolean = false;
   deletingItem: boolean = false;
+  deleteResponse$: Observable<any>;
   constructor(
     private dialogRef: MatDialogRef<DeletingItemComponent>,
     @Inject(MAT_DIALOG_DATA) data,
-    private httpClient: NgxDhis2HttpClientService
+    private deleteItemService: DeleteItemService
   ) {
     this.deletePath = data?.path;
     this.itemName = data?.itemName;
@@ -27,11 +30,15 @@ export class DeletingItemComponent implements OnInit {
   onConfirmDelete(e) {
     e.stopPropagation();
     this.deletingItem = true;
-    this.httpClient.delete(this.deletePath).subscribe((response: any) => {
+    this.deleteResponse$ = this.deleteItemService.deleteItem(this.deletePath);
+    this.deleteResponse$.subscribe((response) => {
       if (response) {
-        this.message = response?.status;
-        this.deletingItem = false;
-        this.deletedItem = true;
+        setTimeout(() => {
+          this.deletingItem = false;
+          if (response.status === 'OK') {
+            this.deletedItem = true;
+          }
+        }, 2000);
       }
     });
   }

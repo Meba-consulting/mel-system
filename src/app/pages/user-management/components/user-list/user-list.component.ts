@@ -120,7 +120,7 @@ export class UserListComponent implements OnInit {
     this.dialog
       .open(DeletingItemComponent, {
         width: '20%',
-        height: '200px',
+        height: '150px',
         disableClose: false,
         data: { path: 'users/' + user?.id, itemName: user?.displayName },
         panelClass: 'custom-dialog-container',

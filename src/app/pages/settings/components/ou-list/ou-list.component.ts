@@ -128,7 +128,7 @@ export class OuListComponent implements OnInit {
     this.dialog
       .open(DeletingItemComponent, {
         width: '20%',
-        height: '200px',
+        height: '150px',
         disableClose: false,
         data: {
           path: 'organisationUnits/' + ou?.id,

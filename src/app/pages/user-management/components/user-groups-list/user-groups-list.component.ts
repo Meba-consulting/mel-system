@@ -80,7 +80,7 @@ export class UserGroupsListComponent implements OnInit {
     this.dialog
       .open(DeletingItemComponent, {
         width: '20%',
-        height: '200px',
+        height: '150px',
         disableClose: false,
         data: { path: 'userGroups/' + group?.id, itemName: group?.name },
         panelClass: 'custom-dialog-container',

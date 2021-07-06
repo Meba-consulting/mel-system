@@ -129,9 +129,10 @@ export class ProgramEntryComponent implements OnInit {
       eventDate: null,
     };
 
-    this.savedUserDataStore$ = this.dataService.getSavedUserDataStoreProgramConfigurations(
-      this.program?.id
-    );
+    this.savedUserDataStore$ =
+      this.dataService.getSavedUserDataStoreProgramConfigurations(
+        this.program?.id
+      );
   }
 
   changeTab(e, val) {
@@ -496,8 +497,8 @@ export class ProgramEntryComponent implements OnInit {
             data: {
               program: this.program,
               orgUnit: this.orgUnit,
-              currentTrackedEntityInstanceId: this
-                .currentTrackedEntityInstanceId,
+              currentTrackedEntityInstanceId:
+                this.currentTrackedEntityInstanceId,
             },
             panelClass: 'custom-dialog-container',
           });
@@ -548,9 +549,10 @@ export class ProgramEntryComponent implements OnInit {
             );
           }
 
-          this.savedUserDataStore$ = this.dataService.getSavedUserDataStoreProgramConfigurations(
-            this.program?.id
-          );
+          this.savedUserDataStore$ =
+            this.dataService.getSavedUserDataStoreProgramConfigurations(
+              this.program?.id
+            );
         }
       });
   }
@@ -720,9 +722,8 @@ export class ProgramEntryComponent implements OnInit {
             id: key + '-dataElement',
           },
         ];
-        this.elementsDataValues[key + '-dataElement'] = this.eventDataValues[
-          key
-        ];
+        this.elementsDataValues[key + '-dataElement'] =
+          this.eventDataValues[key];
       }
     });
     this.isListReportSet = false;
@@ -732,7 +733,7 @@ export class ProgramEntryComponent implements OnInit {
     this.dialog
       .open(DeletingItemComponent, {
         width: '20%',
-        height: '200px',
+        height: '150px',
         disableClose: false,
         data: { path: 'events/' + event?.event, itemName: '' },
         panelClass: 'custom-dialog-container',

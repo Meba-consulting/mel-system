@@ -56,4 +56,9 @@
 
 .reports-groups-chips {
   margin-right: 5px;
+  margin-bottom: 10px;
+}
+
+::ng-deep .reports-groups-chips .p-component {
+  margin-bottom: 4px !important;
 }

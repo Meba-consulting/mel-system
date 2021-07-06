@@ -4,6 +4,7 @@ import { NgxDhis2HttpClientService } from '@iapps/ngx-dhis2-http-client';
 
 import * as _ from 'lodash';
 import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-sharing-settings',
@@ -26,13 +27,16 @@ export class SharingSettingsComponent implements OnInit {
   ) {
     this.currentResource = data.resource;
     this.userGroups = data.groups;
-    console.log('currentResource', this.currentResource);
     this.resourceUrl = data?.resourceUrl;
     this.sharingSettingsUrl = data?.sharingSettingsUrl;
     this.resource$ = this.httpClient.get(this.resourceUrl);
-    this.resourceUserGroupsAccesses$ = this.httpClient.get(
-      this.sharingSettingsUrl
-    );
+    this.resourceUserGroupsAccesses$ = this.httpClient
+      .get(this.sharingSettingsUrl)
+      .pipe(
+        map((response) => {
+          return response?.object ? response?.object : response;
+        })
+      );
   }
 
   ngOnInit(): void {}
@@ -77,9 +81,13 @@ export class SharingSettingsComponent implements OnInit {
               // this.sharingSettings = false;
 
               this.resource$ = this.httpClient.get(this.resourceUrl);
-              this.resourceUserGroupsAccesses$ = this.httpClient.get(
-                this.sharingSettingsUrl
-              );
+              this.resourceUserGroupsAccesses$ = this.httpClient
+                .get(this.sharingSettingsUrl)
+                .pipe(
+                  map((response) => {
+                    return response?.object ? response?.object : response;
+                  })
+                );
             }, 1000);
           }, 2000);
         },
@@ -132,9 +140,13 @@ export class SharingSettingsComponent implements OnInit {
             this.sharingSettingsMessage = '';
 
             this.resource$ = this.httpClient.get(this.resourceUrl);
-            this.resourceUserGroupsAccesses$ = this.httpClient.get(
-              this.sharingSettingsUrl
-            );
+            this.resourceUserGroupsAccesses$ = this.httpClient
+              .get(this.sharingSettingsUrl)
+              .pipe(
+                map((response) => {
+                  return response?.object ? response?.object : response;
+                })
+              );
           }, 2000);
         },
         (error) => {

@@ -1,33 +1,22 @@
 <div class="sharing-settings-modal">
-  <div
-    class="padding:10px"
-    *ngIf="{ currentResource: resource$ | async } as params"
-  >
+  <div *ngIf="{ currentResource: resource$ | async } as params">
     <div style="padding: 0px 0px 10px 0px">
       <div class="row">
-        <div class="col-8">
+        <div class="col-12">
           <h4 style="float: left">Sharing settings</h4>
-        </div>
-        <div class="col-4">
-          <button
-            style="float: right"
-            mat-stroked-button
-            (click)="closeSharingSettings($event)"
-          >
-            Close
-          </button>
         </div>
       </div>
     </div>
-    <div style="padding: 0px 0px 15px 0px">
+    <div style="padding: 0px 0px 10px 0px">
       <h5>{{ currentResource.name }}</h5>
     </div>
+    <!-- {{ resourceUserGroupsAccesses$ | async | json }} -->
     <div>
       <h6>User groups of who can access</h6>
       <hr />
     </div>
     <div style="padding: 2px 20px; max-height: 150px; overflow: auto">
-      <div *ngIf="(resourceUserGroupsAccesses$ | async)?.userGroupAccesses">
+      <div *ngIf="resourceUserGroupsAccesses$ | async">
         <div
           class="row"
           *ngFor="
@@ -36,27 +25,28 @@
           "
         >
           <div
-            style="border-bottom: solid 1px #eee; padding: 15px 0px"
+            style="border-bottom: solid 1px #eee; padding: 2px 0px"
             class="col-10"
           >
             {{ access.displayName }}
           </div>
-          <div class="col-2" style="padding: 15px 0px">
+          <div class="col-2" style="padding: 2px 0px">
             <div>
               <mat-icon
                 title="Remove {{ access.displayName }}"
                 (click)="
                   removeUserGroupAccess($event, access, params?.currentResource)
                 "
+                class="text-muted"
                 style="cursor: pointer"
-                >remove
+                >delete
               </mat-icon>
               <!-- <span style="float: left"></span> -->
             </div>
           </div>
         </div>
       </div>
-      <div *ngIf="!(resourceUserGroupsAccesses$ | async)?.userGroupAccesses">
+      <div *ngIf="!(resourceUserGroupsAccesses$ | async)">
         <mat-progress-bar mode="indeterminate"></mat-progress-bar>
       </div>
     </div>
@@ -81,7 +71,7 @@
             <input matInput [(ngModel)]="userGroupSearchingText" />
           </mat-form-field>
         </div>
-        <div class="col-12" style="height: 250px; overflow: auto">
+        <div class="col-12" style="height: 230px; overflow: auto">
           <div
             (click)="
               addUserGroupToSharingSettings(
