@@ -38,7 +38,11 @@
       [htmlCustomForm]="program?.programStages[0]?.dataEntryForm['htmlCode']"
       [dataElements]="programStageDataElements"
       [indicators]="[]"
-      [lastEvent]="null"
+      [lastEvent]="
+        events && events['events'] && events['events'].length > 0
+          ? events['events'][0]
+          : null
+      "
       [elementsToDisable]="[]"
       [formType]="'event'"
       [formId]="program?.programStages[0]?.id"

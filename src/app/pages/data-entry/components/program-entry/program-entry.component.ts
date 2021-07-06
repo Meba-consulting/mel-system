@@ -115,6 +115,13 @@ export class ProgramEntryComponent implements OnInit {
           '&orgUnit=' +
           this.orgUnit?.id
       );
+
+      const dimensions = {
+        ou: this.orgUnit.id,
+        program: this.program.id,
+        programStage: this.program.programStages[0].id,
+      };
+      this.events$ = this.dataEntryService.getEventsData(dimensions);
     }
 
     this.eventsData = {

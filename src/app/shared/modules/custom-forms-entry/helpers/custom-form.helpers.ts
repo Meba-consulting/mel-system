@@ -1,5 +1,74 @@
 import * as _ from 'lodash';
 
+const reference = {
+  YgPTlKJ9CRv: {
+    useLastEventOnly: false,
+    elementToAssignValue: 'E3wPjzUQYBc',
+    stage: 'b40d7ONcd65',
+    expression: {
+      left: '(#{b40d7ONcd65.YgPTlKJ9CRv})',
+      right: '(#{b40d7ONcd65.YgPTlKJ9CRv})',
+    },
+  },
+};
+
+let referenceDataValues = {};
+
+function evaluteDataElementsValues(lastEvent, reference, dataValues) {
+  // get last event datavalue matching the keys
+
+  Object.keys(reference).forEach((key) => {
+    const lastEventDataValuesMatched =
+      lastEvent.dataValues.filter(
+        (dataValue) => dataValue?.dataElement === key
+      ) || [];
+    if (lastEventDataValuesMatched && lastEventDataValuesMatched.length > 0) {
+      // console.log('last event', lastEvent);
+      // console.log('lastEventDataValuesMatched', lastEventDataValuesMatched);
+      // console.log('dataValues', dataValues);
+      let elementValues = {};
+      _.each(lastEvent.dataValues, (dataValue) => {
+        elementValues[dataValue.dataElement] = dataValue.value;
+      });
+      const value = evaluateIndicatorExpression(
+        reference[key],
+        elementValues,
+        dataValues
+      );
+      if (value) {
+        const elem: any = document.querySelector(
+          "input[id='" +
+            reference[key].stage +
+            '-' +
+            reference[key].elementToAssignValue +
+            "-val']"
+        );
+        if (elem) {
+          elem.value = value;
+          elem.setAttribute('disabled', 'disabled');
+          let colorKey = 'WAIT';
+
+          // create custom event for saving data values
+          const dataValueEvent = new CustomEvent('dataValueUpdate', {
+            detail: {
+              id: `${reference[key].elementToAssignValue}-dataElement`,
+              value: value,
+              status: 'not-synced',
+              domElementId:
+                reference[key].stage +
+                '-' +
+                reference[key].elementToAssignValue +
+                '-val',
+              colorKey: colorKey,
+            },
+          });
+          document.body.dispatchEvent(dataValueEvent);
+        }
+      }
+    }
+  });
+}
+
 function getSanitizedValue(value, type) {
   switch (type) {
     case 'TRUE_ONLY':
@@ -148,8 +217,6 @@ export function onFormReady(
   elementsToDisable,
   formReadyFunc
 ) {
-  // console.log('dataValues::::: dataValues', dataValues);
-
   // Find input items and set required properties to them
   const dataElementObjects = _.keyBy(dataElements, 'id');
   const inputElements: any = document.getElementsByTagName('INPUT');
@@ -337,46 +404,10 @@ export function onFormReady(
           elemToDisable.setAttribute('value', 'NA');
         }
       });
+    }, 1000);
+    setTimeout(() => {
+      evaluteDataElementsValues(lastEvent, reference, dataValues);
     }, 1500);
-
-    // setTimeout(() => {
-    //   const dataElementId = 'Ts6nEjbUXLT';
-    //   const optionComboId = 'dataElement';
-    //   if (
-    //     _.filter(lastEvent.dataValues, { dataElement: dataElementId }) &&
-    //     _.filter(lastEvent.dataValues, { dataElement: dataElementId }).length >
-    //       0
-    //   ) {
-    //     let elementValues = {};
-    //     _.each(lastEvent.dataValues, dataValue => {
-    //       elementValues[dataValue.dataElement] = dataValue.value;
-    //     });
-    //     const value = evaluateIndicatorExpression(
-    //       reference[dataElementId],
-    //       elementValues
-    //     );
-    //     if (value) {
-    //       const elem: any = document.querySelector(
-    //         "input[id='psZv0YwxGoM-Ts6nEjbUXLT-val']"
-    //       );
-    //       elem.value = value;
-    //       elem.setAttribute('disabled', 'disabled');
-    //       let colorKey = 'WAIT';
-
-    //       // create custom event for saving data values
-    //       const dataValueEvent = new CustomEvent('dataValueUpdate', {
-    //         detail: {
-    //           id: `${dataElementId}-${optionComboId}`,
-    //           value: value,
-    //           status: 'not-synced',
-    //           domElementId: 'psZv0YwxGoM-Ts6nEjbUXLT-val',
-    //           colorKey: colorKey
-    //         }
-    //       });
-    //       document.body.dispatchEvent(dataValueEvent);
-    //     }
-    //   }
-    // }, 2000);
   });
 
   // update option sets
@@ -452,6 +483,7 @@ export function onDataValueChange(
 
   // find element value
   const elementValue = element.value;
+  referenceDataValues[dataElementId] = elementValue;
 
   let colorKey = 'WAIT';
 
@@ -471,9 +503,10 @@ export function onDataValueChange(
     Object.keys(indicators) &&
     Object.keys(indicators).length > 0
   ) {
-    document
-      .querySelectorAll("input[name='indicator']")
-      .forEach((indicator) => {
+    const formIndicators = document.querySelectorAll("input[name='indicator']");
+
+    if (formIndicators) {
+      formIndicators.forEach((indicator) => {
         const formulaPattern = /#\{.+?\}/g;
         let valuesObject = {};
         indicators[indicator.id].expression
@@ -491,7 +524,9 @@ export function onDataValueChange(
                 : 0;
           });
         const indValue = evaluateIndicatorExpression(
-          indicators[indicator.id].expression,
+          {
+            expression: indicators[indicator.id].expression,
+          },
           valuesObject
         );
         const inputElement: any = document.querySelector(
@@ -499,26 +534,80 @@ export function onDataValueChange(
         );
         inputElement.value = indValue;
       });
+    }
   }
+
+  setTimeout(() => {
+    evaluteDataElementsValues(lastEvent, reference, referenceDataValues);
+  }, 1500);
 }
 
-function evaluateIndicatorExpression(indExpression, elementValues) {
+function evaluateIndicatorExpression(
+  indDefn,
+  elementValuesLastEvent,
+  currentElementValues?
+) {
+  // console.log(elementValuesLastEvent);
+  // console.log(currentElementValues);
+  const indExpression = indDefn.expression;
   let evaluatedValue = 0;
-  let expression = indExpression;
   const formulaPattern = /#\{.+?\}/g;
-  const matcher = expression.match(formulaPattern);
-  if (matcher) {
-    matcher.map(function (match) {
-      let operand = match.replace(/[#\{\}]/g, '').split('.')[1];
-      let value =
-        elementValues && elementValues[operand] ? elementValues[operand] : 0;
-      expression = expression.replace(match, value);
-    });
-  }
-  try {
-    if (!isNaN(eval(expression))) {
-      evaluatedValue = eval(expression);
+  if (indDefn.useLastEventOnly) {
+    let expression = indExpression;
+    const matcher = expression.match(formulaPattern);
+    if (matcher) {
+      matcher.map(function (match) {
+        let operand = match.replace(/[#\{\}]/g, '').split('.')[1];
+        let value =
+          elementValuesLastEvent && elementValuesLastEvent[operand]
+            ? elementValuesLastEvent[operand]
+            : 0;
+        expression = expression.replace(match, value);
+      });
     }
-  } catch (e) {}
+    try {
+      if (!isNaN(eval(expression))) {
+        evaluatedValue = eval(expression);
+      }
+    } catch (e) {}
+  } else {
+    let leftExpression = indDefn.expression.left;
+    let rightExpression = indDefn.expression.right;
+
+    const matcherLeft = leftExpression.match(formulaPattern);
+    const matcherRight = rightExpression.match(formulaPattern);
+
+    if (matcherLeft) {
+      matcherLeft.map(function (match) {
+        let operand = match.replace(/[#\{\}]/g, '').split('.')[1];
+        let value =
+          currentElementValues && currentElementValues[operand]
+            ? currentElementValues[operand]
+            : 0;
+        leftExpression = leftExpression.replace(match, value);
+      });
+    }
+
+    if (matcherRight) {
+      matcherRight.map(function (match) {
+        let operand = match.replace(/[#\{\}]/g, '').split('.')[1];
+        let value =
+          elementValuesLastEvent && elementValuesLastEvent[operand]
+            ? elementValuesLastEvent[operand]
+            : 0;
+        rightExpression = rightExpression.replace(match, value);
+      });
+    }
+    let leftEvaluatedValue = 0;
+    let rightEvaluatedValue = 0;
+    try {
+      if (!isNaN(eval(rightExpression)) && !isNaN(eval(leftExpression))) {
+        leftEvaluatedValue = eval(leftExpression);
+        rightEvaluatedValue = eval(rightExpression);
+      }
+    } catch (e) {}
+
+    evaluatedValue = leftEvaluatedValue - rightEvaluatedValue;
+  }
   return evaluatedValue.toFixed(0);
 }

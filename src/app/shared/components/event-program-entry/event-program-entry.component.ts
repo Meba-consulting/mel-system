@@ -11,6 +11,7 @@ export class EventProgramEntryComponent implements OnInit {
   @Input() program: any;
   @Input() currentUser: any;
   @Input() data: any;
+  @Input() events: any;
   programStageDataElements: any[];
   @Output() dataValuesChanges = new EventEmitter<any>();
   @Output() isFormValid = new EventEmitter<boolean>();
@@ -36,11 +37,10 @@ export class EventProgramEntryComponent implements OnInit {
     if (this.elementsDataValues) {
       this.customFormDataValues = this.elementsDataValues;
     }
-    this.programStageDataElements = this.program?.programStages[0]?.programStageDataElements.map(
-      (elem) => {
+    this.programStageDataElements =
+      this.program?.programStages[0]?.programStageDataElements.map((elem) => {
         return { ...elem?.dataElement, compulsory: elem?.compulsory };
-      }
-    );
+      });
   }
 
   detailsOfTheChangedValue(e) {
@@ -57,7 +57,6 @@ export class EventProgramEntryComponent implements OnInit {
       ...dataObject,
     };
     this.statusArr.push(this.statusUpdateOnDomElement);
-    console.log('this.customFormDataValues', this.customFormDataValues);
     this.entryInfo.emit(this.customFormDataValues);
   }
 
