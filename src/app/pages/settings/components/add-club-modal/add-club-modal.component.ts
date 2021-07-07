@@ -166,7 +166,6 @@ export class AddClubModalComponent implements OnInit {
   }
 
   onFilterUpdate(selections) {
-    console.log(selections);
     this.ouFilterIsSet = false;
     this.formValues['parent'] = { value: selections?.items[0]?.id };
     this.selectedOrgUnits = selections?.items;
@@ -195,7 +194,6 @@ export class AddClubModalComponent implements OnInit {
     this.isClubAdded = true;
     this.store.select(getCurrentClub).subscribe((response) => {
       if (response) {
-        console.log('RESPONSE', response);
         const data = {
           id: 'ozvf0hQc7yB',
           attributeValues: [],

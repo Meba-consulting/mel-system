@@ -51,6 +51,7 @@ export class CreateOrganisationUnitComponent implements OnInit {
   clinics$: Observable<any>;
   paralegalId: string = '';
   clinicsId: string = '';
+  configurations$: Observable<any>;
   constructor(
     private store: Store<State>,
     private ouService: OuService,
@@ -66,7 +67,7 @@ export class CreateOrganisationUnitComponent implements OnInit {
       ['asc']
     );
     this.ouFormGroup = this.groups[0];
-
+    this.configurations$ = this.ouService.getOrgUnitsRegistrationConfigs();
     // console.log('formFields', this.formFields);
   }
 

@@ -14,6 +14,7 @@ export class OuDataLoadingComponent implements OnInit {
   @Input() group: any;
   @Input() clubCategories: any;
   @Input() currentUser: any;
+  @Input() configurations: any;
   ouData$: Observable<any>;
   constructor(private ouService: OuService, private dialog: MatDialog) {}
 
@@ -28,7 +29,10 @@ export class OuDataLoadingComponent implements OnInit {
         width: '50%',
         height: '600px',
         disableClose: false,
-        data: { clubCategories: this.clubCategories },
+        data: {
+          clubCategories: this.clubCategories,
+          configurations: this.configurations,
+        },
         panelClass: 'custom-dialog-container',
       });
       this.dialog.afterAllClosed.subscribe(() => {
@@ -40,7 +44,11 @@ export class OuDataLoadingComponent implements OnInit {
           width: '50%',
           height: '600px',
           disableClose: false,
-          data: { clubCategories: this.clubCategories, group: this.group },
+          data: {
+            clubCategories: this.clubCategories,
+            group: this.group,
+            configurations: this.configurations,
+          },
           panelClass: 'custom-dialog-container',
         })
         .afterClosed()

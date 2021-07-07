@@ -7,6 +7,7 @@ import { formatDateYYMMDD } from 'src/app/pages/data-entry/helpers';
 import { NgxDhis2HttpClientService } from '@iapps/ngx-dhis2-http-client';
 import { catchError, map } from 'rxjs/operators';
 import { Observable, of } from 'rxjs';
+import { OuService } from 'src/app/core/services/ou.service';
 
 @Component({
   selector: 'app-ou-registration',
@@ -40,12 +41,15 @@ export class OuRegistrationComponent implements OnInit {
   saveOuResponse$: Observable<any>;
   saving: boolean = false;
   group: any;
+  configurations: any;
   constructor(
     private dialogRef: MatDialogRef<OuRegistrationComponent>,
     @Inject(MAT_DIALOG_DATA) data,
-    private httpClient: NgxDhis2HttpClientService
+    private httpClient: NgxDhis2HttpClientService,
+    private ouService: OuService
   ) {
     this.group = data?.group;
+    this.configurations = data?.configurations;
   }
 
   ngOnInit(): void {
@@ -125,7 +129,6 @@ export class OuRegistrationComponent implements OnInit {
   }
 
   onFormUpdate(formValue: FormValue) {
-    console.log(formValue.getValues());
     this.formValues = { ...this.formValues, ...formValue.getValues() };
     this.isFormValid = formValue.isValid;
   }
@@ -138,12 +141,35 @@ export class OuRegistrationComponent implements OnInit {
     this.saveOuResponse$ = this.httpClient
       .post('organisationUnits', ouDetails)
       .pipe(
-        map((response) => {
+        map((response: any) => {
+          console.log('ou created', response);
           this.saving = false;
-          this.savingMessage = 'Saved successfully';
           setTimeout(() => {
-            this.savingMessage = null;
-          }, 1000);
+            const data = {
+              id: this.configurations[this.group?.id]?.groupId,
+              attributeValues: [],
+              name: this.configurations[this.group?.id]?.name,
+              shortName: this.configurations[this.group?.id]?.name,
+              translations: [],
+              organisationUnits: [{ id: response.response?.uid }],
+              userGroupAccesses: [],
+              userAccesses: [],
+            };
+            this.ouService
+              .addOuGroupMembers(
+                data,
+                this.configurations[this.group?.id]?.groupId
+              )
+              .subscribe((groupMemberResponse) => {
+                if (groupMemberResponse) {
+                  this.savingMessage = 'Saved successfully';
+                  setTimeout(() => {
+                    this.savingMessage = null;
+                    this.formValues = {};
+                  }, 1000);
+                }
+              });
+          }, 100);
           return response;
         }),
         catchError((e) => {

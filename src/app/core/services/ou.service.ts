@@ -78,4 +78,10 @@ export class OuService {
       data
     );
   }
+
+  getOrgUnitsRegistrationConfigs(): Observable<any> {
+    return this.httpClient.get(
+      'dataStore/orgunits-registration/configurations'
+    );
+  }
 }

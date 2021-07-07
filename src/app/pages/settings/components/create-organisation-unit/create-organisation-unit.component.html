@@ -1,5 +1,5 @@
-<div>
-  <p-tabView>
+<div *ngIf="{ configurations: configurations$ | async } as params">
+  <p-tabView *ngIf="params?.configurations">
     <p-tabPanel
       [header]="group.name"
       *ngFor="let group of groups; let count = index"
@@ -14,27 +14,14 @@
             [group]="group"
             [currentUser]="currentUser"
             [clubCategories]="clubCategories"
+            [configurations]="params?.configurations"
           ></app-ou-data-loading>
         </div>
       </ng-template>
     </p-tabPanel>
   </p-tabView>
-  <!-- <mat-tab-group
-    [selectedIndex]="selectedTab.value"
-    (selectedIndexChange)="selectedTab.setValue($event)"
-  >
-    <mat-tab
-      label="{{ group?.name }}"
-      (click)="changeTab($event, count, group)"
-      *ngFor="let group of groups; let count = index"
-    >
-      <div class="p-3" *ngIf="selectedTab.value == count">
-        <app-ou-data-loading
-          [group]="group"
-          [currentUser]="currentUser"
-          [clubCategories]="clubCategories"
-        ></app-ou-data-loading>
-      </div>
-    </mat-tab>
-  </mat-tab-group> -->
+  <mat-progress-bar
+    *ngIf="!params?.configurations"
+    mode="indeterminate"
+  ></mat-progress-bar>
 </div>
