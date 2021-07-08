@@ -139,9 +139,28 @@
                   </div>
                 </div>
 
+                <div class="w-25">
+                  <mat-form-field appearance="outline" class="w-100">
+                    <mat-label>Event date</mat-label>
+                    <input
+                      matInput
+                      [matDatepicker]="start_date"
+                      [min]="minDate"
+                      [max]="maxDate"
+                      [(ngModel)]="reportingDate"
+                    />
+                    <mat-datepicker-toggle
+                      matSuffix
+                      [for]="start_date"
+                    ></mat-datepicker-toggle>
+                    <mat-datepicker #start_date></mat-datepicker>
+                  </mat-form-field>
+                </div>
                 <app-tracked-entrity-entry-form
+                  *ngIf="reportingDate"
                   [trackedEntityType]="program?.trackedEntityType"
                   [formData]="formData"
+                  [reportingDate]="reportingDate"
                   (dataValues)="onGetDataValues($event)"
                   (isFormValid)="onGetFormValidity($event)"
                 ></app-tracked-entrity-entry-form>

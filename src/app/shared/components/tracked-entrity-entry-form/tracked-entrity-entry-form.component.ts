@@ -18,6 +18,7 @@ import { FormValue } from '../../modules/forms/models/form-value.model';
 export class TrackedEntrityEntryFormComponent implements OnInit, OnChanges {
   @Input() trackedEntityType: any;
   formFields: any;
+  @Input() reportingDate: Date;
   @Input() formData: any;
   currentFormData: any;
   @Output() dataValues = new EventEmitter<any>();

@@ -9,6 +9,7 @@ import { OuService } from 'src/app/core/services/ou.service';
 import { MatDialog } from '@angular/material/dialog';
 import { StagesEntryModalComponent } from '../stages-entry-modal/stages-entry-modal.component';
 import { NgxDhis2HttpClientService } from '@iapps/ngx-dhis2-http-client';
+import { formatDateToYYMMDD } from 'src/app/pages/data-entry/helpers';
 
 @Component({
   selector: 'app-tracker-general-registration',
@@ -67,12 +68,22 @@ export class TrackerGeneralRegistrationComponent implements OnInit {
 
   programDataStoreConfigs$: Observable<any>;
 
+  minDate: Date;
+  maxDate: Date;
+  reportingDate: Date;
+
   constructor(
     private dataService: DataService,
     private ouService: OuService,
     private dialog: MatDialog,
     private httpClient: NgxDhis2HttpClientService
-  ) {}
+  ) {
+    const currentMonth = new Date().getMonth();
+    const currentDate = new Date().getDate();
+    const currentYear = new Date().getFullYear();
+    this.minDate = new Date(currentYear - 20, 0, 1);
+    this.maxDate = new Date(currentYear, currentMonth, currentDate);
+  }
 
   ngOnInit(): void {
     this.trainingRegistrationPrograms = filterBillingLawsAndPoliciesPrograms(
@@ -92,6 +103,7 @@ export class TrackerGeneralRegistrationComponent implements OnInit {
 
   onToggleReport(e, type) {
     e.stopPropagation();
+    this.reportingDate = null;
     this.isReportSet = type === 'new' ? false : true;
     this.hasError = false;
     this.savingData = false;
@@ -202,6 +214,7 @@ export class TrackerGeneralRegistrationComponent implements OnInit {
   }
 
   onSaveData(e, editing, currentTrackedEntityInstanceId, currentProgram) {
+    const eventDate = formatDateToYYMMDD(new Date(this.reportingDate));
     e.stopPropagation();
     this.savingMessage = 'Saving data';
     this.savingData = true;
@@ -225,7 +238,8 @@ export class TrackerGeneralRegistrationComponent implements OnInit {
               trackedEntityInstance: currentTrackedEntityInstanceId,
               enrollment: this.systemIds[1],
               trackedEntityType: currentProgram?.trackedEntityType?.id,
-              orgUnitName: 'LHRC Tanzania',
+              enrollmentDate: eventDate,
+              incidentDate: eventDate,
               events: [],
             },
           ]
