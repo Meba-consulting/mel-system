@@ -3,9 +3,9 @@ export function getUserOrgUnitIds(userInfo: any, isForReport: boolean) {
   return _.uniq(
     _.map(
       isForReport
-        ? userInfo.dataViewOrganisationUnits || []
-        : userInfo.organisationUnits || [],
-      orgUnit => orgUnit.id
+        ? _.orderBy(userInfo.dataViewOrganisationUnits, ['name'], ['asc']) || []
+        : _.orderBy(userInfo.organisationUnits, ['name'], ['asc']) || [],
+      (orgUnit) => orgUnit.id
     )
   );
 }

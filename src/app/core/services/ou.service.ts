@@ -69,6 +69,16 @@ export class OuService {
           return of(error);
         })
       );
+    } else {
+      //
+      return this.httpClient.get('sqlViews/MR5GmypsqwK/data?paging=false').pipe(
+        map((response) => {
+          return response;
+        }),
+        catchError((error) => {
+          return of(error);
+        })
+      );
     }
   }
 

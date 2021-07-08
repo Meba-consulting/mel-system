@@ -162,6 +162,7 @@ export class OuRegistrationComponent implements OnInit {
               )
               .subscribe((groupMemberResponse) => {
                 if (groupMemberResponse) {
+                  // assign forms
                   this.savingMessage = 'Saved successfully';
                   setTimeout(() => {
                     this.savingMessage = null;
