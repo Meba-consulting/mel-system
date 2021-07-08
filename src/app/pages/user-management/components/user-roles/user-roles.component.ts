@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { UsersService } from 'src/app/core/services/user.service';
 
@@ -9,6 +9,7 @@ import { UsersService } from 'src/app/core/services/user.service';
 })
 export class UserRolesComponent implements OnInit {
   userRoles$: Observable<any[]>;
+  @Input() currentUser: any;
   constructor(private userService: UsersService) {}
 
   ngOnInit(): void {

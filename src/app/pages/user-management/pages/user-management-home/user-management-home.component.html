@@ -9,12 +9,12 @@
     <mat-tab-group>
       <mat-tab label="Users">
         <div class="p-2">
-          <app-users></app-users>
+          <app-users [currentUser]="params?.currentUser"></app-users>
         </div>
       </mat-tab>
       <mat-tab label="User Roles">
         <div class="p-2">
-          <app-user-roles></app-user-roles>
+          <app-user-roles [currentUser]="params?.currentUser"></app-user-roles>
         </div>
       </mat-tab>
       <mat-tab label="User Groups">

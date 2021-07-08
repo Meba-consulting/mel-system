@@ -100,7 +100,7 @@ export class AddUserComponent implements OnInit {
     this.formFields = [
       {
         id: 'firstName',
-        label: 'Firstname',
+        label: 'First name',
         key: 'firstName',
         required: true,
         controlType: 'textbox',
@@ -249,13 +249,16 @@ export class AddUserComponent implements OnInit {
             userRoles: this.selectedUserRoles,
           },
           surname: this.formattedFormValuesObject?.surname?.value,
-          firstName: this.formattedFormValuesObject?.firstname?.value,
+          firstName: this.formattedFormValuesObject?.firstName?.value,
           email: this.formattedFormValuesObject?.email?.value,
           phoneNumber: this.formattedFormValuesObject?.phoneNumber?.value,
           organisationUnits: map(this.selectedOrgUnits, (ou) => {
             return { id: ou?.id };
           }),
           dataViewOrganisationUnits: map(this.selectedOrgUnits, (ou) => {
+            return { id: ou?.id };
+          }),
+          teiSearchOrganisationUnits: map(this.selectedOrgUnits, (ou) => {
             return { id: ou?.id };
           }),
           userGroups: userGroups,
@@ -272,6 +275,9 @@ export class AddUserComponent implements OnInit {
             this.savingUserMessage = 'Saved successfully';
             setTimeout(() => {
               this.savingUserMessage = '';
+              setTimeout(() => {
+                this.dialogRef.close(this.atLeastOneUSerAdded);
+              }, 500);
             }, 1000);
           }
         });

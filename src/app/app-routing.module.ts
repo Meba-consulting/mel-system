@@ -52,6 +52,13 @@ const routes: Routes = [
         (m) => m.UserManagementModule
       ),
   },
+  {
+    path: 'maintenance',
+    loadChildren: () =>
+      import('./pages/maintenance/maintenance.module').then(
+        (m) => m.MaintenanceModule
+      ),
+  },
 ];
 
 @NgModule({

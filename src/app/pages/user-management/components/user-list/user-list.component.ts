@@ -14,6 +14,7 @@ import { NgxDhis2HttpClientService } from '@iapps/ngx-dhis2-http-client';
 import * as _ from 'lodash';
 import { Observable } from 'rxjs';
 import { DeletingItemComponent } from 'src/app/shared/components/deleting-item/deleting-item.component';
+import { formatUsersList } from '../../helpers/format-users-list-for-datatable.helper';
 import { AddUserComponent } from '../add-user/add-user.component';
 
 @Component({
@@ -37,7 +38,7 @@ export class UserListComponent implements OnInit {
     'action',
   ];
   dataSource: any;
-  userGroupsConfigs$: Observable<any>;
+  @Input() userGroupsConfigs: any;
   canDoMaintenance: boolean = false;
   @Output() reLoadUsers = new EventEmitter<any>();
   constructor(
@@ -47,11 +48,8 @@ export class UserListComponent implements OnInit {
 
   ngOnInit(): void {
     // console.log(this.users);
-    this.dataSource = new MatTableDataSource(this.formatUsersList(this.users));
+    this.dataSource = new MatTableDataSource(formatUsersList(this.users));
     this.dataSource.paginator = this.paginator;
-    this.userGroupsConfigs$ = this.httpClient.get(
-      'dataStore/user-groups/configurations'
-    );
 
     _.each(this.currentUser.userGroups, (userGroup) => {
       if (userGroup.name.indexOf('MAINTENANCE') > -1) {
@@ -63,20 +61,6 @@ export class UserListComponent implements OnInit {
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
-  }
-
-  formatUsersList(users) {
-    return _.map(users, (user, index) => {
-      return {
-        position: index + 1,
-        firstName: user?.firstName.toUpperCase(),
-        surname: user?.surname.toUpperCase(),
-        phoneNumber: user?.phoneNumber ? user?.phoneNumber : '-',
-        email: user?.email ? user?.email : '-',
-        username: user?.userCredentials?.user?.username,
-        action: user,
-      };
-    });
   }
 
   onEditUser(e, user, userGroupsConfigs) {

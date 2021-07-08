@@ -2,6 +2,7 @@
   <div *ngIf="userParams?.userRoles">
     <app-user-roles-list
       [userRoles]="userParams?.userRoles?.userRoles"
+      [currentUser]="currentUser"
     ></app-user-roles-list>
   </div>
 

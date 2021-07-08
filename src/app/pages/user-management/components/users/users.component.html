@@ -2,19 +2,20 @@
   class="users"
   *ngIf="{
     users: users$ | async,
-    currentUser: currentUser$ | async
+    userGroupsConfigs: userGroupsConfigs$ | async
   } as userParams"
 >
-  <div *ngIf="userParams?.users && userParams?.currentUser">
+  <div *ngIf="userParams?.users && userParams?.userGroupsConfigs">
     <app-user-list
       [users]="userParams?.users?.users"
-      [currentUser]="userParams?.currentUser"
+      [currentUser]="currentUser"
+      [userGroupsConfigs]="userParams?.userGroupsConfigs"
       (reLoadUsers)="onReloadUsers($event)"
     ></app-user-list>
   </div>
 
   <mat-progress-bar
-    *ngIf="!userParams?.users || !userParams?.currentUser"
+    *ngIf="!userParams?.users || !userParams?.userGroupsConfigs"
     mode="indeterminate"
   ></mat-progress-bar>
 </div>

@@ -11,10 +11,12 @@ import * as _ from 'lodash';
 })
 export class UserRolesListComponent implements OnInit {
   @Input() userRoles: any[];
+  @Input() currentUser: any;
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
 
   displayedColumns: string[] = ['position', 'userRole', 'action'];
   dataSource: any;
+  canDoMaintenance: boolean = false;
   constructor() {}
 
   ngOnInit(): void {
@@ -23,6 +25,12 @@ export class UserRolesListComponent implements OnInit {
       this.formatUserRoles(this.userRoles)
     );
     this.dataSource.paginator = this.paginator;
+
+    _.each(this.currentUser.userGroups, (userGroup) => {
+      if (userGroup.name.indexOf('MAINTENANCE') > -1) {
+        this.canDoMaintenance = true;
+      }
+    });
   }
 
   applyFilter(event: Event) {
