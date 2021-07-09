@@ -69,9 +69,19 @@ export class OuService {
           return of(error);
         })
       );
-    } else {
+    } else if (id === 'GjNQUXv6Mbi') {
       //
       return this.httpClient.get('sqlViews/MR5GmypsqwK/data?paging=false').pipe(
+        map((response) => {
+          return response;
+        }),
+        catchError((error) => {
+          return of(error);
+        })
+      );
+    } else {
+      // ao1Fs95xvxg
+      return this.httpClient.get('sqlViews/ao1Fs95xvxg/data?paging=false').pipe(
         map((response) => {
           return response;
         }),

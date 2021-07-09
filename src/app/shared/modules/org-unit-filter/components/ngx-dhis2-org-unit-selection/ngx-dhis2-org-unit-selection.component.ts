@@ -31,6 +31,7 @@ export class NgxDhis2OrgUnitSelectionComponent implements OnInit {
 
   @Input() maxHeight: string;
   @Input() selectedBgd: string;
+  @Input() isDataEntry: boolean;
 
   @Output() activateOrgUnit = new EventEmitter();
   @Output() deactivateOrgUnit = new EventEmitter();

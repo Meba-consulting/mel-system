@@ -49,7 +49,8 @@ export class NgxDhis2OrgUnitFilterComponent implements OnInit, OnDestroy {
   @Input() orgUnitFilterConfig: OrgUnitFilterConfig;
   @Input() assignedOrgUnits: any[];
   @Input() maxHeight: string;
-  formattedAssignedOrgUnits: any;
+  @Input() isDataEntry: boolean;
+  formattedAssignedOrgUnits: any = {};
   orgUnitLevels$: Observable<OrgUnitLevel[]>;
   orgUnitGroups$: Observable<OrgUnitGroup[]>;
   userOrgUnits$: Observable<OrgUnit[]>;

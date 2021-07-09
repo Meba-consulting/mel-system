@@ -34,6 +34,7 @@ export class NgxDhis2OrgUnitTreeItemComponent implements OnInit, OnChanges {
   @Input() selectedOrgUnits: any[];
   @Input() parentOrgUnit: any;
   @Input() assignedOrgUnits: any;
+  @Input() isDataEntry: boolean;
 
   // events
   @Output() activate = new EventEmitter();

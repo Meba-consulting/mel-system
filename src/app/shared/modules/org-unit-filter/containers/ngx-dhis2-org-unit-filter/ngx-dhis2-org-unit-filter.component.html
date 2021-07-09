@@ -25,6 +25,7 @@
           [selectedBgd]="orgUnitFilterConfig?.selectedBgd"
           [loadingOrgUnits]="loadingOrgUnits$ | async"
           [assignedOrgUnits]="formattedAssignedOrgUnits"
+          [isDataEntry]="isDataEntry"
           [orgUnitsLoaded]="orgUnitLoaded$ | async"
           [userOrgUnitSelected]="isAnyUserOrgUnitSelected$ | async"
           (activateOrgUnit)="onSelectOrgUnit($event)"

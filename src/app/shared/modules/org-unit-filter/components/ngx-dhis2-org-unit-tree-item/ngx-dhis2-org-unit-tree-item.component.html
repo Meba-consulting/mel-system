@@ -21,10 +21,23 @@
       /></mat-icon>
     </button>
     <mat-checkbox
-      [disabled]="assignedOrgUnits && !assignedOrgUnits[orgUnit?.id]"
+      [disabled]="
+        assignedOrgUnits && !assignedOrgUnits[orgUnit?.id] && isDataEntry
+      "
       *ngIf="orgUnit$ | async as orgUnit"
       [name]="orgUnit.id"
       [ngModel]="selected"
+      [title]="
+        assignedOrgUnits && !assignedOrgUnits[orgUnit?.id] && isDataEntry
+          ? 'Form not assigned'
+          : ''
+      "
+      [ngStyle]="{
+        cursor:
+          assignedOrgUnits && !assignedOrgUnits[orgUnit?.id] && isDataEntry
+            ? 'not-allowed'
+            : 'pointer'
+      }"
       [ngClass]="{
         'ml-3': orgUnit?.children.length === 0,
         'ngx-dhis2-org-unit-tree-item-name': true,
@@ -58,6 +71,7 @@
       <ngx-dhis2-org-unit-tree-item
         [assignedOrgUnits]="assignedOrgUnits"
         [orgUnitId]="orgUnitChildId"
+        [isDataEntry]="isDataEntry"
         (activate)="onActivateOu($event)"
         (deactivate)="onDeactivateOu($event)"
         [selectedOrgUnits]="selectedOrgUnits"
