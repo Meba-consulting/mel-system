@@ -98,7 +98,14 @@ export class TrackerGeneralRegistrationComponent implements OnInit {
       'dataStore/programs/' + this.currentProgram?.id
     );
 
-    this.currentTrackedEntityInstanceId = this.systemIds[0];
+    this.httpClient
+      .get('system/id.json?limit=2')
+      .subscribe((systemIdsResponse) => {
+        if (systemIdsResponse) {
+          this.systemIds = systemIdsResponse['codes'];
+          this.currentTrackedEntityInstanceId = this.systemIds[0];
+        }
+      });
   }
 
   onToggleReport(e, type) {
@@ -305,17 +312,30 @@ export class TrackerGeneralRegistrationComponent implements OnInit {
 
   onUpdateStages(e, program, currentTrackedEntityInstanceId) {
     e.stopPropagation();
-    this.dialog.open(StagesEntryModalComponent, {
-      width: '50%',
-      height: '500px',
-      disableClose: false,
-      data: {
-        program: program,
-        currentTrackedEntityInstanceId: currentTrackedEntityInstanceId,
-        orgUnit: this.selectedRegisteringUnits[0],
-      },
-      panelClass: 'custom-dialog-container',
-    });
+    this.dialog
+      .open(StagesEntryModalComponent, {
+        width: '50%',
+        height: '500px',
+        disableClose: false,
+        data: {
+          program: program,
+          currentTrackedEntityInstanceId: currentTrackedEntityInstanceId,
+          orgUnit: this.selectedRegisteringUnits[0],
+        },
+        panelClass: 'custom-dialog-container',
+      })
+      .afterClosed()
+      .subscribe((status) => {
+        currentTrackedEntityInstanceId = null;
+        this.httpClient
+          .get('system/id.json?limit=2')
+          .subscribe((systemIdsResponse) => {
+            if (systemIdsResponse) {
+              this.systemIds = systemIdsResponse['codes'];
+              this.currentTrackedEntityInstanceId = this.systemIds[0];
+            }
+          });
+      });
   }
 
   changeTab(index) {
@@ -327,6 +347,7 @@ export class TrackerGeneralRegistrationComponent implements OnInit {
   }
 
   onSetEdit(trackedEntityInstance, program) {
+    this.reportingDate = new Date(trackedEntityInstance['created']);
     this.currentTrackedEntityInstanceId = trackedEntityInstance?.action?.id;
     _.map(
       program.trackedEntityType?.trackedEntityTypeAttributes,

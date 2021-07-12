@@ -173,7 +173,8 @@
                   [disabled]="
                     !isFormValid ||
                     savedData ||
-                    selectedRegisteringUnits.length == 0
+                    selectedRegisteringUnits.length == 0 ||
+                    !currentTrackedEntityInstanceId
                   "
                   (click)="
                     onSaveData(
@@ -194,7 +195,7 @@
                   Save
                 </button>
                 <button
-                  [disabled]="!editData"
+                  [disabled]="!editData || !currentTrackedEntityInstanceId"
                   *ngIf="program?.updateStages"
                   mat-stroked-button
                   (click)="

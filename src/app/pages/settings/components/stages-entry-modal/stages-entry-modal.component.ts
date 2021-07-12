@@ -71,9 +71,10 @@ export class StagesEntryModalComponent implements OnInit {
       eventDate: formatDateToYYMMDD(new Date()),
     };
 
-    this.savedUserDataStore$ = this.dataService.getSavedUserDataStoreProgramConfigurations(
-      this.program?.id
-    );
+    this.savedUserDataStore$ =
+      this.dataService.getSavedUserDataStoreProgramConfigurations(
+        this.program?.id
+      );
   }
 
   getTrackedEntityInstanceData(parameters) {
@@ -93,7 +94,6 @@ export class StagesEntryModalComponent implements OnInit {
   changeTabForData(e, val) {
     e.stopPropagation();
     this.selectedTabForDataSection.setValue(val);
-    console.log(val);
     this.loadStageData = true;
   }
 
@@ -122,7 +122,6 @@ export class StagesEntryModalComponent implements OnInit {
     this.savingProgramData = true;
     this.loadStageData = false;
     this.eventsData.programStage = programStage?.id;
-    console.log(this.eventsData);
     !editSet
       ? this.dataService
           .saveEventsData({ events: [this.eventsData] })
