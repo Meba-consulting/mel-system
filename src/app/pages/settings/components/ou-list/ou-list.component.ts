@@ -1,4 +1,11 @@
-import { Component, Input, OnInit, Output, ViewChild } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+  ViewChild,
+} from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
@@ -12,6 +19,7 @@ import { ClubMembersListComponent } from '../club-members-list/club-members-list
 import { DeleteOuComponent } from '../delete-ou/delete-ou.component';
 import { FormEntryModalComponent } from '../form-entry-modal/form-entry-modal.component';
 import { FormsDataListModalComponent } from '../forms-data-list-modal/forms-data-list-modal.component';
+import { OuRegistrationComponent } from '../ou-registration/ou-registration.component';
 
 @Component({
   selector: 'app-ou-list',
@@ -24,6 +32,8 @@ export class OuListComponent implements OnInit {
   @Input() group: any;
   @Input() categories: any;
   @Input() currentUser: any;
+  @Input() configurations: any;
+  @Output() dialogClosed = new EventEmitter<any>();
   displayedColumns: string[] = [
     'position',
     'region',
@@ -51,18 +61,37 @@ export class OuListComponent implements OnInit {
   //   e.stopPropagation();
   // }
 
-  onEditOu(e, ou) {
+  onEditOu(e, ou, group, configurations) {
     e.stopPropagation();
     this.ouService.getOu(ou?.uuid).subscribe((response) => {
       if (response) {
-        // console.log('response', response);
-        this.dialog.open(AddClubModalComponent, {
-          width: '70%',
-          height: '600px',
-          disableClose: false,
-          data: { clubCategories: this.categories, club: response },
-          panelClass: 'custom-dialog-container',
-        });
+        if (group?.id === 'ltEpnsVKfQf') {
+          this.dialog
+            .open(AddClubModalComponent, {
+              width: '70%',
+              height: '600px',
+              disableClose: false,
+              data: { clubCategories: this.categories, club: response },
+              panelClass: 'custom-dialog-container',
+            })
+            .afterClosed()
+            .subscribe(() => {
+              this.dialogClosed.emit(true);
+            });
+        } else {
+          this.dialog
+            .open(OuRegistrationComponent, {
+              width: '70%',
+              height: '600px',
+              disableClose: false,
+              data: { group, ouData: response, configurations },
+              panelClass: 'custom-dialog-container',
+            })
+            .afterClosed()
+            .subscribe(() => {
+              this.dialogClosed.emit(true);
+            });
+        }
       }
     });
   }

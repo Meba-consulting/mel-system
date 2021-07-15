@@ -95,6 +95,8 @@ export class AddClubModalComponent implements OnInit {
       this.formValues['parent'] = { value: this.club?.parent?.id };
       this.currentClub$ = this.ouService.getOu(this.club?.id);
       this.isAddingClub = false;
+
+      this.ouFilterIsSet = false;
     } else {
       this.currentClub$ = this.store.select(getCurrentClub);
       this.isAddingClub = true;
@@ -219,6 +221,7 @@ export class AddClubModalComponent implements OnInit {
     });
     this.currentClub$ = this.store.select(getCurrentClub);
   }
+
   onEditClubDetails(e, currentClub) {
     e.stopPropagation();
     const clubDetails = getClubInfoFromFormValues(this.formValues);

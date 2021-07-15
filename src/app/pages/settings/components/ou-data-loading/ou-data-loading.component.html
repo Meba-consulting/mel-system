@@ -7,15 +7,12 @@
     *ngIf="!params?.ouData"
     mode="indeterminate"
   ></mat-progress-bar>
-
-  <div class="text-danger text-center" *ngIf="params?.ouData">
-    <!-- {{ params?.ouData?.message }} -->
-  </div>
   <div *ngIf="params?.ouData">
     <app-ou-list
       [ous]="params?.ouData"
       [categories]="clubCategories"
       [group]="group"
+      [configurations]="configurations"
       [currentUser]="currentUser"
       (dialogClosed)="onClose($event)"
     ></app-ou-list>

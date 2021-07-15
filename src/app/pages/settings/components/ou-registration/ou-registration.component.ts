@@ -33,6 +33,7 @@ export class OuRegistrationComponent implements OnInit {
 
   formValues: any = {};
   isOuAdded: boolean = false;
+  isAddingOu: boolean = true;
   isOuEdited: boolean = false;
   savingMessage: string;
   formFields: any;
@@ -41,7 +42,9 @@ export class OuRegistrationComponent implements OnInit {
   saveOuResponse$: Observable<any>;
   saving: boolean = false;
   group: any;
+  ouData: any;
   configurations: any;
+  currentOu$: Observable<any>;
   constructor(
     private dialogRef: MatDialogRef<OuRegistrationComponent>,
     @Inject(MAT_DIALOG_DATA) data,
@@ -50,9 +53,47 @@ export class OuRegistrationComponent implements OnInit {
   ) {
     this.group = data?.group;
     this.configurations = data?.configurations;
+    this.ouData = data?.ouData;
   }
 
   ngOnInit(): void {
+    if (this.ouData && this.ouData?.id) {
+      this.selectedOrgUnits = [this.ouData?.parent];
+      this.currentFormData['regdate'] = {
+        id: 'regdate',
+        value: new Date(this.ouData?.openingDate),
+      };
+      this.currentFormData['name'] = {
+        id: 'shortname',
+        value: this.ouData?.name,
+      };
+      this.currentFormData['shortname'] = {
+        id: 'shortname',
+        value: this.ouData?.shortName,
+      };
+
+      this.currentFormData['phoneNumber'] = {
+        id: 'phoneNumber',
+        value: this.ouData?.phoneNumber,
+      };
+
+      this.currentFormData['email'] = {
+        id: 'email',
+        value: this.ouData?.email,
+      };
+
+      this.currentFormData['contactperson'] = {
+        id: 'contactperson',
+        value: this.ouData?.contactperson,
+      };
+
+      this.formValues['parent'] = { value: this.ouData?.parent?.id };
+      this.ouFilterIsSet = false;
+      this.isAddingOu = false;
+      this.currentOu$ = this.ouService.getOu(this.ouData?.id);
+
+      this.isFormValid = true;
+    }
     this.formFields = [
       {
         id: 'regdate',
@@ -84,7 +125,7 @@ export class OuRegistrationComponent implements OnInit {
         key: 'contactperson',
         controlType: 'textbox',
         name: 'Contact person',
-        required: true,
+        required: false,
       },
       {
         id: 'email',
@@ -142,7 +183,6 @@ export class OuRegistrationComponent implements OnInit {
       .post('organisationUnits', ouDetails)
       .pipe(
         map((response: any) => {
-          console.log('ou created', response);
           this.saving = false;
           setTimeout(() => {
             const data = {
@@ -184,10 +224,25 @@ export class OuRegistrationComponent implements OnInit {
     });
   }
 
-  onEdit(e, ou) {
+  onEditOu(e, currentOu) {
     e.stopPropagation();
     const ouDetails = this.getOuInfoFromFormValues(this.formValues);
     // console.log('ouDetails', ouDetails);
+
+    this.saving = true;
+    this.savingMessage = 'Saving changes';
+
+    this.httpClient
+      .put(`organisationUnits/${currentOu?.id}`, ouDetails)
+      .subscribe((editOuResponse) => {
+        if (editOuResponse) {
+          this.savingMessage = 'Saved successfully';
+          setTimeout(() => {
+            this.savingMessage = null;
+            this.saving = false;
+          }, 1000);
+        }
+      });
   }
 
   getOuInfoFromFormValues(values) {

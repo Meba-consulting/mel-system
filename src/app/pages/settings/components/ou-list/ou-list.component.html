@@ -61,7 +61,7 @@
         </button>
         <mat-menu #menu="matMenu" class="menu-options">
           <button
-            (click)="onEditOu($event, element)"
+            (click)="onEditOu($event, element, group, configurations)"
             *ngIf="!element?.closedDate"
             mat-menu-item
           >

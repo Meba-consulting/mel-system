@@ -34,6 +34,7 @@ export class TrackedEntityInstanceListComponent implements OnInit {
   constructor(private dialog: MatDialog) {}
 
   ngOnInit(): void {
+    // console.log('responnse', this.queryResponse);
     const formattedResponse = getTrackedEntityInstanceReportTable(
       this.queryResponse,
       this.savedUserDataStore,
@@ -73,7 +74,7 @@ export class TrackedEntityInstanceListComponent implements OnInit {
 
   onEnterDataForStage(e, programStage, enrollmentData) {
     // e.stopPropagation();
-    console.log(enrollmentData);
+    // console.log(enrollmentData);
     this.dialog.open(ProgramStageEntryModalComponent, {
       width: '50%',
       height: '500px',

@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { OuService } from 'src/app/core/services/ou.service';
 import { AddClubModalComponent } from '../add-club-modal/add-club-modal.component';
 import { OuRegistrationComponent } from '../ou-registration/ou-registration.component';
@@ -59,7 +59,7 @@ export class OuDataLoadingComponent implements OnInit {
   }
 
   onClose(e) {
-    e.stopPropagation();
+    this.ouData$ = of(null);
     this.ouData$ = this.ouService.getClubsFromSQLVIEW(this.group?.id);
   }
 }

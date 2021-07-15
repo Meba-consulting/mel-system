@@ -1,4 +1,4 @@
-<div>
+<div *ngIf="{ currentOu: currentOu$ | async } as params">
   <div class="text-left p-2 h5" style="margin-top: 15px">
     {{ group?.name }}
   </div>
@@ -8,6 +8,7 @@
     <div class="success-save-message" *ngIf="savingMessage">
       {{ savingMessage }}
     </div>
+    <!-- {{ params?.currentOu | json }} -->
     <div style="height: 470px; padding: 15px; overflow: auto">
       <div>
         <button
@@ -62,6 +63,7 @@
         Close
       </button>
       <button
+        *ngIf="isAddingOu"
         [disabled]="!isFormValid"
         mat-stroked-button
         (click)="onSave($event)"
@@ -75,6 +77,23 @@
         >
         </mat-spinner>
         Save
+      </button>
+
+      <button
+        *ngIf="!isAddingOu"
+        [disabled]="!isFormValid || !params?.currentOu"
+        mat-stroked-button
+        (click)="onEditOu($event, params?.currentOu)"
+        class="mel-btn-primary"
+      >
+        <mat-spinner
+          *ngIf="saving"
+          color="accent"
+          [diameter]="20"
+          style="display: inline-block !important; margin-right: 4px"
+        >
+        </mat-spinner>
+        Edit
       </button>
     </div>
   </div>
