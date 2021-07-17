@@ -66,7 +66,10 @@ export class TrackedEntrityEntryFormComponent implements OnInit, OnChanges {
       _.map(
         this.trackedEntityType?.trackedEntityTypeAttributes,
         (attribute) => {
-          if (attribute?.trackedEntityAttribute?.id !== 'C1i3bPWYBRG')
+          if (
+            attribute?.trackedEntityAttribute?.id !== 'C1i3bPWYBRG' ||
+            attribute?.trackedEntityAttribute?.id !== 'ek3AWEEIOBJ'
+          )
             return {
               id: attribute?.trackedEntityAttribute?.id,
               label: attribute?.trackedEntityAttribute?.name,

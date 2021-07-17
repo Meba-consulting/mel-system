@@ -10,7 +10,6 @@ import { DataService } from 'src/app/core/services/data.service';
 import { formatDateToYYMMDD } from 'src/app/pages/data-entry/helpers';
 
 import * as _ from 'lodash';
-import { ConfirmDeleteEventComponent } from 'src/app/pages/settings/components/confirm-delete-event/confirm-delete-event.component';
 import { FormControl } from '@angular/forms';
 import { ConfirmDeleteModalComponent } from '../confirm-delete-modal/confirm-delete-modal.component';
 import { ExportToExcelJsonService } from 'src/app/core/services/export-to-excel-json.service';
@@ -44,6 +43,7 @@ export class ProgramStageEntryModalComponent implements OnInit {
   index: number = 0;
 
   eventDeletingMessage = '';
+  orgUnitData$: Observable<any>;
   constructor(
     private dialogRef: MatDialogRef<ProgramStageEntryModalComponent>,
     @Inject(MAT_DIALOG_DATA) data,
@@ -71,6 +71,9 @@ export class ProgramStageEntryModalComponent implements OnInit {
     this.orgUnit = this.orgUnit ? this.orgUnit : this.selectedOrgUnit;
     this.programDataStoreConfigs$ = this.httpClient.get(
       'dataStore/programs/' + this.program?.id
+    );
+    this.orgUnitData$ = this.httpClient.get(
+      `organisationUnits/${this.orgUnit?.id}.json?fields=id,name,code,level,children[id,name,code,level]`
     );
     if (this.orgUnit && this.program) {
       this.queryResponseData$ = this.dataService.getTrackedEntityInstances({
@@ -220,7 +223,7 @@ export class ProgramStageEntryModalComponent implements OnInit {
     this.dialogRef.close();
   }
 
-  onGetExcelTemplate(e, stage, configs): void {
+  onGetExcelTemplate(e, stage, configs, orgUnitData): void {
     e.stopPropagation();
     let dataElementsAsColumns = {};
     stage.programStageDataElements.forEach((programStageDataElement) => {
@@ -262,7 +265,8 @@ export class ProgramStageEntryModalComponent implements OnInit {
         })
         .filter((formattedElem) => formattedElem?.options?.length > 0) || [],
       stage?.name,
-      stage.programStageDataElements
+      stage.programStageDataElements,
+      orgUnitData
     );
   }
 

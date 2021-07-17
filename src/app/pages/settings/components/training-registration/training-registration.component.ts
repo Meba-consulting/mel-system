@@ -148,7 +148,7 @@ export class TrainingRegistrationComponent implements OnInit {
     this.ouFilterIsSet = !this.ouFilterIsSet;
   }
 
-  onGetDataValues(values) {
+  onGetDataValues(values, currentUser) {
     this.savedData = false;
     this.savingData = false;
     this.attributeValues = _.map(Object.keys(values), (key) => {
@@ -175,6 +175,14 @@ export class TrainingRegistrationComponent implements OnInit {
           },
         ]
       : this.attributeValues;
+
+    this.attributeValues = [
+      ...this.attributeValues,
+      {
+        attribute: 'ek3AWEEIOBJ',
+        value: currentUser?.userCredentials?.username,
+      },
+    ];
   }
 
   onGetFormValidity(validity) {
@@ -187,12 +195,12 @@ export class TrainingRegistrationComponent implements OnInit {
     this.savingData = true;
     this.savedData = false;
     let data = {
-      orgUnit: 'zs9X8YYBOnK',
+      orgUnit: this.selectedRegisteringUnits[0]?.id,
       trackedEntityInstance: currentTrackedEntityInstanceId,
       trackedEntityType: currentProgram.trackedEntityType.id,
       programOwners: [
         {
-          ownerOrgUnit: 'zs9X8YYBOnK',
+          ownerOrgUnit: this.selectedRegisteringUnits[0]?.id,
           program: currentProgram?.id,
           trackedEntityInstance: currentTrackedEntityInstanceId,
         },
@@ -200,12 +208,11 @@ export class TrainingRegistrationComponent implements OnInit {
       enrollments: !this.editingData
         ? [
             {
-              orgUnit: 'zs9X8YYBOnK',
+              orgUnit: this.selectedRegisteringUnits[0]?.id,
               program: currentProgram?.id,
               trackedEntityInstance: currentTrackedEntityInstanceId,
               enrollment: this.systemIds[1],
               trackedEntityType: currentProgram?.trackedEntityType?.id,
-              orgUnitName: 'LHRC Tanzania',
               events: [],
             },
           ]
@@ -261,7 +268,10 @@ export class TrainingRegistrationComponent implements OnInit {
     _.map(
       program.trackedEntityType?.trackedEntityTypeAttributes,
       (attribute) => {
-        if (attribute?.trackedEntityAttribute?.id !== 'C1i3bPWYBRG') {
+        if (
+          attribute?.trackedEntityAttribute?.id !== 'C1i3bPWYBRG' ||
+          attribute?.trackedEntityAttribute?.id !== 'ek3AWEEIOBJ'
+        ) {
           this.formData[attribute?.trackedEntityAttribute?.id] = {
             id: attribute?.trackedEntityAttribute?.id,
             value: attribute?.trackedEntityAttribute?.optionSet

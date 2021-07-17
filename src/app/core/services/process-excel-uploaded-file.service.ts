@@ -45,7 +45,6 @@ export class ProcessExcelUploadedFileService {
         dataValues: keys
           .filter((key, index) => index > 3)
           .map((key) => {
-            console.log('excelRow[key]', excelRow[key]);
             return {
               dataElement: keyValuePairedDataElements[key]?.id,
               value:
@@ -55,7 +54,7 @@ export class ProcessExcelUploadedFileService {
                     ?.length === 0)
                   ? keyValuePairedDataElements[key]?.valueType === 'DATE'
                     ? formatDateToYYMMDD(new Date(excelRow[key]))
-                    : excelRow[key]
+                    : getRowData(excelRow[key])
                   : (
                       keyValuePairedDataElements[
                         key
@@ -81,4 +80,8 @@ export class ProcessExcelUploadedFileService {
     // console.log(eventData);
     return eventData;
   }
+}
+
+function getRowData(data) {
+  return data?.indexOf('(_') === -1 ? data : data.split('(_')[1].split('_')[0];
 }

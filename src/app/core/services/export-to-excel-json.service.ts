@@ -66,7 +66,14 @@ export class ExportToExcelJsonService {
     );
   }
 
-  generateExcel(list, header, elementsData, fileName, dataElements?) {
+  generateExcel(
+    list,
+    header,
+    elementsData,
+    fileName,
+    dataElements?,
+    orgUnitData?
+  ) {
     let data: any = [];
     const wb: XLSX.WorkBook = {
       Sheets: { data },
@@ -162,6 +169,28 @@ export class ExportToExcelJsonService {
         allowBlank: true,
         formulae: [options],
       };
+    });
+    dataElements.forEach((elem, index) => {
+      if (elem.dataElement.valueType === 'ORGANISATION_UNIT') {
+        let ouOptions = [];
+        ouOptions = [
+          ...ouOptions,
+          orgUnitData?.name + '(_' + orgUnitData?.id + '_)',
+        ];
+        ouOptions = [
+          ...ouOptions,
+          ...orgUnitData?.children.map(
+            (ouChild) => ouChild?.name + '(_' + ouChild?.id + '_)'
+          ),
+        ];
+        const options = '"' + ouOptions.join(',') + '"';
+        worksheet.getCell(excelTablesHeaders[index + 4] + '2').dataValidation =
+          {
+            type: 'list',
+            allowBlank: true,
+            formulae: [options],
+          };
+      }
     });
     //Generate Excel File with given name
     workbook.xlsx.writeBuffer().then((data) => {

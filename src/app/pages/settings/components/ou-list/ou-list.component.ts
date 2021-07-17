@@ -65,7 +65,7 @@ export class OuListComponent implements OnInit {
     e.stopPropagation();
     this.ouService.getOu(ou?.uuid).subscribe((response) => {
       if (response) {
-        if (group?.id === 'ltEpnsVKfQf') {
+        if (group?.id === 'GOMCSNn5OdW') {
           this.dialog
             .open(AddClubModalComponent, {
               width: '70%',

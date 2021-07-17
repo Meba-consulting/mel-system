@@ -72,6 +72,8 @@ export class TrackerGeneralRegistrationComponent implements OnInit {
   maxDate: Date;
   reportingDate: Date;
 
+  ouHasChanged: boolean = false;
+
   constructor(
     private dataService: DataService,
     private ouService: OuService,
@@ -120,9 +122,13 @@ export class TrackerGeneralRegistrationComponent implements OnInit {
   }
 
   onOuUpdate(selections) {
+    this.ouHasChanged = true;
     this.selectedRegisteringUnits = selections?.items;
     this.registeringUnitFilterIsSet = false;
     this.isReportSet = true;
+    setTimeout(() => {
+      this.ouHasChanged = false;
+    }, 300);
   }
 
   onLocationUpdate(selections) {
@@ -187,7 +193,7 @@ export class TrackerGeneralRegistrationComponent implements OnInit {
     this.registeringUnitFilterIsSet = !this.registeringUnitFilterIsSet;
   }
 
-  onGetDataValues(values) {
+  onGetDataValues(values, currentUser) {
     this.savedData = false;
     this.savingData = false;
     this.attributeValues = _.map(Object.keys(values), (key) => {
@@ -214,6 +220,13 @@ export class TrackerGeneralRegistrationComponent implements OnInit {
           },
         ]
       : this.attributeValues;
+    this.attributeValues = [
+      ...this.attributeValues,
+      {
+        attribute: 'ek3AWEEIOBJ',
+        value: currentUser?.userCredentials?.username,
+      },
+    ];
   }
 
   onGetFormValidity(validity) {

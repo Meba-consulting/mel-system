@@ -2,7 +2,8 @@
   [ngClass]="{ 'stage-entry-container': !trackedEntityInstanceId }"
   *ngIf="{
     programDataStoreConfigs: programDataStoreConfigs$ | async,
-    queryResponseData: queryResponseData$ | async
+    queryResponseData: queryResponseData$ | async,
+    orgUnitData: orgUnitData$ | async
   } as params"
 >
   <div class="header h4" *ngIf="!trackedEntityInstanceId">
@@ -12,10 +13,20 @@
 
   <mat-progress-bar
     mode="indeterminate"
-    *ngIf="!params?.programDataStoreConfigs || !params?.queryResponseData"
+    *ngIf="
+      !params?.programDataStoreConfigs ||
+      !params?.queryResponseData ||
+      !params?.orgUnitData
+    "
   ></mat-progress-bar>
   <div class="body">
-    <div *ngIf="params?.programDataStoreConfigs && params?.queryResponseData">
+    <div
+      *ngIf="
+        params?.programDataStoreConfigs &&
+        params?.queryResponseData &&
+        params?.orgUnitData
+      "
+    >
       <p-tabView
         [(activeIndex)]="index"
         *ngIf="
@@ -75,7 +86,8 @@
                   onGetExcelTemplate(
                     $event,
                     programStage,
-                    params?.programDataStoreConfigs
+                    params?.programDataStoreConfigs,
+                    params?.orgUnitData
                   )
                 "
                 >Get {{ programStage?.name }} import template</a

@@ -10,13 +10,22 @@ export class DataService {
   constructor(private httpClient: NgxDhis2HttpClientService) {}
 
   getRegisteredMembers(parameters): Observable<any> {
-    return this.httpClient.get(
-      'trackedEntityInstances/query.json?ou=' +
-        parameters?.orgUnit +
-        '&program=' +
-        parameters?.program +
-        '&pageSize=50&page=1&totalPages=false'
-    );
+    return this.httpClient
+      .get(
+        'trackedEntityInstances/query.json?ou=' +
+          parameters?.orgUnit +
+          '&program=' +
+          parameters?.program +
+          '&pageSize=50&page=1&totalPages=false'
+      )
+      .pipe(
+        map((response) => {
+          return response;
+        }),
+        catchError((e) => {
+          return of(e);
+        })
+      );
   }
 
   saveTrackedEntityInstanceAndAssociatedData(
@@ -52,27 +61,44 @@ export class DataService {
   }
 
   getTrackedEntityInstanceDetailsByProgram(id, program): Observable<any> {
-    return this.httpClient.get(
-      'trackedEntityInstances/' +
-        id +
-        '.json?program=' +
-        program?.id +
-        '&fields=*'
-    );
+    return this.httpClient
+      .get(
+        'trackedEntityInstances/' +
+          id +
+          '.json?program=' +
+          program?.id +
+          '&fields=*'
+      )
+      .pipe(
+        map((response) => {
+          return response;
+        }),
+        catchError((e) => {
+          return of(e);
+        })
+      );
   }
 
   getTrackedEntityInstances(parameters): Observable<any> {
-    return this.httpClient.get(
-      'trackedEntityInstances/query.json?ou=' +
-        parameters?.orgUnit +
-        '&program=' +
-        parameters?.program +
-        '&paging=false'
-    );
+    return this.httpClient
+      .get(
+        'trackedEntityInstances/query.json?ou=' +
+          parameters?.orgUnit +
+          '&program=' +
+          parameters?.program +
+          '&paging=false'
+      )
+      .pipe(
+        map((response) => {
+          return response;
+        }),
+        catchError((e) => {
+          return of(e);
+        })
+      );
   }
 
   deleteTrackedEntityInstance(id): Observable<any> {
-    console.log('id for deleting', id);
     return this.httpClient.delete('trackedEntityInstances/' + id).pipe(
       map((response) => {
         return response;
@@ -130,7 +156,14 @@ export class DataService {
   }
 
   completeEnrollment(id, data): Observable<any> {
-    return this.httpClient.put('enrollments/' + id, data);
+    return this.httpClient.put('enrollments/' + id, data).pipe(
+      map((response) => {
+        return response;
+      }),
+      catchError((e) => {
+        return of(e);
+      })
+    );
   }
 
   async saveEventsFromExcel(data) {

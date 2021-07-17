@@ -76,7 +76,11 @@
               </button>
             </div>
             <div
-              *ngIf="isReportSet && selectedRegisteringUnits?.length > 0"
+              *ngIf="
+                isReportSet &&
+                selectedRegisteringUnits?.length > 0 &&
+                !ouHasChanged
+              "
               class="w-100"
             >
               <app-trainings-list
@@ -162,7 +166,7 @@
                   [trackedEntityType]="program?.trackedEntityType"
                   [formData]="formData"
                   [reportingDate]="reportingDate"
-                  (dataValues)="onGetDataValues($event)"
+                  (dataValues)="onGetDataValues($event, currentUser)"
                   (isFormValid)="onGetFormValidity($event)"
                 ></app-tracked-entrity-entry-form>
               </div>

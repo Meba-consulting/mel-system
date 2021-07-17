@@ -1,4 +1,11 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnChanges,
+  OnInit,
+  Output,
+} from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Observable, of } from 'rxjs';
 import { DataService } from 'src/app/core/services/data.service';
@@ -10,7 +17,7 @@ import { SetColumnsModalComponent } from 'src/app/shared/components/set-columns-
   templateUrl: './trainings-list.component.html',
   styleUrls: ['./trainings-list.component.css'],
 })
-export class TrainingsListComponent implements OnInit {
+export class TrainingsListComponent implements OnInit, OnChanges {
   @Input() program: any;
   @Input() ouId: string;
   @Input() orgUnit: any;
@@ -20,17 +27,27 @@ export class TrainingsListComponent implements OnInit {
   constructor(private dataService: DataService, private dialog: MatDialog) {}
 
   ngOnInit(): void {
-    // if (this.program.id == 'aEGnQxdU1Ok') {
-    //   this.ouId = 'STY2sqTBLiV';
-    // }
     this.queryResponseData$ = this.dataService.getTrackedEntityInstances({
       orgUnit: this.ouId,
       program: this.program?.id,
     });
 
-    this.savedUserDataStore$ = this.dataService.getSavedUserDataStoreProgramConfigurations(
-      this.program?.id
-    );
+    this.savedUserDataStore$ =
+      this.dataService.getSavedUserDataStoreProgramConfigurations(
+        this.program?.id
+      );
+  }
+
+  ngOnChanges() {
+    this.queryResponseData$ = this.dataService.getTrackedEntityInstances({
+      orgUnit: this.ouId,
+      program: this.program?.id,
+    });
+
+    this.savedUserDataStore$ =
+      this.dataService.getSavedUserDataStoreProgramConfigurations(
+        this.program?.id
+      );
   }
 
   onSetDelete(e) {
@@ -49,12 +66,11 @@ export class TrainingsListComponent implements OnInit {
             .deleteTrackedEntityInstance(e.action?.id)
             .subscribe((response) => {
               if (response) {
-                this.queryResponseData$ = this.dataService.getTrackedEntityInstances(
-                  {
+                this.queryResponseData$ =
+                  this.dataService.getTrackedEntityInstances({
                     orgUnit: this.ouId,
                     program: this.program?.id,
-                  }
-                );
+                  });
               }
             });
         }
@@ -82,9 +98,10 @@ export class TrainingsListComponent implements OnInit {
             program: this.program?.id,
           });
 
-          this.savedUserDataStore$ = this.dataService.getSavedUserDataStoreProgramConfigurations(
-            this.program?.id
-          );
+          this.savedUserDataStore$ =
+            this.dataService.getSavedUserDataStoreProgramConfigurations(
+              this.program?.id
+            );
         }
       });
   }

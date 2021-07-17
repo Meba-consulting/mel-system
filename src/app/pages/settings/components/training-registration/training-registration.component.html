@@ -134,7 +134,7 @@
                 <app-tracked-entrity-entry-form
                   [trackedEntityType]="program?.trackedEntityType"
                   [formData]="formData"
-                  (dataValues)="onGetDataValues($event)"
+                  (dataValues)="onGetDataValues($event, currentUser)"
                   (isFormValid)="onGetFormValidity($event)"
                 ></app-tracked-entrity-entry-form>
               </div>
