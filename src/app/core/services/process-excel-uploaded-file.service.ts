@@ -83,5 +83,10 @@ export class ProcessExcelUploadedFileService {
 }
 
 function getRowData(data) {
-  return data?.indexOf('(_') === -1 ? data : data.split('(_')[1].split('_')[0];
+  // console.log('data', data);
+  return !data
+    ? null
+    : data.toString().indexOf('(_') === -1
+    ? data
+    : data.split('(_')[1].split('_')[0];
 }

@@ -175,12 +175,12 @@ export class ExportToExcelJsonService {
         let ouOptions = [];
         ouOptions = [
           ...ouOptions,
-          orgUnitData?.name + '(_' + orgUnitData?.id + '_)',
+          orgUnitData?.name + ' (_' + orgUnitData?.id + '_)',
         ];
         ouOptions = [
           ...ouOptions,
-          ...orgUnitData?.children.map(
-            (ouChild) => ouChild?.name + '(_' + ouChild?.id + '_)'
+          ..._.orderBy(orgUnitData?.children, ['name'], ['asc']).map(
+            (ouChild) => ouChild?.name + ' (_' + ouChild?.id + '_)'
           ),
         ];
         const options = '"' + ouOptions.join(',') + '"';
