@@ -25,6 +25,7 @@ export class ProgramStageEntryModalComponent implements OnInit {
   @Input() currentProgram: any;
   @Input() trackedEntityInstanceId: string;
   @Input() selectedOrgUnit: any;
+  @Input() currentUser: any;
   programStage: any;
   program: any;
   programDataStoreConfigs$: Observable<any>;
@@ -56,6 +57,7 @@ export class ProgramStageEntryModalComponent implements OnInit {
     this.program = data?.program;
     this.currentTrackedEntityInstanceId = data?.currentTrackedEntityInstanceId;
     this.orgUnit = data?.orgUnit;
+    this.currentUser = this.currentUser ? this.currentUser : data?.currentUser;
   }
 
   ngOnInit(): void {

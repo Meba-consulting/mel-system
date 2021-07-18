@@ -298,7 +298,7 @@ export class TrackerGeneralRegistrationComponent implements OnInit {
           ) {
             this.dialog.open(StagesEntryModalComponent, {
               width: '50%',
-              height: '500px',
+              height: '550px',
               disableClose: false,
               data: {
                 program: currentProgram,
@@ -328,7 +328,7 @@ export class TrackerGeneralRegistrationComponent implements OnInit {
     this.dialog
       .open(StagesEntryModalComponent, {
         width: '50%',
-        height: '500px',
+        height: '550px',
         disableClose: false,
         data: {
           program: program,
@@ -365,7 +365,10 @@ export class TrackerGeneralRegistrationComponent implements OnInit {
     _.map(
       program.trackedEntityType?.trackedEntityTypeAttributes,
       (attribute) => {
-        if (attribute?.trackedEntityAttribute?.id !== 'C1i3bPWYBRG') {
+        if (
+          attribute?.trackedEntityAttribute?.id !== 'C1i3bPWYBRG' &&
+          attribute?.trackedEntityAttribute?.id !== 'ek3AWEEIOBJ'
+        ) {
           this.formData[attribute?.trackedEntityAttribute?.id] = {
             id: attribute?.trackedEntityAttribute?.id,
             value: attribute?.trackedEntityAttribute?.optionSet
@@ -398,5 +401,10 @@ export class TrackerGeneralRegistrationComponent implements OnInit {
     );
     this.isReportSet = false;
     this.editingData = true;
+  }
+
+  onCancel(e) {
+    e.stopPropagation();
+    this.isReportSet = true;
   }
 }

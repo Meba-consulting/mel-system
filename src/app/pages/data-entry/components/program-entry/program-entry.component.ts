@@ -88,6 +88,8 @@ export class ProgramEntryComponent implements OnInit {
   countOfFieldsFilled: number = 0;
 
   elementValuesArray: any[] = [];
+  username: string;
+  category: string = 'all';
 
   constructor(
     private httpClient: NgxDhis2HttpClientService,
@@ -103,6 +105,7 @@ export class ProgramEntryComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.username = this.currentUser?.userCredentials?.username;
     if (this.program?.programType == 'WITH_REGISTRATION') {
       this.getTrackedEntityInstanceData({
         orgUnit: this.orgUnit?.id,
@@ -756,5 +759,13 @@ export class ProgramEntryComponent implements OnInit {
           );
         }
       });
+  }
+
+  changeListCategory(event, category) {
+    event.stopPropagation();
+    this.category = null;
+    setTimeout(() => {
+      this.category = category;
+    }, 400);
   }
 }

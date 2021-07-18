@@ -4,7 +4,9 @@ import { formatDateToYYMMDD } from 'src/app/pages/data-entry/helpers';
 export function getTrackedEntityInstanceReportTable(
   queryResponse,
   savedUserDataStore,
-  program?
+  program?,
+  category?,
+  currentUser?
 ) {
   let headers = [];
   let keyedAttributes = {};
@@ -46,18 +48,40 @@ export function getTrackedEntityInstanceReportTable(
   displayedColumns = [...displayedColumns, 'action'];
   headers = [...headers, { id: 'action' }];
 
-  const dataRows = _.map(queryResponse?.rows, (row) => {
-    let data = {};
-    _.map(headers, (header) => {
-      data[header?.id] =
-        header?.id != 'action'
-          ? formatData(row[header?.dataIndex], header?.id, keyedAttributes)
-          : { ...data, id: row[0] };
-    });
-    return data;
-  });
+  const createdByIndex = _.indexOf(displayedColumns, 'ek3AWEEIOBJ');
+
+  const dataRows =
+    _.map(queryResponse?.rows, (row) => {
+      let data = {};
+      if (
+        !category ||
+        category === 'all' ||
+        (category && category === row[createdByIndex])
+      ) {
+        _.map(headers, (header) => {
+          data[header?.id] =
+            header?.id != 'action'
+              ? formatData(row[header?.dataIndex], header?.id, keyedAttributes)
+              : { ...data, id: row[0] };
+        });
+        data['reportedByMe'] =
+          category === row[createdByIndex] ||
+          (currentUser &&
+            row[createdByIndex] === currentUser?.userCredentials?.username);
+        return data;
+      } else {
+        return null;
+      }
+    }).filter((formattedData) => formattedData) || [];
   return {
-    displayedColumns: displayedColumns,
+    displayedColumns: displayedColumns.filter(
+      (column) =>
+        column != 'ou' &&
+        column != 'instance' &&
+        column != 'te' &&
+        column != 'inactive' &&
+        column != 'lastupdated'
+    ),
     data: dataRows,
     headers: _.keyBy(headers, 'id'),
     columns: queryResponse?.headers,
@@ -70,7 +94,7 @@ function formatData(data, elementId, keyedAttributes) {
       keyedAttributes[elementId]?.valueType === 'DATE') ||
     elementId === 'created'
   ) {
-    return formatDateToYYMMDD(new Date(data));
+    return data.substring(0, 10);
   } else {
     return data;
   }

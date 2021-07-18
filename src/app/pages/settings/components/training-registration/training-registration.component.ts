@@ -269,7 +269,7 @@ export class TrainingRegistrationComponent implements OnInit {
       program.trackedEntityType?.trackedEntityTypeAttributes,
       (attribute) => {
         if (
-          attribute?.trackedEntityAttribute?.id !== 'C1i3bPWYBRG' ||
+          attribute?.trackedEntityAttribute?.id !== 'C1i3bPWYBRG' &&
           attribute?.trackedEntityAttribute?.id !== 'ek3AWEEIOBJ'
         ) {
           this.formData[attribute?.trackedEntityAttribute?.id] = {

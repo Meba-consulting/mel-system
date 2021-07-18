@@ -23,7 +23,6 @@ export class ProcessExcelUploadedFileService {
         };
       }
     );
-
     const keyValuePairedDataElements = keyBy(dataElements, 'name');
 
     //Fetch the name of First Sheet.

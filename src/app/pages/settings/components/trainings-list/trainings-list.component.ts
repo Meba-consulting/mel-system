@@ -22,8 +22,11 @@ export class TrainingsListComponent implements OnInit, OnChanges {
   @Input() ouId: string;
   @Input() orgUnit: any;
   @Output() edit = new EventEmitter<any>();
+  @Input() currentUser: any;
   queryResponseData$: Observable<any>;
   savedUserDataStore$: Observable<any>;
+  username: string;
+  category: string = 'all';
   constructor(private dataService: DataService, private dialog: MatDialog) {}
 
   ngOnInit(): void {
@@ -36,6 +39,7 @@ export class TrainingsListComponent implements OnInit, OnChanges {
       this.dataService.getSavedUserDataStoreProgramConfigurations(
         this.program?.id
       );
+    this.username = this.currentUser?.userCredentials?.username;
   }
 
   ngOnChanges() {
@@ -104,5 +108,13 @@ export class TrainingsListComponent implements OnInit, OnChanges {
             );
         }
       });
+  }
+
+  changeListCategory(event, category) {
+    event.stopPropagation();
+    this.category = null;
+    setTimeout(() => {
+      this.category = category;
+    }, 400);
   }
 }

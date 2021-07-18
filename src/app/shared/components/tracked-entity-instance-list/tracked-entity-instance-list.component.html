@@ -39,21 +39,29 @@
             <mat-icon>more_vert</mat-icon>
           </button>
           <mat-menu #menu="matMenu" class="menu-options">
-            <button (click)="onEdit($event, element)" mat-menu-item>
+            <button
+              *ngIf="element?.reportedByMe"
+              (click)="onEdit($event, element)"
+              mat-menu-item
+            >
               <mat-icon>edit</mat-icon>
               <span>Edit</span>
             </button>
 
             <button
               *ngFor="let stage of program?.programStages"
-              (click)="onEnterDataForStage($event, stage, element)"
+              (click)="onEnterDataForStage($event, stage, element, currentUser)"
               mat-menu-item
             >
               <mat-icon>visibility</mat-icon>
               <span>{{ stage?.name }}</span>
             </button>
 
-            <button (click)="onDelete($event, element)" mat-menu-item>
+            <button
+              *ngIf="element?.reportedByMe"
+              (click)="onDelete($event, element)"
+              mat-menu-item
+            >
               <mat-icon>delete</mat-icon>
               <span>Delete</span>
             </button>

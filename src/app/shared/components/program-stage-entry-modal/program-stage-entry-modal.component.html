@@ -53,6 +53,7 @@
                 [trackedEntityInstanceId]="currentTrackedEntityInstanceId"
                 [programStage]="programStage"
                 [orgUnit]="orgUnit"
+                [currentUser]="currentUser"
                 [programDataStoreConfigs]="params?.programDataStoreConfigs"
                 [showEdit]="true"
                 (edit)="onEdit($event)"
@@ -102,6 +103,7 @@
                   [programStateDataElements]="
                     programStage?.programStageDataElements
                   "
+                  [currentUser]="currentUser"
                   [programStageFormData]="programStageFormData"
                   [stage]="programStage"
                   [programDataStoreConfigs]="params?.programDataStoreConfigs"
@@ -131,6 +133,7 @@
   </div>
   <div class="footer-btns d-flex justify-content-end">
     <button
+      style="margin-right: 5px"
       class="mr-2 float-left"
       mat-stroked-button
       (click)="onClose($event)"

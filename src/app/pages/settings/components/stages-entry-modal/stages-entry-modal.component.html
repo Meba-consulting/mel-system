@@ -1,9 +1,10 @@
 <div
   class="stages-updates"
-  style="padding: 25px 20px 15px 20px"
+  style="padding: 25px 20px 2px 20px"
   *ngIf="{
     programDataStoreConfigs: programDataStoreConfigs$ | async,
-    queryResponseData: queryResponseData$ | async
+    queryResponseData: queryResponseData$ | async,
+    currentUser: currentUser$ | async
   } as params"
 >
   <mat-progress-bar
@@ -29,104 +30,19 @@
         *ngIf="count == selectedTab.value"
         style="max-height: 450px; overflow: auto"
       >
-        <!-- <mat-tab-group
-          [selectedIndex]="selectedTabForDataSection.value"
-          (selectedIndexChange)="selectedTabForDataSection.setValue($event)"
-        >
-          <mat-tab label="Entry" (click)="changeTabForData($event, 0)">
-            <div class="p-2" *ngIf="selectedTabForDataSection.value == 0">
-              <div class="success-save-message" *ngIf="savingMessage !== ''">
-                {{ savingMessage }}
-              </div>
-              <div *ngIf="showStageDataEntry">
-                <app-program-stage-data-entry
-                  [queryResponseData]="params?.queryResponseData"
-                  [programStateDataElements]="stage?.programStageDataElements"
-                  [programStageFormData]="programStageFormData"
-                  [stage]="stage"
-                  [programDataStoreConfigs]="params?.programDataStoreConfigs"
-                  (formValuesData)="
-                    onGetFormValuesData($event, stage?.programStageDataElements)
-                  "
-                  (isFormValid)="onGetFormValidity($event)"
-                  (editIsSet)="onSetEditEvent($event)"
-                ></app-program-stage-data-entry>
-                <button
-                  mat-stroked-button
-                  class="mr-2 float-left"
-                  (click)="onSaveData($event, stage, isEditSet)"
-                  [disabled]="!isFormValid"
-                >
-                  <mat-spinner
-                    *ngIf="savingProgramData"
-                    color="accent"
-                    [diameter]="20"
-                    style="display: inline-block !important; margin-right: 4px"
-                  >
-                  </mat-spinner>
-                  Save
-                </button>
-              </div>
-            </div>
-          </mat-tab>
-          <mat-tab label="Data" (click)="changeTabForData($event, 1)">
-            <div class="p-2" *ngIf="selectedTabForDataSection.value == 1">
-              <app-program-stage-data
-                [program]="program"
-                [trackedEntityInstanceId]="currentTrackedEntityInstanceId"
-                [programStage]="stage"
-                (edit)="onEditEvent($event)"
-                (delete)="onDeleteEvent($event)"
-              ></app-program-stage-data>
-            </div>
-          </mat-tab>
-        </mat-tab-group> -->
         <app-program-stage-entry-modal
           *ngIf="stage"
           [currentProgramStage]="stage"
           [currentProgram]="program"
           [trackedEntityInstanceId]="currentTrackedEntityInstanceId"
           [selectedOrgUnit]="orgUnit"
+          [currentUser]="currentUser"
         ></app-program-stage-entry-modal>
         <mat-progress-bar
           mode="indeterminate"
           *ngIf="!stage"
         ></mat-progress-bar>
       </div>
-      <!-- <div
-        class="p-2"
-        *ngIf="count == selectedTab.value && !stage?.repeatable"
-        style="height: 450px; overflow: auto; display: none"
-      >
-        <app-non-repeatable-stage
-          [trackedEntityInstanceId]="currentTrackedEntityInstanceId"
-          [program]="program"
-          [stage]="stage"
-          [programDataStoreConfigs]="params?.programDataStoreConfigs"
-        ></app-non-repeatable-stage>
-
-        <button
-          mat-stroked-button
-          class="mr-2 float-left"
-          (click)="onSaveData($event, stage, isEditSet)"
-          [disabled]="!isFormValid"
-        >
-          <mat-spinner
-            *ngIf="savingProgramData"
-            color="accent"
-            [diameter]="20"
-            style="display: inline-block !important; margin-right: 4px"
-          >
-          </mat-spinner>
-          Save
-        </button>
-      </div> -->
     </mat-tab>
   </mat-tab-group>
-
-  <!-- <div class="p-3" style="border-top: solid 1px #eee">
-    <button class="float-left" mat-stroked-button (click)="onClose($event)">
-      Close
-    </button>
-  </div> -->
 </div>

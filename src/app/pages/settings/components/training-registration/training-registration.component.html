@@ -85,6 +85,7 @@
               <app-trainings-list
                 [program]="program"
                 [ouId]="selectedRegisteringUnits[0].id"
+                [currentUser]="currentUser"
                 (edit)="onSetEdit($event, program)"
                 [orgUnit]="selectedRegisteringUnits[0]"
               ></app-trainings-list>
@@ -167,32 +168,6 @@
         </ng-template>
       </p-tabPanel>
     </p-tabView>
-
-    <!-- <mat-tab-group
-      [selectedIndex]="selectedTab.value"
-      (selectedIndexChange)="selectedTab.setValue($event)"
-      (selectedTabChange)="changeTab($event.index)"
-    >
-      <mat-tab
-        *ngFor="let program of trainingRegistrationPrograms; let count = index"
-        label="{{ program?.name }}"
-      >
-      </mat-tab>
-    </mat-tab-group> -->
-
-    <!-- <div class="forms">
-      <mat-form-field class="w-100" appearance="outline">
-        <mat-label>Select form</mat-label>
-        <mat-select required (selectionChange)="getForm($event.value)">
-          <mat-option
-            *ngFor="let option of trainingRegistrationPrograms"
-            [value]="option"
-          >
-            {{ option.name }}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
-    </div> -->
   </div>
   <div
     [ngClass]="{ 'col-md-3': !isReportSet, '': isReportSet }"

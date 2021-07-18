@@ -16,47 +16,48 @@ export class RenderProgramStageDataComponent implements OnInit {
   @Input() program: any;
   @Input() orgUnit: any;
   @Input() showEdit: boolean;
+  @Input() currentUser: any;
+  @Input() category: string;
   @Output() delete = new EventEmitter<any>();
   @Output() edit = new EventEmitter<any>();
   @Output() updated = new EventEmitter<boolean>();
   @Output() countOfEvents = new EventEmitter<number>();
   eventsData: any;
   formattedDataElements: any = [];
+  stageDataElements: any;
 
   constructor(private dialog: MatDialog) {}
 
   ngOnInit(): void {
-    const dataElements = _.keyBy(
-      _.map(
-        this.programStage?.programStageDataElements,
-        (programStageDataElement) => {
-          this.formattedDataElements = [
-            ...this.formattedDataElements,
-            {
-              id: programStageDataElement?.dataElement?.id,
-              dataElement: programStageDataElement?.dataElement?.id,
-              name: programStageDataElement?.dataElement?.name,
-              displayInReports: programStageDataElement?.displayInReports,
-              hasOptions: programStageDataElement?.dataElement?.optionSet
-                ? true
-                : false,
-              options: programStageDataElement?.dataElement?.optionSet
-                ? _.keyBy(
-                    programStageDataElement?.dataElement?.optionSet?.options,
-                    'id'
-                  )
-                : {},
-            },
-          ];
-          return {
+    this.stageDataElements = _.map(
+      this.programStage?.programStageDataElements,
+      (programStageDataElement) => {
+        this.formattedDataElements = [
+          ...this.formattedDataElements,
+          {
+            id: programStageDataElement?.dataElement?.id,
             dataElement: programStageDataElement?.dataElement?.id,
             name: programStageDataElement?.dataElement?.name,
             displayInReports: programStageDataElement?.displayInReports,
-          };
-        }
-      ),
-      'dataElement'
+            hasOptions: programStageDataElement?.dataElement?.optionSet
+              ? true
+              : false,
+            options: programStageDataElement?.dataElement?.optionSet
+              ? _.keyBy(
+                  programStageDataElement?.dataElement?.optionSet?.options,
+                  'id'
+                )
+              : {},
+          },
+        ];
+        return {
+          dataElement: programStageDataElement?.dataElement?.id,
+          name: programStageDataElement?.dataElement?.name,
+          displayInReports: programStageDataElement?.displayInReports,
+        };
+      }
     );
+    const dataElements = _.keyBy(this.stageDataElements, 'dataElement');
 
     this.formattedDataElements = _.filter(this.formattedDataElements, {
       displayInReports: true,
@@ -83,13 +84,11 @@ export class RenderProgramStageDataComponent implements OnInit {
     );
   }
 
-  onEdit(e, data) {
-    e.stopPropagation();
+  onEdit(data) {
     this.edit.emit(data?.event);
   }
 
-  onDelete(e, data) {
-    e.stopPropagation();
+  onDelete(data) {
     this.delete.emit(data?.event);
   }
 

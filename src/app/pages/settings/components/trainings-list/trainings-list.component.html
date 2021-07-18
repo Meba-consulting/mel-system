@@ -4,18 +4,43 @@
     savedUserDataStore: savedUserDataStore$ | async
   } as params"
 >
-  <app-tracked-entity-instance-list
-    *ngIf="params?.queryResponseData && params?.savedUserDataStore"
-    [queryResponse]="params?.queryResponseData"
-    [savedUserDataStore]="params?.savedUserDataStore"
-    [orgUnit]="orgUnit"
-    [program]="program"
-    (edit)="onSetEdit($event)"
-    (delete)="onSetDelete($event)"
-    (setColumnsToShow)="onOpenDialogForSettingClomnsData($event)"
-  ></app-tracked-entity-instance-list>
-  <mat-progress-bar
-    mode="indeterminate"
-    *ngIf="!params?.queryResponseData || !params?.savedUserDataStore"
-  ></mat-progress-bar>
+  <div class="w-100 d-flex justify-content-end" style="margin-top: 10px">
+    <mat-radio-group aria-label="Choose category">
+      <mat-radio-button
+        [checked]="category === 'all'"
+        (click)="changeListCategory($event, 'all')"
+        value="'all'"
+        >All</mat-radio-button
+      >
+      <mat-radio-button
+        [checked]="category === username"
+        style="margin-left: 16px"
+        (click)="changeListCategory($event, username)"
+        value="{{ username }}"
+        >Reported by me</mat-radio-button
+      >
+    </mat-radio-group>
+  </div>
+  <div class="w-100">
+    <app-tracked-entity-instance-list
+      *ngIf="
+        params?.queryResponseData && params?.savedUserDataStore && category
+      "
+      [queryResponse]="params?.queryResponseData"
+      [savedUserDataStore]="params?.savedUserDataStore"
+      [currentUser]="currentUser"
+      [category]="category"
+      [orgUnit]="orgUnit"
+      [program]="program"
+      (edit)="onSetEdit($event)"
+      (delete)="onSetDelete($event)"
+      (setColumnsToShow)="onOpenDialogForSettingClomnsData($event)"
+    ></app-tracked-entity-instance-list>
+    <mat-progress-bar
+      mode="indeterminate"
+      *ngIf="
+        !params?.queryResponseData || !params?.savedUserDataStore || !category
+      "
+    ></mat-progress-bar>
+  </div>
 </div>

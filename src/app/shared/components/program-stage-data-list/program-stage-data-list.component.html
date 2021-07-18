@@ -1,0 +1,95 @@
+<div>
+  <div class="d-flex justify-content-between">
+    <mat-form-field class="w-50">
+      <mat-label>Search</mat-label>
+      <mat-icon matPrefix>search</mat-icon
+      ><input matInput (keyup)="applyFilter($event)" placeholder="Ex. data" />
+    </mat-form-field>
+  </div>
+  <table
+    class="mat-elevation-z1"
+    mat-table
+    [dataSource]="dataSource"
+    style="min-width: 100%"
+  >
+    <ng-container
+      matColumnDef="{{ displayedColumn }}"
+      *ngFor="let displayedColumn of displayedColumns"
+    >
+      <th mat-header-cell *matHeaderCellDef>
+        {{
+          keyedDataElements[displayedColumn]
+            ? keyedDataElements[displayedColumn]?.name
+            : displayedColumn == 'position'
+            ? 'No.'
+            : displayedColumn == 'action'
+            ? ''
+            : displayedColumn == 'reportedBy'
+            ? 'Reported By'
+            : ''
+        }}
+      </th>
+      <td mat-cell style="cursor: pointer" *matCellDef="let element">
+        <ng-container *ngIf="displayedColumn != 'action'">
+          {{ element[displayedColumn] }}
+        </ng-container>
+        <ng-container *ngIf="displayedColumn === 'action'">
+          <button
+            mat-icon-button
+            [matMenuTriggerFor]="menu"
+            matTooltip="More actions"
+          >
+            <mat-icon>more_vert</mat-icon>
+          </button>
+          <mat-menu #menu="matMenu" class="menu-options">
+            <button
+              *ngIf="element['reportedByMe']"
+              (click)="onEdit($event, element['action'])"
+              mat-menu-item
+            >
+              <mat-icon>edit</mat-icon>
+              <span>Edit</span>
+            </button>
+
+            <!-- <button
+              *ngIf="
+                programDataStoreConfigs &&
+                programDataStoreConfigs['stagesToUpdateStatus'] &&
+                programDataStoreConfigs['stagesToUpdateStatus'][
+                  programStage?.id
+                ]
+              "
+              (click)="
+                onUpdateStatus(
+                  $event,
+                  row,
+                  programDataStoreConfigs['stagesToUpdateStatus']
+                )
+              "
+              mat-menu-item
+            >
+              <mat-icon>edit</mat-icon>
+              Update status
+            </button> -->
+            <button
+              *ngIf="element['reportedByMe']"
+              (click)="onDelete($event, element['action'])"
+              mat-menu-item
+            >
+              <mat-icon>delete</mat-icon>
+              <span>Delete</span>
+            </button>
+          </mat-menu>
+        </ng-container>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+  </table>
+
+  <mat-paginator
+    [pageSizeOptions]="[10, 15, 20, 25, 50, 100]"
+    showFirstLastButtons
+  ></mat-paginator>
+</div>

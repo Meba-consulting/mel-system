@@ -21,6 +21,8 @@ export class TrackedEntityInstanceListComponent implements OnInit {
   @Input() queryResponse: any[];
   displayedColumns: string[];
   @Input() orgUnit: any;
+  @Input() category: string;
+  @Input() currentUser: any;
   headers: any = {};
   @Input() savedUserDataStore: any;
   @Input() program: any;
@@ -34,11 +36,12 @@ export class TrackedEntityInstanceListComponent implements OnInit {
   constructor(private dialog: MatDialog) {}
 
   ngOnInit(): void {
-    // console.log('responnse', this.queryResponse);
     const formattedResponse = getTrackedEntityInstanceReportTable(
       this.queryResponse,
       this.savedUserDataStore,
-      this.program
+      this.program,
+      this.category,
+      this.currentUser
     );
 
     this.displayedColumns = formattedResponse?.displayedColumns;
@@ -72,18 +75,19 @@ export class TrackedEntityInstanceListComponent implements OnInit {
     });
   }
 
-  onEnterDataForStage(e, programStage, enrollmentData) {
+  onEnterDataForStage(e, programStage, enrollmentData, currentUser) {
     // e.stopPropagation();
     // console.log(enrollmentData);
     this.dialog.open(ProgramStageEntryModalComponent, {
       width: '50%',
-      height: '500px',
+      height: '550px',
       disableClose: false,
       data: {
         programStage: programStage,
         currentTrackedEntityInstanceId: enrollmentData?.action?.id,
         program: this.program,
         orgUnit: this.orgUnit,
+        currentUser,
       },
       panelClass: 'custom-dialog-container',
     });

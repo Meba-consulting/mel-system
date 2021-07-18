@@ -1,20 +1,41 @@
 <div *ngIf="{ response: response$ | async } as params">
-  <app-render-program-stage-data
-    *ngIf="params?.response"
-    [data]="params?.response"
-    [programStage]="programStage"
-    [programDataStoreConfigs]="programDataStoreConfigs"
-    [program]="program"
-    [orgUnit]="orgUnit"
-    [showEdit]="showEdit"
-    (edit)="onEdit($event)"
-    (delete)="onDelete($event)"
-    (updated)="onUpdateData($event)"
-    (countOfEvents)="getCountOfEvents($event)"
-  ></app-render-program-stage-data>
+  <div class="w-100 d-flex justify-content-end" style="margin-top: 10px">
+    <mat-radio-group aria-label="Choose category">
+      <mat-radio-button
+        [checked]="category === 'all'"
+        (click)="changeListCategory($event, 'all')"
+        value="'all'"
+        >All</mat-radio-button
+      >
+      <mat-radio-button
+        [checked]="category === username"
+        style="margin-left: 16px"
+        (click)="changeListCategory($event, username)"
+        value="{{ username }}"
+        >Reported by me</mat-radio-button
+      >
+    </mat-radio-group>
+  </div>
+  <div class="w-100">
+    <app-render-program-stage-data
+      *ngIf="params?.response && category"
+      [data]="params?.response"
+      [programStage]="programStage"
+      [programDataStoreConfigs]="programDataStoreConfigs"
+      [program]="program"
+      [orgUnit]="orgUnit"
+      [showEdit]="showEdit"
+      [category]="category"
+      [currentUser]="currentUser"
+      (edit)="onEdit($event)"
+      (delete)="onDelete($event)"
+      (updated)="onUpdateData($event)"
+      (countOfEvents)="getCountOfEvents($event)"
+    ></app-render-program-stage-data>
 
-  <mat-progress-bar
-    mode="indeterminate"
-    *ngIf="!params?.response"
-  ></mat-progress-bar>
+    <mat-progress-bar
+      mode="indeterminate"
+      *ngIf="!params?.response || !category"
+    ></mat-progress-bar>
+  </div>
 </div>

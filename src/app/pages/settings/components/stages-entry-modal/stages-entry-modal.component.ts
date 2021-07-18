@@ -11,6 +11,8 @@ import { DataService } from 'src/app/core/services/data.service';
 import { formatDateToYYMMDD } from 'src/app/pages/data-entry/helpers';
 import * as _ from 'lodash';
 import { ConfirmDeleteEventComponent } from '../confirm-delete-event/confirm-delete-event.component';
+import { Store } from '@ngrx/store';
+import { getCurrentUser, State } from 'src/app/store';
 
 @Component({
   selector: 'app-stages-entry-modal',
@@ -38,7 +40,9 @@ export class StagesEntryModalComponent implements OnInit {
   programDataStoreConfigs$: Observable<any>;
   isFormValid: string;
   deleting: boolean = false;
+  currentUser$: Observable<any>;
   constructor(
+    private store: Store<State>,
     private dialogRef: MatDialogRef<StagesEntryModalComponent>,
     private dialog: MatDialog,
     @Inject(MAT_DIALOG_DATA) data,
@@ -51,6 +55,7 @@ export class StagesEntryModalComponent implements OnInit {
     this.programDataStoreConfigs$ = this.httpClient.get(
       'dataStore/programs/' + this.program?.id
     );
+    this.currentUser$ = this.store.select(getCurrentUser);
   }
 
   ngOnInit(): void {

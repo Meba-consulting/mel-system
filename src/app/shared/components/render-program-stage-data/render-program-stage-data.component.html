@@ -1,5 +1,15 @@
-<div *ngIf="eventsData && eventsData?.length > 0">
-  <table class="table table-bordered">
+<div *ngIf="eventsData && eventsData?.length > 0 && stageDataElements">
+  <app-program-stage-data-list
+    [data]="eventsData"
+    [dataElements]="stageDataElements"
+    [currentUser]="currentUser"
+    [category]="category"
+    (edit)="onEdit($event)"
+    (delete)="onDelete($event)"
+    (updated)="onUpdateData($event)"
+    (countOfEvents)="getCountOfEvents($event)"
+  ></app-program-stage-data-list>
+  <!-- <table class="table table-bordered">
     <thead>
       <tr>
         <th>SN</th>
@@ -59,7 +69,7 @@
         </td>
       </tr>
     </tbody>
-  </table>
+  </table> -->
 </div>
 <div *ngIf="eventsData && eventsData?.length === 0" class="text-center p-3">
   <p>No data, use <b>Entry</b> to feed data</p>

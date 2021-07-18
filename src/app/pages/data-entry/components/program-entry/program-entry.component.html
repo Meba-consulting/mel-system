@@ -166,21 +166,43 @@
       "
       style="width: 100%; overflow: auto"
     >
-      <app-tracked-entity-instance-list
-        *ngIf="params?.queryResponseData && params?.savedUserDataStore"
-        [queryResponse]="params?.queryResponseData"
-        [savedUserDataStore]="params?.savedUserDataStore"
-        [program]="program"
-        [orgUnit]="orgUnit"
-        (edit)="onSetEdit($event)"
-        (delete)="onSetDelete($event)"
-        (setColumnsToShow)="onOpenDialogForSettingClomnsData($event)"
-      ></app-tracked-entity-instance-list>
+      <div class="w-100 d-flex justify-content-end" style="margin-top: 10px">
+        <mat-radio-group aria-label="Choose category">
+          <mat-radio-button
+            [checked]="category === 'all'"
+            (click)="changeListCategory($event, 'all')"
+            value="'all'"
+            >All</mat-radio-button
+          >
+          <mat-radio-button
+            [checked]="category === username"
+            style="margin-left: 16px"
+            (click)="changeListCategory($event, username)"
+            value="{{ username }}"
+            >Reported by me</mat-radio-button
+          >
+        </mat-radio-group>
+      </div>
+      <div class="w-100">
+        <app-tracked-entity-instance-list
+          *ngIf="
+            params?.queryResponseData && params?.savedUserDataStore && category
+          "
+          [queryResponse]="params?.queryResponseData"
+          [savedUserDataStore]="params?.savedUserDataStore"
+          [currentUser]="currentUser"
+          [program]="program"
+          [orgUnit]="orgUnit"
+          (edit)="onSetEdit($event)"
+          (delete)="onSetDelete($event)"
+          (setColumnsToShow)="onOpenDialogForSettingClomnsData($event)"
+        ></app-tracked-entity-instance-list>
 
-      <mat-progress-bar
-        mode="indeterminate"
-        *ngIf="!params?.queryResponseData"
-      ></mat-progress-bar>
+        <mat-progress-bar
+          mode="indeterminate"
+          *ngIf="!params?.queryResponseData"
+        ></mat-progress-bar>
+      </div>
     </div>
     <div
       *ngIf="

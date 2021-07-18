@@ -6,6 +6,7 @@ import { EventProgramEntryComponent } from './event-program-entry/event-program-
 import { EventProgramListComponent } from './event-program-list/event-program-list.component';
 import { ProgramSectionComponent } from './program-section/program-section.component';
 import { ProgramStageDataEntryComponent } from './program-stage-data-entry/program-stage-data-entry.component';
+import { ProgramStageDataListComponent } from './program-stage-data-list/program-stage-data-list.component';
 import { ProgramStageDataComponent } from './program-stage-data/program-stage-data.component';
 import { ProgramStageEntryModalComponent } from './program-stage-entry-modal/program-stage-entry-modal.component';
 import { RenderProgramStageDataComponent } from './render-program-stage-data/render-program-stage-data.component';
@@ -44,4 +45,5 @@ export const sharedComponents: any[] = [
   UpdateStatusModalComponent,
   SuccessErrorModalComponent,
   UploadExcelDataModalComponent,
+  ProgramStageDataListComponent,
 ];

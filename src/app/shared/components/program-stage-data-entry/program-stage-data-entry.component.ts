@@ -15,6 +15,7 @@ export class ProgramStageDataEntryComponent implements OnInit {
   @Input() queryResponseData: any;
   @Input() programDataStoreConfigs: any;
   @Input() stage: any;
+  @Input() currentUser: any;
   formFields: any[];
   currentFormData: any = {};
   @Output() formValuesData = new EventEmitter<any>();
@@ -48,9 +49,10 @@ export class ProgramStageDataEntryComponent implements OnInit {
         this.programDataStoreConfigs?.stagesConfigs[this.stage?.id]?.id
       ] = {
         id: this.programDataStoreConfigs?.stagesConfigs[this.stage?.id]?.id,
-        value: this.programDataStoreConfigs?.stagesConfigs[this.stage?.id][
-          this.programDataStoreConfigs?.stagesConfigs[this.stage?.id]?.id
-        ]?.defaultValue,
+        value:
+          this.programDataStoreConfigs?.stagesConfigs[this.stage?.id][
+            this.programDataStoreConfigs?.stagesConfigs[this.stage?.id]?.id
+          ]?.defaultValue,
       };
     }
 
