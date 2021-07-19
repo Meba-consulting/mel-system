@@ -37,7 +37,7 @@
               <ngx-dhis2-org-unit-filter
                 [maxHeight]="'320px'"
                 [selectedOrgUnitItems]="selectedRegisteringUnits"
-                [assignedOrgUnits]="program?.organisationUnits"
+                [assignedOrgUnits]="currentProgram?.organisationUnits"
                 [isDataEntry]="true"
                 [orgUnitFilterConfig]="orgUnitFilterConfig"
                 (orgUnitClose)="onFilterClose($event)"
@@ -172,7 +172,11 @@
                 ></app-tracked-entrity-entry-form>
               </div>
               <div class="btns d-flex justify-content-end">
-                <button mat-stroked-button (click)="onCancel($event)">
+                <button
+                  mat-stroked-button
+                  style="margin-right: 5px"
+                  (click)="onCancel($event)"
+                >
                   Cancel
                 </button>
                 <button

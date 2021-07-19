@@ -85,11 +85,11 @@ export class RenderProgramStageDataComponent implements OnInit {
   }
 
   onEdit(data) {
-    this.edit.emit(data?.event);
+    this.edit.emit(data);
   }
 
   onDelete(data) {
-    this.delete.emit(data?.event);
+    this.delete.emit(data);
   }
 
   onUpdateStatus(e, data, stagesToUpdateStatus) {
