@@ -38,7 +38,8 @@
                 <ngx-dhis2-org-unit-filter
                   [maxHeight]="'320px'"
                   [selectedOrgUnitItems]="selectedRegisteringUnits"
-                  [assignedOrgUnits]="program?.organisationUnits"
+                  [isDataEntry]="true"
+                  [assignedOrgUnits]="currentProgram?.organisationUnits"
                   [orgUnitFilterConfig]="orgUnitFilterConfig"
                   (orgUnitClose)="onFilterClose($event)"
                   (orgUnitUpdate)="onOuUpdate($event)"

@@ -133,13 +133,13 @@ export class TrainingRegistrationComponent implements OnInit {
     this.savingMessage = '';
     this.currentProgram = val;
     this.programId = val?.id;
+    this.isReportSet = true;
     if (this.ouId && this.programId) {
       const parameters = {
         orgUnit: this.ouId,
         program: this.programId,
       };
       this.paramersSet = true;
-      this.getTrackedEntityInstanceData(parameters);
     }
   }
 
