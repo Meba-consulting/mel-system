@@ -52,6 +52,7 @@ export class TrainingsListComponent implements OnInit, OnChanges {
       this.dataService.getSavedUserDataStoreProgramConfigurations(
         this.program?.id
       );
+    this.username = this.currentUser?.userCredentials?.username;
   }
 
   onSetDelete(e) {

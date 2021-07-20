@@ -10,7 +10,7 @@ export class SettingsService {
 
   getAttributes(): Observable<any> {
     return this.httpClient.get(
-      'attributes.json?fields=id,name,optionSet[id,name,options[id,name]],organisationUnitAttribute&paging=false'
+      'attributes.json?fields=id,name,optionSet[id,name,valueType,options[id,name,code]],organisationUnitAttribute&paging=false'
     );
   }
 

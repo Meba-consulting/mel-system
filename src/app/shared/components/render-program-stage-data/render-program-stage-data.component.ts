@@ -1,7 +1,10 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { Store } from '@ngrx/store';
 
 import * as _ from 'lodash';
+import { Observable } from 'rxjs';
+import { getCurrentUser, State } from 'src/app/store';
 import { UpdateStatusModalComponent } from '../update-status-modal/update-status-modal.component';
 
 @Component({
@@ -25,10 +28,12 @@ export class RenderProgramStageDataComponent implements OnInit {
   eventsData: any;
   formattedDataElements: any = [];
   stageDataElements: any;
+  currentUser$: Observable<any>;
 
-  constructor(private dialog: MatDialog) {}
+  constructor(private dialog: MatDialog, private store: Store<State>) {}
 
   ngOnInit(): void {
+    this.currentUser$ = this.store.select(getCurrentUser);
     this.stageDataElements = _.map(
       this.programStage?.programStageDataElements,
       (programStageDataElement) => {

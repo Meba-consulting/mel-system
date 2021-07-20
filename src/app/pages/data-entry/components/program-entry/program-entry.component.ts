@@ -423,7 +423,7 @@ export class ProgramEntryComponent implements OnInit {
         return {
           attribute: key,
           value: (_.filter(values[key]?.options, { key: values[key]?.value }) ||
-            [])[0]?.label,
+            [])[0]?.name,
         };
       } else {
         return {

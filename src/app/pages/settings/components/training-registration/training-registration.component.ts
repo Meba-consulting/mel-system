@@ -60,6 +60,7 @@ export class TrainingRegistrationComponent implements OnInit {
   currentTabValue = 0;
   programDataStoreConfigs$: Observable<any>;
   registeringUnitFilterIsSet: boolean = false;
+  systemIds$: Observable<any>;
   constructor(
     private dataService: DataService,
     private ouService: OuService,
@@ -69,12 +70,21 @@ export class TrainingRegistrationComponent implements OnInit {
   ngOnInit(): void {
     this.trainingRegistrationPrograms = filterTrainingPrograms(this.programs);
     this.currentProgram = this.trainingRegistrationPrograms[0];
-
-    this.currentTrackedEntityInstanceId = this.systemIds[0];
+    this.getSystemIds();
 
     this.programDataStoreConfigs$ = this.httpClient.get(
       'dataStore/programs/' + this.currentProgram?.id
     );
+  }
+
+  getSystemIds() {
+    this.systemIds$ = this.httpClient.get('system/id.json?limit=2');
+    this.systemIds$.subscribe((systemIdsResponse) => {
+      if (systemIdsResponse) {
+        this.systemIds = systemIdsResponse['codes'];
+        this.currentTrackedEntityInstanceId = this.systemIds[0];
+      }
+    });
   }
 
   onToggleReportAndTraining(e, type) {
@@ -82,6 +92,7 @@ export class TrainingRegistrationComponent implements OnInit {
     this.isReportSet = type === 'new' ? false : true;
     this.hasError = false;
     this.savingData = false;
+    this.getSystemIds();
     this.savedData = false;
     this.savingMessage = '';
     this.formData = {};
@@ -156,7 +167,7 @@ export class TrainingRegistrationComponent implements OnInit {
         return {
           attribute: key,
           value: (_.filter(values[key]?.options, { key: values[key]?.value }) ||
-            [])[0]?.label,
+            [])[0]?.name,
         };
       } else {
         return {
@@ -281,7 +292,7 @@ export class TrainingRegistrationComponent implements OnInit {
                     (option) => {
                       return {
                         id: option?.id,
-                        name: option?.name,
+                        name: option?.code,
                         label: option?.name,
                         key: option?.id,
                       };
@@ -304,5 +315,11 @@ export class TrainingRegistrationComponent implements OnInit {
     );
     this.isReportSet = false;
     this.editingData = true;
+  }
+
+  onCancel(e) {
+    e.stopPropagation();
+    this.isReportSet = true;
+    this.getSystemIds();
   }
 }

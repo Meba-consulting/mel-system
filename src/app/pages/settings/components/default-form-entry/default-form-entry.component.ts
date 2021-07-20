@@ -80,7 +80,7 @@ export class DefaultFormEntryComponent implements OnInit, OnChanges {
                   (option) => {
                     return {
                       id: option?.id,
-                      name: option?.name,
+                      name: option?.code,
                       label: option?.name,
                       key: option?.id,
                     };
@@ -147,7 +147,7 @@ export class DefaultFormEntryComponent implements OnInit, OnChanges {
                   (option) => {
                     return {
                       id: option?.id,
-                      name: option?.name,
+                      name: option?.code,
                       label: option?.name,
                       key: option?.id,
                     };

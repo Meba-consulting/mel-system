@@ -1,78 +1,32 @@
-<div *ngIf="eventsData && eventsData?.length > 0 && stageDataElements">
-  <app-program-stage-data-list
-    [data]="eventsData"
-    [dataElements]="stageDataElements"
-    [currentUser]="currentUser"
-    [category]="category"
-    (edit)="onEdit($event)"
-    (delete)="onDelete($event)"
-    (updated)="onUpdateData($event)"
-    (countOfEvents)="getCountOfEvents($event)"
-  ></app-program-stage-data-list>
-  <!-- <table class="table table-bordered">
-    <thead>
-      <tr>
-        <th>SN</th>
-        <th *ngFor="let header of formattedDataElements">
-          {{ header?.name }}
-        </th>
-        <th></th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let row of eventsData; let count = index">
-        <td>
-          {{ count + 1 }}
-        </td>
-        <td *ngFor="let dataElement of formattedDataElements">
-          {{ row[dataElement?.id]?.value }}
-        </td>
-        <td>
-          <button
-            mat-icon-button
-            [matMenuTriggerFor]="menu"
-            matTooltip="More actions"
-          >
-            <mat-icon>more_vert</mat-icon>
-          </button>
-          <mat-menu #menu="matMenu" class="menu-options">
-            <button (click)="onEdit($event, row)" mat-menu-item>
-              <mat-icon>edit</mat-icon>
-              <span>Edit</span>
-            </button>
+<div *ngIf="{ currentUser: currentUser$ | async } as params">
+  <div
+    *ngIf="
+      eventsData &&
+      eventsData?.length > 0 &&
+      stageDataElements &&
+      params?.currentUser
+    "
+  >
+    <app-program-stage-data-list
+      [data]="eventsData"
+      [dataElements]="stageDataElements"
+      [currentUser]="params?.currentUser"
+      [category]="category"
+      (edit)="onEdit($event)"
+      (delete)="onDelete($event)"
+      (updated)="onUpdateData($event)"
+      (countOfEvents)="getCountOfEvents($event)"
+    ></app-program-stage-data-list>
+  </div>
+  <div
+    *ngIf="eventsData && eventsData?.length === 0 && params?.currentUser"
+    class="text-center p-3"
+  >
+    <p>No data, use <b>Entry</b> to feed data</p>
+  </div>
 
-            <button
-              *ngIf="
-                programDataStoreConfigs &&
-                programDataStoreConfigs['stagesToUpdateStatus'] &&
-                programDataStoreConfigs['stagesToUpdateStatus'][
-                  programStage?.id
-                ]
-              "
-              (click)="
-                onUpdateStatus(
-                  $event,
-                  row,
-                  programDataStoreConfigs['stagesToUpdateStatus']
-                )
-              "
-              mat-menu-item
-            >
-              <mat-icon>edit</mat-icon>
-              Update status
-            </button>
-            <button (click)="onDelete($event, row)" mat-menu-item>
-              <mat-icon>delete</mat-icon>
-              <span>Delete</span>
-            </button>
-          </mat-menu>
-        </td>
-      </tr>
-    </tbody>
-  </table> -->
+  <mat-progress-bar
+    mode="indeterminate"
+    *ngIf="!eventsData || !params?.currentUser"
+  ></mat-progress-bar>
 </div>
-<div *ngIf="eventsData && eventsData?.length === 0" class="text-center p-3">
-  <p>No data, use <b>Entry</b> to feed data</p>
-</div>
-
-<mat-progress-bar mode="indeterminate" *ngIf="!eventsData"></mat-progress-bar>

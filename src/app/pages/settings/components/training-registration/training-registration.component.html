@@ -58,7 +58,7 @@
                 [ngClass]="{ 'mel-btn-primary': !isReportSet }"
                 (click)="onToggleReportAndTraining($event, 'new')"
               >
-                <span>New Training</span>
+                <span>New</span>
               </button>
 
               <button
@@ -140,9 +140,16 @@
                   (isFormValid)="onGetFormValidity($event)"
                 ></app-tracked-entrity-entry-form>
               </div>
-              <div class="btns">
+              <div class="btns d-flex justify-content-end">
                 <button
-                  class="mr-2 float-left"
+                  mat-stroked-button
+                  style="margin-right: 5px"
+                  (click)="onCancel($event)"
+                >
+                  Cancel
+                </button>
+                <button
+                  class="mr-2 mel-btn-primary"
                   mat-stroked-button
                   [disabled]="!isFormValid || savedData"
                   (click)="

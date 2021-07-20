@@ -51,7 +51,7 @@ export class TrackedEntrityEntryFormComponent implements OnInit, OnChanges {
                   }
                 ) || [])[0]?.trackedEntityAttribute?.optionSet?.options,
                 (option) => {
-                  if (option?.name === this.formData[key]?.value) {
+                  if (option?.id === this.formData[key]?.value) {
                     return option;
                   }
                 }
@@ -122,7 +122,7 @@ export class TrackedEntrityEntryFormComponent implements OnInit, OnChanges {
                     (option) => {
                       return {
                         id: option?.id,
-                        name: option?.name,
+                        name: option?.code,
                         label: option?.name,
                         key: option?.id,
                       };

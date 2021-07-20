@@ -74,7 +74,7 @@ export class FormEntryModalComponent implements OnInit {
               ? this.formData[key]?.value
               : (this.formData[key]?.options.filter(
                   (option) => option?.id === this.formData[key]?.value
-                ) || [])[0]?.name,
+                ) || [])[0]?.code,
         };
       }),
     };

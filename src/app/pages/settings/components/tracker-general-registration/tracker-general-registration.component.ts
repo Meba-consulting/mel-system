@@ -73,6 +73,7 @@ export class TrackerGeneralRegistrationComponent implements OnInit {
   reportingDate: Date;
 
   ouHasChanged: boolean = false;
+  systemIds$: Observable<any>;
 
   constructor(
     private dataService: DataService,
@@ -99,21 +100,24 @@ export class TrackerGeneralRegistrationComponent implements OnInit {
     this.programDataStoreConfigs$ = this.httpClient.get(
       'dataStore/programs/' + this.currentProgram?.id
     );
+    this.getSystemIds();
+  }
 
-    this.httpClient
-      .get('system/id.json?limit=2')
-      .subscribe((systemIdsResponse) => {
-        if (systemIdsResponse) {
-          this.systemIds = systemIdsResponse['codes'];
-          this.currentTrackedEntityInstanceId = this.systemIds[0];
-        }
-      });
+  getSystemIds() {
+    this.systemIds$ = this.httpClient.get('system/id.json?limit=2');
+    this.systemIds$.subscribe((systemIdsResponse) => {
+      if (systemIdsResponse) {
+        this.systemIds = systemIdsResponse['codes'];
+        this.currentTrackedEntityInstanceId = this.systemIds[0];
+      }
+    });
   }
 
   onToggleReport(e, type) {
     e.stopPropagation();
     this.reportingDate = null;
     this.isReportSet = type === 'new' ? false : true;
+    this.getSystemIds();
     this.hasError = false;
     this.savingData = false;
     this.savedData = false;
@@ -200,7 +204,7 @@ export class TrackerGeneralRegistrationComponent implements OnInit {
         return {
           attribute: key,
           value: (_.filter(values[key]?.options, { key: values[key]?.value }) ||
-            [])[0]?.label,
+            [])[0]?.name,
         };
       } else {
         return {
@@ -229,6 +233,7 @@ export class TrackerGeneralRegistrationComponent implements OnInit {
   }
 
   onGetFormValidity(validity) {
+    console.log('gsgsgs', validity);
     this.isFormValid = validity;
   }
 
@@ -339,14 +344,6 @@ export class TrackerGeneralRegistrationComponent implements OnInit {
       .afterClosed()
       .subscribe((status) => {
         currentTrackedEntityInstanceId = null;
-        this.httpClient
-          .get('system/id.json?limit=2')
-          .subscribe((systemIdsResponse) => {
-            if (systemIdsResponse) {
-              this.systemIds = systemIdsResponse['codes'];
-              this.currentTrackedEntityInstanceId = this.systemIds[0];
-            }
-          });
       });
   }
 
@@ -377,7 +374,7 @@ export class TrackerGeneralRegistrationComponent implements OnInit {
                     (option) => {
                       return {
                         id: option?.id,
-                        name: option?.name,
+                        name: option?.code,
                         label: option?.name,
                         key: option?.id,
                       };
@@ -405,5 +402,6 @@ export class TrackerGeneralRegistrationComponent implements OnInit {
   onCancel(e) {
     e.stopPropagation();
     this.isReportSet = true;
+    this.getSystemIds();
   }
 }
