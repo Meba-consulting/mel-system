@@ -26,8 +26,7 @@ export class HomeTabsComponent implements OnInit {
     );
   }
 
-  changeTab(e, val) {
-    e.stopPropagation();
+  changeTab(val) {
     this.currentTab = val;
     this.selectedTab.setValue(val);
   }

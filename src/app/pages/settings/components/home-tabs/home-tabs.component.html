@@ -1,10 +1,10 @@
 <div style="margin-top: -10px; margin-left: -15px; margin-right: -10px">
-  <p-tabView>
-    <p-tabPanel
-      [header]="tab.name"
-      *ngFor="let tab of tabs; let count = index"
-      [selected]="count == 0"
-    >
+  <mat-tab-group
+    (selectedTabChange)="changeTab(selectedTab.value)"
+    [selectedIndex]="selectedTab.value"
+    (selectedIndexChange)="selectedTab.setValue($event)"
+  >
+    <mat-tab *ngFor="let tab of tabs; let count = index" [label]="tab?.name">
       <div class="p-1" *ngIf="tab?.id == 'ExyDMkddChQ'">
         <app-create-organisation-unit
           [selectedGroup]="tab"
@@ -13,41 +13,27 @@
           [clubCategories]="selectedAttribute?.optionSet?.options"
         ></app-create-organisation-unit>
       </div>
-      <ng-template *ngIf="tab?.id == 'q4SAf8ix9ww'" pTemplate="content">
-        <div class="p-1">
-          <app-training-registration
-            [programs]="programs"
-            [currentUser]="currentUser"
-            [systemIds]="systemIds"
-          ></app-training-registration>
-        </div>
-      </ng-template>
 
-      <ng-template
+      <div class="p-1" *ngIf="tab?.id == 'q4SAf8ix9ww'">
+        <app-training-registration
+          [programs]="programs"
+          [currentUser]="currentUser"
+          [systemIds]="systemIds"
+        ></app-training-registration>
+      </div>
+
+      <div
+        class="p-1"
         *ngIf="tab?.id !== 'q4SAf8ix9ww' && tab?.id !== 'ExyDMkddChQ'"
-        pTemplate="content"
       >
-        <div class="p-1">
-          <app-tracker-general-registration
-            [programs]="programs"
-            [currentUser]="currentUser"
-            [systemIds]="systemIds"
-            [userGroups]="userGroups"
-            [selectedGroup]="tab"
-          ></app-tracker-general-registration>
-        </div>
-      </ng-template>
-    </p-tabPanel>
-  </p-tabView>
-  <!-- <mat-tab-group
-    [selectedIndex]="selectedTab.value"
-    (selectedIndexChange)="selectedTab.setValue($event)"
-  >
-    <mat-tab
-      label="{{ tab?.name }}"
-      (click)="changeTab(count)"
-      *ngFor="let tab of tabs; let count = index"
-    >
+        <app-tracker-general-registration
+          [programs]="programs"
+          [currentUser]="currentUser"
+          [systemIds]="systemIds"
+          [userGroups]="userGroups"
+          [selectedGroup]="tab"
+        ></app-tracker-general-registration>
+      </div>
     </mat-tab>
-  </mat-tab-group> -->
+  </mat-tab-group>
 </div>

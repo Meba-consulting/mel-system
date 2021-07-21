@@ -348,8 +348,10 @@ export class TrackerGeneralRegistrationComponent implements OnInit {
   }
 
   changeTab(index) {
+    this.selectedRegisteringUnits = null;
+    this.registeringUnitFilterIsSet = true;
+    this.selectedTab.setValue(index);
     this.currentProgram = this.trainingRegistrationPrograms[index];
-
     this.programDataStoreConfigs$ = this.httpClient.get(
       'dataStore/programs/' + this.currentProgram?.id
     );
