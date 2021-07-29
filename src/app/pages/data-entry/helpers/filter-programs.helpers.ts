@@ -28,28 +28,33 @@ export function filterProgramsForDataTable(programs, department) {
   });
 }
 
-export function formatProgramsForDataEntry(programs) {
-  return _.map(
-    _.filter(programs, (program) => {
-      if (
-        (_.filter(program?.userGroupAccesses, { id: 'R0Jl6z5svOO' }) || [])
-          ?.length > 0
-      ) {
-        return program;
+export function formatProgramsForDataEntry(programs, dataSets?) {
+  console.log('dataSets', dataSets);
+  console.log('programs', programs);
+  return [
+    ..._.map(
+      _.filter(programs, (program) => {
+        if (
+          (_.filter(program?.userGroupAccesses, { id: 'R0Jl6z5svOO' }) || [])
+            ?.length > 0
+        ) {
+          return program;
+        }
+      }),
+      (filteredProgram) => {
+        return {
+          ...filteredProgram,
+          stagesEntryOnly:
+            (
+              _.filter(filteredProgram?.userGroupAccesses, {
+                id: 'zPJVf1XCu75',
+              }) || []
+            )?.length > 0
+              ? true
+              : false,
+        };
       }
-    }),
-    (filteredProgram) => {
-      return {
-        ...filteredProgram,
-        stagesEntryOnly:
-          (
-            _.filter(filteredProgram?.userGroupAccesses, {
-              id: 'zPJVf1XCu75',
-            }) || []
-          )?.length > 0
-            ? true
-            : false,
-      };
-    }
-  );
+    ),
+    ...dataSets,
+  ];
 }

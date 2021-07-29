@@ -57,11 +57,7 @@
               <span>{{ stage?.name }}</span>
             </button>
 
-            <button
-              *ngIf="element?.reportedByMe"
-              (click)="onDelete($event, element)"
-              mat-menu-item
-            >
+            <button (click)="onDelete($event, element)" mat-menu-item>
               <mat-icon>delete</mat-icon>
               <span>Delete</span>
             </button>

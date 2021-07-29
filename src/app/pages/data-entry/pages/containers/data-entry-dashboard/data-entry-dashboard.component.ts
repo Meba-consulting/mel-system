@@ -18,6 +18,7 @@ export class DataEntryDashboardComponent implements OnInit {
   @Input() currentUser: any;
   @Input() programs: any[];
   @Input() userGroups: any[];
+  @Input() dataSets: any[];
   formattedPrograms: any = [];
   departments: Array<any>;
   currentDepartment: any;
@@ -63,7 +64,10 @@ export class DataEntryDashboardComponent implements OnInit {
 
     this.systemIds$ = this.httpClient.get('system/id.json?limit=2');
 
-    this.formattedPrograms = formatProgramsForDataEntry(this.programs);
+    this.formattedPrograms = formatProgramsForDataEntry(
+      this.programs,
+      this.dataSets
+    );
     // console.log('this', this.formattedPrograms);
     this.currentProgram = this.programs[0];
     this.programDataStoreConfigs$ = this.httpClient.get(
@@ -99,6 +103,7 @@ export class DataEntryDashboardComponent implements OnInit {
     this.paramersSet = false;
     setTimeout(() => {
       this.currentProgram = val;
+      console.log('dsfjsd', this.currentProgram);
       this.programDataStoreConfigs$ = this.httpClient.get(
         'dataStore/programs/' + this.currentProgram?.id
       );

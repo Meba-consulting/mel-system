@@ -7,6 +7,7 @@ import { Observable } from 'rxjs';
 import { FormControl } from '@angular/forms';
 import { OuService } from 'src/app/core/services/ou.service';
 import { NgxDhis2HttpClientService } from '@iapps/ngx-dhis2-http-client';
+import { formatDateToYYMMDD } from 'src/app/pages/data-entry/helpers';
 
 @Component({
   selector: 'app-training-registration',
@@ -160,6 +161,7 @@ export class TrainingRegistrationComponent implements OnInit {
   }
 
   onGetDataValues(values, currentUser) {
+    console.log('values', values);
     this.savedData = false;
     this.savingData = false;
     this.attributeValues = _.map(Object.keys(values), (key) => {
@@ -172,10 +174,17 @@ export class TrainingRegistrationComponent implements OnInit {
       } else {
         return {
           attribute: key,
-          value: values[key]?.value,
+          value:
+            typeof values[key]?.value.getMonth === 'function'
+              ? formatDateToYYMMDD(values[key]?.value)
+              : values[key]?.value
+              ? values[key]?.value
+              : null,
         };
       }
     });
+
+    console.log('attributeValues', this.attributeValues);
 
     this.attributeValues = this.selectedOu?.id
       ? [

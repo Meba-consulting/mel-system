@@ -1,4 +1,4 @@
-<div>
+<div *ngIf="{ dataSets: dataSets$ | async } as params">
   <div class="row">
     <div class="col-12 h5 mat-elevation-z1 p-3" style="margin: 0">
       Data entry
@@ -9,19 +9,24 @@
         (currentUser$ | async) &&
         (programs$ | async) &&
         (programs$ | async)?.length > 0 &&
-        (userGroups$ | async)
+        (userGroups$ | async) &&
+        params?.dataSets
       "
     >
       <app-data-entry-dashboard
         [currentUser]="currentUser$ | async"
         [programs]="programs$ | async"
         [userGroups]="userGroups$ | async"
+        [dataSets]="params?.dataSets"
       ></app-data-entry-dashboard>
     </div>
   </div>
   <mat-progress-bar
     *ngIf="
-      !(currentUser$ | async) || !(programs$ | async) || !(userGroups$ | async)
+      !(currentUser$ | async) ||
+      !(programs$ | async) ||
+      !(userGroups$ | async) ||
+      !params?.dataSets
     "
     mode="indeterminate"
   ></mat-progress-bar>

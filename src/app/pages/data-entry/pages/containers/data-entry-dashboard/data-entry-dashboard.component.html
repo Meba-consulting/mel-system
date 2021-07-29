@@ -73,7 +73,14 @@
         (orgUnitUpdate)="onFilterUpdate($event)"
       ></ngx-dhis2-org-unit-filter>
     </div> -->
-    <div *ngIf="paramersSet && currentProgram && params?.systemIds">
+    <div
+      *ngIf="
+        paramersSet &&
+        currentProgram &&
+        !currentProgram?.formType &&
+        params?.systemIds
+      "
+    >
       <app-program-entry
         [systemIds]="params?.systemIds['codes']"
         [program]="currentProgram"
@@ -82,6 +89,17 @@
         [configs]="params?.programDataStoreConfigs"
         [stagesEntryOnly]="currentProgram?.stagesEntryOnly"
       ></app-program-entry>
+    </div>
+
+    <div
+      *ngIf="
+        paramersSet &&
+        currentProgram &&
+        currentProgram?.formType &&
+        params?.systemIds
+      "
+    >
+      <p>FOr Datasets</p>
     </div>
   </div>
   <div class="col-md-3">
