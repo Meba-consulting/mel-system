@@ -36,11 +36,31 @@ export class HomeComponent implements OnInit {
     this.store.dispatch(loadDataEntryFlow());
     this.dataSets$ = this.httpClient
       .get(
-        'dataSets.json?paging=false&fields=id,name,code,formType,organisationUnits,dataEntryForm[id,name,*],userGroupAccesses[id,name]'
+        'dataSets.json?paging=false&fields=id,name,code,indicators[id,name,numerator,numeratorDescription,denominator,denominatorDescription,indicatorType[id,name,factor]],dataSetElements[dataElement[id,name,dataType,code,categoryCombo[id,name]]],formType,organisationUnits,dataEntryForm[id,name,*],userGroupAccesses[id,name]'
       )
       .pipe(
         map((response) => {
-          return response?.dataSets;
+          return response?.dataSets.map((dataSet) => {
+            const indicators = dataSet?.indicators.map((indicator) => {
+              return {
+                ...indicator,
+                id: 'indicator' + indicator?.id,
+                left: indicator?.numerator,
+                right: indicator?.denominator,
+                expression:
+                  '(' +
+                  indicator?.numerator +
+                  ')/(' +
+                  indicator?.denominator +
+                  ')',
+              };
+            });
+            return {
+              ...dataSet,
+              indicators,
+              keyedIndicators: _.keyBy(indicators, 'id'),
+            };
+          });
         })
       );
   }

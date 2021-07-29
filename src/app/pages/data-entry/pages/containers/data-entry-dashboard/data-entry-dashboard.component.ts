@@ -50,6 +50,7 @@ export class DataEntryDashboardComponent implements OnInit {
   queryResponseData$: Observable<any>;
   programDataStoreConfigs$: Observable<any>;
   systemIds$: Observable<any>;
+  showAggregateDataSection: boolean = false;
   constructor(
     private store: Store<State>,
     private dataService: DataService,
@@ -137,5 +138,13 @@ export class DataEntryDashboardComponent implements OnInit {
 
   toggleSubItems() {
     this.showSubMenu = !this.showSubMenu;
+  }
+
+  onChangeAggregatePeriod(period) {
+    console.log('period', period);
+    this.showAggregateDataSection = false;
+    setTimeout(() => {
+      this.showAggregateDataSection = true;
+    }, 200);
   }
 }

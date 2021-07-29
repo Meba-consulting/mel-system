@@ -1,0 +1,15 @@
+<div>
+  <ngx-dhis2-custom-forms-entry
+    [htmlCustomForm]="dataSet?.dataEntryForm['htmlCode']"
+    [dataElements]="[]"
+    [indicators]="dataSet?.keyedIndicators"
+    [lastEvent]="null"
+    [elementsToDisable]="[]"
+    [formType]="'aggregate'"
+    [formId]="dataSet?.dataEntryForm?.id"
+    [elementsDataValues]="customFormDataValues"
+    (onCustomFormInputChange)="detailsOfTheChangedValue($event)"
+    [statusUpdateOnDomElement]="statusArr"
+  >
+  </ngx-dhis2-custom-forms-entry>
+</div>

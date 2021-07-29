@@ -18,18 +18,21 @@ function evaluteDataElementsValues(lastEvent, reference, dataValues) {
   // get last event datavalue matching the keys
 
   Object.keys(reference).forEach((key) => {
-    const lastEventDataValuesMatched =
-      lastEvent.dataValues.filter(
-        (dataValue) => dataValue?.dataElement === key
-      ) || [];
+    const lastEventDataValuesMatched = lastEvent
+      ? lastEvent?.dataValues.filter(
+          (dataValue) => dataValue?.dataElement === key
+        ) || []
+      : [];
     if (lastEventDataValuesMatched && lastEventDataValuesMatched.length > 0) {
       // console.log('last event', lastEvent);
       // console.log('lastEventDataValuesMatched', lastEventDataValuesMatched);
       // console.log('dataValues', dataValues);
       let elementValues = {};
-      _.each(lastEvent.dataValues, (dataValue) => {
-        elementValues[dataValue.dataElement] = dataValue.value;
-      });
+      if (lastEvent && lastEvent?.dataValues) {
+        _.each(lastEvent.dataValues, (dataValue) => {
+          elementValues[dataValue.dataElement] = dataValue.value;
+        });
+      }
       const value = evaluateIndicatorExpression(
         reference[key],
         elementValues,
@@ -504,7 +507,6 @@ export function onDataValueChange(
     Object.keys(indicators).length > 0
   ) {
     const formIndicators = document.querySelectorAll("input[name='indicator']");
-
     if (formIndicators) {
       formIndicators.forEach((indicator) => {
         const formulaPattern = /#\{.+?\}/g;
@@ -518,7 +520,11 @@ export function onDataValueChange(
                 '-val' +
                 "']"
             );
-            valuesObject[elem.split('.')[1].replace('}', '')] =
+            const valueKey =
+              entryFormType && entryFormType === 'aggregate'
+                ? elem.replace('}', '').replace('#{', '')
+                : elem.split('.')[1].replace('}', '');
+            valuesObject[valueKey] =
               inputValueElement && inputValueElement.value
                 ? inputValueElement.value
                 : 0;
@@ -526,8 +532,12 @@ export function onDataValueChange(
         const indValue = evaluateIndicatorExpression(
           {
             expression: indicators[indicator.id].expression,
+            left: indicators[indicator.id]?.left,
+            right: indicators[indicator.id]?.right,
           },
-          valuesObject
+          valuesObject,
+          valuesObject,
+          entryFormType
         );
         const inputElement: any = document.querySelector(
           "input[id='" + indicator.id + "']"
@@ -545,10 +555,10 @@ export function onDataValueChange(
 function evaluateIndicatorExpression(
   indDefn,
   elementValuesLastEvent,
-  currentElementValues?
+  currentElementValues?,
+  entryFormType?
 ) {
-  // console.log(elementValuesLastEvent);
-  // console.log(currentElementValues);
+  const mergedValues = { ...elementValuesLastEvent, ...currentElementValues };
   const indExpression = indDefn.expression;
   let evaluatedValue = 0;
   const formulaPattern = /#\{.+?\}/g;
@@ -557,11 +567,12 @@ function evaluateIndicatorExpression(
     const matcher = expression.match(formulaPattern);
     if (matcher) {
       matcher.map(function (match) {
-        let operand = match.replace(/[#\{\}]/g, '').split('.')[1];
+        let operand =
+          !entryFormType || (entryFormType && entryFormType != 'aggregate')
+            ? match.replace(/[#\{\}]/g, '').split('.')[1]
+            : match.replace(/[#\{\}]/g, '');
         let value =
-          elementValuesLastEvent && elementValuesLastEvent[operand]
-            ? elementValuesLastEvent[operand]
-            : 0;
+          mergedValues && mergedValues[operand] ? mergedValues[operand] : 0;
         expression = expression.replace(match, value);
       });
     }
@@ -571,33 +582,35 @@ function evaluateIndicatorExpression(
       }
     } catch (e) {}
   } else {
-    let leftExpression = indDefn.expression.left;
-    let rightExpression = indDefn.expression.right;
+    let leftExpression = indDefn.left;
+    let rightExpression = indDefn.right;
 
     const matcherLeft = leftExpression.match(formulaPattern);
     const matcherRight = rightExpression.match(formulaPattern);
-
     if (matcherLeft) {
       matcherLeft.map(function (match) {
-        let operand = match.replace(/[#\{\}]/g, '').split('.')[1];
+        let operand =
+          !entryFormType || (entryFormType && entryFormType != 'aggregate')
+            ? match.replace(/[#\{\}]/g, '').split('.')[1]
+            : match.replace(/[#\{\}]/g, '');
         let value =
-          currentElementValues && currentElementValues[operand]
-            ? currentElementValues[operand]
-            : 0;
+          mergedValues && mergedValues[operand] ? mergedValues[operand] : 0;
         leftExpression = leftExpression.replace(match, value);
       });
     }
 
     if (matcherRight) {
       matcherRight.map(function (match) {
-        let operand = match.replace(/[#\{\}]/g, '').split('.')[1];
+        let operand =
+          !entryFormType || (entryFormType && entryFormType != 'aggregate')
+            ? match.replace(/[#\{\}]/g, '').split('.')[1]
+            : match.replace(/[#\{\}]/g, '');
         let value =
-          elementValuesLastEvent && elementValuesLastEvent[operand]
-            ? elementValuesLastEvent[operand]
-            : 0;
+          mergedValues && mergedValues[operand] ? mergedValues[operand] : 0;
         rightExpression = rightExpression.replace(match, value);
       });
     }
+
     let leftEvaluatedValue = 0;
     let rightEvaluatedValue = 0;
     try {
@@ -607,7 +620,7 @@ function evaluateIndicatorExpression(
       }
     } catch (e) {}
 
-    evaluatedValue = leftEvaluatedValue - rightEvaluatedValue;
+    evaluatedValue = leftEvaluatedValue / rightEvaluatedValue;
   }
   return evaluatedValue.toFixed(0);
 }

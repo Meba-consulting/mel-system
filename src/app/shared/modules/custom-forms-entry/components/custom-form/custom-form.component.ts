@@ -6,7 +6,7 @@ import {
   OnChanges,
   SimpleChanges,
   Output,
-  EventEmitter
+  EventEmitter,
 } from '@angular/core';
 import * as _ from 'lodash';
 import { SafeHtml, DomSanitizer } from '@angular/platform-browser';
@@ -14,13 +14,13 @@ import {
   onFormReady,
   onDataValueChange,
   updateFormFieldColor,
-  setDataValues
+  setDataValues,
 } from '../../helpers/custom-form.helpers';
 
 @Component({
   selector: 'ngx-custom-form',
   templateUrl: './custom-form.component.html',
-  styleUrls: ['./custom-form.component.scss']
+  styleUrls: ['./custom-form.component.scss'],
 })
 export class CustomFormComponent implements OnInit, AfterViewInit, OnChanges {
   @Input() customFormDesign: any;
@@ -43,7 +43,7 @@ export class CustomFormComponent implements OnInit, AfterViewInit, OnChanges {
       WAIT: '#fffe8c',
       ERROR: '#ff8a8a',
       ACTIVE: '#488aff',
-      NORMAL: '#ccc'
+      NORMAL: '#ccc',
     };
     document.body.addEventListener(
       'dataValueUpdate',
@@ -77,7 +77,7 @@ export class CustomFormComponent implements OnInit, AfterViewInit, OnChanges {
       this.statusUpdateOnDomElement &&
       this.statusUpdateOnDomElement.id != ''
     ) {
-      _.each(this.statusUpdateOnDomElement, element => {
+      _.each(this.statusUpdateOnDomElement, (element) => {
         updateFormFieldColor(
           element.domElementId,
           this.entryFormStatusColors[element.colorKey]
@@ -98,6 +98,7 @@ export class CustomFormComponent implements OnInit, AfterViewInit, OnChanges {
 
   setScriptsOnHtmlContent(scripts) {
     const dataValues = this.elementsDataValues;
+    console.log('data values ##########', dataValues);
     onFormReady(
       this.dataElements,
       this.formType,
@@ -106,7 +107,7 @@ export class CustomFormComponent implements OnInit, AfterViewInit, OnChanges {
       this.indicators,
       this.lastEvent,
       this.elementsToDisable,
-      function(
+      function (
         entryFormType,
         entryFormStatusColors,
         dataElementObjects,
@@ -118,7 +119,7 @@ export class CustomFormComponent implements OnInit, AfterViewInit, OnChanges {
         // Listen for change event
         document.addEventListener(
           'change',
-          function(event: any) {
+          function (event: any) {
             // If the clicked element doesn't have the right selector, bail
             if (
               event.target.matches(
@@ -163,7 +164,7 @@ export class CustomFormComponent implements OnInit, AfterViewInit, OnChanges {
         ? matchedScriptArray[0]
             .replace(/(<([^>]+)>)/gi, ':separator:')
             .split(':separator:')
-            .filter(content => content.length > 0)
+            .filter((content) => content.length > 0)
         : [];
 
     return _.filter(scripts, (scriptContent: string) => scriptContent !== '');

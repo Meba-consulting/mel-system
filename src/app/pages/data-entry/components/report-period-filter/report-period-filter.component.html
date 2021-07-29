@@ -1,0 +1,41 @@
+<!-- <p>report-period-filter works!</p>
+{{ periodObject | json }} -->
+
+<div class="row">
+  <div
+    class="col-md-12"
+    *ngIf="
+      reportConfigs?.reportingFrequency &&
+      reportConfigs?.reportingFrequency != 'Daily' &&
+      reportConfigs?.reportingFrequency !== 'Range'
+    "
+  >
+    <button
+      class="mr-2 filter-btns"
+      mat-stroked-button
+      (click)="onSetYear($event, 'prev')"
+    >
+      Prev
+    </button>
+    <mat-form-field>
+      <mat-label>Periods</mat-label>
+      <mat-select
+        [(value)]="periodObject"
+        (selectionChange)="onGetPeriod($event.value)"
+      >
+        <mat-option>None</mat-option>
+        <mat-option *ngFor="let period of formattedPeriods" [value]="period">{{
+          period?.name
+        }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <button
+      [disabled]="currentYear == selectedYear"
+      class="mr-2 filter-btns"
+      mat-stroked-button
+      (click)="onSetYear($event, 'next')"
+    >
+      Next
+    </button>
+  </div>
+</div>
