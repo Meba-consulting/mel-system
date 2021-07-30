@@ -1,7 +1,7 @@
 <div>
   <ngx-dhis2-custom-forms-entry
     [htmlCustomForm]="dataSet?.dataEntryForm['htmlCode']"
-    [dataElements]="[]"
+    [dataElements]="dataSet?.dataElements"
     [indicators]="dataSet?.keyedIndicators"
     [lastEvent]="null"
     [elementsToDisable]="[]"

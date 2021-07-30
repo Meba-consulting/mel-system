@@ -107,15 +107,66 @@
               (selectedPeriod)="onChangeAggregatePeriod($event)"
             ></app-report-period-filter>
           </div>
-          <div class="w-50">
+          <!-- <div class="w-50">
             <button mat-stroked-button class="float-right">Upload</button>
-          </div>
+          </div> -->
         </div>
-        <app-aggegate-data-entry-home
-          *ngIf="showAggregateDataSection"
-          [currentUser]="currentUser"
-          [dataSet]="currentProgram"
-        ></app-aggegate-data-entry-home>
+        <div
+          class="w-100"
+          *ngIf="{
+            aggregateDataReponse: aggregateDataReponse$ | async,
+            saveAggregateDataResponse: saveAggregateDataResponse$ | async
+          } as params"
+        >
+          <app-aggegate-data-entry-home
+            *ngIf="showAggregateDataSection && params?.aggregateDataReponse"
+            [currentUser]="currentUser"
+            [period]="selectedAggregatePeriod"
+            [dataSet]="currentProgram"
+            [data]="params?.aggregateDataReponse"
+            (enteredDataValues)="
+              onDataValueEntry($event, selectedAggregatePeriod, selectedOu)
+            "
+          ></app-aggegate-data-entry-home>
+          <mat-progress-bar
+            *ngIf="!params?.aggregateDataReponse || !showAggregateDataSection"
+            mode="indeterminate"
+          ></mat-progress-bar>
+        </div>
+        <div
+          class="w-100 text-center text-success"
+          *ngIf="
+            params?.saveAggregateDataResponse &&
+            saveAggregateDataResponse?.status === 'OK'
+          "
+        >
+          Successful send data
+        </div>
+        <div
+          class="w-100 text-center text-danger"
+          *ngIf="
+            params?.saveAggregateDataResponse &&
+            saveAggregateDataResponse?.status !== 'OK'
+          "
+        >
+          Failed: {{ params?.saveAggregateDataResponse?.message }}
+        </div>
+        <div class="d-flex justify-content-end">
+          <button
+            class="mel-btn-primary"
+            mat-stroked-button
+            (click)="saveAggregateData($event, aggregateDataObject)"
+          >
+            <mat-spinner
+              *ngIf="saving"
+              color="accent"
+              [diameter]="20"
+              style="display: inline-block !important; margin-right: 4px"
+            >
+            </mat-spinner>
+            Save
+          </button>
+        </div>
       </div>
     </div>
   </div>

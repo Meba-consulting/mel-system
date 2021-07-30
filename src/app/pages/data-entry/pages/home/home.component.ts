@@ -36,7 +36,7 @@ export class HomeComponent implements OnInit {
     this.store.dispatch(loadDataEntryFlow());
     this.dataSets$ = this.httpClient
       .get(
-        'dataSets.json?paging=false&fields=id,name,code,indicators[id,name,numerator,numeratorDescription,denominator,denominatorDescription,indicatorType[id,name,factor]],dataSetElements[dataElement[id,name,dataType,code,categoryCombo[id,name]]],formType,organisationUnits,dataEntryForm[id,name,*],userGroupAccesses[id,name]'
+        'dataSets.json?paging=false&fields=id,name,code,indicators[id,name,numerator,numeratorDescription,denominator,denominatorDescription,indicatorType[id,name,factor]],dataSetElements[dataElement[id,name,valueType,code,categoryCombo[id,name]]],formType,organisationUnits,dataEntryForm[id,name,*],userGroupAccesses[id,name]'
       )
       .pipe(
         map((response) => {
@@ -59,6 +59,11 @@ export class HomeComponent implements OnInit {
               ...dataSet,
               indicators,
               keyedIndicators: _.keyBy(indicators, 'id'),
+              dataElements: dataSet?.dataSetElements.map((dataSetElement) => {
+                return {
+                  ...dataSetElement?.dataElement,
+                };
+              }),
             };
           });
         })

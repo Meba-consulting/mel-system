@@ -1,9 +1,11 @@
 import { Injectable } from '@angular/core';
 import { NgxDhis2HttpClientService } from '@iapps/ngx-dhis2-http-client';
 import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
+import { keyBy } from 'lodash';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class DataEntryService {
   getProgramMetadata(id): Observable<any> {
@@ -117,6 +119,46 @@ export class DataEntryService {
 
   deleteEvent(id): Observable<any> {
     return this.httpClient.delete('events/' + id);
+  }
+
+  saveAggregateData(data): Observable<any> {
+    return this.httpClient.post(
+      'dataValueSets?importStrategy=CREATE_AND_UPDATE&async=true',
+      data
+    );
+  }
+
+  getDataSetValues(dataSet, periodId, ouId): Observable<any> {
+    return this.httpClient
+      .get(
+        `dataValueSets.json?dataSet=${dataSet}&period=${periodId}&orgUnit=${ouId}`
+      )
+      .pipe(
+        map((response) => {
+          return {
+            ...response,
+            keyedDataValues: response?.dataValues
+              ? keyBy(
+                  response?.dataValues.map((dataValue) => {
+                    return {
+                      ...dataValue,
+                      id:
+                        dataValue?.dataElement +
+                        '-' +
+                        dataValue?.categoryOptionCombo,
+                      domElementId:
+                        dataValue?.dataElement +
+                        '-' +
+                        dataValue?.categoryOptionCombo +
+                        '-val',
+                    };
+                  }),
+                  'id'
+                )
+              : {},
+          };
+        })
+      );
   }
 
   constructor(private httpClient: NgxDhis2HttpClientService) {}

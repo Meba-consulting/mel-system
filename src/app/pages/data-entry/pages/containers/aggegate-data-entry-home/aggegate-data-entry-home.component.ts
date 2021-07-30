@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 
 @Component({
   selector: 'app-aggegate-data-entry-home',
@@ -8,6 +8,9 @@ import { Component, Input, OnInit } from '@angular/core';
 export class AggegateDataEntryHomeComponent implements OnInit {
   @Input() dataSet: any;
   @Input() currentUser: any;
+  @Input() period: any;
+  @Input() data: any;
+  @Output() enteredDataValues = new EventEmitter<any>();
   dataElements: any[];
   dataValues: any = {};
   statusArr: any[] = [];
@@ -22,11 +25,13 @@ export class AggegateDataEntryHomeComponent implements OnInit {
   constructor() {}
 
   ngOnInit(): void {
-    console.log('dataSet', this.dataSet);
+    this.customFormDataValues = {
+      ...this.customFormDataValues,
+      ...this.data?.keyedDataValues,
+    };
   }
 
   detailsOfTheChangedValue(data) {
-    console.log('detailsOfTheChangedValue', data);
     const domElementId = data.domElementId;
     this.statusUpdateOnDomElement.domElementId = data.domElementId;
     this.statusUpdateOnDomElement.id = data.id;
@@ -40,5 +45,6 @@ export class AggegateDataEntryHomeComponent implements OnInit {
       ...dataObject,
     };
     this.statusArr.push(this.statusUpdateOnDomElement);
+    this.enteredDataValues.emit(this.customFormDataValues);
   }
 }

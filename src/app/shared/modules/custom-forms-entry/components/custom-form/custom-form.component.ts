@@ -98,7 +98,6 @@ export class CustomFormComponent implements OnInit, AfterViewInit, OnChanges {
 
   setScriptsOnHtmlContent(scripts) {
     const dataValues = this.elementsDataValues;
-    console.log('data values ##########', dataValues);
     onFormReady(
       this.dataElements,
       this.formType,

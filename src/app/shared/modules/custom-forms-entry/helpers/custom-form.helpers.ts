@@ -210,6 +210,54 @@ function getDataValue(data, id) {
   return dataObject ? dataObject.value : '';
 }
 
+function evaluateIndicatorValuesOnFormOpen(indicators, entryFormType) {
+  if (
+    indicators &&
+    Object.keys(indicators) &&
+    Object.keys(indicators).length > 0
+  ) {
+    const formIndicators = document.querySelectorAll("input[name='indicator']");
+    if (formIndicators) {
+      formIndicators.forEach((indicator) => {
+        const formulaPattern = /#\{.+?\}/g;
+        let valuesObject = {};
+        indicators[indicator.id].expression
+          .match(formulaPattern)
+          .forEach((elem) => {
+            const inputValueElement: any = document.querySelector(
+              "input[id='" +
+                elem.replace(/[#\{\}]/g, '').replace('.', '-') +
+                '-val' +
+                "']"
+            );
+            const valueKey =
+              entryFormType && entryFormType === 'aggregate'
+                ? elem.replace('}', '').replace('#{', '')
+                : elem.split('.')[1].replace('}', '');
+            valuesObject[valueKey] =
+              inputValueElement && inputValueElement.value
+                ? inputValueElement.value
+                : 0;
+          });
+        const indValue = evaluateIndicatorExpression(
+          {
+            expression: indicators[indicator.id].expression,
+            left: indicators[indicator.id]?.left,
+            right: indicators[indicator.id]?.right,
+          },
+          valuesObject,
+          valuesObject,
+          entryFormType
+        );
+        const inputElement: any = document.querySelector(
+          "input[id='" + indicator.id + "']"
+        );
+        inputElement.value = indValue;
+      });
+    }
+  }
+}
+
 export function onFormReady(
   dataElements,
   formType,
@@ -409,6 +457,7 @@ export function onFormReady(
       });
     }, 1000);
     setTimeout(() => {
+      evaluateIndicatorValuesOnFormOpen(indicators, formType);
       evaluteDataElementsValues(lastEvent, reference, dataValues);
     }, 1500);
   });
