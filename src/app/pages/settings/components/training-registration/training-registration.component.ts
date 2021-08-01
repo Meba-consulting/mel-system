@@ -60,7 +60,7 @@ export class TrainingRegistrationComponent implements OnInit {
   selectedTab = new FormControl(0);
   currentTabValue = 0;
   programDataStoreConfigs$: Observable<any>;
-  registeringUnitFilterIsSet: boolean = false;
+  registeringUnitFilterIsSet: boolean = true;
   systemIds$: Observable<any>;
   constructor(
     private dataService: DataService,

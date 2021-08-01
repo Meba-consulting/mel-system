@@ -261,3 +261,15 @@ body .table td {
 .mat-tab-link {
   font-family: Roboto, 'Times New Roman', Times, serif !important;
 }
+
+.mat-button,
+.mat-raised-button,
+.mat-icon-button,
+.mat-stroked-button,
+.mat-flat-button,
+.mat-fab,
+.mat-mini-fab {
+  font-family: Roboto, 'Times New Roman', Times, serif !important;
+  font-size: 12px !important;
+  font-weight: 500;
+}

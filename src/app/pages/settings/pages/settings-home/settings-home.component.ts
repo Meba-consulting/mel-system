@@ -68,24 +68,6 @@ export class SettingsHomeComponent implements OnInit {
     this.loadedAttributesState$ = this.store.select(getAttributesLoadedState);
     this.programs$ = this.store.select(getAllPrograms);
     this.userGroups$ = this.store.select(getAllUserGroups);
-    // this.programs$.subscribe((programs) => {
-    //   console.log(programs);
-    //   if (programs && programs?.length > 0) {
-    //     this.currentFormData = {};
-    //     this.currentProgram = programs[0];
-    //     this.currentFormData['program-name'] = {
-    //       value: this.currentProgram?.name,
-    //       id: 'program-name',
-    //     };
-    //     this.store.dispatch(loadDatastoreConfigs({ id: programs[0]?.id }));
-    //     this.currentProgramConfigs$ = this.store.select(
-    //       getDatastoreConfigsById,
-    //       {
-    //         id: programs[0]?.id,
-    //       }
-    //     );
-    //   }
-    // });
 
     this.programFields = [
       {
@@ -152,7 +134,6 @@ export class SettingsHomeComponent implements OnInit {
 
   onSaveProgramDetails(e): void {
     e.stopPropagation();
-    console.log(this.currentProgram);
     this.store.dispatch(createProgram({ programDetails: this.currentProgram }));
   }
 }

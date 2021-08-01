@@ -64,7 +64,7 @@ export class TrackerGeneralRegistrationComponent implements OnInit {
   selectedTab = new FormControl(0);
   currentTabValue = 0;
 
-  registeringUnitFilterIsSet: boolean = false;
+  registeringUnitFilterIsSet: boolean = true;
 
   programDataStoreConfigs$: Observable<any>;
 

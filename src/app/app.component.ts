@@ -18,6 +18,7 @@ import {
   LoadSystemUsers,
   loadUserGroups,
   loadPrograms,
+  loadAttributes,
 } from './store';
 import { ActivatedRoute } from '@angular/router';
 import * as _ from 'lodash';
@@ -74,6 +75,7 @@ export class AppComponent implements OnInit {
     this.store.dispatch(new LoadSystemUsers());
     this.store.dispatch(loadUserGroups());
     this.store.dispatch(loadPrograms());
+    this.store.dispatch(loadAttributes());
 
     this.currentUser$ = this.store.select(getCurrentUser);
     this.currentUser$.subscribe((currentUserInfo) => {

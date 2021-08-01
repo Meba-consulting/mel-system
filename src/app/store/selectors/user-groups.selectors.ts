@@ -9,5 +9,13 @@ export const getUserGroupsState = createSelector(
 
 export const {
   selectAll: getAllUserGroups,
-  selectEntities: getUserGroupsEntities
+  selectEntities: getUserGroupsEntities,
 } = userGroupsAdapter.getSelectors(getUserGroupsState);
+
+export const getUserGroupById = createSelector(
+  getAllUserGroups,
+  (userGroups, props) => {
+    return (userGroups.filter((userGroup) => userGroup?.id === props['id']) ||
+      [])[0];
+  }
+);

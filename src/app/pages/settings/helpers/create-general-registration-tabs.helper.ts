@@ -7,6 +7,8 @@ export function createTabsForGeneralRegistration(userGroups, currentUser) {
   return _.orderBy(
     _.map(generalRegUserGroup?.managedGroups, (group) => {
       return {
+        ...(userGroups.filter((userGroup) => userGroup?.id === group?.id) ||
+          [])[0],
         name: group?.name
           .toLowerCase()
           ?.replace('_general registration', '')
@@ -14,6 +16,9 @@ export function createTabsForGeneralRegistration(userGroups, currentUser) {
         id: group?.id,
         managedGroups: _.map(group?.managedGroups, (managedGroup) => {
           return {
+            ...(userGroups.filter(
+              (userGroup) => userGroup?.id === managedGroup?.id
+            ) || [])[0],
             id: managedGroup?.id,
             name: managedGroup?.name
               ?.toLowerCase()

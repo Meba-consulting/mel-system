@@ -17,3 +17,21 @@
 ::ng-deep .p-tabview-nav-link {
   margin-right: 15px !important;
 }
+
+.card-title-container {
+  font-size: 1rem !important;
+  color: #3ea9d9 !important;
+}
+
+.card-container-for-custom-css {
+  height: 190px !important;
+  margin-bottom: 15px;
+}
+
+.card-content-p {
+  font-size: 0.8rem;
+}
+
+::ng-deep .mat-card-header-text {
+  margin: 0 !important;
+}

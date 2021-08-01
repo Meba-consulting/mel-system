@@ -59,10 +59,13 @@ export class CreateOrganisationUnitComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    // console.log('selectedGroup', this.selectedGroup);
-    // console.log(this.programs);
     this.groups = _.orderBy(
-      this.selectedGroup['managedGroups'],
+      this.selectedGroup['managedGroups'].map((group) => {
+        return {
+          ...group,
+          name: group?.name.replace('_GENERAL REGISTRATION ', ''),
+        };
+      }),
       ['name'],
       ['asc']
     );

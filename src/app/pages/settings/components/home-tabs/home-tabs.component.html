@@ -1,5 +1,33 @@
-<div style="margin-top: 10px; margin-left: -15px; margin-right: -10px">
-  <mat-tab-group
+<div style="margin-top: 10px">
+  <div class="row">
+    <div
+      class="col-ld-4 col-md-4 col-sx-12 col-sm-12"
+      *ngFor="let tab of tabs; let count = index"
+    >
+      <mat-card class="card-container-for-custom-css">
+        <mat-card-header>
+          <mat-card-title class="card-title-container">{{
+            tab?.name
+          }}</mat-card-title>
+          <!-- <mat-card-subtitle>Dog Breed</mat-card-subtitle> -->
+        </mat-card-header>
+        <mat-card-content style="height: 80px; overflow: auto">
+          <p class="card-content-p">{{ tab?.description }}</p>
+        </mat-card-content>
+        <mat-card-actions>
+          <button
+            [routerLink]="'/general-registration/' + tab?.id"
+            style="color: #3ea9d9"
+            mat-stroked-button
+          >
+            Open
+          </button>
+        </mat-card-actions>
+      </mat-card>
+    </div>
+  </div>
+
+  <!-- <mat-tab-group
     (selectedTabChange)="changeTab(selectedTab.value)"
     [selectedIndex]="selectedTab.value"
     (selectedIndexChange)="selectedTab.setValue($event)"
@@ -35,5 +63,5 @@
         ></app-tracker-general-registration>
       </div>
     </mat-tab>
-  </mat-tab-group>
+  </mat-tab-group> -->
 </div>

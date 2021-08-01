@@ -1,0 +1,86 @@
+<div
+  *ngIf="{
+    selectedAttribute: selectedAttribute$ | async,
+    loadedAttributesState: loadedAttributesState$ | async,
+    programs: programs$ | async,
+    currentUser: currentUser$ | async,
+    userGroups: userGroups$ | async,
+    currentUserGroup: currentUserGroup$ | async
+  } as params"
+>
+  <!-- {{ params?.loadedAttributesState | json }} -->
+  <div class="row">
+    <div
+      class="col-12 d-flex align-items-center"
+      style="
+        margin-top: 15px;
+        margin-bottom: 15px;
+        border-bottom: solid 1px #eee;
+      "
+    >
+      <button
+        color="primary"
+        mat-flat-button
+        [routerLink]="'/general-registration'"
+      >
+        <mat-icon>arrow_back</mat-icon>
+        <span class="ml-2">BACK</span>
+      </button>
+      <div class="ml-3 report-title">
+        {{ params?.currentUserGroup?.displayName }}
+      </div>
+    </div>
+  </div>
+  <mat-progress-bar
+    mode="indeterminate"
+    *ngIf="
+      !params?.userGroups ||
+      !params?.programs ||
+      !params?.loadedAttributesState ||
+      !params?.currentUser ||
+      !params?.currentUserGroup
+    "
+  ></mat-progress-bar>
+  <div
+    *ngIf="
+      params?.userGroups &&
+      params?.programs &&
+      params?.loadedAttributesState &&
+      params?.currentUser &&
+      params?.currentUserGroup
+    "
+  >
+    <div class="p-1" *ngIf="currentFormGroupId == 'ExyDMkddChQ'">
+      <app-create-organisation-unit
+        [selectedGroup]="params?.currentUserGroup"
+        [programs]="params?.programs"
+        [currentUser]="params?.currentUser"
+        [clubCategories]="params?.selectedAttribute?.optionSet?.options"
+      ></app-create-organisation-unit>
+    </div>
+
+    <div class="p-1" *ngIf="currentFormGroupId == 'q4SAf8ix9ww'">
+      <app-training-registration
+        [programs]="params?.programs"
+        [currentUser]="params?.currentUser"
+        [systemIds]="[]"
+      ></app-training-registration>
+    </div>
+
+    <div
+      class="p-1"
+      *ngIf="
+        currentFormGroupId !== 'q4SAf8ix9ww' &&
+        currentFormGroupId !== 'ExyDMkddChQ'
+      "
+    >
+      <app-tracker-general-registration
+        [programs]="params?.programs"
+        [currentUser]="params?.currentUser"
+        [systemIds]="[]"
+        [userGroups]="params?.userGroups"
+        [selectedGroup]="params?.currentUserGroup"
+      ></app-tracker-general-registration>
+    </div>
+  </div>
+</div>

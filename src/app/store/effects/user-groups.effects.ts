@@ -4,7 +4,7 @@ import { createEffect, Actions, ofType } from '@ngrx/effects';
 import {
   loadUserGroups,
   addLoadedUserGroups,
-  loadingUserGroupsFail
+  loadingUserGroupsFail,
 } from '../actions';
 import { switchMap, map, catchError } from 'rxjs/operators';
 import { of } from 'rxjs';
@@ -21,10 +21,8 @@ export class UserGroupsEffects {
       ofType(loadUserGroups),
       switchMap(() =>
         this.userGroupsService.loadUserGroups().pipe(
-          map(userGroups =>
-            addLoadedUserGroups({ userGroups: userGroups['userGroups'] })
-          ),
-          catchError(error => of(loadingUserGroupsFail({ error })))
+          map((userGroups) => addLoadedUserGroups({ userGroups: userGroups })),
+          catchError((error) => of(loadingUserGroupsFail({ error })))
         )
       )
     )
