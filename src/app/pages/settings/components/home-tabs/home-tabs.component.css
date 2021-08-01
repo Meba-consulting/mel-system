@@ -21,6 +21,7 @@
 .card-title-container {
   font-size: 1rem !important;
   color: #3ea9d9 !important;
+  font-weight: 600 !important;
 }
 
 .card-container-for-custom-css {
