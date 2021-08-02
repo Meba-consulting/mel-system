@@ -6,6 +6,7 @@ export function createFormFieldsFromProgramStageDataElement(
   stage?,
   programStageFormData?
 ) {
+  console.log('configs', configs);
   return _.map(stageDataElements, (stageDataElement) => {
     return {
       id: stageDataElement?.dataElement?.id,
@@ -24,8 +25,14 @@ export function createFormFieldsFromProgramStageDataElement(
           ? 'number'
           : stageDataElement?.dataElement?.valueType == 'DATE'
           ? 'date'
-          : stageDataElement?.dataElement?.optionSet
+          : stageDataElement?.dataElement?.optionSet &&
+            configs['multipleSelections'] &&
+            !configs['multipleSelections'][stageDataElement?.dataElement?.id]
           ? 'dropdown'
+          : stageDataElement?.dataElement?.optionSet &&
+            configs['multipleSelections'] &&
+            configs['multipleSelections'][stageDataElement?.dataElement?.id]
+          ? 'dropdownM'
           : stageDataElement?.dataElement?.valueType == 'email'
           ? 'email'
           : stageDataElement?.dataElement?.valueType == 'phoneNumber'
@@ -53,7 +60,22 @@ export function createFormFieldsFromProgramStageDataElement(
               label: option?.name,
               key: option?.id,
             };
-          })
+          }).filter(
+            (option) =>
+              (configs['multipleSelections'] &&
+                configs['multipleSelections'][
+                  stageDataElement?.dataElement?.id
+                ] &&
+                configs['multipleSelections'][
+                  stageDataElement?.dataElement?.id
+                ]['optionsToOmit'] &&
+                configs['multipleSelections'][
+                  stageDataElement?.dataElement?.id
+                ]['optionsToOmit']
+                  .join(',')
+                  .indexOf(option?.id) === -1) ||
+              !configs['multipleSelections']
+          )
         : [],
       name: stageDataElement?.dataElement?.name,
       required: stageDataElement?.compulsory,

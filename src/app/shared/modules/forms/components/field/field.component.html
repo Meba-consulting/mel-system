@@ -8,6 +8,7 @@
     <!-- Number -->
     <input
       *ngSwitchCase="'number'"
+      autocomplete="off"
       [formControlName]="field?.key"
       [id]="field?.key"
       [min]="field?.min"
@@ -21,6 +22,7 @@
     <input
       *ngSwitchCase="'textbox'"
       [formControlName]="field?.key"
+      autocomplete="off"
       [id]="field?.key"
       [min]="field?.min"
       [max]="field?.max"
@@ -35,6 +37,7 @@
     <input
       *ngSwitchCase="'username'"
       [formControlName]="field?.key"
+      autocomplete="off"
       [id]="field?.key"
       [minlength]="field?.min"
       [placeholder]="field?.placeholder"
@@ -48,6 +51,7 @@
     <input
       *ngSwitchCase="'email'"
       [formControlName]="field?.key"
+      autocomplete="off"
       [id]="field?.key"
       [minlength]="field?.min"
       [placeholder]="field?.placeholder"
@@ -61,6 +65,7 @@
     <input
       *ngSwitchCase="'password'"
       [formControlName]="field?.key"
+      autocomplete="off"
       [id]="field?.key"
       [placeholder]="field?.placeholder"
       [type]="hide ? 'password' : 'text'"
@@ -73,6 +78,7 @@
     <input
       *ngSwitchCase="'rePassword'"
       [formControlName]="field?.key"
+      autocomplete="off"
       [id]="field?.key"
       [placeholder]="field?.placeholder"
       [type]="hide ? 'password' : 'text'"
@@ -85,6 +91,7 @@
     <span matPrefix *ngIf="field?.id === 'phoneNumber'">+255 (0)</span>
     <input
       *ngSwitchCase="'phoneNumber'"
+      autocomplete="off"
       [formControlName]="field?.key"
       [id]="field?.key"
       [maxLength]="field?.max"
@@ -109,9 +116,25 @@
     </mat-select>
     <!-- end of dropdown -->
 
+    <!-- dropdown multiple selections-->
+    <mat-select
+      [id]="field?.key"
+      *ngSwitchCase="'dropdownM'"
+      [placeholder]="field?.placeholder"
+      [formControlName]="field?.key"
+      multiple
+      (selectionChange)="onFieldUpdate(field?.controlType)"
+    >
+      <mat-option *ngFor="let option of field?.options" [value]="option?.key">{{
+        option.name
+      }}</mat-option>
+    </mat-select>
+    <!-- end of dropdown multiple selections -->
+
     <!-- text area field -->
     <textarea
       *ngSwitchCase="'textarea'"
+      rows="3"
       matInput
       [id]="field?.key"
       [formControlName]="field?.key"
@@ -160,7 +183,12 @@
       *ngIf="field?.hint"
     >
       <div
-        class="ng-tns-c14-32 ng-trigger ng-trigger-transitionMessages ng-star-inserted"
+        class="
+          ng-tns-c14-32
+          ng-trigger
+          ng-trigger-transitionMessages
+          ng-star-inserted
+        "
       >
         <span class="mat-error">{{ field?.hint }}</span>
       </div>

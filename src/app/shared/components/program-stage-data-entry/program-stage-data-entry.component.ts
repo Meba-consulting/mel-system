@@ -3,6 +3,7 @@ import { createFormFieldsFromProgramStageDataElement } from 'src/app/core/helper
 import { FormValue } from '../../modules/forms/models/form-value.model';
 
 import * as _ from 'lodash';
+import { sanitizeMultipleSelectionsOptions } from 'src/app/core/helpers/auto-create-value-for-multiple-selections.helper';
 
 @Component({
   selector: 'app-program-stage-data-entry',
@@ -73,8 +74,23 @@ export class ProgramStageDataEntryComponent implements OnInit {
     this.editIsSet.emit(this.isEditSet);
   }
 
-  onFormUpdate(formValues: FormValue) {
+  onFormUpdate(formValues: FormValue, configs, programStateDataElements) {
     this.isFormValid.emit(formValues.isValid);
+    const formDataValues = formValues.getValues();
+    let formattedDataValues = Object.keys(formDataValues).map((key) => {
+      return {
+        ...formDataValues[key],
+        value:
+          configs['multipleSelections'] && configs['multipleSelections'][key]
+            ? sanitizeMultipleSelectionsOptions(
+                formDataValues[key],
+                programStateDataElements
+              )
+            : formDataValues[key]?.value,
+      };
+    });
+    console.log('formattedDataValues', formattedDataValues);
+    console.log('formValues.getValues()', formValues.getValues());
     this.formValuesData.emit(formValues.getValues());
     this.editIsSet.emit(this.isEditSet);
   }

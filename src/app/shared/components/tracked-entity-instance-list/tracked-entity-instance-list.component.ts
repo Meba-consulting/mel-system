@@ -26,6 +26,7 @@ export class TrackedEntityInstanceListComponent implements OnInit {
   headers: any = {};
   @Input() savedUserDataStore: any;
   @Input() program: any;
+  @Input() configs: any;
   @Output() edit = new EventEmitter<any>();
   @Output() delete = new EventEmitter<any>();
   @Output() setColumnsToShow = new EventEmitter<any>();
@@ -87,6 +88,7 @@ export class TrackedEntityInstanceListComponent implements OnInit {
         currentTrackedEntityInstanceId: enrollmentData?.action?.id,
         program: this.program,
         orgUnit: this.orgUnit,
+        configs: this.configs,
         currentUser,
       },
       panelClass: 'custom-dialog-container',

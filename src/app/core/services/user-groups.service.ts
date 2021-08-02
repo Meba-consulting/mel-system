@@ -18,14 +18,6 @@ export class UserGroupsService {
         map((response) => {
           const userGroups = response['userGroups'];
           return userGroups.map((userGroup) => {
-            console.log(
-              userGroup?.attributeValues?.length > 0
-                ? (userGroup?.attributeValues.filter(
-                    (attributeValue) =>
-                      attributeValue?.attribute?.id === 'qIOZ66mfrOr'
-                  ) || [])[0]?.value
-                : 'NO'
-            );
             return {
               ...userGroup,
               displayName: userGroup?.name.replace(

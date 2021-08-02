@@ -44,6 +44,7 @@ export class ProgramStageEntryModalComponent implements OnInit {
   index: number = 0;
 
   eventDeletingMessage = '';
+  @Input() configs: any;
   orgUnitData$: Observable<any>;
   constructor(
     private dialogRef: MatDialogRef<ProgramStageEntryModalComponent>,
@@ -58,6 +59,7 @@ export class ProgramStageEntryModalComponent implements OnInit {
     this.currentTrackedEntityInstanceId = data?.currentTrackedEntityInstanceId;
     this.orgUnit = data?.orgUnit;
     this.currentUser = this.currentUser ? this.currentUser : data?.currentUser;
+    this.configs = !this.configs ? data?.configs : this.configs;
   }
 
   ngOnInit(): void {

@@ -2,7 +2,9 @@
   <app-form
     [fields]="formFields"
     [fieldsData]="currentFormData"
-    (formUpdate)="onFormUpdate($event)"
+    (formUpdate)="
+      onFormUpdate($event, programDataStoreConfigs, programStateDataElements)
+    "
   >
   </app-form>
 </div>
