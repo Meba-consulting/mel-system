@@ -27,7 +27,6 @@ export class ConfirmDeleteEventComponent implements OnInit {
       if (response) {
         this.message = response?.status;
         this.deleting = false;
-        console.log('message', this.message);
       }
     });
   }

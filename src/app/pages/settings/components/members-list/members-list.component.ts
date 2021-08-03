@@ -31,6 +31,5 @@ export class MembersListComponent implements OnInit {
 
   onEditMember(e, member) {
     e.stopPropagation();
-    console.log(member);
   }
 }

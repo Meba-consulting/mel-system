@@ -204,7 +204,6 @@ export class StrategicObjectivesListComponent implements OnInit {
           .subscribe((response) => {
             if (response) {
               this.saving = false;
-              console.log(this.currentObjective);
             }
           });
       }

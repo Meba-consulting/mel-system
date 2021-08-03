@@ -68,7 +68,6 @@ export class UserGroupsListComponent implements OnInit {
 
   onEditUserGroup(e, userGroup) {
     e.stopPropagation();
-    console.log(userGroup);
   }
 
   onAddNewUserGroup(e) {

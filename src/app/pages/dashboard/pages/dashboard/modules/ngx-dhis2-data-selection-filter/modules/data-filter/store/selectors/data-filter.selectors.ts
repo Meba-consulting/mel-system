@@ -95,13 +95,6 @@ export const getDataFilterItems = createSelector(
     if (!currentDataFilterGroup) {
       return [];
     }
-
-    console.log(
-      'getDataFilterGroupsWithItems',
-      dataFilterGroups,
-      currentDataFilterGroup
-    );
-
     if (currentDataFilterGroup.id === 'all') {
       return _.sortBy(
         _.uniqBy(

@@ -338,7 +338,6 @@ export class ProgramEntryComponent implements OnInit {
 
   onSetEdit(trackedEntityInstance) {
     // e.stopPropagation();
-    console.log(trackedEntityInstance);
     this.currentTrackedEntityInstanceId = trackedEntityInstance?.action?.id;
     this.reportingDate = new Date(trackedEntityInstance.created);
     this.stagesEntryOnly = false;

@@ -112,7 +112,6 @@ export class AddClubMemberComponent implements OnInit {
 
   onGetFormData(e) {
     this.formData = e;
-    console.log('formData', this.formData);
     // console.log('club', this.club);
   }
 }

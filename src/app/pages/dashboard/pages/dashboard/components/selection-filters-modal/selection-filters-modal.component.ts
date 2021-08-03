@@ -15,11 +15,9 @@ export class SelectionFiltersModalComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) data
   ) {
     this.selectionDialogData = data;
-    console.log('DTA', data);
   }
 
   ngOnInit(): void {
-    console.log('selectionDialogData', this.selectionDialogData);
     this.dataSelections = this.selectionDialogData?.dataSelections;
     this.selectionFilterConfig = {
       showDataFilter:
@@ -33,7 +31,6 @@ export class SelectionFiltersModalComponent implements OnInit {
   }
 
   onFilterUpdateAction(selections) {
-    console.log(selections);
     this.dialogRef.close({
       selectionItems: selections,
       selectedFilter: this.selectionDialogData?.selectedFilter,

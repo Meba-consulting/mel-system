@@ -41,7 +41,6 @@ export class DashboardItemEditComponent implements OnInit {
       userAccesses: this.dashboard?.userAccesses,
     };
     e.stopPropagation();
-    console.log('test', data);
     this.updateResponse$ = this.httpClient
       .put('dashboards/' + this.dashboard?.id + '?mergeMode=UPDATE', data)
       .pipe(

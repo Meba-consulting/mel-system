@@ -9,7 +9,7 @@ import { Router } from '@angular/router';
 @Component({
   selector: 'app-report-form',
   templateUrl: './report-form.component.html',
-  styleUrls: ['./report-form.component.css']
+  styleUrls: ['./report-form.component.css'],
 })
 export class ReportFormComponent implements OnInit {
   formResource: FormGroup;
@@ -39,7 +39,7 @@ export class ReportFormComponent implements OnInit {
     this.formResource = this._formBuilder.group({
       name: ['', Validators.required],
       isFile: ['', Validators.required],
-      file: ['', Validators.required]
+      file: ['', Validators.required],
     });
   }
 
@@ -69,22 +69,22 @@ export class ReportFormComponent implements OnInit {
           resourceType: this.resourceType,
           attachment: this.resourceType == 'link' ? false : true,
           file: event.target.files[0],
-          url: this.url
+          url: this.url,
         })
-        .subscribe(response => {
+        .subscribe((response) => {
           this.resourceService
             .saveDocument({
               name: this.name,
               type: 'UPLOAD_FILE',
               attachment: true,
               external: false,
-              url: response.response.fileResource.id
+              url: response.response.fileResource.id,
             })
-            .subscribe(documentResponse => {
+            .subscribe((documentResponse) => {
               let sharingSettingsData = {
                 meta: {
                   allowPublicAccess: true,
-                  allowExternalAccess: true
+                  allowExternalAccess: true,
                 },
                 object: {
                   id: documentResponse['response']['uid'],
@@ -93,7 +93,7 @@ export class ReportFormComponent implements OnInit {
                   publicAccess: 'r-------',
                   user: {
                     id: this.currentUser.id,
-                    name: this.currentUser.name
+                    name: this.currentUser.name,
                   },
                   externalAccess: false,
                   userGroupAccesses: [
@@ -101,34 +101,33 @@ export class ReportFormComponent implements OnInit {
                       id: this.resourceGroup[0].id,
                       name: this.resourceGroup[0].name,
                       displayName: this.resourceGroup[0].name,
-                      access: 'r-------'
-                    }
-                  ]
-                }
+                      access: 'r-------',
+                    },
+                  ],
+                },
               };
               this.resourceService
                 .saveSharingSettingsForDocuments(sharingSettingsData)
-                .subscribe(sharingResponse => {
+                .subscribe((sharingResponse) => {
                   this.store.dispatch(
                     loadSSBResources({
-                      reload: true
+                      reload: true,
                     })
                   );
                   // this.router.navigate(['/reports']);
                   setTimeout(() => {
                     this.router
                       .navigateByUrl('/', {
-                        skipLocationChange: true
+                        skipLocationChange: true,
                       })
                       .then(() =>
                         this.router.navigate(['reports'], {
                           queryParams: {
-                            status: 'added'
-                          }
+                            status: 'added',
+                          },
                         })
                       );
                   }, 70);
-                  console.log(sharingResponse);
                 });
             });
         });
@@ -164,9 +163,9 @@ export class ReportFormComponent implements OnInit {
         type: 'EXTERNAL_URL',
         attachment: false,
         url: this.url,
-        external: true
+        external: true,
       };
-      this.resourceService.saveDocument(data).subscribe(response => {
+      this.resourceService.saveDocument(data).subscribe((response) => {
         this.store.dispatch(loadSSBResources({ reload: true }));
         // this.router.navigate(['/resources/documents']);
         setTimeout(() => {
@@ -174,7 +173,7 @@ export class ReportFormComponent implements OnInit {
             .navigateByUrl('/', { skipLocationChange: true })
             .then(() =>
               this.router.navigate(['reports'], {
-                queryParams: { status: 'added' }
+                queryParams: { status: 'added' },
               })
             );
         }, 70);

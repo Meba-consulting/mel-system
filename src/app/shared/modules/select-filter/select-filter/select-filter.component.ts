@@ -7,7 +7,7 @@ import { startWith, map } from 'rxjs/operators';
 @Component({
   selector: 'ngx-select-filter',
   templateUrl: './select-filter.component.html',
-  styleUrls: ['./select-filter.component.css']
+  styleUrls: ['./select-filter.component.css'],
 })
 export class SelectFilterComponent implements OnInit {
   @Input() dataSets: any[];
@@ -21,10 +21,9 @@ export class SelectFilterComponent implements OnInit {
   constructor() {}
 
   ngOnInit() {
-    console.log(this.dataSets);
     this.filteredOptions = this.dataSetFormControl.valueChanges.pipe(
       startWith(''),
-      map(value => this._filter(value))
+      map((value) => this._filter(value))
     );
   }
 
@@ -36,7 +35,7 @@ export class SelectFilterComponent implements OnInit {
     const filterValue = value.toLowerCase();
 
     return this.dataSets.filter(
-      option => option.name.toLowerCase().indexOf(filterValue) > -1
+      (option) => option.name.toLowerCase().indexOf(filterValue) > -1
     );
   }
 

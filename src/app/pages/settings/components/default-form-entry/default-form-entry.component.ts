@@ -95,7 +95,6 @@ export class DefaultFormEntryComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(): void {
-    console.log(this.trackedEntityAttributes);
     // create form fields
     if (this.isTrackedEntityInstanceAttributes) {
       this.formFields = _.map(

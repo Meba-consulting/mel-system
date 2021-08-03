@@ -89,7 +89,6 @@ export class ClubsListComponent implements OnInit {
 
   onCloseClub(e, club) {
     e.stopPropagation();
-    console.log(club);
     this.dialog.open(CloseClubComponent, {
       width: '25%',
       height: '200px',
@@ -101,7 +100,6 @@ export class ClubsListComponent implements OnInit {
 
   onDeleteClub(e, club) {
     e.stopPropagation();
-    console.log(club);
     this.dialog
       .open(DeleteOuComponent, {
         width: '25%',

@@ -64,7 +64,6 @@ export class AddUserComponent implements OnInit {
   ) {
     this.userGroupsConfigs = data?.userGroupsConfigs;
     this.user = data?.user;
-    console.log('this.user', this.user);
     if (this.user) {
       this.currentFormData['username'] = {
         id: 'username',
@@ -81,8 +80,6 @@ export class AddUserComponent implements OnInit {
         value: this.user?.surname,
       };
     }
-
-    console.log('currentFormData', this.currentFormData);
   }
 
   ngOnInit(): void {
@@ -150,8 +147,6 @@ export class AddUserComponent implements OnInit {
       },
     ];
 
-    console.log('FORM FIELDS', this.formFields);
-
     this.userRoles$ = this.usersService.loadUserRoles();
     this.userGroups$ = this.store.select(getAllUserGroups);
   }
@@ -160,7 +155,6 @@ export class AddUserComponent implements OnInit {
     this.startCheckingUsername = false;
     const username = e.getValues()?.username?.value;
     this.username = e.getValues()?.username?.value;
-    console.log(e.getValues());
     this.currentFormData['username'] = {
       id: 'username',
       value: username,

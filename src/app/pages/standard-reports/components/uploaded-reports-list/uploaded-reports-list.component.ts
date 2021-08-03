@@ -71,7 +71,6 @@ export class UploadedReportsListComponent implements OnInit {
     this.resourceIdToDelete = id;
     if (confirmDelete) {
       this.resourceService.deleteResource(id).subscribe((response) => {
-        console.log(response);
         this.router.navigateByUrl('/', { skipLocationChange: true }).then(() =>
           this.router.navigate(['resources/documents'], {
             queryParams: { status: 'delete' },
@@ -127,7 +126,6 @@ export class UploadedReportsListComponent implements OnInit {
           }, 2000);
         },
         (error) => {
-          console.log(error);
           setTimeout(() => {
             this.sharingSettingsMessage = error.message;
             setTimeout(() => {
@@ -178,7 +176,6 @@ export class UploadedReportsListComponent implements OnInit {
           }, 2000);
         },
         (error) => {
-          console.log(error);
           setTimeout(() => {
             this.sharingSettingsMessage = error.message;
             // setTimeout(() => {

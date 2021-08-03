@@ -64,7 +64,8 @@ export class RenderReportComponent implements OnInit, AfterViewInit {
           dimensionConfigs['ou'] &&
           dimensionConfigs['ou'] === 'USER_ORGUNIT'
         ) {
-          this.selectedOrgUnitItems = this.currentUser?.dataViewOrganisationUnits;
+          this.selectedOrgUnitItems =
+            this.currentUser?.dataViewOrganisationUnits;
         }
       }
     }
@@ -175,9 +176,6 @@ export class RenderReportComponent implements OnInit, AfterViewInit {
   }
 
   onFilterUpdate(selections) {
-    console.log('repo di', selections);
-    console.log(this.hasOu);
-    console.log(this.hasPe);
     if (
       (this.hasPe &&
         this.hasOu &&
@@ -211,12 +209,11 @@ export class RenderReportComponent implements OnInit, AfterViewInit {
               ctnr.appendChild(iframe);
               iframe.contentWindow.document.open('text/htmlreplace');
               iframe.contentWindow.document.write(this.reportHtml);
-              iframe.contentWindow[
-                'iReportsDimensions'
-              ] = formatDataDimensionsSelections(
-                selections,
-                this.selectedDimensions
-              );
+              iframe.contentWindow['iReportsDimensions'] =
+                formatDataDimensionsSelections(
+                  selections,
+                  this.selectedDimensions
+                );
               iframe.contentWindow.document.close();
             }
           } catch (e) {

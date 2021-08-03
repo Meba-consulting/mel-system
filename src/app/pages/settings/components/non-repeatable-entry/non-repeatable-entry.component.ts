@@ -40,11 +40,6 @@ export class NonRepeatableEntryComponent implements OnInit {
         }
       );
     }
-
-    console.log(
-      'programStageFormDataprogramStageFormData',
-      this.programStageFormData
-    );
     this.programStateDataElements = this.stage.programStageDataElements;
     this.formFields = createFormFieldsFromProgramStageDataElement(
       this.programStateDataElements,
@@ -70,9 +65,10 @@ export class NonRepeatableEntryComponent implements OnInit {
         this.programDataStoreConfigs?.stagesConfigs[this.stage?.id]?.id
       ] = {
         id: this.programDataStoreConfigs?.stagesConfigs[this.stage?.id]?.id,
-        value: this.programDataStoreConfigs?.stagesConfigs[this.stage?.id][
-          this.programDataStoreConfigs?.stagesConfigs[this.stage?.id]?.id
-        ]?.defaultValue,
+        value:
+          this.programDataStoreConfigs?.stagesConfigs[this.stage?.id][
+            this.programDataStoreConfigs?.stagesConfigs[this.stage?.id]?.id
+          ]?.defaultValue,
       };
     }
     _.map(Object.keys(this.programStageFormData), (key) => {
@@ -90,8 +86,6 @@ export class NonRepeatableEntryComponent implements OnInit {
       Object.keys(this.programStageFormData)?.length > 0 ? true : false;
 
     // this.editIsSet.emit(this.isEditSet);
-
-    console.log(this.currentFormData);
   }
 
   onFormUpdate(formValues: FormValue) {

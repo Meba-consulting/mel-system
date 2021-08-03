@@ -167,7 +167,6 @@ export class DataFilterComponent implements OnInit, OnDestroy {
       )?.length === 0
     ) {
       this.selected = [...this.selected, item];
-      console.log('item', this.selected);
     }
   }
 

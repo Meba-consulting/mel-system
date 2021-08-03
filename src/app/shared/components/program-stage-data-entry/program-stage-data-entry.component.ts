@@ -89,8 +89,6 @@ export class ProgramStageDataEntryComponent implements OnInit {
             : formDataValues[key]?.value,
       };
     });
-    console.log('formattedDataValues', formattedDataValues);
-    console.log('formValues.getValues()', formValues.getValues());
     this.formValuesData.emit(formValues.getValues());
     this.editIsSet.emit(this.isEditSet);
   }

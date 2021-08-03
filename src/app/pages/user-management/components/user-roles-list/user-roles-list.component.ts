@@ -20,7 +20,6 @@ export class UserRolesListComponent implements OnInit {
   constructor() {}
 
   ngOnInit(): void {
-    console.log(this.userRoles);
     this.dataSource = new MatTableDataSource(
       this.formatUserRoles(this.userRoles)
     );
@@ -50,7 +49,6 @@ export class UserRolesListComponent implements OnInit {
 
   onEditUserRole(e, userRole) {
     e.stopPropagation();
-    console.log(userRole);
   }
 
   onAddNewUserRole(e) {

@@ -296,7 +296,6 @@ export class VisualizationComponent implements OnInit, OnChanges {
             analytics.setData(
               dataSelection.items.map((item) => item.id).join(';')
             );
-            console.log('analytucs', analytics);
             break;
 
           case 'pe':
@@ -318,7 +317,6 @@ export class VisualizationComponent implements OnInit, OnChanges {
             break;
         }
       });
-      console.log('analytics');
       return analytics;
     });
 

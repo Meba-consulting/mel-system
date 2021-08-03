@@ -161,7 +161,6 @@ export class TrainingRegistrationComponent implements OnInit {
   }
 
   onGetDataValues(values, currentUser) {
-    console.log('values', values);
     this.savedData = false;
     this.savingData = false;
     this.attributeValues = _.map(Object.keys(values), (key) => {
@@ -183,8 +182,6 @@ export class TrainingRegistrationComponent implements OnInit {
         };
       }
     });
-
-    console.log('attributeValues', this.attributeValues);
 
     this.attributeValues = this.selectedOu?.id
       ? [

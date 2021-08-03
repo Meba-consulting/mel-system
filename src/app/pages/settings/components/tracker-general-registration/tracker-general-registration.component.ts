@@ -233,7 +233,6 @@ export class TrackerGeneralRegistrationComponent implements OnInit {
   }
 
   onGetFormValidity(validity) {
-    console.log('gsgsgs', validity);
     this.isFormValid = validity;
   }
 

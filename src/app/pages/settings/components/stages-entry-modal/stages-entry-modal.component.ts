@@ -103,7 +103,6 @@ export class StagesEntryModalComponent implements OnInit {
   }
 
   onDeleteEvent(e) {
-    console.log(e);
     this.dialog
       .open(ConfirmDeleteEventComponent, {
         width: '30%',
@@ -133,7 +132,6 @@ export class StagesEntryModalComponent implements OnInit {
           .subscribe((response) => {
             this.savingMessage = 'Saved data successfully';
             this.savingProgramData = false;
-            console.log(response);
             this.loadStageData = true;
             setTimeout(() => {
               this.savingMessage = '';
@@ -148,7 +146,6 @@ export class StagesEntryModalComponent implements OnInit {
           .subscribe((response) => {
             this.savingMessage = 'Saved data successfully';
             this.savingProgramData = false;
-            console.log(response);
             this.loadStageData = true;
             this.programStageFormData = {};
             this.currentEventToEdit = null;
@@ -165,7 +162,6 @@ export class StagesEntryModalComponent implements OnInit {
   }
 
   onSetEditEvent(e) {
-    console.log(e);
     this.currentEventToEdit = e;
     _.map(e.dataValues, (dataValue) => {
       this.programStageFormData[dataValue?.dataElement] = {

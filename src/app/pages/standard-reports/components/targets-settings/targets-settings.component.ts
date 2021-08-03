@@ -22,7 +22,6 @@ export class TargetsSettingsComponent implements OnInit {
   ngOnInit(): void {}
 
   getPeriodType(periodType) {
-    console.log(periodType);
     this.currentPeriodType = periodType;
     if (periodType === 'yearly') {
       this.targetForm = new FormGroup({

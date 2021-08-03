@@ -28,7 +28,6 @@ export class SetColumnsModalComponent implements OnInit {
     // console.log(this.columns);
     this.savedColumns = data?.columnsInfo?.savedColumns;
 
-    console.log('savedColumns', this.savedColumns);
     this.programId = data?.programId;
     _.map(this.columns, (column) => {
       this.columnsSet[column?.name] = !this.savedColumns?.message
@@ -103,8 +102,6 @@ export class SetColumnsModalComponent implements OnInit {
     } else {
       this.columnsSet[column?.name] = false;
     }
-
-    console.log('columnsSet', this.columnsSet);
   }
 
   onCancel(e) {

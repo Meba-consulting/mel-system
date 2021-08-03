@@ -39,7 +39,6 @@ export class UpdateStatusModalComponent implements OnInit {
         data?.programDataStoreConfigs?.stagesToUpdateStatus);
     this.stageToCompleteEnrollment =
       data?.programDataStoreConfigs?.stageToCompleteEnrollment;
-    console.log(this.eventData);
     this.dataElement = (this.programStage?.programStageDataElements
       .filter((programStageDataElement) => {
         if (

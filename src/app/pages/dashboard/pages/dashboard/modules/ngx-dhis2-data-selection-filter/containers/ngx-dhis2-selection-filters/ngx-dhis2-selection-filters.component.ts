@@ -118,7 +118,6 @@ export class NgxDhis2SelectionFiltersComponent implements OnInit {
     this.showFilters = this.showFilterBody = this.showFilterByDefault
       ? this.showFilterByDefault
       : false;
-    console.log('this.showFilterBody', this.showFilterBody);
     this.selectedFilter = this.filterConfig.showDataFilter
       ? 'DATA'
       : this.filterConfig.showPeriodFilter
@@ -128,7 +127,6 @@ export class NgxDhis2SelectionFiltersComponent implements OnInit {
       : this.filterConfig.showLayout
       ? 'LAYOUT'
       : '';
-    console.log('selected filter', this.selectedFilter);
   }
 
   toggleFilters(e) {

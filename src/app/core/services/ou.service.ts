@@ -25,7 +25,6 @@ export class OuService {
     // console.log('delete', id);
     return this.httpClient.delete('../../../api/organisationUnits/' + id).pipe(
       map((response) => {
-        console.log(response);
         return response;
       }),
       catchError((error) => {

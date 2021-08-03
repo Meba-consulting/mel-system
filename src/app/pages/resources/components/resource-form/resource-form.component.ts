@@ -120,7 +120,6 @@ export class ResourceFormComponent implements OnInit {
                         })
                       );
                   }, 70);
-                  console.log(sharingResponse);
                 });
             });
         });

@@ -41,7 +41,6 @@ export class EventProgramEntryComponent implements OnInit {
       this.program?.programStages[0]?.programStageDataElements.map((elem) => {
         return { ...elem?.dataElement, compulsory: elem?.compulsory };
       });
-    console.log('reriewtr', this.customFormDataValues);
   }
 
   detailsOfTheChangedValue(e) {

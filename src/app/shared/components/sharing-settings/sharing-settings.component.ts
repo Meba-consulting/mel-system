@@ -92,7 +92,6 @@ export class SharingSettingsComponent implements OnInit {
           }, 2000);
         },
         (error) => {
-          console.log(error);
           setTimeout(() => {
             this.sharingSettingsMessage = error.message;
             setTimeout(() => {
@@ -150,7 +149,6 @@ export class SharingSettingsComponent implements OnInit {
           }, 2000);
         },
         (error) => {
-          console.log(error);
           setTimeout(() => {
             this.sharingSettingsMessage = error.message;
             // setTimeout(() => {

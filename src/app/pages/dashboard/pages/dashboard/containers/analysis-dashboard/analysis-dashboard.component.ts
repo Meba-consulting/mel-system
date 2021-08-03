@@ -190,7 +190,6 @@ export class AnalysisDashboardComponent implements OnInit {
   }
 
   onFilterUpdateAction(selections) {
-    console.log(selections);
     this.dataSelections = selections;
   }
 
@@ -284,8 +283,6 @@ export class AnalysisDashboardComponent implements OnInit {
         // Array.isArray(dialogData.selectionItems)
         //   ? dialogData.selectionItems[0]
         //   : dialogData.selectionItems;
-
-        console.log('visualizationLayout', this.visualizationLayout);
 
         if (dialogData.action === 'UPDATE') {
           if (!Array.isArray(selectedDimension)) {

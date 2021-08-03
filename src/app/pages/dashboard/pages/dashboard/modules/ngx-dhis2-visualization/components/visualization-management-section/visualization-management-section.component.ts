@@ -5,7 +5,7 @@ import { openAnimation } from '../../../../../animations';
   selector: 'app-visualization-management-section',
   templateUrl: './visualization-management-section.component.html',
   styleUrls: ['./visualization-management-section.component.scss'],
-  animations: [openAnimation]
+  animations: [openAnimation],
 })
 export class VisualizationManagementSectionComponent implements OnInit {
   @Input()
@@ -42,7 +42,6 @@ export class VisualizationManagementSectionComponent implements OnInit {
 
   onInputChange(e, field: string) {
     e.stopPropagation();
-    console.log(e.target.value);
     if (field === 'NAME') {
       this.name = e.target.value.trim('');
     } else {
@@ -55,7 +54,7 @@ export class VisualizationManagementSectionComponent implements OnInit {
     this.showManagementPanel = false;
     this.save.emit({
       name: this.name,
-      description: this.description
+      description: this.description,
     });
   }
 
@@ -73,7 +72,7 @@ export class VisualizationManagementSectionComponent implements OnInit {
   onConfirmDelete(e) {
     e.stopPropagation();
     this.remove.emit({
-      deleteFavorite: this.deleteFavorite
+      deleteFavorite: this.deleteFavorite,
     });
     this.deleteFavorite = false;
     this.showDeleteConfirmation = false;

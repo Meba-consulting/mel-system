@@ -105,8 +105,8 @@ export class OutputModalComponent implements OnInit {
               return {
                 ...indicator,
                 showOnMatrix: this.keyedIndicators[indicator?.id]?.showOnMatrix,
-                targetPerYear: this.keyedIndicators[indicator?.id]
-                  ?.targetPerYear,
+                targetPerYear:
+                  this.keyedIndicators[indicator?.id]?.targetPerYear,
                 baseline: this.keyedIndicators[indicator?.id]?.baseline,
               };
             }) || [],
@@ -268,8 +268,8 @@ export class OutputModalComponent implements OnInit {
               return {
                 ...indicator,
                 showOnMatrix: this.keyedIndicators[indicator?.id]?.showOnMatrix,
-                targetPerYear: this.keyedIndicators[indicator?.id]
-                  ?.targetPerYear,
+                targetPerYear:
+                  this.keyedIndicators[indicator?.id]?.targetPerYear,
                 baseline: this.keyedIndicators[indicator?.id]?.baseline,
               };
             }) || [],
@@ -287,8 +287,6 @@ export class OutputModalComponent implements OnInit {
           : [...this.currentOutput.activities, newActivity];
 
         this.currentActivity = newActivity;
-
-        console.log('this.currentActivity', this.currentActivity);
 
         this.outCome.outputs = this.outCome.outputs.map((item) => {
           if (item?.id === this.currentOutput?.id) {
@@ -374,7 +372,6 @@ export class OutputModalComponent implements OnInit {
 
   onEditActivity(e, activity) {
     // e.stopPropagation();
-    console.log('activity', activity);
     this.currentActivity = activity;
     this.selectedIndicator = activity?.indicators;
     this.responsible = activity?.responsible;

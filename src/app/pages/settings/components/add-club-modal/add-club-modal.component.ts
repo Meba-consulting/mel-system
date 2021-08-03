@@ -183,7 +183,6 @@ export class AddClubModalComponent implements OnInit {
   }
 
   onFormUpdate(formValue: FormValue) {
-    console.log(formValue.getValues());
     this.formValues = { ...this.formValues, ...formValue.getValues() };
     this.isFormValid = formValue.isValid;
   }
