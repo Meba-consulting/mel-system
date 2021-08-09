@@ -27,6 +27,9 @@ import { AddYearOfActivityModalComponent } from './components/add-year-of-activi
 import { StrategicObjectivesListComponent } from './components/strategic-objectives-list/strategic-objectives-list.component';
 import { OutputModalComponent } from './components/output-modal/output-modal.component';
 import { TargetsSettingsComponent } from './components/targets-settings/targets-settings.component';
+import { GeneralReportsComponent } from './containers/general-reports/general-reports.component';
+import { GeneralReportHomeComponent } from './containers/general-report-home/general-report-home.component';
+import { RenderGeneralReportComponent } from './components/render-general-report/render-general-report.component';
 
 @NgModule({
   declarations: [
@@ -51,6 +54,9 @@ import { TargetsSettingsComponent } from './components/targets-settings/targets-
     StrategicObjectivesListComponent,
     OutputModalComponent,
     TargetsSettingsComponent,
+    GeneralReportsComponent,
+    GeneralReportHomeComponent,
+    RenderGeneralReportComponent,
   ],
   imports: [
     CommonModule,

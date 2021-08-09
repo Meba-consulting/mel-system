@@ -1,0 +1,21 @@
+.general-reports-list-container {
+  padding: 5px 20px;
+}
+.card-title-container {
+  font-size: 1rem !important;
+  /* color: #3ea9d9 !important; */
+  font-weight: 600 !important;
+}
+
+.card-container-for-custom-css {
+  height: 150px !important;
+  margin-bottom: 15px;
+}
+
+.card-content-p {
+  font-size: 0.8rem;
+}
+
+::ng-deep .mat-card-header-text {
+  margin: 0 !important;
+}

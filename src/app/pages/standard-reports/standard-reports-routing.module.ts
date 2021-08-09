@@ -6,24 +6,29 @@ import { UploadedReportsComponent } from './containers/uploaded-reports/uploaded
 import { ReportsDocumentsComponent } from './components/reports-documents/reports-documents.component';
 import { ReportDcComponent } from './components/report-dc/report-dc.component';
 import { UploadNewReportComponent } from './containers/upload-new-report/upload-new-report.component';
+import { GeneralReportHomeComponent } from './containers/general-report-home/general-report-home.component';
 
 const routes: Routes = [
   {
     path: '',
-    component: HomeComponent
+    component: HomeComponent,
   },
   {
     path: ':type/:id',
-    component: ReportComponent
+    component: ReportComponent,
   },
   {
     path: 'upload-new-report/:usergroupId/new/uploaded',
-    component: UploadNewReportComponent
-  }
+    component: UploadNewReportComponent,
+  },
+  {
+    path: 'general/:type/:id',
+    component: GeneralReportHomeComponent,
+  },
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
 export class StandardReportRoutingModule {}

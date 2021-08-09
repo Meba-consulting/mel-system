@@ -48,7 +48,12 @@ export class HomeComponent implements OnInit {
 
     this.currentUser$.subscribe((userDetails) => {
       if (userDetails) {
-        this.reportsAreas = [];
+        this.reportsAreas = [
+          {
+            id: 'general_reports',
+            name: 'GENERAL REPORTS',
+          },
+        ];
         const keyedUserGroups = keyBy(userDetails?.userGroups, 'id');
         if (keyedUserGroups['Dnf8GlsGZ4M']) {
           this.reportsAreas.push({
@@ -80,8 +85,7 @@ export class HomeComponent implements OnInit {
     }, 50);
   }
 
-  changeTab(e, val) {
-    e.stopPropagation();
+  changeTab(val) {
     this.selectedTab.setValue(val);
   }
 }

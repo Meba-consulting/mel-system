@@ -6,10 +6,10 @@
     >
       <div style="display: block">
         <div
-          style="width: 47%;float: left; margin-right: 2.5%"
+          style="width: 47%; float: left; margin-right: 2.5%"
           *ngFor="let dimensionGroup of addedDimensions"
         >
-          <mat-form-field class="dimensions" style=" width: 100%">
+          <mat-form-field class="dimensions" style="width: 100%">
             <mat-label>{{ dimensionGroup.name }}</mat-label>
             <mat-select id="dimensions_{{ dimensionGroup.name }}">
               <mat-option
@@ -25,7 +25,7 @@
         </div>
       </div>
     </div>
-    <div style="min-width: 15%; float: left; margin-top: 2px; max-width: 90%;">
+    <div style="min-width: 15%; float: left; margin-top: 2px; max-width: 90%">
       <ngx-dhis2-selection-filters
         [selectionFilterConfig]="selectionFilterConfig"
         (filterUpdate)="onFilterUpdate($event)"
@@ -44,22 +44,4 @@
   >
     <div id="html_id" style="margin-top: 15px"></div>
   </div>
-  <!-- <div
-    *ngIf="
-      selectionChanged &&
-      filterSelections &&
-      filterSelections.length > 1 &&
-      reportType == 'interactive-report'
-    "
-    class="col-12"
-  >
-    <div style="margin-top: 15px">
-      <app-interactive-report
-        [filterSelections]="filterSelections"
-        [reportTemplate]="reportHtml"
-        [reportId]="reportId"
-      >
-      </app-interactive-report>
-    </div>
-  </div> -->
 </div>

@@ -1,0 +1,38 @@
+<div
+  style="height: 100%; background-color: #fff; margin-top: 10px"
+  *ngIf="{
+    reportMetadata: reportMetadata$ | async,
+    currentUser: currentUser$ | async
+  } as params"
+>
+  <mat-progress-bar
+    *ngIf="!params?.reportMetadata || !params?.currentUser"
+    mode="indeterminate"
+  ></mat-progress-bar>
+  <div
+    class="row"
+    style="padding: 10px"
+    *ngIf="params?.reportMetadata && params?.currentUser"
+  >
+    <div class="col-12" style="margin-bottom: 15px">
+      <div class="d-flex align-items-center no-print">
+        <button color="primary" mat-flat-button routerLink="/reports">
+          <mat-icon>arrow_back</mat-icon>
+          <span class="ml-2">BACK TO REPORTS LIST</span>
+        </button>
+        <div class="ml-3 report-title">
+          {{ params?.reportMetadata.name }}
+        </div>
+      </div>
+    </div>
+    <div class="col-12" style="width: 100% !important">
+      <div style="margin-bottom: 10px">
+        <app-render-general-report
+          [program]="params?.reportMetadata"
+          [reportId]="programId"
+          [type]="type"
+        ></app-render-general-report>
+      </div>
+    </div>
+  </div>
+</div>

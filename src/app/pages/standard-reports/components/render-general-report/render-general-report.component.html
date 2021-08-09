@@ -1,0 +1,19 @@
+<div class="row">
+  <div class="col-12 filters no-print">
+    <div style="min-width: 15%; float: left; margin-top: 2px; max-width: 90%">
+      <ngx-dhis2-selection-filters
+        [selectionFilterConfig]="selectionFilterConfig"
+        (filterUpdate)="onFilterUpdate($event)"
+      >
+      </ngx-dhis2-selection-filters>
+    </div>
+    <div style="float: right; width: 10%">
+      <button mat-stroked-button (click)="printPDF()" style="float: right">
+        Print
+      </button>
+    </div>
+  </div>
+  <div class="col-12 print">
+    <div></div>
+  </div>
+</div>

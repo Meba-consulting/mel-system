@@ -23,3 +23,37 @@ export const getProgramsLoadedState = createSelector(
   getProgramsState,
   (state: ProgramsState) => state.loaded
 );
+
+export const getReportById = createSelector(
+  getProgramsEntities,
+  (reportEntities, props) => reportEntities[props?.id] || null
+);
+
+export const getProgramsForGeneralReports = createSelector(
+  getAllPrograms,
+  (programs: any[]) => {
+    console.log('programs', programs);
+    return (
+      programs.filter(
+        (program) =>
+          (
+            program?.userGroupAccesses.filter(
+              (userGroupAccess) =>
+                userGroupAccess?.id === 'R0Jl6z5svOO' ||
+                userGroupAccess.id === 'X4hULPKQDnn'
+            ) || []
+          ).length > 0
+      ) || []
+    ).map((program) => {
+      return {
+        ...program,
+        type:
+          program?.programType === 'WITHOUT_REGISTRATION'
+            ? 'EVENT'
+            : program?.programType === 'WITH_REGISTRATION'
+            ? 'TRACKER'
+            : 'AGGGRAGATE',
+      };
+    });
+  }
+);
