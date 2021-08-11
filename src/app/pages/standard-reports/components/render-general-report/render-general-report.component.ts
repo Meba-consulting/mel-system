@@ -1,4 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { Observable } from 'rxjs';
+import { GeneralReportsService } from 'src/app/core/services/general-reports.service';
 
 @Component({
   selector: 'app-render-general-report',
@@ -31,11 +33,32 @@ export class RenderGeneralReportComponent implements OnInit {
     },
   };
   selectedOrgUnitItems: Array<any> = [];
-  constructor() {}
+  programConfigs$: Observable<any>;
+  dataSelections: any;
+  shouldRenderReport: boolean = false;
+  constructor(private generalReportService: GeneralReportsService) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.programConfigs$ =
+      this.generalReportService.getGeneralReportDataStoreConfigs(this.program);
+  }
 
   onFilterUpdate(selections) {
-    console.log(selections);
+    this.dataSelections = {};
+    selections.map((selection) => {
+      this.shouldRenderReport = false;
+      this.dataSelections[selection?.dimension] = selection?.items[0];
+    });
+    setTimeout(() => {
+      if (Object.keys(this.dataSelections).length > 1) {
+        this.shouldRenderReport = true;
+      }
+    }, 500);
+  }
+
+  printPDF() {
+    setTimeout(function () {
+      window.print();
+    }, 500);
   }
 }

@@ -30,6 +30,10 @@ import { TargetsSettingsComponent } from './components/targets-settings/targets-
 import { GeneralReportsComponent } from './containers/general-reports/general-reports.component';
 import { GeneralReportHomeComponent } from './containers/general-report-home/general-report-home.component';
 import { RenderGeneralReportComponent } from './components/render-general-report/render-general-report.component';
+import { GeneralReportDataComponent } from './components/general-report-data/general-report-data.component';
+import { GeneralReportCustomComponent } from './components/general-report-custom/general-report-custom.component';
+import { RenderTrackerGeneralReportComponent } from './components/render-tracker-general-report/render-tracker-general-report.component';
+import { RenderTrackerGeneralReportModalComponent } from './components/render-tracker-general-report-modal/render-tracker-general-report-modal.component';
 
 @NgModule({
   declarations: [
@@ -57,6 +61,10 @@ import { RenderGeneralReportComponent } from './components/render-general-report
     GeneralReportsComponent,
     GeneralReportHomeComponent,
     RenderGeneralReportComponent,
+    GeneralReportDataComponent,
+    GeneralReportCustomComponent,
+    RenderTrackerGeneralReportComponent,
+    RenderTrackerGeneralReportModalComponent,
   ],
   imports: [
     CommonModule,
@@ -73,6 +81,7 @@ import { RenderGeneralReportComponent } from './components/render-general-report
     AddYearOfActivityModalComponent,
     OutputModalComponent,
     TargetsSettingsComponent,
+    RenderTrackerGeneralReportModalComponent,
   ],
 })
 export class StandardReportsModule {}

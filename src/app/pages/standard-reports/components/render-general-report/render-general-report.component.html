@@ -13,7 +13,18 @@
       </button>
     </div>
   </div>
-  <div class="col-12 print">
-    <div></div>
+  <div
+    class="col-12 print"
+    *ngIf="
+      dataSelections &&
+      dataSelections['pe'] &&
+      dataSelections['ou'] &&
+      shouldRenderReport
+    "
+  >
+    <app-general-report-data
+      [program]="program"
+      [ouAndPeSelections]="dataSelections"
+    ></app-general-report-data>
   </div>
 </div>

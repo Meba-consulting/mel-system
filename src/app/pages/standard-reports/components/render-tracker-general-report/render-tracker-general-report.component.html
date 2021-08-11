@@ -1,0 +1,45 @@
+<table class="table table-bordered">
+  <thead>
+    <tr>
+      <th>SN</th>
+      <th
+        *ngFor="
+          let programTrackedEntityAttribute of program?.programTrackedEntityAttributes
+        "
+      >
+        {{ programTrackedEntityAttribute?.trackedEntityAttribute?.name }}
+      </th>
+      <th class="no-print">Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let data of formattedData">
+      <td>
+        {{ data?.position }}
+      </td>
+      <td
+        *ngFor="
+          let programTrackedEntityAttribute of program?.programTrackedEntityAttributes
+        "
+      >
+        {{
+          data.attributeValues[
+            programTrackedEntityAttribute?.trackedEntityAttribute?.id
+          ]
+            ? data.attributeValues[
+                programTrackedEntityAttribute?.trackedEntityAttribute?.id
+              ]?.value
+            : ''
+        }}
+      </td>
+      <td class="no-print">
+        <button
+          mat-stroked-button
+          (click)="viewCustomReport($event, data, program)"
+        >
+          View report
+        </button>
+      </td>
+    </tr>
+  </tbody>
+</table>

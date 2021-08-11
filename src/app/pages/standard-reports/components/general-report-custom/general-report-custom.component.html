@@ -1,0 +1,24 @@
+<div
+  class="program-data-container"
+  *ngIf="{ programData: programData$ | async } as params"
+>
+  <div class="row" *ngIf="params?.programData">
+    <div class="col-12">
+      <app-render-tracker-general-report
+        [programData]="params?.programData"
+        [program]="program"
+      ></app-render-tracker-general-report>
+    </div>
+  </div>
+
+  <div class="row" *ngIf="enrollmentDetails?.rows.length === 0">
+    <div class="col-12 text-center p-4">
+      <p>No data</p>
+    </div>
+  </div>
+
+  <mat-progress-bar
+    *ngIf="!params?.programData && enrollmentDetails?.rows.length > 0"
+    mode="indeterminate"
+  ></mat-progress-bar>
+</div>

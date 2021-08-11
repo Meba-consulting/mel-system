@@ -1,0 +1,18 @@
+<div
+  class="general-report-data-container"
+  *ngIf="{ enrollmentDetails: enrollmentDetails$ | async } as params"
+>
+  <div class="row" *ngIf="params?.enrollmentDetails">
+    <div class="col-12">
+      <app-general-report-custom
+        [enrollmentDetails]="params?.enrollmentDetails?.listGrid"
+        [program]="program"
+      ></app-general-report-custom>
+    </div>
+  </div>
+
+  <mat-progress-bar
+    *ngIf="!params?.enrollmentDetails"
+    mode="indeterminate"
+  ></mat-progress-bar>
+</div>

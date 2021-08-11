@@ -12,7 +12,7 @@ export class DataEntryService {
     return this.httpClient.get(
       'programs.json?filter=id:in:[' +
         id +
-        ']&fields=id,userGroupAccesses[*],programIndicators[id,name],name,dataEntryForm[id,name,htmlCode],programTrackedEntityAttributes[id,name,code,valueType],programStages[sortOrder,userGroupAccesses[*],id,name,dataEntryForm[id,htmlCode],programStageDataElements[dataElement[id,name,code,valueType,optionSet[id,name,options[id,name,code]]]]]'
+        ']&fields=id,userGroupAccesses[*],programIndicators[id,name],name,description,dataEntryForm[id,name,htmlCode],programTrackedEntityAttributes[id,name,code,valueType],programStages[sortOrder,userGroupAccesses[*],id,name,dataEntryForm[id,htmlCode],programStageDataElements[dataElement[id,name,code,valueType,optionSet[id,name,options[id,name,code]]]]]'
     );
   }
 

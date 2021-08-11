@@ -1,0 +1,9 @@
+table td {
+  padding: 6px !important;
+  text-align: justify;
+  line-height: 1.5rem !important;
+}
+
+.mat-typography {
+  font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+}

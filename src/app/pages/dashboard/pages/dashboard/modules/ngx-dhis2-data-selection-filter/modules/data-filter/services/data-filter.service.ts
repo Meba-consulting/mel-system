@@ -31,7 +31,7 @@ export class DataFilterService {
     indicatorGroups: [],
     categoryOptions: [],
     dataSets: [],
-    functions: []
+    functions: [],
   };
 
   private _dataItems: any[] = [];
@@ -41,7 +41,7 @@ export class DataFilterService {
   getIndicators(): Observable<Indicator[]> {
     return this.http
       .get('indicators.json?fields=id,name,dataSets[periodType]&paging=false')
-      .pipe(map(res => res.indicators || []));
+      .pipe(map((res) => res.indicators || []));
   }
 
   getDataElements(): Observable<DataElement[]> {
@@ -50,13 +50,13 @@ export class DataFilterService {
         'dataElements.json?fields=,id,name,valueType,categoryCombo&paging=false&filter=' +
           'domainType:eq:AGGREGATE&filter=valueType:ne:TEXT&filter=valueType:ne:LONG_TEXT'
       )
-      .pipe(map(res => res.dataElements || []));
+      .pipe(map((res) => res.dataElements || []));
   }
 
   getDataSets(): Observable<DataSet[]> {
     return this.http
       .get('dataSets.json?paging=false&fields=id,name')
-      .pipe(map(res => res.dataSets || []));
+      .pipe(map((res) => res.dataSets || []));
   }
 
   getCategoryCombos(): Observable<CategoryCombo[]> {
@@ -64,7 +64,7 @@ export class DataFilterService {
       .get(
         'categoryCombos.json?fields=id,name,categoryOptionCombos[id,name]&paging=false'
       )
-      .pipe(map(res => res.categoryCombos || []));
+      .pipe(map((res) => res.categoryCombos || []));
   }
 
   getOrganisationUnits(): Observable<any[]> {
@@ -72,7 +72,7 @@ export class DataFilterService {
       .get(
         'organisationUnits.json?fields=id,name,children,parent,path&paging=false'
       )
-      .pipe(map(res => res.organisationUnits || []));
+      .pipe(map((res) => res.organisationUnits || []));
   }
 
   getDataElementGroups(): Observable<DataelementGroup[]> {
@@ -80,7 +80,7 @@ export class DataFilterService {
       .get(
         'dataElementGroups.json?paging=false&fields=id,name,dataElements[id,name,categoryCombo]'
       )
-      .pipe(map(res => res.dataElementGroups || []));
+      .pipe(map((res) => res.dataElementGroups || []));
   }
 
   getIndicatorGroups(): Observable<any[]> {
@@ -88,21 +88,21 @@ export class DataFilterService {
       .get(
         'indicatorGroups.json?paging=false&fields=id,name,indicators[id,name]'
       )
-      .pipe(map(res => res.indicatorGroups || []));
+      .pipe(map((res) => res.indicatorGroups || []));
   }
 
   getPrograms(): Observable<any[]> {
     return this.http
       .get(
-        'programs.json?paging=false&fields=id,name,programType,programIndicators[id,name'
+        'programs.json?paging=false&fields=id,name,programType,programIndicators[id,name]'
       )
-      .pipe(map(res => res.programs || []));
+      .pipe(map((res) => res.programs || []));
   }
 
   getProgramIndicators(): Observable<any[]> {
     return this.http
       .get('programIndicators.json?paging=false&fields=id,name')
-      .pipe(map(res => res.programIndicators || []));
+      .pipe(map((res) => res.programIndicators || []));
   }
 
   getFunctions(): Observable<any> {
@@ -119,7 +119,7 @@ export class DataFilterService {
   }
 
   initiateData() {
-    return Observable.create(observer => {
+    return Observable.create((observer) => {
       if (this._dataItems.length > 0) {
         observer.next(this._dataItems);
         observer.complete();
@@ -147,7 +147,7 @@ export class DataFilterService {
    * This function will be used to return all needed metadata either from offline or if not available the online
    */
   getDataFromLocalDatabase(key: string): Observable<any> {
-    return Observable.create(observer => {
+    return Observable.create((observer) => {
       let dataStream$ = of(null);
       switch (key) {
         case DATAELEMENT_KEY:
@@ -185,11 +185,11 @@ export class DataFilterService {
           break;
       }
       dataStream$.subscribe(
-        data => {
+        (data) => {
           observer.next(data);
           observer.complete();
         },
-        error => observer.error(error)
+        (error) => observer.error(error)
       );
     });
   }
