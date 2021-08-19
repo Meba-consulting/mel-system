@@ -21,8 +21,8 @@ export class RenderTrackerGeneralReportComponent implements OnInit {
         this.programData
       );
 
-    console.log('formattedData', this.formattedData);
-    console.log(this.program);
+    // console.log('formattedData', this.formattedData);
+    // console.log(this.program);
   }
 
   viewCustomReport(event: Event, data, program) {
@@ -30,7 +30,7 @@ export class RenderTrackerGeneralReportComponent implements OnInit {
     console.log(data);
     this.dialog.open(RenderTrackerGeneralReportModalComponent, {
       width: '75%',
-      maxHeight: '90%',
+      height: '100vh',
       data: { data, program },
     });
   }

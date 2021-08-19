@@ -39,4 +39,11 @@ export class RenderTrackerGeneralReportModalComponent implements OnInit {
   ngOnInit(): void {
     console.log(this.formattedTrackedEntityInstanceData);
   }
+
+  printPDF(event: Event) {
+    event.stopPropagation();
+    setTimeout(function () {
+      window.print();
+    }, 500);
+  }
 }
