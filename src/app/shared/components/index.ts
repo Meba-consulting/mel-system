@@ -1,5 +1,6 @@
 import { ConfirmDeleteModalComponent } from './confirm-delete-modal/confirm-delete-modal.component';
 import { DeletingItemComponent } from './deleting-item/deleting-item.component';
+import { DownloadFileResourceComponent } from './download-file-resource/download-file-resource.component';
 import { EntrySideBarSummaryComponent } from './entry-side-bar-summary/entry-side-bar-summary.component';
 import { EventProgramDataComponent } from './event-program-data/event-program-data.component';
 import { EventProgramEntryComponent } from './event-program-entry/event-program-entry.component';
@@ -46,4 +47,5 @@ export const sharedComponents: any[] = [
   SuccessErrorModalComponent,
   UploadExcelDataModalComponent,
   ProgramStageDataListComponent,
+  DownloadFileResourceComponent,
 ];

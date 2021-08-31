@@ -169,4 +169,11 @@ export class DataService {
   async saveEventsFromExcel(data) {
     return await this.httpClient.post('events', data).toPromise();
   }
+
+  uploadDataValueResource(fileResource): Observable<any> {
+    const formData = new FormData();
+    formData.append('file', fileResource.file);
+    formData.append('domain', 'DATA_VALUE');
+    return this.httpClient.post('fileResources', formData);
+  }
 }

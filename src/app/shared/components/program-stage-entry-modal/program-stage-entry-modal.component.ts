@@ -135,41 +135,123 @@ export class ProgramStageEntryModalComponent implements OnInit {
     this.savingMessage = 'Saving data';
     this.savingProgramData = true;
     this.eventsData.programStage = programStage?.id;
-    !this.isEditSet
-      ? this.dataService
-          .saveEventsData({ events: [this.eventsData] })
-          .subscribe((response) => {
-            this.savingMessage = 'Saved data successfully';
-            this.savingProgramData = false;
-            this.index = 0;
-            this.queryResponseData$ =
-              this.dataService.getTrackedEntityInstances({
-                orgUnit: this.orgUnit?.id,
-                program: this.program?.id,
-              });
-            setTimeout(() => {
-              this.savingMessage = '';
-            }, 1000);
-          })
-      : this.dataService
-          .updateEventData(this.currentEventToEdit?.event, this.eventsData)
-          .subscribe((response) => {
-            this.savingMessage = 'Saved data successfully';
-            this.savingProgramData = false;
-            this.programStageFormData = {};
-            this.currentEventToEdit = null;
-            this.isEditSet = false;
-            this.selectedTab.setValue(0);
-            this.index = 0;
-            this.queryResponseData$ =
-              this.dataService.getTrackedEntityInstances({
-                orgUnit: this.orgUnit?.id,
-                program: this.program?.id,
-              });
-            setTimeout(() => {
-              this.savingMessage = '';
-            }, 1000);
-          });
+    const elementsOfTypeResource =
+      programStage?.programStageDataElements.filter(
+        (programStageDataElement) =>
+          programStageDataElement?.dataElement?.valueType === 'FILE_RESOURCE'
+      ) || [];
+    const elemId =
+      elementsOfTypeResource.length > 0
+        ? elementsOfTypeResource[0]?.dataElement?.id
+        : null;
+    const isElementOfTypeFileResourceHasValue = elemId
+      ? (
+          this.eventsData.dataValues.filter(
+            (dataValue) => dataValue?.dataElement === elemId
+          ) || []
+        )?.length > 0
+      : false;
+
+    if (
+      elementsOfTypeResource.length === 0 &&
+      !isElementOfTypeFileResourceHasValue
+    ) {
+      !this.isEditSet
+        ? this.dataService
+            .saveEventsData({ events: [this.eventsData] })
+            .subscribe((response) => {
+              this.savingMessage = 'Saved data successfully';
+              this.savingProgramData = false;
+              this.index = 0;
+              this.queryResponseData$ =
+                this.dataService.getTrackedEntityInstances({
+                  orgUnit: this.orgUnit?.id,
+                  program: this.program?.id,
+                });
+              setTimeout(() => {
+                this.savingMessage = '';
+              }, 1000);
+            })
+        : this.dataService
+            .updateEventData(this.currentEventToEdit?.event, this.eventsData)
+            .subscribe((response) => {
+              this.savingMessage = 'Saved data successfully';
+              this.savingProgramData = false;
+              this.programStageFormData = {};
+              this.currentEventToEdit = null;
+              this.isEditSet = false;
+              this.selectedTab.setValue(0);
+              this.index = 0;
+              this.queryResponseData$ =
+                this.dataService.getTrackedEntityInstances({
+                  orgUnit: this.orgUnit?.id,
+                  program: this.program?.id,
+                });
+              setTimeout(() => {
+                this.savingMessage = '';
+              }, 1000);
+            });
+    } else {
+      const fileResourceValue = (this.eventsData.dataValues.filter(
+        (dataValue) => dataValue?.dataElement === elemId
+      ) || [])[0]?.value;
+      this.dataService
+        .uploadDataValueResource(fileResourceValue)
+        .subscribe((response) => {
+          if (response) {
+            const newEventData = {
+              ...this.eventsData,
+              dataValues: [
+                ...(this.eventsData.dataValues.filter(
+                  (dataValue) => dataValue?.dataElement !== elemId
+                ) || []),
+                {
+                  dataElement: elemId,
+                  value: response.response.fileResource.id,
+                },
+              ],
+            };
+            !this.isEditSet
+              ? this.dataService
+                  .saveEventsData({ events: [newEventData] })
+                  .subscribe((response) => {
+                    this.savingMessage = 'Saved data successfully';
+                    this.savingProgramData = false;
+                    this.index = 0;
+                    this.queryResponseData$ =
+                      this.dataService.getTrackedEntityInstances({
+                        orgUnit: this.orgUnit?.id,
+                        program: this.program?.id,
+                      });
+                    setTimeout(() => {
+                      this.savingMessage = '';
+                    }, 1000);
+                  })
+              : this.dataService
+                  .updateEventData(
+                    this.currentEventToEdit?.event,
+                    this.eventsData
+                  )
+                  .subscribe((response) => {
+                    this.savingMessage = 'Saved data successfully';
+                    this.savingProgramData = false;
+                    this.programStageFormData = {};
+                    this.currentEventToEdit = null;
+                    this.isEditSet = false;
+                    this.selectedTab.setValue(0);
+                    this.index = 0;
+                    this.queryResponseData$ =
+                      this.dataService.getTrackedEntityInstances({
+                        orgUnit: this.orgUnit?.id,
+                        program: this.program?.id,
+                      });
+                    setTimeout(() => {
+                      this.savingMessage = '';
+                    }, 1000);
+                  });
+          }
+        });
+    }
   }
 
   onGetFormValidity(formValidity) {

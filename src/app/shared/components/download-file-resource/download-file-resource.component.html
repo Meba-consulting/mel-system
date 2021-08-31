@@ -1,0 +1,13 @@
+<div class="download-file-resource-container">
+  <h4>Download the resource</h4>
+  <div class="d-flex justify-content-end mt-4">
+    <button mat-stroked-button (click)="onCancel($event)">Cancel</button>
+    <button
+      mat-stroked-button
+      class="ml-2 mel-btn-primary"
+      (click)="onDownloadResource($event, data)"
+    >
+      Download
+    </button>
+  </div>
+</div>

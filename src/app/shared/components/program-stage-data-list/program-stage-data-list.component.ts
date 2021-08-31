@@ -11,6 +11,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 
 import { keyBy } from 'lodash';
+import { DownloadFileResourceComponent } from '../download-file-resource/download-file-resource.component';
 import { UpdateStatusModalComponent } from '../update-status-modal/update-status-modal.component';
 
 @Component({
@@ -58,10 +59,22 @@ export class ProgramStageDataListComponent implements OnInit {
             ) {
               formattedData['position'] = index + 1;
               this.dataElements.forEach((elem) => {
-                formattedData[elem?.dataElement] = dataObject[elem?.dataElement]
-                  ? dataObject[elem?.dataElement]?.value
-                  : null;
+                formattedData[elem?.dataElement] =
+                  dataObject[elem?.dataElement] &&
+                  elem?.dataElement.valueType !== 'FILE_RESOURCE'
+                    ? dataObject[elem?.dataElement]?.value
+                    : elem?.dataElement.valueType === 'FILE_RESOURCE'
+                    ? 'FILE'
+                    : null;
               });
+              formattedData['hasFile'] =
+                (
+                  this.dataElements.filter(
+                    (programStageDataElement) =>
+                      programStageDataElement?.dataElement?.valueType ===
+                      'FILE_RESOURCE'
+                  ) || []
+                )?.length > 0;
               formattedData['action'] = dataObject;
               formattedData['reportedBy'] = dataObject?.event?.storedBy;
               formattedData['reportedByMe'] =
@@ -117,5 +130,26 @@ export class ProgramStageDataListComponent implements OnInit {
           this.updated.emit(e);
         }
       });
+  }
+
+  getTheFile(event: Event, data) {
+    event.stopPropagation();
+    console.log(data);
+    const elementWithFile = (Object.keys(data).filter(
+      (key) => data[key]?.isFile
+    ) || [])[0];
+    if (elementWithFile) {
+      this.dialog.open(DownloadFileResourceComponent, {
+        width: '25%',
+        height: '110px',
+        disableClose: false,
+        data: {
+          fileId: data[elementWithFile]?.value,
+          event: data?.event?.event,
+          dataElement: elementWithFile,
+        },
+        panelClass: 'custom-dialog-container',
+      });
+    }
   }
 }

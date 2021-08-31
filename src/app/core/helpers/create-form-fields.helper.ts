@@ -36,6 +36,8 @@ export function createFormFieldsFromProgramStageDataElement(
           ? 'email'
           : stageDataElement?.dataElement?.valueType == 'phoneNumber'
           ? 'phoneNumber'
+          : stageDataElement?.dataElement?.valueType == 'FILE_RESOURCE'
+          ? 'file'
           : 'textbox',
 
       type:
@@ -44,6 +46,8 @@ export function createFormFieldsFromProgramStageDataElement(
         stageDataElement?.dataElement?.valueType == 'INTEGER_POSITIVE' ||
         stageDataElement?.dataElement?.valueType == 'NUMBER'
           ? 'number'
+          : stageDataElement?.dataElement?.valueType === 'FILE_RESOURCE'
+          ? 'file'
           : null,
       min:
         stageDataElement?.dataElement?.valueType == 'INTEGER_ZERO_OR_POSITIVE'

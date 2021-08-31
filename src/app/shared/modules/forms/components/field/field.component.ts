@@ -12,6 +12,7 @@ export class FieldComponent {
   @Input() form: FormGroup;
   @Input() isCheckBoxButton: boolean;
   @Input() fieldClass: string;
+  file: any;
 
   @Output()
   fieldUpdate: EventEmitter<FormGroup> = new EventEmitter<FormGroup>();
@@ -32,8 +33,14 @@ export class FieldComponent {
     return this.field.controlType === 'boolean';
   }
 
+  get isFile(): boolean {
+    return this.field.controlType === 'file';
+  }
+
   get isCommonField(): boolean {
-    return !this.isCheckBoxButton && !this.isDate && !this.isBoolean;
+    return (
+      !this.isCheckBoxButton && !this.isDate && !this.isBoolean && !this.isFile
+    );
   }
 
   get fieldId(): string {
@@ -41,7 +48,22 @@ export class FieldComponent {
   }
 
   onFieldUpdate(controlType): void {
-    // console.log(controlType);
+    this.fieldUpdate.emit(this.form);
+  }
+
+  fileSelection(event, field) {
+    const element: HTMLElement = document.getElementById('fileSelector');
+    this.file = element.id;
+    const data = {
+      resourceName: event.target.files[0].name,
+      resourceType: 'DATA_VALUE',
+      attachment: true,
+      file: event.target.files[0],
+      url: '',
+    };
+    let val = {};
+    val[field?.key] = data;
+    this.form.patchValue(val);
     this.fieldUpdate.emit(this.form);
   }
 }

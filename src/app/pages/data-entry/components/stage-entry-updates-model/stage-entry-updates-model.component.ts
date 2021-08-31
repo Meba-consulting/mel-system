@@ -65,9 +65,10 @@ export class StageEntryUpdatesModelComponent implements OnInit {
       eventDate: formatDateYYMMDD(new Date()),
     };
 
-    this.savedUserDataStore$ = this.dataService.getSavedUserDataStoreProgramConfigurations(
-      this.program?.id
-    );
+    this.savedUserDataStore$ =
+      this.dataService.getSavedUserDataStoreProgramConfigurations(
+        this.program?.id
+      );
   }
 
   getTrackedEntityInstanceData(parameters) {
@@ -135,12 +136,11 @@ export class StageEntryUpdatesModelComponent implements OnInit {
           this.loadStageData = false;
           this.dataService.deleteEvent(e.event).subscribe((response) => {
             if (response) {
-              this.queryResponseData$ = this.dataService.getTrackedEntityInstances(
-                {
+              this.queryResponseData$ =
+                this.dataService.getTrackedEntityInstances({
                   orgUnit: this.orgUnit?.id,
                   program: this.program?.id,
-                }
-              );
+                });
             }
           });
           setTimeout(() => {
@@ -171,38 +171,54 @@ export class StageEntryUpdatesModelComponent implements OnInit {
     this.savingProgramData = true;
     this.loadStageData = false;
     this.eventsData.programStage = programStage?.id;
-    !editSet
-      ? this.dataService
-          .saveEventsData({ events: [this.eventsData] })
-          .subscribe((response) => {
-            this.savingMessage = 'Saved data successfully';
-            this.savingProgramData = false;
-            this.loadStageData = true;
-            setTimeout(() => {
-              this.savingMessage = '';
-              this.showStageDataEntry = false;
-            }, 1000);
-            setTimeout(() => {
-              this.showStageDataEntry = true;
-            }, 1300);
-          })
-      : this.dataService
-          .updateEventData(this.currentEventToEdit?.event, this.eventsData)
-          .subscribe((response) => {
-            this.savingMessage = 'Saved data successfully';
-            this.savingProgramData = false;
-            this.loadStageData = true;
-            this.programStageFormData = {};
-            this.currentEventToEdit = null;
-            this.isEditSet = false;
-            this.selectedTabForDataSection.setValue(1);
-            setTimeout(() => {
-              this.savingMessage = '';
-              this.showStageDataEntry = false;
-            }, 1000);
-            setTimeout(() => {
-              this.showStageDataEntry = true;
-            }, 1300);
-          });
+
+    const elementsOfTypeResource =
+      programStage?.programStageDataElements.filter(
+        (programStageDataElement) =>
+          programStageDataElement?.dataElement?.valueType === 'FILE_RESOURCE'
+      ) || [];
+
+    if (elementsOfTypeResource?.length === 0) {
+      !editSet
+        ? this.dataService
+            .saveEventsData({ events: [this.eventsData] })
+            .subscribe((response) => {
+              this.savingMessage = 'Saved data successfully';
+              this.savingProgramData = false;
+              this.loadStageData = true;
+              setTimeout(() => {
+                this.savingMessage = '';
+                this.showStageDataEntry = false;
+              }, 1000);
+              setTimeout(() => {
+                this.showStageDataEntry = true;
+              }, 1300);
+            })
+        : this.dataService
+            .updateEventData(this.currentEventToEdit?.event, this.eventsData)
+            .subscribe((response) => {
+              this.savingMessage = 'Saved data successfully';
+              this.savingProgramData = false;
+              this.loadStageData = true;
+              this.programStageFormData = {};
+              this.currentEventToEdit = null;
+              this.isEditSet = false;
+              this.selectedTabForDataSection.setValue(1);
+              setTimeout(() => {
+                this.savingMessage = '';
+                this.showStageDataEntry = false;
+              }, 1000);
+              setTimeout(() => {
+                this.showStageDataEntry = true;
+              }, 1300);
+            });
+    } else {
+      console.log(
+        'elementsOfTypeResource',
+        elementsOfTypeResource,
+        this.eventsData
+      );
+      // this.dataService.uploadDataValueResource()
+    }
   }
 }

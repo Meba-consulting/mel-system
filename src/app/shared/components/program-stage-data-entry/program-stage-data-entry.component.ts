@@ -4,6 +4,7 @@ import { FormValue } from '../../modules/forms/models/form-value.model';
 
 import * as _ from 'lodash';
 import { sanitizeMultipleSelectionsOptions } from 'src/app/core/helpers/auto-create-value-for-multiple-selections.helper';
+import { DataService } from 'src/app/core/services/data.service';
 
 @Component({
   selector: 'app-program-stage-data-entry',
@@ -23,7 +24,7 @@ export class ProgramStageDataEntryComponent implements OnInit {
   @Output() isFormValid = new EventEmitter<boolean>();
   @Output() editIsSet = new EventEmitter<boolean>();
   isEditSet: boolean = false;
-  constructor() {}
+  constructor(private dataService: DataService) {}
 
   ngOnInit(): void {
     this.formFields = createFormFieldsFromProgramStageDataElement(

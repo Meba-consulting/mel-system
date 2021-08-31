@@ -224,4 +224,16 @@
   <!-- end of data field -->
 </div>
 
+<div [formGroup]="form" *ngIf="isFile">
+  <p>TESTING</p>
+  <input
+    type="file"
+    style="border: none; background-color: transparent; float: left"
+    name="file"
+    accept=".pdf,.doc, .docx"
+    id="fileSelector"
+    (change)="fileSelection($event, field)"
+  />
+</div>
+
 <div [formGroup]="form" *ngIf="isCommonField"></div>

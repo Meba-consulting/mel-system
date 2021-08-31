@@ -79,6 +79,17 @@ export class RenderProgramStageDataComponent implements OnInit {
         _.each(event?.dataValues, (dataValue: any) => {
           data[dataValue?.dataElement] = {
             value: dataValue?.value,
+            isFile:
+              (
+                this.programStage?.programStageDataElements.filter(
+                  (programStageDataElement) =>
+                    programStageDataElement?.dataElement?.valueType ===
+                      'FILE_RESOURCE' &&
+                    programStageDataElement?.dataElement.id ===
+                      dataValue?.dataElement
+                ) || []
+              )?.length > 0,
+            dataElement: dataValue?.dataElement,
             name: dataElements[dataValue?.dataElement],
           };
         });
