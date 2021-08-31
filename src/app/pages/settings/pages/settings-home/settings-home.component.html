@@ -22,18 +22,20 @@
       !params?.systemIds
     "
   ></mat-progress-bar>
-  <app-home-tabs
-    *ngIf="
-      params?.userGroups &&
-      params?.programs &&
-      params?.loadedAttributesState &&
-      params?.currentUser &&
-      params?.systemIds
-    "
-    [programs]="params?.programs"
-    [userGroups]="params?.userGroups"
-    [currentUser]="params?.currentUser"
-    [selectedAttribute]="params?.selectedAttribute"
-    [systemIds]="params?.systemIds"
-  ></app-home-tabs>
+  <div style="max-height: 70vh; overflow: auto" style="margin-bottom: 40px">
+    <app-home-tabs
+      *ngIf="
+        params?.userGroups &&
+        params?.programs &&
+        params?.loadedAttributesState &&
+        params?.currentUser &&
+        params?.systemIds
+      "
+      [programs]="params?.programs"
+      [userGroups]="params?.userGroups"
+      [currentUser]="params?.currentUser"
+      [selectedAttribute]="params?.selectedAttribute"
+      [systemIds]="params?.systemIds"
+    ></app-home-tabs>
+  </div>
 </div>

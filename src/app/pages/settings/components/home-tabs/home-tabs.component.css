@@ -25,7 +25,7 @@
 }
 
 .card-container-for-custom-css {
-  height: 190px !important;
+  max-height: 220px !important;
   margin-bottom: 15px;
 }
 

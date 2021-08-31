@@ -115,6 +115,7 @@
                 min-height: 40vh;
                 margin-top: 20px;
                 padding: 8px 15px;
+                margin-bottom: 15px;
               "
             >
               <div
@@ -173,56 +174,60 @@
                 (dataValues)="onGetDataValues($event, currentUser)"
                 (isFormValid)="onGetFormValidity($event)"
               ></app-tracked-entrity-entry-form>
-            </div>
-            <div class="btns d-flex justify-content-end">
-              <button
-                mat-stroked-button
-                style="margin-right: 5px"
-                (click)="onCancel($event)"
+
+              <div
+                class="btns d-flex justify-content-end"
+                style="margin-bottom: 20px; margin-top: 20px"
               >
-                Cancel
-              </button>
-              <button
-                class="mr-2 float-left mel-btn-primary"
-                mat-stroked-button
-                [disabled]="
-                  !isFormValid ||
-                  savedData ||
-                  selectedRegisteringUnits.length == 0 ||
-                  !currentTrackedEntityInstanceId
-                "
-                (click)="
-                  onSaveData(
-                    $event,
-                    editingData,
-                    currentTrackedEntityInstanceId,
-                    program
-                  )
-                "
-              >
-                <mat-spinner
-                  *ngIf="savingData && savingMessage != ''"
-                  color="accent"
-                  [diameter]="20"
-                  style="display: inline-block !important; margin-right: 4px"
+                <button
+                  mat-stroked-button
+                  style="margin-right: 5px"
+                  (click)="onCancel($event)"
                 >
-                </mat-spinner>
-                Save
-              </button>
-              <button
-                [disabled]="!editData || !currentTrackedEntityInstanceId"
-                *ngIf="program?.updateStages"
-                mat-stroked-button
-                (click)="
-                  onUpdateStages(
-                    $event,
-                    program,
-                    currentTrackedEntityInstanceId
-                  )
-                "
-              >
-                More (tracking data)
-              </button>
+                  Cancel
+                </button>
+                <button
+                  class="mr-2 float-left mel-btn-primary"
+                  mat-stroked-button
+                  [disabled]="
+                    !isFormValid ||
+                    savedData ||
+                    selectedRegisteringUnits.length == 0 ||
+                    !currentTrackedEntityInstanceId
+                  "
+                  (click)="
+                    onSaveData(
+                      $event,
+                      editingData,
+                      currentTrackedEntityInstanceId,
+                      program
+                    )
+                  "
+                >
+                  <mat-spinner
+                    *ngIf="savingData && savingMessage != ''"
+                    color="accent"
+                    [diameter]="20"
+                    style="display: inline-block !important; margin-right: 4px"
+                  >
+                  </mat-spinner>
+                  Save
+                </button>
+                <button
+                  [disabled]="!editData || !currentTrackedEntityInstanceId"
+                  *ngIf="program?.updateStages"
+                  mat-stroked-button
+                  (click)="
+                    onUpdateStages(
+                      $event,
+                      program,
+                      currentTrackedEntityInstanceId
+                    )
+                  "
+                >
+                  More (tracking data)
+                </button>
+              </div>
             </div>
           </div>
         </div>
