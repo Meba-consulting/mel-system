@@ -80,12 +80,12 @@
         style="border-right: solid 1px #eee"
       >
         <div>
-          <div class="user-panel text-center">
-            <img
+          <div class="user-panel text-left" style="height: 30px">
+            <!-- <img
               height="120"
               src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAABmJLR0QA/wD/AP+gvaeTAAACQUlEQVR4nO3au2sUURjG4SfGwluC8V4o4qUQRVMItppGo0j0b9BSEQtrwVbQVmwNNoKgKIhYRQsleKmsRBuDmKjghQiBXCxmF0VxM5k950yi5wdfscvwnvf9Zoc9lyGTyWQymcz/Skfi8bpxHAPYhU2N79/iJW436mtiX9FZjLP4gJlZagxn0FmL0wh0467Zg/9e99FTg9+grMALcw/frOdYntx1QG6qHr5ZN5K7DsQR7Ydv1sHE3oPwVLgGDCf23jbbhAvfrK0xjC6KIYrDETT7I2hGa8CWBaIZrQHrImhuiKAZrQExprKfI2hGa8C7BaIZrQEPI2gORdCMRidGhfsLfC/SzYr1C5jCpYB6FzEdUC8JS/Fa+3f/FZYk9h6Mnfiievhv2J3cdWD68Mncw3/E/hr8RmE7HikffkixnvjnGFDs+X33Z+hx3MLRlIZSb4o2WaZY3W1sfB7BG0VjMplMJpPJZJIQ6wByLY7hEJ60odOBc9is2F+Y1xOlNTitCDzl5xS3nX2By7/oTOExTmF1W04D04vrmPD3xc01rJyDZg8GW+hNNMbsDZKgIn24p9ipKbPCG8EJdLXQ7MLJxrVlNKcbHg5UDVFlMdSPC9hXccxx3MEzxXNNsee/V7ESrHocPozzivcKorBDYTz0mV/oeoA9IYOvwlVMzoNwZWsSV5R4w6TMIzAqzlFXCsawvtUFZRowE8ZLbbTMGOtcYMGQG1C3gbrJDajbQN3kBtRtoG5yA+o2kMlkMplMJlMXPwAQlnQd3J0ImQAAAABJRU5ErkJggg=="
             />
-            <br />
+            <br /> -->
             <!-- <div class="h6 text-center"> -->
             {{ params?.currentUser?.name }}
             <!-- </div> -->
@@ -204,10 +204,19 @@
       <div class="col-md-10 right-panel">
         <router-outlet></router-outlet>
         <!-- <div class="footer"></div> -->
-        <div class="w-100" style="position: fixed; bottom: 0">
+        <div
+          class="w-100"
+          style="
+            position: fixed;
+            bottom: 0;
+            z-index: 1001;
+            height: 50px;
+            margin-bottom: 20px;
+          "
+        >
           <img
             width="85%"
-            style="margin-left: -12px"
+            style="margin-left: -12px; margin-top: 20px"
             height="50"
             src="assets/img/footer_banner_lhrc.png"
           />

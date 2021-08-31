@@ -108,11 +108,12 @@
               {{ savingMessage }}
             </div>
             <div
+              class="mb-4"
               style="
-                height: 70vh;
+                height: 60vh;
                 overflow: auto;
                 margin-top: 20px;
-                padding: 8px 15px;
+                padding: 8px 15px 15px 15px;
               "
             >
               <div class="ou-filter" style="margin-bottom: 15px">
@@ -141,37 +142,37 @@
                 (dataValues)="onGetDataValues($event, currentUser)"
                 (isFormValid)="onGetFormValidity($event)"
               ></app-tracked-entrity-entry-form>
-            </div>
-            <div class="btns d-flex justify-content-end">
-              <button
-                mat-stroked-button
-                style="margin-right: 5px"
-                (click)="onCancel($event)"
-              >
-                Cancel
-              </button>
-              <button
-                class="mr-2 mel-btn-primary"
-                mat-stroked-button
-                [disabled]="!isFormValid || savedData"
-                (click)="
-                  onSaveData(
-                    $event,
-                    editingData,
-                    currentTrackedEntityInstanceId,
-                    program
-                  )
-                "
-              >
-                <mat-spinner
-                  *ngIf="savingData && savingMessage != ''"
-                  color="accent"
-                  [diameter]="20"
-                  style="display: inline-block !important; margin-right: 4px"
+              <div class="btns d-flex justify-content-end">
+                <button
+                  mat-stroked-button
+                  style="margin-right: 5px"
+                  (click)="onCancel($event)"
                 >
-                </mat-spinner>
-                Save
-              </button>
+                  Cancel
+                </button>
+                <button
+                  class="mr-2 mel-btn-primary"
+                  mat-stroked-button
+                  [disabled]="!isFormValid || savedData"
+                  (click)="
+                    onSaveData(
+                      $event,
+                      editingData,
+                      currentTrackedEntityInstanceId,
+                      program
+                    )
+                  "
+                >
+                  <mat-spinner
+                    *ngIf="savingData && savingMessage != ''"
+                    color="accent"
+                    [diameter]="20"
+                    style="display: inline-block !important; margin-right: 4px"
+                  >
+                  </mat-spinner>
+                  Save
+                </button>
+              </div>
             </div>
           </div>
         </div>

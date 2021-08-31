@@ -50,29 +50,6 @@
         </div>
       </p-accordionTab>
     </p-accordion>
-
-    <!-- <div class="ou-filter">
-      <button
-        style="text-align: left; padding: 10px 8px"
-        class="w-100"
-        (click)="onToggleOuFilter($event)"
-        mat-stroked-button
-      >
-        Organisation unit
-        <span *ngIf="selectedOu && !ouFilterIsSet"
-          >: {{ selectedOu?.name }}</span
-        >
-      </button>
-      <ngx-dhis2-org-unit-filter
-        *ngIf="ouFilterIsSet"
-        [maxHeight]="'320px'"
-        [assignedOrgUnits]="currentProgram?.organisationUnits"
-        [selectedOrgUnitItems]="selectedOrgUnits"
-        [orgUnitFilterConfig]="orgUnitFilterConfig"
-        (orgUnitClose)="onFilterClose($event)"
-        (orgUnitUpdate)="onFilterUpdate($event)"
-      ></ngx-dhis2-org-unit-filter>
-    </div> -->
     <div
       *ngIf="
         paramersSet &&
@@ -100,58 +77,60 @@
       "
     >
       <div class="p-3">
-        <div class="d-flex">
-          <div class="w-50 float-left">
-            <app-report-period-filter
-              [reportConfigs]="{ reportingFrequency: 'Monthly' }"
-              (selectedPeriod)="onChangeAggregatePeriod($event)"
-            ></app-report-period-filter>
+        <div style="max-height: 70vh; overflow: auto">
+          <div class="d-flex">
+            <div class="w-50 float-left">
+              <app-report-period-filter
+                [reportConfigs]="{ reportingFrequency: 'Monthly' }"
+                (selectedPeriod)="onChangeAggregatePeriod($event)"
+              ></app-report-period-filter>
+            </div>
           </div>
-          <!-- <div class="w-50">
-            <button mat-stroked-button class="float-right">Upload</button>
-          </div> -->
-        </div>
-        <div
-          class="w-100"
-          *ngIf="{
-            aggregateDataReponse: aggregateDataReponse$ | async,
-            saveAggregateDataResponse: saveAggregateDataResponse$ | async
-          } as params"
-        >
-          <app-aggegate-data-entry-home
-            *ngIf="showAggregateDataSection && params?.aggregateDataReponse"
-            [currentUser]="currentUser"
-            [period]="selectedAggregatePeriod"
-            [dataSet]="currentProgram"
-            [data]="params?.aggregateDataReponse"
-            (enteredDataValues)="
-              onDataValueEntry($event, selectedAggregatePeriod, selectedOu)
+          <div
+            class="w-100"
+            *ngIf="{
+              aggregateDataReponse: aggregateDataReponse$ | async,
+              saveAggregateDataResponse: saveAggregateDataResponse$ | async
+            } as params"
+          >
+            <app-aggegate-data-entry-home
+              *ngIf="showAggregateDataSection && params?.aggregateDataReponse"
+              [currentUser]="currentUser"
+              [period]="selectedAggregatePeriod"
+              [dataSet]="currentProgram"
+              [data]="params?.aggregateDataReponse"
+              (enteredDataValues)="
+                onDataValueEntry($event, selectedAggregatePeriod, selectedOu)
+              "
+            ></app-aggegate-data-entry-home>
+            <mat-progress-bar
+              *ngIf="!params?.aggregateDataReponse || !showAggregateDataSection"
+              mode="indeterminate"
+            ></mat-progress-bar>
+          </div>
+          <div
+            class="w-100 text-center text-success"
+            *ngIf="
+              params?.saveAggregateDataResponse &&
+              saveAggregateDataResponse?.status === 'OK'
             "
-          ></app-aggegate-data-entry-home>
-          <mat-progress-bar
-            *ngIf="!params?.aggregateDataReponse || !showAggregateDataSection"
-            mode="indeterminate"
-          ></mat-progress-bar>
+          >
+            Successful send data
+          </div>
+          <div
+            class="w-100 text-center text-danger"
+            *ngIf="
+              params?.saveAggregateDataResponse &&
+              saveAggregateDataResponse?.status !== 'OK'
+            "
+          >
+            Failed: {{ params?.saveAggregateDataResponse?.message }}
+          </div>
         </div>
         <div
-          class="w-100 text-center text-success"
-          *ngIf="
-            params?.saveAggregateDataResponse &&
-            saveAggregateDataResponse?.status === 'OK'
-          "
+          class="d-flex justify-content-end"
+          style="margin-top: 20px; margin-bottom: 40px"
         >
-          Successful send data
-        </div>
-        <div
-          class="w-100 text-center text-danger"
-          *ngIf="
-            params?.saveAggregateDataResponse &&
-            saveAggregateDataResponse?.status !== 'OK'
-          "
-        >
-          Failed: {{ params?.saveAggregateDataResponse?.message }}
-        </div>
-        <div class="d-flex justify-content-end">
           <button
             class="mel-btn-primary"
             mat-stroked-button

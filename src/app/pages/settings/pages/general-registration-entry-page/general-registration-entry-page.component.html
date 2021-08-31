@@ -13,12 +13,13 @@
     <div
       class="col-12 d-flex align-items-center"
       style="
-        margin-top: 15px;
+        margin-top: 10px;
         margin-bottom: 15px;
         border-bottom: solid 1px #eee;
       "
     >
       <button
+        style="margin-bottom: 10px"
         color="primary"
         mat-flat-button
         [routerLink]="'/general-registration'"
@@ -26,7 +27,7 @@
         <mat-icon>arrow_back</mat-icon>
         <span class="ml-2">BACK</span>
       </button>
-      <div class="ml-3 report-title">
+      <div class="ml-3 report-title" style="font-size: 1rem">
         {{ params?.currentUserGroup?.displayName }}
       </div>
     </div>

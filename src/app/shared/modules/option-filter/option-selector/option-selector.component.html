@@ -15,7 +15,7 @@
   <div class="list-items p-2">
     <mat-form-field class="w-100">
       <mat-label>Search {{ filterName }}</mat-label>
-      <input matInput (keyup)="onSearch($event)" />
+      <input matInput autocomplete="off" (keyup)="onSearch($event)" />
     </mat-form-field>
     <div class="list-contents">
       <mat-nav-list>
