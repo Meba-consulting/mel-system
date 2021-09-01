@@ -7,10 +7,16 @@ import {
   getOldReportsList,
   getCountOfLoadedReportTypes,
 } from '../../store/selectors';
-import { getAllUserGroups, getCurrentUser } from 'src/app/store';
+import {
+  getAllUserGroups,
+  getCurrentUser,
+  getProgramsForGeneralReports,
+} from 'src/app/store';
 import { FormControl } from '@angular/forms';
 
 import { keyBy } from 'lodash';
+import { NgxDhis2HttpClientService } from '@iapps/ngx-dhis2-http-client';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-home',
@@ -35,9 +41,22 @@ export class HomeComponent implements OnInit {
   userGroups$: Observable<any>;
 
   reportsAreas: any[];
-  constructor(private store: Store<State>) {}
+  dataSets$: Observable<any[]>;
+  programs$: Observable<any[]>;
+  constructor(
+    private store: Store<State>,
+    private httpClient: NgxDhis2HttpClientService
+  ) {}
 
   ngOnInit(): void {
+    this.dataSets$ = this.httpClient
+      .get('dataSets.json?fields=id,name,description,code&paging=false')
+      .pipe(
+        map((response) => {
+          return response?.dataSets;
+        })
+      );
+    this.programs$ = this.store.select(getProgramsForGeneralReports);
     this.currentUser$ = this.store.select(getCurrentUser);
     this.userGroups$ = this.store.select(getAllUserGroups);
     this.store.dispatch(loadStdReportsList({ reportsTypes: this.reportTypes }));

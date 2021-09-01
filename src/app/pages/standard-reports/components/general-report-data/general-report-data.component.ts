@@ -11,8 +11,10 @@ import { GeneralReportsService } from 'src/app/core/services/general-reports.ser
 export class GeneralReportDataComponent implements OnInit {
   @Input() program: any;
   @Input() ouAndPeSelections: any;
+  @Input() type: string;
   dimensions: any;
   enrollmentDetails$: Observable<any>;
+  dataSetReport$: Observable<any>;
   constructor(private generalReportService: GeneralReportsService) {}
 
   ngOnInit(): void {
@@ -20,13 +22,20 @@ export class GeneralReportDataComponent implements OnInit {
     this.dimensions = {
       ou: this.ouAndPeSelections?.ou?.id,
       program: this.program.id,
+      ds: this.program?.id,
       startDate: dateRanges?.startDate,
       endDate: dateRanges?.endDate,
+      pe: this.ouAndPeSelections?.pe?.id,
     };
-    this.enrollmentDetails$ =
-      this.generalReportService.getEnrollmentDetailsFromSQLView(
+    if (this.type !== 'AGGREGATE') {
+      this.enrollmentDetails$ =
+        this.generalReportService.getEnrollmentDetailsFromSQLView(
+          this.dimensions
+        );
+    } else {
+      this.dataSetReport$ = this.generalReportService.getDataSetReport(
         this.dimensions
       );
-    console.log('dimensions', this.dimensions);
+    }
   }
 }

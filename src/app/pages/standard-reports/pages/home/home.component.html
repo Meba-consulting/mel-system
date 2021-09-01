@@ -1,99 +1,111 @@
 <!-- <div class="h5 mat-elevation-z1" style="padding: 0.5rem 0; margin: 0 -15px">
   <p style="margin-left: 8px">Reports</p>
 </div> -->
-<div class="row">
-  <div class="col-12 h5 mat-elevation-z1 p-3" style="margin: 0">Reports</div>
-</div>
-<div style="margin-top: 5px" *ngIf="!(currentUser$ | async) || !reportsAreas">
-  <mat-progress-bar mode="indeterminate"></mat-progress-bar>
-</div>
 <div
-  style="height: 100%; margin-top: 2px; background-color: #fff"
-  class="row"
-  *ngIf="currentUser$ | async"
+  *ngIf="{ dataSets: dataSets$ | async, programs: programs$ | async } as params"
 >
-  <div
-    class="col-md-12 standard-reports-home-page"
-    *ngIf="reportsAreas && reportsAreas?.length > 0"
-  >
-    <mat-tab-group
-      (selectedTabChange)="changeTab(selectedTab.value)"
-      [selectedIndex]="selectedTab.value"
-      (selectedIndexChange)="selectedTab.setValue($event)"
-    >
-      <mat-tab
-        *ngFor="let reportGroup of reportsAreas; let count = index"
-        [label]="reportGroup?.name"
-      >
-        <div class="row" *ngIf="reportGroup?.id === 'general_reports'">
-          <div class="col-12 p-2">
-            <app-general-reports></app-general-reports>
-          </div>
-        </div>
-        <div *ngIf="reportGroup?.id === 'standard_reports'" class="row p-2">
-          <div class="col-md-12">
-            <div *ngIf="currentUser$ | async">
-              <app-report-groups
-                [type]="'_REPORTS '"
-                [currentUser]="currentUser$ | async"
-                (selectedReportGroup)="onSelectReportGroup($event)"
-              >
-              </app-report-groups>
-            </div>
-            <div style="width: 100%" *ngIf="!(currentUser$ | async)">
-              <mat-progress-bar mode="indeterminate"></mat-progress-bar>
-            </div>
-          </div>
-          <div class="col-md-12">
-            <div
-              *ngIf="
-                (reportsList$ | async) &&
-                (reportsList$ | async)?.length > 0 &&
-                isReportGroupSet &&
-                currentReportGroup &&
-                (userGroups$ | async)
-              "
-            >
-              <app-reports-list
-                [reports]="reportsList$ | async"
-                [userGroups]="userGroups$ | async"
-                [reportGroup]="currentReportGroup"
-              ></app-reports-list>
-            </div>
-            <div
-              class="col-12"
-              *ngIf="
-                !(reportsList$ | async) ||
-                !(currentUser$ | async) ||
-                !isReportGroupSet ||
-                !currentReportGroup ||
-                !(userGroups$ | async)
-              "
-            >
-              <mat-progress-bar mode="indeterminate"></mat-progress-bar>
-            </div>
-          </div>
-        </div>
-        <div class="row" *ngIf="reportGroup?.id === 'uploaded_reports'">
-          <div class="col-12 p-2">
-            <app-uploaded-reports
-              [currentUser]="currentUser$ | async"
-            ></app-uploaded-reports>
-          </div>
-        </div>
-        <div class="row" *ngIf="reportGroup?.id === 'activity_tracker'">
-          <div class="col-12 p-2">
-            <app-activity-tracker
-              [currentUser]="currentUser$ | async"
-            ></app-activity-tracker>
-          </div>
-        </div>
-      </mat-tab>
-    </mat-tab-group>
+  <div class="row">
+    <div class="col-12 h5 mat-elevation-z1 p-3" style="margin: 0">Reports</div>
   </div>
-  <div *ngIf="reportsAreas && reportsAreas?.length === 0">
-    <div class="text-center text-warning h3">
-      You do not have access to any of the reports areas
+  <div style="margin-top: 5px" *ngIf="!(currentUser$ | async) || !reportsAreas">
+    <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+  </div>
+  <div
+    style="height: 100%; margin-top: 2px; background-color: #fff"
+    class="row"
+    *ngIf="currentUser$ | async"
+  >
+    <div
+      class="col-md-12 standard-reports-home-page"
+      *ngIf="reportsAreas && reportsAreas?.length > 0"
+    >
+      <mat-tab-group
+        (selectedTabChange)="changeTab(selectedTab.value)"
+        [selectedIndex]="selectedTab.value"
+        (selectedIndexChange)="selectedTab.setValue($event)"
+      >
+        <mat-tab
+          *ngFor="let reportGroup of reportsAreas; let count = index"
+          [label]="reportGroup?.name"
+        >
+          <div class="row" *ngIf="reportGroup?.id === 'general_reports'">
+            <div class="col-12 p-2">
+              <app-general-reports
+                *ngIf="params?.dataSets"
+                [dataSets]="params?.dataSets"
+                [programs]="params?.programs"
+              ></app-general-reports>
+              <mat-progress-bar
+                *ngIf="!params?.dataSets"
+                mode="indeterminate"
+              ></mat-progress-bar>
+            </div>
+          </div>
+          <div *ngIf="reportGroup?.id === 'standard_reports'" class="row p-2">
+            <div class="col-md-12">
+              <div *ngIf="currentUser$ | async">
+                <app-report-groups
+                  [type]="'_REPORTS '"
+                  [currentUser]="currentUser$ | async"
+                  (selectedReportGroup)="onSelectReportGroup($event)"
+                >
+                </app-report-groups>
+              </div>
+              <div style="width: 100%" *ngIf="!(currentUser$ | async)">
+                <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+              </div>
+            </div>
+            <div class="col-md-12">
+              <div
+                *ngIf="
+                  (reportsList$ | async) &&
+                  (reportsList$ | async)?.length > 0 &&
+                  isReportGroupSet &&
+                  currentReportGroup &&
+                  (userGroups$ | async)
+                "
+              >
+                <app-reports-list
+                  [reports]="reportsList$ | async"
+                  [userGroups]="userGroups$ | async"
+                  [reportGroup]="currentReportGroup"
+                ></app-reports-list>
+              </div>
+              <div
+                class="col-12"
+                *ngIf="
+                  !(reportsList$ | async) ||
+                  !(currentUser$ | async) ||
+                  !isReportGroupSet ||
+                  !currentReportGroup ||
+                  !(userGroups$ | async)
+                "
+              >
+                <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+              </div>
+            </div>
+          </div>
+          <div class="row" *ngIf="reportGroup?.id === 'uploaded_reports'">
+            <div class="col-12 p-2">
+              <app-uploaded-reports
+                [currentUser]="currentUser$ | async"
+              ></app-uploaded-reports>
+            </div>
+          </div>
+          <div class="row" *ngIf="reportGroup?.id === 'activity_tracker'">
+            <div class="col-12 p-2">
+              <app-activity-tracker
+                [currentUser]="currentUser$ | async"
+              ></app-activity-tracker>
+            </div>
+          </div>
+        </mat-tab>
+      </mat-tab-group>
+    </div>
+    <div *ngIf="reportsAreas && reportsAreas?.length === 0">
+      <div class="text-center text-warning h3">
+        You do not have access to any of the reports areas
+      </div>
     </div>
   </div>
 </div>

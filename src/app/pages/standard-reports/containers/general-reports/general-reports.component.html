@@ -5,7 +5,7 @@
   <div class="row" *ngIf="params?.programs">
     <div
       class="col-md-3 col-sm-12 col-sx-12"
-      *ngFor="let program of params?.programs"
+      *ngFor="let program of mergedProgramsAndForms"
     >
       <mat-card class="card-container-for-custom-css">
         <mat-card-header>

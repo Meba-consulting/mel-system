@@ -1,18 +1,38 @@
-<div
-  class="general-report-data-container"
-  *ngIf="{ enrollmentDetails: enrollmentDetails$ | async } as params"
->
-  <div class="row" *ngIf="params?.enrollmentDetails">
-    <div class="col-12">
-      <app-general-report-custom
-        [enrollmentDetails]="params?.enrollmentDetails?.listGrid"
-        [program]="program"
-      ></app-general-report-custom>
+<div *ngIf="type !== 'AGGREGATE'">
+  <div
+    class="general-report-data-container"
+    *ngIf="{ enrollmentDetails: enrollmentDetails$ | async } as params"
+  >
+    <div class="row" *ngIf="params?.enrollmentDetails">
+      <div class="col-12">
+        <app-general-report-custom
+          [enrollmentDetails]="params?.enrollmentDetails?.listGrid"
+          [program]="program"
+        ></app-general-report-custom>
+      </div>
     </div>
+
+    <mat-progress-bar
+      *ngIf="!params?.enrollmentDetails"
+      mode="indeterminate"
+    ></mat-progress-bar>
   </div>
+</div>
+<div *ngIf="type === 'AGGREGATE'">
+  <div style="margin-top: 15px">
+    <h5>
+      {{ program?.name }}
+    </h5>
+  </div>
+  <hr />
 
   <mat-progress-bar
-    *ngIf="!params?.enrollmentDetails"
+    *ngIf="!dataSetReport$ | async"
     mode="indeterminate"
   ></mat-progress-bar>
+  <div
+    style="margin-top: 15px"
+    *ngIf="dataSetReport$ | async"
+    [innerHTML]="dataSetReport$ | async"
+  ></div>
 </div>
