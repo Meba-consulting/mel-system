@@ -2,7 +2,7 @@
   class="application-container"
   *ngIf="{ currentUser: currentUser$ | async } as params"
 >
-  <div class="container-fluid" style="min-height: 100vh">
+  <div class="container-fluid" style="height: 98%">
     <div class="row">
       <div class="col-12 no-print header-banner">
         <div style="float: left">
@@ -204,7 +204,7 @@
       <div class="col-md-10 right-panel">
         <router-outlet></router-outlet>
         <!-- <div class="footer"></div> -->
-        <div
+        <!-- <div
           class="w-100"
           style="
             position: fixed;
@@ -220,7 +220,7 @@
             height="50"
             src="assets/img/footer_banner_lhrc.png"
           />
-        </div>
+        </div> -->
       </div>
     </div>
   </div>

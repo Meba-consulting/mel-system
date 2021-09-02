@@ -14,6 +14,7 @@ export class GeneralReportsComponent implements OnInit {
   @Input() programs: any[];
   @Input() dataSets: any[];
   mergedProgramsAndForms: any[] = [];
+  searchingString: string = '';
   constructor(private store: Store<State>) {}
 
   ngOnInit(): void {

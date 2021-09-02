@@ -8,7 +8,8 @@
 }
 
 .card-container-for-custom-css {
-  height: 150px !important;
+  max-height: 170px !important;
+  min-height: 150px !important;
   margin-bottom: 15px;
 }
 
