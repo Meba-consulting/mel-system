@@ -43,6 +43,10 @@ export class GeneralReportEventsComponent implements OnInit {
       ),
       'id'
     );
+    this.keyedHeaders['position'] = {
+      id: 'position',
+      name: 'No.',
+    };
     let dataRows = [];
     if (this.eventReport.rows?.length == 0) {
       dataRows = [];
@@ -51,7 +55,17 @@ export class GeneralReportEventsComponent implements OnInit {
         let dataRow = {};
         dataRow['position'] = count + 1;
         this.eventReport.headers.forEach((header, index) => {
-          dataRow[header?.name] = row[index];
+          if (
+            this.keyedHeaders[header?.name] &&
+            this.keyedHeaders[header?.name]['optionSet']
+          ) {
+            const matchedOption = (this.keyedHeaders[header?.name][
+              'optionSet'
+            ]?.options.filter((option) => option?.id === row[index]) || [])[0];
+            dataRow[header?.name] = matchedOption ? matchedOption?.name : ' - ';
+          } else {
+            dataRow[header?.name] = row[index];
+          }
         });
         dataRows = [...dataRows, dataRow];
       });
