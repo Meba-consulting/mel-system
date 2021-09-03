@@ -1,0 +1,40 @@
+<div>
+  <mat-form-field style="width: 30%">
+    <mat-label>Search</mat-label>
+    <input
+      matInput
+      (keyup)="applyFilter($event)"
+      placeholder="Ex. 2020-08-12"
+    />
+  </mat-form-field>
+  <table
+    class="mat-elevation-z1"
+    mat-table
+    [dataSource]="dataSource"
+    style="width: 100%"
+  >
+    <ng-container
+      matColumnDef="{{ column }}"
+      *ngFor="let column of displayedColumns"
+    >
+      <th mat-header-cell *matHeaderCellDef>
+        {{ keyedHeaders[column]?.name }}
+      </th>
+      <td mat-cell *matCellDef="let element">
+        {{ element[column] }}
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+  </table>
+
+  <mat-paginator
+    style="float: left; margin-top: 5px"
+    [pageSizeOptions]="[10, 15, 20, 25, 50, 100]"
+    showFirstLastButtons
+  ></mat-paginator>
+</div>
+<div style="width: 100%" *ngIf="eventReport && eventReport.rows.length == 0">
+  <h4 style="text-align: center; margin-top: 100px">No data</h4>
+</div>

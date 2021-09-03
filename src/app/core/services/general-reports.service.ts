@@ -93,4 +93,16 @@ export class GeneralReportsService {
       }
     );
   }
+
+  getEventsData(dimensions): Observable<any> {
+    return this.httpClientService.get(
+      `analytics/events/query/${dimensions.program}.json?dimension=pe:${
+        dimensions.pe
+      }&dimension=ou:${
+        dimensions.ou
+      }&dimension=${dimensions.elementsDimensions.join(
+        '&dimension='
+      )}&displayProperty=NAME&outputType=EVENT&desc=eventdate&paging=false`
+    );
+  }
 }

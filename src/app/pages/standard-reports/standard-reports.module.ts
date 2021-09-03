@@ -34,6 +34,7 @@ import { GeneralReportDataComponent } from './components/general-report-data/gen
 import { GeneralReportCustomComponent } from './components/general-report-custom/general-report-custom.component';
 import { RenderTrackerGeneralReportComponent } from './components/render-tracker-general-report/render-tracker-general-report.component';
 import { RenderTrackerGeneralReportModalComponent } from './components/render-tracker-general-report-modal/render-tracker-general-report-modal.component';
+import { GeneralReportEventsComponent } from './components/general-report-events/general-report-events.component';
 
 @NgModule({
   declarations: [
@@ -65,6 +66,7 @@ import { RenderTrackerGeneralReportModalComponent } from './components/render-tr
     GeneralReportCustomComponent,
     RenderTrackerGeneralReportComponent,
     RenderTrackerGeneralReportModalComponent,
+    GeneralReportEventsComponent,
   ],
   imports: [
     CommonModule,

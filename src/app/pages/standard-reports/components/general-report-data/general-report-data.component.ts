@@ -15,6 +15,7 @@ export class GeneralReportDataComponent implements OnInit {
   dimensions: any;
   enrollmentDetails$: Observable<any>;
   dataSetReport$: Observable<any>;
+  eventReport$: Observable<any>;
   constructor(private generalReportService: GeneralReportsService) {}
 
   ngOnInit(): void {
@@ -26,12 +27,28 @@ export class GeneralReportDataComponent implements OnInit {
       startDate: dateRanges?.startDate,
       endDate: dateRanges?.endDate,
       pe: this.ouAndPeSelections?.pe?.id,
+      elementsDimensions: [],
     };
-    if (this.type !== 'AGGREGATE') {
+    if (this.type === 'TRACKER') {
       this.enrollmentDetails$ =
         this.generalReportService.getEnrollmentDetailsFromSQLView(
           this.dimensions
         );
+    } else if (this.type === 'EVENT') {
+      const elementsDimensions =
+        this.program?.programStages[0]?.programStageDataElements.map(
+          (programStageDataElement) => {
+            return (
+              this.program?.programStages[0]?.id +
+              '.' +
+              programStageDataElement?.dataElement?.id
+            );
+          }
+        );
+      this.dimensions['elementsDimensions'] = elementsDimensions;
+      this.eventReport$ = this.generalReportService.getEventsData(
+        this.dimensions
+      );
     } else {
       this.dataSetReport$ = this.generalReportService.getDataSetReport(
         this.dimensions

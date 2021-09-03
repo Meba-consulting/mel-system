@@ -1,4 +1,4 @@
-<div *ngIf="type !== 'AGGREGATE'">
+<div *ngIf="type === 'TRACKER'">
   <div
     class="general-report-data-container"
     *ngIf="{ enrollmentDetails: enrollmentDetails$ | async } as params"
@@ -14,6 +14,27 @@
 
     <mat-progress-bar
       *ngIf="!params?.enrollmentDetails"
+      mode="indeterminate"
+    ></mat-progress-bar>
+  </div>
+</div>
+<div *ngIf="type === 'EVENT'">
+  <div *ngIf="{ eventReport: eventReport$ | async } as params">
+    <div style="margin-top: 15px">
+      <h5>
+        {{ program?.name }}
+      </h5>
+    </div>
+    <hr />
+    <div *ngIf="params?.eventReport">
+      <app-general-report-events
+        [program]="program"
+        [eventReport]="params?.eventReport"
+      >
+      </app-general-report-events>
+    </div>
+    <mat-progress-bar
+      *ngIf="!params?.eventReport"
       mode="indeterminate"
     ></mat-progress-bar>
   </div>
