@@ -125,7 +125,7 @@ export class UpdateStatusModalComponent implements OnInit {
         }
       }),
       status: 'ACTIVE',
-      eventDate: formatDateToYYMMDD(new Date()),
+      eventDate: new Date(),
     };
   }
 

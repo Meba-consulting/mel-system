@@ -4,12 +4,8 @@ import { State } from 'src/app/store/reducers';
 
 import * as _ from 'lodash';
 import { Observable, of } from 'rxjs';
-import { DataService } from 'src/app/core/services/data.service';
 import { MatDialog } from '@angular/material/dialog';
-import {
-  formatDateToYYMMDD,
-  formatProgramsForDataEntry,
-} from '../../../helpers';
+import { formatProgramsForDataEntry } from '../../../helpers';
 import { NgxDhis2HttpClientService } from '@iapps/ngx-dhis2-http-client';
 import { UploadAggregateDataModalComponent } from '../../../components/upload-aggregate-data-modal/upload-aggregate-data-modal.component';
 import { DataEntryService } from '../../../services/data-entry.service';
@@ -180,7 +176,7 @@ export class DataEntryDashboardComponent implements OnInit {
   onDataValueEntry(dataValues, period, selectedOu) {
     this.aggregateDataObject = {
       dataSet: this.currentProgram?.id,
-      completeDate: formatDateToYYMMDD(new Date()),
+      completeDate: new Date(),
       period: period?.id,
       orgUnit: selectedOu?.id,
       dataValues: Object.keys(dataValues).map((key) => {

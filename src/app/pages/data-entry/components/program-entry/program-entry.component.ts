@@ -1,11 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Observable, of } from 'rxjs';
-import {
-  getDataElementsFromProgram,
-  formatDateToYYMMDD,
-  formatProgrgamIndicators,
-} from '../../helpers';
-
 import * as _ from 'lodash';
 import { NgxDhis2HttpClientService } from '@iapps/ngx-dhis2-http-client';
 import { DataEntryService } from '../../services/data-entry.service';
@@ -194,7 +188,7 @@ export class ProgramEntryComponent implements OnInit {
   }
 
   getDate(date) {
-    this.reportingDate = formatDateToYYMMDD(date);
+    this.reportingDate = date;
     this.dataValues = [];
     this.loadStageData = false;
     this.dateChanged = false;
@@ -252,7 +246,7 @@ export class ProgramEntryComponent implements OnInit {
     );
     this.eventsData.dataValues = dataValues;
     this.eventsData.eventDate = !this.eventsData?.eventDate
-      ? formatDateToYYMMDD(new Date())
+      ? new Date()
       : this.eventsData?.eventDate;
   }
 
@@ -630,7 +624,7 @@ export class ProgramEntryComponent implements OnInit {
             value: values[key]?.value,
           };
         }),
-      eventDate: formatDateToYYMMDD(new Date(this.reportingDate)),
+      eventDate: this.reportingDate,
     };
   }
 
@@ -651,7 +645,7 @@ export class ProgramEntryComponent implements OnInit {
           };
         })
         .filter((dataValue) => dataValue?.value),
-      eventDate: formatDateToYYMMDD(new Date(this.reportingDate)),
+      eventDate: this.reportingDate,
     };
   }
 

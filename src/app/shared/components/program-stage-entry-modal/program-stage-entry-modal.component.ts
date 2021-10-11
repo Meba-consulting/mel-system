@@ -7,7 +7,6 @@ import {
 import { NgxDhis2HttpClientService } from '@iapps/ngx-dhis2-http-client';
 import { Observable } from 'rxjs';
 import { DataService } from 'src/app/core/services/data.service';
-import { formatDateToYYMMDD } from 'src/app/pages/data-entry/helpers';
 
 import * as _ from 'lodash';
 import { FormControl } from '@angular/forms';
@@ -94,7 +93,7 @@ export class ProgramStageEntryModalComponent implements OnInit {
         notes: [],
         dataValues: [],
         status: 'COMPLETED',
-        eventDate: formatDateToYYMMDD(new Date()),
+        eventDate: new Date(),
       };
     }
   }
@@ -126,7 +125,7 @@ export class ProgramStageEntryModalComponent implements OnInit {
     );
     this.eventsData.dataValues = dataValues;
     this.eventsData.eventDate = !this.eventsData?.eventDate
-      ? formatDateToYYMMDD(new Date())
+      ? new Date()
       : this.eventsData?.eventDate;
   }
 
