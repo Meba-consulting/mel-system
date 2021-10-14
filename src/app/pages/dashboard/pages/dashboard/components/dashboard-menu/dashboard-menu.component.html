@@ -12,14 +12,13 @@
     </li>
   </ul>
   <!-- / tabs -->
-  <div class="dashboard-menu d-flex justify-content-between">
-    <ul class="dashboard-menu-list">
+  <div class="row dashboard-menu d-flex justify-content-between">
+    <ul
+      style="overflow-x: auto; overflow-y: hidden"
+      class="col-md-11 col-sx-12 col-sm-12 dashboard-menu-list"
+    >
       <!-- Hide add dashboard actions -->
-      <li>
-        <app-add-dashboard
-          (create)="onCreateDashboard($event)"
-        ></app-add-dashboard>
-      </li>
+
       <li *ngFor="let dashboardMenuItem of dashboardMenuList | sortByBookmark">
         <app-dashboard-menu-item
           [dashboardMenuItem]="dashboardMenuItem"
@@ -32,15 +31,26 @@
         ></app-dashboard-menu-item>
       </li>
     </ul>
-    <div>
-      <button
-        color="primary"
-        mat-stroked-button
-        routerLink="/dashboards/analysis/playground"
-        class="float-right"
+    <div class="col-md-1 col-sx-12 col-sm-12">
+      <ul
+        style="list-style-type: none; padding: 0"
+        class="d-flex justify-content-left"
       >
-        Playground
-      </button>
+        <li>
+          <app-add-dashboard
+            (create)="onCreateDashboard($event)"
+          ></app-add-dashboard>
+        </li>
+        <li class="ml-2">
+          <a routerLink="/dashboards/analysis/playground" title="Play ground">
+            <img
+              height="25"
+              style="margin-top: 10px"
+              src="assets/icons/combined.png"
+            />
+          </a>
+        </li>
+      </ul>
     </div>
   </div>
 
