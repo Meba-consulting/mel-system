@@ -1,0 +1,21 @@
+.new-dashboard-modal {
+  padding: 15px;
+}
+
+.dashboard-add-input {
+  height: 30px;
+  display: block;
+  padding-left: 10px;
+  border: none;
+  border-bottom: solid 1px #eee;
+  font-size: 14px;
+  -webkit-transition: all 0.2s ease-in-out;
+  -moz-transition: all 0.2s ease-in-out;
+  -o-transition: all 0.2s ease-in-out;
+  -ms-transition: all 0.2s ease-in-out;
+  transition: all 0.2s ease-in-out;
+}
+
+.dashboard-add-input:focus {
+  outline: none;
+}

@@ -1,9 +1,11 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { AddDashboardModalComponent } from '../add-dashboard-modal/add-dashboard-modal.component';
 
 @Component({
   selector: 'app-add-dashboard',
   templateUrl: './add-dashboard.component.html',
-  styleUrls: ['./add-dashboard.component.scss']
+  styleUrls: ['./add-dashboard.component.scss'],
 })
 export class AddDashboardComponent implements OnInit {
   @Input() roundButton: boolean;
@@ -11,7 +13,7 @@ export class AddDashboardComponent implements OnInit {
   @Output() create: EventEmitter<string> = new EventEmitter<string>();
   showCreateForm: boolean;
   dashboardName: string;
-  constructor() {
+  constructor(private dialog: MatDialog) {
     this.showCreateForm = false;
   }
 
@@ -43,11 +45,21 @@ export class AddDashboardComponent implements OnInit {
     if (e) {
       e.stopPropagation();
     }
+    this.dialog
+      .open(AddDashboardModalComponent, {
+        width: '30%',
+      })
+      .afterClosed()
+      .subscribe((response) => {
+        if (response && response?.length > 0) {
+          this.create.emit(response);
+        }
+      });
 
-    if (this.showCreateForm) {
-      this.dashboardName = '';
-    }
+    // if (this.showCreateForm) {
+    //   this.dashboardName = '';
+    // }
 
-    this.showCreateForm = !this.showCreateForm;
+    // this.showCreateForm = !this.showCreateForm;
   }
 }

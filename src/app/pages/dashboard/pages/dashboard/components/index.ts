@@ -13,6 +13,7 @@ import { DashboardVisualizationProgressComponent } from './dashboard-visualizati
 import { DashboardItemEditComponent } from './dashboard-item-edit/dashboard-item-edit.component';
 import { CurrentPlaygroundVisualizationComponent } from './current-playground-visualization/current-playground-visualization.component';
 import { SelectionFiltersModalComponent } from './selection-filters-modal/selection-filters-modal.component';
+import { AddDashboardModalComponent } from './add-dashboard-modal/add-dashboard-modal.component';
 
 export const components: any[] = [
   DashboardMenuComponent,
@@ -30,4 +31,7 @@ export const components: any[] = [
   DashboardItemEditComponent,
   CurrentPlaygroundVisualizationComponent,
   SelectionFiltersModalComponent,
+  AddDashboardModalComponent,
 ];
+
+export const dashboardEntryComponents: any[] = [AddDashboardModalComponent];

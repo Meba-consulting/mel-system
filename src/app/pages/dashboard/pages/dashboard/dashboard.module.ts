@@ -7,7 +7,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { DashboardRoutingModule } from './dashboard-routing.module';
 
 import { containers } from './containers';
-import { components } from './components';
+import { components, dashboardEntryComponents } from './components';
 import { pipes } from './pipes';
 import { SharingFilterModule } from './modules/sharing-filter/sharing-filter.module';
 import { FavoriteFilterModule } from './modules/favorite-filter/favorite-filter.module';
@@ -39,6 +39,10 @@ import { SelectionFiltersModalComponent } from './components/selection-filters-m
     EffectsModule.forFeature(effects),
   ],
   declarations: [...containers, ...components, ...pipes],
-  entryComponents: [DashboardItemEditComponent, SelectionFiltersModalComponent],
+  entryComponents: [
+    DashboardItemEditComponent,
+    SelectionFiltersModalComponent,
+    ...dashboardEntryComponents,
+  ],
 })
 export class DashboardModule {}
