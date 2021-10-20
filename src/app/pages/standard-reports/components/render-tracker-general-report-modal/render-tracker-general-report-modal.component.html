@@ -3,12 +3,7 @@
   style="height: 50px; border-bottom: solid 1px #eee; padding: 15px"
 >
   <!-- <span>Report</span> -->
-  <button
-    mat-stroked-button
-    (click)="printPDF($event, formattedTrackedEntityInstanceData)"
-  >
-    Print
-  </button>
+  <button mat-stroked-button (click)="printPDF($event)">Download tp PDF</button>
   <button
     mat-stroked-button
     class="ml-2"
@@ -66,7 +61,10 @@
           *ngFor="let stage of program?.programStages"
           style="padding: 15px 2px"
         >
-          <div class="h5 text-left w-100" style="border-bottom: solid 1px #eee">
+          <div
+            class="h5 text-left w-100"
+            style="border-bottom: solid 1px #eee; margin-bottom: 5px"
+          >
             <b>
               {{ stage?.name }}
             </b>

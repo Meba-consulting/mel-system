@@ -79,7 +79,7 @@ export class RenderTrackerGeneralReportModalComponent implements OnInit {
 
   ngOnInit(): void {}
 
-  printPDF(event: Event, data) {
+  printPDF(event: Event) {
     event.stopPropagation();
 
     const doc = new jsPDF();
