@@ -27,10 +27,9 @@ export class RenderTrackerGeneralReportComponent implements OnInit {
 
   viewCustomReport(event: Event, data, program) {
     event.stopPropagation();
-    console.log(data);
     this.dialog.open(RenderTrackerGeneralReportModalComponent, {
       width: '75%',
-      height: '100vh',
+      height: '85vh',
       data: { data, program },
     });
   }

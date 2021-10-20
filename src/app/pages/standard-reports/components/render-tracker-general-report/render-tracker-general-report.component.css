@@ -1,0 +1,11 @@
+button:hover {
+  outline: none !important;
+}
+
+button {
+  outline: none;
+}
+
+button:focus {
+  outline: none !important;
+}
