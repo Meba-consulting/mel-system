@@ -196,7 +196,6 @@ export class NgxDhis2SelectionFiltersComponent implements OnInit {
             selectedItems
           ),
         ];
-
     // also update selection parameters
     this._setSelectionParameters();
 

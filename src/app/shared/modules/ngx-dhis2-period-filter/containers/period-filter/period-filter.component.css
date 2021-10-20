@@ -1,0 +1,199 @@
+.period-filter-container {
+  padding: 0.2em;
+}
+
+.period-type-section,
+.period-year-section {
+  flex: 1;
+}
+
+.period-year-section {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.period-type-selection {
+  border-radius: 0;
+}
+
+.period-header {
+  display: flex;
+  width: 100%;
+}
+
+.period-top-section,
+.period-year-btns {
+  padding-bottom: 0.2em;
+}
+
+.period-available-header,
+.period-selected-header {
+  flex: 1;
+  padding: 0.5em;
+  font-size: 13px;
+  position: relative;
+}
+
+.period-available-header {
+  display: flex;
+  justify-content: space-between;
+  border: solid 1px #dddddd;
+}
+
+.period-selected-header {
+  display: flex;
+  justify-content: space-between;
+  border-top: solid 1px #dddddd;
+  border-bottom: solid 1px #dddddd;
+  border-right: solid 1px #dddddd;
+}
+
+.period-badge {
+  display: flex;
+  align-items: center;
+  border-radius: 2px;
+  font-size: 11px;
+  height: 22px;
+}
+
+.period-item-badge {
+  font-weight: lighter;
+  border-radius: 2px;
+}
+.period-body {
+  display: flex;
+  width: 100%;
+}
+
+.period-available {
+  overflow: auto;
+  width: 54%;
+}
+
+.period-selected {
+  margin-left: 5px;
+  width: 46%;
+}
+
+.period-available-body,
+.period-selected-body {
+  overflow: auto;
+}
+
+.period-filter-btns {
+  display: flex;
+  justify-content: flex-end;
+  font-size: 12px;
+}
+
+.ngx-dhis2-period__btn {
+  margin: 5px;
+  height: 25px;
+  font-size: 14px;
+  background-color: #ffffff;
+  outline: none;
+  color: #777777;
+  border: none;
+  cursor: pointer;
+}
+
+.ngx-dhis2-period__btn:hover {
+  color: #222222;
+}
+
+.period-list {
+  list-style-type: none;
+  height: 372px;
+  padding: 0;
+  overflow: auto;
+}
+
+.selected-period-list {
+  height: 388px;
+  padding: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.period-list > li > a {
+  padding: 5px;
+  display: inline-flex;
+  align-items: center;
+  cursor: pointer;
+  font-size: 14px;
+  color: #000000;
+  cursor: pointer;
+  border-radius: 7px;
+}
+
+.period-list > li > a:hover {
+  background-color: #e0e0e0;
+}
+
+.ngx-dhis2-period__period-buttons {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.ngx-dhis2-period__period-buttons button {
+  outline: none;
+}
+
+.period-btn {
+  outline: none;
+}
+
+.period-type-container {
+  position: absolute;
+  z-index: 500;
+  min-width: 200px;
+  top: 45px;
+  padding: 4px 4px 4px 0;
+  border-radius: 2px;
+  background-color: #ffffff;
+}
+
+.period-type-list {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  overflow: auto;
+  max-height: 300px;
+}
+
+.period-type-list > li > a {
+  display: block;
+  text-decoration: none;
+  color: #222222;
+  padding: 8px;
+  cursor: pointer;
+}
+
+.period-type-list > li > a:hover,
+.selected-period-type {
+  background-color: #f5f5f5;
+}
+
+.selected-period-chip {
+  margin: 3px;
+  border-radius: 5px;
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 8px 2px 8px;
+  font-size: 14px;
+  background-color: #b2dfdb;
+}
+
+.selected-period-close {
+  font-size: 17px;
+  margin-left: 5px;
+  color: #00796b;
+  cursor: pointer;
+}
+
+.period-list-icon {
+  margin-right: 4px;
+  height: 7px;
+  width: 7px;
+  background-color: #9e9e9e;
+}
