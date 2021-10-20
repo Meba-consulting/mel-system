@@ -18,7 +18,15 @@ export function createDateRanges(date) {
     if (date.indexOf('Q') == -1) {
       return {
         startDate: date.substring(0, 4) + '-' + date.substring(4) + '-01',
-        endDate: date.substring(0, 4) + '-' + date.substring(4) + '-31',
+        endDate:
+          date.substring(0, 4) +
+          '-' +
+          date.substring(4) +
+          '-' +
+          lastDayOfTheMonth(
+            Number(date.substring(0, 4)),
+            Number(date.substring(4))
+          ),
       };
     } else {
       const lastMonth = getLastMonthOfTheQuarter(date.substring(4));
@@ -38,7 +46,6 @@ export function createDateRanges(date) {
 }
 
 function lastDayOfTheMonth(y, m): number {
-  console.log('new Date(y, m + 1, 0)', new Date(y, m + 1, 0));
   return new Date(y, m, 0).getDate();
 }
 
