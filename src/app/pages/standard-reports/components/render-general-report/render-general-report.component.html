@@ -8,12 +8,18 @@
       </ngx-dhis2-selection-filters>
     </div>
     <div style="float: right; width: 10%">
-      <button mat-stroked-button (click)="printPDF()" style="float: right">
-        Print
+      <button
+        [disabled]="!shouldRenderReport"
+        mat-stroked-button
+        (click)="downloadAsListToExcel($event, 'reports-list', program)"
+        style="float: right"
+      >
+        Download to Excel
       </button>
     </div>
   </div>
   <div
+    id="reports-list"
     class="col-12 print mt-2"
     *ngIf="
       dataSelections &&
