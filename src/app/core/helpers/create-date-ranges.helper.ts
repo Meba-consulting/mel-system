@@ -74,7 +74,6 @@ function getLastMonthOfTheQuarter(q) {
 }
 
 function formatNumber(n) {
-  console.log('NUM', n);
   if (n.toString().length == 1) {
     return '0' + n;
   } else {

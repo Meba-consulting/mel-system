@@ -14,7 +14,6 @@ export class GeneralReportCustomComponent implements OnInit {
   constructor(private generalReportService: GeneralReportsService) {}
 
   ngOnInit(): void {
-    console.log(this.enrollmentDetails);
     const headers = this.enrollmentDetails.headers;
     const trackedentityinstanceHeaderIndex = (headers
       .map((dataHeader, index) => {
@@ -29,7 +28,6 @@ export class GeneralReportCustomComponent implements OnInit {
         trackedentityinstanceHeaderIndex
       )
       .subscribe((response) => {
-        console.log(response);
         if (response) {
           this.programData$ =
             this.generalReportService.getAllEventsByTrackedEntityInstances(
