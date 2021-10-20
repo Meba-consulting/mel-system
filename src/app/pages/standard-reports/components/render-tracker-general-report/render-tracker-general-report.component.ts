@@ -11,6 +11,7 @@ import { RenderTrackerGeneralReportModalComponent } from '../render-tracker-gene
 export class RenderTrackerGeneralReportComponent implements OnInit {
   @Input() programData: any;
   @Input() program: any;
+  @Input() filterBy: string;
   formattedData: any;
   constructor(private dialog: MatDialog) {}
 
@@ -18,7 +19,8 @@ export class RenderTrackerGeneralReportComponent implements OnInit {
     this.formattedData =
       sanitizeGeneralReportFromTrackedEntityInstancesAndAssociatedEvents(
         this.program,
-        this.programData
+        this.programData,
+        this.filterBy
       );
 
     // console.log('formattedData', this.formattedData);
@@ -31,6 +33,15 @@ export class RenderTrackerGeneralReportComponent implements OnInit {
       width: '75%',
       height: '85vh',
       data: { data, program },
+    });
+  }
+
+  viewAllAsOneReport(event: Event, allData, program) {
+    event.stopPropagation();
+    this.dialog.open(RenderTrackerGeneralReportModalComponent, {
+      width: '75%',
+      height: '85vh',
+      data: { data: allData, isAllData: true, program },
     });
   }
 }

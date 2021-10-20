@@ -10,6 +10,7 @@ import { GeneralReportsService } from 'src/app/core/services/general-reports.ser
 export class GeneralReportCustomComponent implements OnInit {
   @Input() enrollmentDetails: any;
   @Input() program: any;
+  @Input() filterBy: any;
   programData$: Observable<any>;
   constructor(private generalReportService: GeneralReportsService) {}
 

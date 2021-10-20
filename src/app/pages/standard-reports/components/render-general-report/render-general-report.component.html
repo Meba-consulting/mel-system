@@ -1,22 +1,45 @@
 <div class="row">
   <div class="col-12 filters no-print">
-    <div style="min-width: 15%; float: left; margin-top: 2px; max-width: 90%">
-      <ngx-dhis2-selection-filters
-        [selectionFilterConfig]="selectionFilterConfig"
-        (filterUpdate)="onFilterUpdate($event)"
-      >
-      </ngx-dhis2-selection-filters>
+    <div class="row">
+      <div class="col-md-7 col-sx-12 col-sx-12">
+        <ngx-dhis2-selection-filters
+          [selectionFilterConfig]="selectionFilterConfig"
+          (filterUpdate)="onFilterUpdate($event)"
+        >
+        </ngx-dhis2-selection-filters>
+      </div>
+      <div class="col-md-5 col-sx-12 col-sx-12 d-flex justify-content-end">
+        <button
+          [disabled]="!shouldRenderReport"
+          class="mr-2"
+          mat-stroked-button
+          [matMenuTriggerFor]="filterReport"
+        >
+          Filter By
+        </button>
+        <mat-menu #filterReport="matMenu">
+          <button
+            mat-menu-item
+            (click)="
+              filterReportBy($event, currentUser?.userCredentials?.username)
+            "
+          >
+            Reported by You
+          </button>
+          <button mat-menu-item (click)="filterReportBy($event, 'all')">
+            All
+          </button>
+        </mat-menu>
+        <button
+          [disabled]="!shouldRenderReport"
+          mat-stroked-button
+          (click)="downloadAsListToExcel($event, 'reports-list', program)"
+        >
+          Download to Excel
+        </button>
+      </div>
     </div>
-    <div style="float: right; width: 10%">
-      <button
-        [disabled]="!shouldRenderReport"
-        mat-stroked-button
-        (click)="downloadAsListToExcel($event, 'reports-list', program)"
-        style="float: right"
-      >
-        Download to Excel
-      </button>
-    </div>
+    <hr style="margin-top: 2px; margin-bottom: 0.5rem" />
   </div>
   <div
     id="reports-list"
@@ -31,6 +54,7 @@
     <app-general-report-data
       [program]="program"
       [type]="type"
+      [filterBy]="filterBy"
       [ouAndPeSelections]="dataSelections"
     ></app-general-report-data>
   </div>

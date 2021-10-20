@@ -18,34 +18,63 @@ import htmlToPdfmake from 'html-to-pdfmake';
   styleUrls: ['./render-tracker-general-report-modal.component.css'],
 })
 export class RenderTrackerGeneralReportModalComponent implements OnInit {
-  formattedTrackedEntityInstanceData: any;
   program: any;
+  isAllData: boolean;
+  dataToRender: any[];
   @ViewChild('report') pdfTable: ElementRef;
   constructor(
     private dialogRef: MatDialogRef<RenderTrackerGeneralReportModalComponent>,
     @Inject(MAT_DIALOG_DATA) data
   ) {
     this.program = data?.program;
-    this.formattedTrackedEntityInstanceData = {
-      ...data?.data,
-      reportHeader:
-        data?.data?.attributeValues[
-          this.program.programTrackedEntityAttributes[0]?.trackedEntityAttribute
-            ?.id
-        ]?.value,
-      otherDetails: this.program.programTrackedEntityAttributes.map(
-        (programTrackedEntityAttribute) => {
-          return {
-            id: programTrackedEntityAttribute?.trackedEntityAttribute?.id,
-            name: programTrackedEntityAttribute?.trackedEntityAttribute?.name,
-            value:
-              data?.data?.attributeValues[
-                programTrackedEntityAttribute?.trackedEntityAttribute?.id
-              ]?.value,
-          };
-        }
-      ),
-    };
+    this.isAllData = data?.isAllData;
+    if (this.isAllData) {
+      this.dataToRender = data?.data.map((unformattedData) => {
+        return {
+          ...unformattedData,
+          reportHeader:
+            unformattedData?.attributeValues[
+              this.program.programTrackedEntityAttributes[0]
+                ?.trackedEntityAttribute?.id
+            ]?.value,
+          otherDetails: this.program.programTrackedEntityAttributes.map(
+            (programTrackedEntityAttribute) => {
+              return {
+                id: programTrackedEntityAttribute?.trackedEntityAttribute?.id,
+                name: programTrackedEntityAttribute?.trackedEntityAttribute
+                  ?.name,
+                value:
+                  unformattedData?.attributeValues[
+                    programTrackedEntityAttribute?.trackedEntityAttribute?.id
+                  ]?.value,
+              };
+            }
+          ),
+        };
+      });
+    } else {
+      const formattedTrackedEntityInstanceData = {
+        ...data?.data,
+        reportHeader:
+          data?.data?.attributeValues[
+            this.program.programTrackedEntityAttributes[0]
+              ?.trackedEntityAttribute?.id
+          ]?.value,
+        otherDetails: this.program.programTrackedEntityAttributes.map(
+          (programTrackedEntityAttribute) => {
+            return {
+              id: programTrackedEntityAttribute?.trackedEntityAttribute?.id,
+              name: programTrackedEntityAttribute?.trackedEntityAttribute?.name,
+              value:
+                data?.data?.attributeValues[
+                  programTrackedEntityAttribute?.trackedEntityAttribute?.id
+                ]?.value,
+            };
+          }
+        ),
+      };
+      this.dataToRender = [formattedTrackedEntityInstanceData];
+    }
   }
 
   ngOnInit(): void {}

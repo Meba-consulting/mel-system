@@ -11,6 +11,8 @@ export class RenderGeneralReportComponent implements OnInit {
   @Input() reportId: string;
   @Input() type: string;
   @Input() program: any;
+  @Input() currentUser: any;
+  filterBy: string;
   selectionChanged: boolean = false;
   selectionFilterConfig: any = {
     showDataFilter: false,
@@ -60,6 +62,15 @@ export class RenderGeneralReportComponent implements OnInit {
     setTimeout(function () {
       window.print();
     }, 500);
+  }
+
+  filterReportBy(event: Event, filterText): void {
+    event.stopPropagation();
+    this.filterBy = filterText;
+    this.shouldRenderReport = false;
+    setTimeout(() => {
+      this.shouldRenderReport = true;
+    }, 200);
   }
 
   downloadAsListToExcel(event: Event, id, program): void {

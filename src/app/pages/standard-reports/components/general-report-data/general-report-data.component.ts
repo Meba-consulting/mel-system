@@ -12,6 +12,7 @@ export class GeneralReportDataComponent implements OnInit {
   @Input() program: any;
   @Input() ouAndPeSelections: any;
   @Input() type: string;
+  @Input() filterBy: string;
   dimensions: any;
   enrollmentDetails$: Observable<any>;
   dataSetReport$: Observable<any>;

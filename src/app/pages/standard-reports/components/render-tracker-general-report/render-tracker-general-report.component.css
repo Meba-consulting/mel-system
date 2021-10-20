@@ -9,3 +9,11 @@ button {
 button:focus {
   outline: none !important;
 }
+
+.view-all {
+  padding: 5px;
+  text-decoration: underline;
+  cursor: pointer;
+  color: #3ea9d9;
+  font-weight: 500;
+}

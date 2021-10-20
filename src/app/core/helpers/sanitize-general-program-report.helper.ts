@@ -10,9 +10,10 @@ function identifyStageWithMaxEvents(data, stages) {
 
 export function sanitizeGeneralReportFromTrackedEntityInstancesAndAssociatedEvents(
   program,
-  progamData
+  progamData,
+  filterBy?
 ) {
-  return progamData.map((data, index) => {
+  const formattedData = progamData.map((data, index) => {
     let formattedData: any = {
       attributeValues: keyBy(data.attributes, 'attribute'),
       events: data.events,
@@ -37,4 +38,7 @@ export function sanitizeGeneralReportFromTrackedEntityInstancesAndAssociatedEven
     );
     return formattedData;
   });
+  return !filterBy || filterBy === 'all'
+    ? formattedData
+    : formattedData.filter((dataRow) => dataRow?.storedBy === filterBy) || [];
 }
