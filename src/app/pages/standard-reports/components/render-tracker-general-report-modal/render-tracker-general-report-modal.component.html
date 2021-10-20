@@ -4,6 +4,15 @@
 >
   <!-- <span>Report</span> -->
   <button mat-stroked-button (click)="printPDF($event)">Print</button>
+  <button
+    mat-stroked-button
+    class="ml-2"
+    (click)="
+      download('report', formattedTrackedEntityInstanceData?.reportHeader)
+    "
+  >
+    Download to Word
+  </button>
   <span class="toolbar-spacer"></span>
   <span class="float-right"></span>
   <button
@@ -16,7 +25,7 @@
   </button>
 </div>
 <mat-dialog-content class="mat-typography">
-  <div class="w-100" style="padding: 15px 30px">
+  <div class="w-100" style="padding: 15px 30px" id="report">
     <div class="h3 text-center">
       <b> Legal and Human Rights Center - Tanzania </b>
     </div>
@@ -29,13 +38,13 @@
       </b>
     </div>
     <div
-      class="text-left"
+      class="text-justify"
       *ngFor="
         let otherDetail of formattedTrackedEntityInstanceData?.otherDetails
       "
     >
-      <p>
-        <b>{{ otherDetail?.name }}:</b> {{ otherDetail?.value }}
+      <p class="text-justify">
+        <b>{{ otherDetail?.name }}:</b>{{ otherDetail?.value }}
       </p>
     </div>
     <div class="stages">
@@ -104,14 +113,15 @@
               </tr>
             </tbody>
           </table>
-          <img
-            width="100%"
-            style="margin-top: 40px"
-            height="50"
-            src="assets/img/footer_banner_lhrc.png"
-          />
         </div>
       </div>
+
+      <img
+        width="100%"
+        style="margin-top: 40px"
+        height="50"
+        src="assets/img/footer_banner_lhrc.png"
+      />
     </div>
   </div>
 </mat-dialog-content>
