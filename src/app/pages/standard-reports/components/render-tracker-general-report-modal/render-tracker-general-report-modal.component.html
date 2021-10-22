@@ -7,13 +7,7 @@
   <button
     mat-stroked-button
     class="ml-2"
-    (click)="
-      download(
-        $event,
-        'report',
-        formattedTrackedEntityInstanceData?.reportHeader
-      )
-    "
+    (click)="download($event, 'report', dataToRender[0]?.reportHeader)"
   >
     Download to Word
   </button>
@@ -35,7 +29,11 @@
   <div id="report" #report>
     <div
       class="w-100"
-      style="padding: 15px 30px; margin-bottom: 20px"
+      style="
+        padding: 15px 30px;
+        margin-bottom: 20px;
+        border-bottom: solid 2px #3ea9d9;
+      "
       *ngFor="let formattedTrackedEntityInstanceData of dataToRender"
     >
       <div class="h3 text-center">

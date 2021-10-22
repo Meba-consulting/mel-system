@@ -103,13 +103,13 @@
 
 .period-list {
   list-style-type: none;
-  height: 372px;
+  height: 200px;
   padding: 0;
   overflow: auto;
 }
 
 .selected-period-list {
-  height: 388px;
+  height: 210px;
   padding: 0;
   overflow-y: auto;
   overflow-x: hidden;

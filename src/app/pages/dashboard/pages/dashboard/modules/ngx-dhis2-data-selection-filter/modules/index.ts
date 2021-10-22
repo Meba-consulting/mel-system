@@ -1,5 +1,4 @@
-// import { NgxDhis2OrgUnitFilterModule } from '@iapps/ngx-dhis2-org-unit-filter';
-import { NgxDhis2PeriodFilterModule } from '@iapps/ngx-dhis2-period-filter';
+import { NgxDhis2PeriodFilterModule } from 'src/app/shared/modules/ngx-dhis2-period-filter/ngx-dhis2-period-filter.module';
 import { NgxDhis2OrgUnitFilterModule } from 'src/app/shared/modules/org-unit-filter/ngx-dhis2-org-unit-filter.module';
 
 import { DataFilterModule } from './data-filter/data-filter.module';
