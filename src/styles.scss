@@ -189,24 +189,29 @@ tr.mat-footer-row {
   align-items: center;
   white-space: nowrap;
   position: relative;
+  font-family: 'Times New Roman', Times, serif !important;
 }
 
 .mat-form-field-appearance-outline .mat-form-field-prefix,
 .mat-form-field-appearance-outline .mat-form-field-suffix {
   top: -3px !important;
   margin-right: 5px !important;
+  font-family: 'Times New Roman', Times, serif !important;
 }
 
 .p-tabview-nav-link,
 .p-tabview-nav-link:hover {
   text-decoration: none !important;
   outline: none !important;
+  font-family: 'Times New Roman', Times, serif !important;
 }
 
 .p-component,
 .p-component * {
   box-sizing: border-box;
-  font-size: 0.8rem !important;
+  font-size: 1rem !important;
+  font-family: 'Times New Roman', Times, serif !important;
+  padding: 1px 5px;
 }
 
 .table tbody + tbody {

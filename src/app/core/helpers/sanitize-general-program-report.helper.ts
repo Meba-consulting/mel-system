@@ -40,5 +40,11 @@ export function sanitizeGeneralReportFromTrackedEntityInstancesAndAssociatedEven
   });
   return !filterBy || filterBy === 'all'
     ? formattedData
-    : formattedData.filter((dataRow) => dataRow?.storedBy === filterBy) || [];
+    : formattedData.filter(
+        (dataRow) =>
+          dataRow.attributeValues &&
+          dataRow.attributeValues.length > 0 &&
+          dataRow.attributeValues['ek3AWEEIOBJ'] &&
+          dataRow.attributeValues['ek3AWEEIOBJ']?.storedBy === filterBy
+      ) || [];
 }

@@ -25,23 +25,24 @@
         </div>
       </div>
     </div>
-    <div style="min-width: 15%; float: left; margin-top: 2px; max-width: 90%">
+    <div style="float: left" class="w-100">
       <ngx-dhis2-selection-filters
         [selectionFilterConfig]="selectionFilterConfig"
         (filterUpdate)="onFilterUpdate($event)"
       >
       </ngx-dhis2-selection-filters>
+      <hr style="margin: 2px" />
     </div>
-    <div style="float: right; width: 10%">
+    <!-- <div style="float: right; width: 10%">
       <button mat-stroked-button (click)="printPDF()" style="float: right">
         Print
       </button>
-    </div>
+    </div> -->
   </div>
   <div
     *ngIf="selectionChanged && reportType != 'interactive-report'"
     class="col-12 print"
   >
-    <div id="html_id" style="margin-top: 15px"></div>
+    <div id="html_id"></div>
   </div>
 </div>
