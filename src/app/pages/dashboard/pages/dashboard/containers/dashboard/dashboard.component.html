@@ -1,20 +1,23 @@
-<div class="container-fluid dashboard-container">
+<div
+  class="container-fluid dashboard-container"
+  style="padding-left: 5px; padding-right: 5px"
+>
   <!-- dashboard menu -->
   <div class="dashboard-menu-container no-print" id="dashboard_menu_container">
     <div
       *ngIf="(dashboardLoading$ | async) || (dashboardGroupsLoading$ | async)"
-      style="display: flex; padding: 10px;"
+      style="display: flex; padding: 10px"
     >
       <!-- hide create button loader -->
       <!-- <div style="height: 34px; width: 34px; margin-left: 2px;">
                 <app-dashboard-progress [borderRadius]="'17px'"></app-dashboard-progress>
             </div> -->
-      <div style="height: 34px; width: 120px; margin-left: 7px;">
+      <div style="height: 34px; width: 120px; margin-left: 7px">
         <app-dashboard-progress
           [borderRadius]="'17px'"
         ></app-dashboard-progress>
       </div>
-      <div style="height: 34px; width: 120px; margin-left: 7px;">
+      <div style="height: 34px; width: 120px; margin-left: 7px">
         <app-dashboard-progress
           [borderRadius]="'17px'"
         ></app-dashboard-progress>

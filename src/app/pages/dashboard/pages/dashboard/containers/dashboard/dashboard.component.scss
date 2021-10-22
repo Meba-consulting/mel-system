@@ -1,12 +1,10 @@
 .dashboard-container {
   .dashboard-menu-container {
-    position: absolute;
-    // top: 48px;
-    left: 0;
-    right: 0;
-    width: 100%;
-    z-index: 1350;
-    background-color: #ffffff;
+    position: fixed;
+    margin-top: 2px;
+    width: 100% !important;
+    z-index: 2500;
+    background-color: transparent;
   }
 }
 

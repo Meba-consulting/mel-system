@@ -75,121 +75,119 @@
           </mat-menu>
         </div>
       </div>
-      <div
-        class="col-md-2 no-print left-panel"
-        style="border-right: solid 1px #eee"
-      >
-        <div>
-          <div class="user-panel text-left" style="height: 30px">
-            <!-- <img
+      <div class="col-12 d-flex justify-content-center">
+        <div class="no-print left-panel" style="border-right: solid 1px #eee">
+          <div>
+            <div class="user-panel text-left" style="height: 30px">
+              <!-- <img
               height="120"
               src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAABmJLR0QA/wD/AP+gvaeTAAACQUlEQVR4nO3au2sUURjG4SfGwluC8V4o4qUQRVMItppGo0j0b9BSEQtrwVbQVmwNNoKgKIhYRQsleKmsRBuDmKjghQiBXCxmF0VxM5k950yi5wdfscvwnvf9Zoc9lyGTyWQymcz/Skfi8bpxHAPYhU2N79/iJW436mtiX9FZjLP4gJlZagxn0FmL0wh0467Zg/9e99FTg9+grMALcw/frOdYntx1QG6qHr5ZN5K7DsQR7Ydv1sHE3oPwVLgGDCf23jbbhAvfrK0xjC6KIYrDETT7I2hGa8CWBaIZrQHrImhuiKAZrQExprKfI2hGa8C7BaIZrQEPI2gORdCMRidGhfsLfC/SzYr1C5jCpYB6FzEdUC8JS/Fa+3f/FZYk9h6Mnfiievhv2J3cdWD68Mncw3/E/hr8RmE7HikffkixnvjnGFDs+X33Z+hx3MLRlIZSb4o2WaZY3W1sfB7BG0VjMplMJpPJZJIQ6wByLY7hEJ60odOBc9is2F+Y1xOlNTitCDzl5xS3nX2By7/oTOExTmF1W04D04vrmPD3xc01rJyDZg8GW+hNNMbsDZKgIn24p9ipKbPCG8EJdLXQ7MLJxrVlNKcbHg5UDVFlMdSPC9hXccxx3MEzxXNNsee/V7ESrHocPozzivcKorBDYTz0mV/oeoA9IYOvwlVMzoNwZWsSV5R4w6TMIzAqzlFXCsawvtUFZRowE8ZLbbTMGOtcYMGQG1C3gbrJDajbQN3kBtRtoG5yA+o2kMlkMplMJlMXPwAQlnQd3J0ImQAAAABJRU5ErkJggg=="
             />
             <br /> -->
-            <!-- <div class="h6 text-center"> -->
-            {{ params?.currentUser?.name }}
-            <!-- </div> -->
-          </div>
-          <!-- <div class="header-banner d-flex" style="width: 100%">
+              <!-- <div class="h6 text-center"> -->
+              {{ params?.currentUser?.name }}
+              <!-- </div> -->
+            </div>
+            <!-- <div class="header-banner d-flex" style="width: 100%">
             <div class="float-left w-25">
               <img src="assets/img/lhrc_msg.png" class="left-img-lhrc" />
             </div> -->
-          <!-- <div class="w-50">
+            <!-- <div class="w-50">
               <h2 style="text-align: center !important; margin-top: 15px">
                 LEGAL & HUMAN RIGHTS CENTER - MEL
               </h2>
             </div> -->
-          <!-- <div class="float-right w-25"></div>
+            <!-- <div class="float-right w-25"></div>
           </div> -->
-          <div class="dashboard-menu">
-            <ul class="list-group">
-              <li
-                class="list-group-item"
-                [routerLink]="'/dashboards/'"
-                routerLinkActive="active-class"
-              >
-                <img
-                  height="25"
-                  src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABXAvmHAAAABmJLR0QA/wD/AP+gvaeTAAABIElEQVRoge2YsQ3CMBBF/yF6BiBMQE9Nnz28AjOwQTJJemo6RkgWYAGOIgQhyFlycrFldK+05Yuf7HNOBxiGYaSExJnTrQStaoC3gTE7MDmc983n4OFyL5m5BigwHnXM7K7HTTM2u5LXUTVh8wBQgLj+HmSmKnzzAMAFEX7iDcgCQBH+sTe7sY3oxuvxCWSBCaTGBFITUYC6GYtbaSKaADO7iRItHnDS5HrGnoJ4/UnF93wqlgOpyV4gWg5oV7cD8U5AubodiHmFrBodwwRS4xNYpHbRRhZgcpgm0QIk1i7ayP+B/t1Vr120+escyILsBcQcWKqTpo14Akt10rTxXKFlOmnaZJ8DJpAaE0iNR0C9kxa3M6feScukujUMwwjjCa6bV7FiSqWRAAAAAElFTkSuQmCC"
-                />
-                Dashboard
-              </li>
-            </ul>
-          </div>
-          <div
-            class="h5 p-3"
-            *ngIf="
-              accessReportsPage ||
-              accessDataEntryPage ||
-              accessGeneralRegistrationPage ||
-              accessUserManagementPage
-            "
-          >
-            GENERAL
-          </div>
-          <div class="menu-items">
-            <ul class="list-group">
-              <li
-                *ngIf="accessDataEntryPage"
-                class="list-group-item"
-                [routerLink]="'/data-entry'"
-                routerLinkActive="active-class"
-              >
-                <img
-                  height="25"
-                  src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABXAvmHAAAABmJLR0QA/wD/AP+gvaeTAAAA4ElEQVRoge2ZMQrCQBBFn6Ki4I30Rta2akrPpb0HMIXnEEELEZYQgxtnd1z5DwJp8jOPTDbsBIQQohRmQAXUwA24ZzhMiz9mKjqJQOVQvKlAHYSugbFleIMkAmHPTyyDW4gSGESExl7Tl6h7DRMWkoWRQcYSWHyZsTeoo5Ouvtxhu9pEvQNqIZ4fuOQt8A6tQt5IwBsJeCMBbyTgjQS8kYA3EvCmj8AJuPIjw6w+G5qc/P+G5lPCR1z8aHFuGdxCkrHKJThfkX4+as6WwsfrU+BQssBLYgOcKfAXkxBCpOEBCZb6Z74C7OcAAAAASUVORK5CYII="
-                />
-                Data entry
-              </li>
-              <li
-                *ngIf="accessReportsPage"
-                class="list-group-item"
-                [routerLink]="'/reports'"
-                routerLinkActive="active-class"
-              >
-                <img
-                  height="25"
-                  src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABXAvmHAAAABmJLR0QA/wD/AP+gvaeTAAAAzElEQVRoge2YUQqEMAxEx8V7bW9mvZl7MvfDChU0aa0aq/NgvhwxY4qRAIQQQgpolOsuyJIhaJVWudkB6A4tZx+bAT5XVnEGWgdifhDeBJad6gs8wNT5b2JdIh7AGOQV7xipxJP13OqPEANYwwDWVB8gZw50SJ/K2mcy1aNSfQdeFaDH9Pe6pZgSTwP5N2N3gFvCANYwgDUcZNa8KgAH2RkwgDUMYE31AXImsYO+nZtJ8Umewzbi8YrPSs9eLWpHSNpGX8UdaiCEkKfyB7oyQEVo+hy7AAAAAElFTkSuQmCC"
-                />
-                Reports
-              </li>
-              <li
-                *ngIf="accessGeneralRegistrationPage"
-                class="list-group-item"
-                [routerLink]="'/general-registration'"
-                routerLinkActive="active-class"
-              >
-                <img
-                  height="25"
-                  src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABXAvmHAAAABmJLR0QA/wD/AP+gvaeTAAAA4ElEQVRoge2ZMQrCQBBFn6Ki4I30Rta2akrPpb0HMIXnEEELEZYQgxtnd1z5DwJp8jOPTDbsBIQQohRmQAXUwA24ZzhMiz9mKjqJQOVQvKlAHYSugbFleIMkAmHPTyyDW4gSGESExl7Tl6h7DRMWkoWRQcYSWHyZsTeoo5Ouvtxhu9pEvQNqIZ4fuOQt8A6tQt5IwBsJeCMBbyTgjQS8kYA3EvCmj8AJuPIjw6w+G5qc/P+G5lPCR1z8aHFuGdxCkrHKJThfkX4+as6WwsfrU+BQssBLYgOcKfAXkxBCpOEBCZb6Z74C7OcAAAAASUVORK5CYII="
-                />
-                General Registration
-              </li>
-              <li
-                *ngIf="accessResourcesPage"
-                class="list-group-item"
-                [routerLink]="'/resources'"
-                routerLinkActive="active-class"
-              >
-                <img
-                  height="25"
-                  src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAABmJLR0QA/wD/AP+gvaeTAAAD1ElEQVR4nO2bO2gUQRjHf7O7udyTPA4jRIyPQhQtTGMrWGgtPhqxsBELbQyojQ+wDFaKGBWEpFHQ3kZBC0u1shUVExASiLnzzOV212Jz8R6JmZmde+x6/ya5udn5vt8338x8u8lCTz319D9LmBxs6vxUupBITPg+Z4RgN9BncnxJzSKYWcpnbty6dbq8WWfHlNXJC9MjBafyEhgXRsOqrFF8rubmiwDXNutsJACTF6ZHLMd9DWJ/djhDYaEIwKXbh5XHsp0UlpMCwKuUcCulpvZa1fYBmPu6xPNH78HnLBIBsJQ9bFAA770C9mfzWcZOHdMeqxbSlYB3G+CFZTO2Z3v146iMzVAB+AvvH8jms4ydPIqTSWqN1QjvScB7DfBOIocqknYA4gCP1hXEBx6dq0zA28mh4GeH4UHxFAgPL7CTg1jJQQRirQjpFDwqVxuZ+dQQVnIQAJEcADuhDG+nho3Bg2QGTJ2fSgdFjjiQ25Jj+4mjOOl+ZWNuaQHhr8KXC7jlghK81ZfB6h/AsmxwXWX760kqhIVEYgLEeHY4syl88fsPADK55j62kwrSfqWkBW+n88EXThpsM1W2VAas1vYUFop8evBCauB9B0fqPtdteMuLymlv9Q/8/VJY0JcGsQyV31L+bCSpAKze2Egpk+tn7/hWDh3ZudYWdrf3lheDtHfSAbzvBeDuiqxbG0r2FOiD8LV9qN3edYHfwcwbggeDd4Pryfg5764EaW8IHkycIxuoZUVOyDXfqJYEoBsqPFkZtxAleExbiRo8Ji1FER5T1qIKjwmLUYYnrNWowxPGchzg0bUeF3h0POh2+NrH5DJS8iIK8F4rAxA3eNDwxpOA99oM32hPRUq3w3Ga+aqUvIobPIQ8BWoVpbSvldISiNPMV6V1CvzLmSjBQ0gvo5r2tdJ+KBr1ma9Ky9u4wIOGx3W1QHIIYTuRhYcwhVAy+EuvlchC+RfgG3eu1fCgWQgBeOUl8CqwUqIV8K3Y8NaT1iYYrPloz3xVygu3fsOLNjwoBiDKu/1GUiKJGzwo00SnwpOVFtHTe295dv+tkTa3UuLZ/Xe8ePyxrt/zhx+021SkdQrMfpk30lZN+7lvP5v6hWlTUceeS3dqzTdKKwO27cqHavN9rw5+dMdAU78wbSqSerXhzsUnPsDlyeOhjEF7Zv7u9TcATNw7tylfW5dAt6R9rdoWgG6EB8kACCHmAL5/bt7VZdRO+Nkvi2u/yvSX+09RwQw+VxrP9G6WgGmZflIBWBpOX8/NF/3VF5Gk3sXpoGYRzPzMZ2522pGeeuqp+/UHIfshoD+yFHUAAAAASUVORK5CYII="
-                />
-                Resources
-              </li>
-              <li
-                *ngIf="accessUserManagementPage"
-                class="list-group-item"
-                [routerLink]="'/user-management'"
-                routerLinkActive="active-class"
-              >
-                <img
-                  height="25"
-                  src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAABmJLR0QA/wD/AP+gvaeTAAACQUlEQVR4nO3au2sUURjG4SfGwluC8V4o4qUQRVMItppGo0j0b9BSEQtrwVbQVmwNNoKgKIhYRQsleKmsRBuDmKjghQiBXCxmF0VxM5k950yi5wdfscvwnvf9Zoc9lyGTyWQymcz/Skfi8bpxHAPYhU2N79/iJW436mtiX9FZjLP4gJlZagxn0FmL0wh0467Zg/9e99FTg9+grMALcw/frOdYntx1QG6qHr5ZN5K7DsQR7Ydv1sHE3oPwVLgGDCf23jbbhAvfrK0xjC6KIYrDETT7I2hGa8CWBaIZrQHrImhuiKAZrQExprKfI2hGa8C7BaIZrQEPI2gORdCMRidGhfsLfC/SzYr1C5jCpYB6FzEdUC8JS/Fa+3f/FZYk9h6Mnfiievhv2J3cdWD68Mncw3/E/hr8RmE7HikffkixnvjnGFDs+X33Z+hx3MLRlIZSb4o2WaZY3W1sfB7BG0VjMplMJpPJZJIQ6wByLY7hEJ60odOBc9is2F+Y1xOlNTitCDzl5xS3nX2By7/oTOExTmF1W04D04vrmPD3xc01rJyDZg8GW+hNNMbsDZKgIn24p9ipKbPCG8EJdLXQ7MLJxrVlNKcbHg5UDVFlMdSPC9hXccxx3MEzxXNNsee/V7ESrHocPozzivcKorBDYTz0mV/oeoA9IYOvwlVMzoNwZWsSV5R4w6TMIzAqzlFXCsawvtUFZRowE8ZLbbTMGOtcYMGQG1C3gbrJDajbQN3kBtRtoG5yA+o2kMlkMplMJlMXPwAQlnQd3J0ImQAAAABJRU5ErkJggg=="
-                />
-                User management
-              </li>
-              <!-- <li class="list-group-item" routerLinkActive="active-class">
+            <div class="dashboard-menu">
+              <ul class="list-group">
+                <li
+                  class="list-group-item"
+                  [routerLink]="'/dashboards/'"
+                  routerLinkActive="active-class"
+                >
+                  <img
+                    height="25"
+                    src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABXAvmHAAAABmJLR0QA/wD/AP+gvaeTAAABIElEQVRoge2YsQ3CMBBF/yF6BiBMQE9Nnz28AjOwQTJJemo6RkgWYAGOIgQhyFlycrFldK+05Yuf7HNOBxiGYaSExJnTrQStaoC3gTE7MDmc983n4OFyL5m5BigwHnXM7K7HTTM2u5LXUTVh8wBQgLj+HmSmKnzzAMAFEX7iDcgCQBH+sTe7sY3oxuvxCWSBCaTGBFITUYC6GYtbaSKaADO7iRItHnDS5HrGnoJ4/UnF93wqlgOpyV4gWg5oV7cD8U5AubodiHmFrBodwwRS4xNYpHbRRhZgcpgm0QIk1i7ayP+B/t1Vr120+escyILsBcQcWKqTpo14Akt10rTxXKFlOmnaZJ8DJpAaE0iNR0C9kxa3M6feScukujUMwwjjCa6bV7FiSqWRAAAAAElFTkSuQmCC"
+                  />
+                  Dashboard
+                </li>
+              </ul>
+            </div>
+            <div
+              class="h5 p-3"
+              *ngIf="
+                accessReportsPage ||
+                accessDataEntryPage ||
+                accessGeneralRegistrationPage ||
+                accessUserManagementPage
+              "
+            >
+              GENERAL
+            </div>
+            <div class="menu-items">
+              <ul class="list-group">
+                <li
+                  *ngIf="accessDataEntryPage"
+                  class="list-group-item"
+                  [routerLink]="'/data-entry'"
+                  routerLinkActive="active-class"
+                >
+                  <img
+                    height="25"
+                    src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABXAvmHAAAABmJLR0QA/wD/AP+gvaeTAAAA4ElEQVRoge2ZMQrCQBBFn6Ki4I30Rta2akrPpb0HMIXnEEELEZYQgxtnd1z5DwJp8jOPTDbsBIQQohRmQAXUwA24ZzhMiz9mKjqJQOVQvKlAHYSugbFleIMkAmHPTyyDW4gSGESExl7Tl6h7DRMWkoWRQcYSWHyZsTeoo5Ouvtxhu9pEvQNqIZ4fuOQt8A6tQt5IwBsJeCMBbyTgjQS8kYA3EvCmj8AJuPIjw6w+G5qc/P+G5lPCR1z8aHFuGdxCkrHKJThfkX4+as6WwsfrU+BQssBLYgOcKfAXkxBCpOEBCZb6Z74C7OcAAAAASUVORK5CYII="
+                  />
+                  Data entry
+                </li>
+                <li
+                  *ngIf="accessReportsPage"
+                  class="list-group-item"
+                  [routerLink]="'/reports'"
+                  routerLinkActive="active-class"
+                >
+                  <img
+                    height="25"
+                    src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABXAvmHAAAABmJLR0QA/wD/AP+gvaeTAAAAzElEQVRoge2YUQqEMAxEx8V7bW9mvZl7MvfDChU0aa0aq/NgvhwxY4qRAIQQQgpolOsuyJIhaJVWudkB6A4tZx+bAT5XVnEGWgdifhDeBJad6gs8wNT5b2JdIh7AGOQV7xipxJP13OqPEANYwwDWVB8gZw50SJ/K2mcy1aNSfQdeFaDH9Pe6pZgSTwP5N2N3gFvCANYwgDUcZNa8KgAH2RkwgDUMYE31AXImsYO+nZtJ8Umewzbi8YrPSs9eLWpHSNpGX8UdaiCEkKfyB7oyQEVo+hy7AAAAAElFTkSuQmCC"
+                  />
+                  Reports
+                </li>
+                <li
+                  *ngIf="accessGeneralRegistrationPage"
+                  class="list-group-item"
+                  [routerLink]="'/general-registration'"
+                  routerLinkActive="active-class"
+                >
+                  <img
+                    height="25"
+                    src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABXAvmHAAAABmJLR0QA/wD/AP+gvaeTAAAA4ElEQVRoge2ZMQrCQBBFn6Ki4I30Rta2akrPpb0HMIXnEEELEZYQgxtnd1z5DwJp8jOPTDbsBIQQohRmQAXUwA24ZzhMiz9mKjqJQOVQvKlAHYSugbFleIMkAmHPTyyDW4gSGESExl7Tl6h7DRMWkoWRQcYSWHyZsTeoo5Ouvtxhu9pEvQNqIZ4fuOQt8A6tQt5IwBsJeCMBbyTgjQS8kYA3EvCmj8AJuPIjw6w+G5qc/P+G5lPCR1z8aHFuGdxCkrHKJThfkX4+as6WwsfrU+BQssBLYgOcKfAXkxBCpOEBCZb6Z74C7OcAAAAASUVORK5CYII="
+                  />
+                  General Registration
+                </li>
+                <li
+                  *ngIf="accessResourcesPage"
+                  class="list-group-item"
+                  [routerLink]="'/resources'"
+                  routerLinkActive="active-class"
+                >
+                  <img
+                    height="25"
+                    src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAABmJLR0QA/wD/AP+gvaeTAAAD1ElEQVR4nO2bO2gUQRjHf7O7udyTPA4jRIyPQhQtTGMrWGgtPhqxsBELbQyojQ+wDFaKGBWEpFHQ3kZBC0u1shUVExASiLnzzOV212Jz8R6JmZmde+x6/ya5udn5vt8338x8u8lCTz319D9LmBxs6vxUupBITPg+Z4RgN9BncnxJzSKYWcpnbty6dbq8WWfHlNXJC9MjBafyEhgXRsOqrFF8rubmiwDXNutsJACTF6ZHLMd9DWJ/djhDYaEIwKXbh5XHsp0UlpMCwKuUcCulpvZa1fYBmPu6xPNH78HnLBIBsJQ9bFAA770C9mfzWcZOHdMeqxbSlYB3G+CFZTO2Z3v146iMzVAB+AvvH8jms4ydPIqTSWqN1QjvScB7DfBOIocqknYA4gCP1hXEBx6dq0zA28mh4GeH4UHxFAgPL7CTg1jJQQRirQjpFDwqVxuZ+dQQVnIQAJEcADuhDG+nho3Bg2QGTJ2fSgdFjjiQ25Jj+4mjOOl+ZWNuaQHhr8KXC7jlghK81ZfB6h/AsmxwXWX760kqhIVEYgLEeHY4syl88fsPADK55j62kwrSfqWkBW+n88EXThpsM1W2VAas1vYUFop8evBCauB9B0fqPtdteMuLymlv9Q/8/VJY0JcGsQyV31L+bCSpAKze2Egpk+tn7/hWDh3ZudYWdrf3lheDtHfSAbzvBeDuiqxbG0r2FOiD8LV9qN3edYHfwcwbggeDd4Pryfg5764EaW8IHkycIxuoZUVOyDXfqJYEoBsqPFkZtxAleExbiRo8Ji1FER5T1qIKjwmLUYYnrNWowxPGchzg0bUeF3h0POh2+NrH5DJS8iIK8F4rAxA3eNDwxpOA99oM32hPRUq3w3Ga+aqUvIobPIQ8BWoVpbSvldISiNPMV6V1CvzLmSjBQ0gvo5r2tdJ+KBr1ma9Ky9u4wIOGx3W1QHIIYTuRhYcwhVAy+EuvlchC+RfgG3eu1fCgWQgBeOUl8CqwUqIV8K3Y8NaT1iYYrPloz3xVygu3fsOLNjwoBiDKu/1GUiKJGzwo00SnwpOVFtHTe295dv+tkTa3UuLZ/Xe8ePyxrt/zhx+021SkdQrMfpk30lZN+7lvP5v6hWlTUceeS3dqzTdKKwO27cqHavN9rw5+dMdAU78wbSqSerXhzsUnPsDlyeOhjEF7Zv7u9TcATNw7tylfW5dAt6R9rdoWgG6EB8kACCHmAL5/bt7VZdRO+Nkvi2u/yvSX+09RwQw+VxrP9G6WgGmZflIBWBpOX8/NF/3VF5Gk3sXpoGYRzPzMZ2522pGeeuqp+/UHIfshoD+yFHUAAAAASUVORK5CYII="
+                  />
+                  Resources
+                </li>
+                <li
+                  *ngIf="accessUserManagementPage"
+                  class="list-group-item"
+                  [routerLink]="'/user-management'"
+                  routerLinkActive="active-class"
+                >
+                  <img
+                    height="25"
+                    src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAABmJLR0QA/wD/AP+gvaeTAAACQUlEQVR4nO3au2sUURjG4SfGwluC8V4o4qUQRVMItppGo0j0b9BSEQtrwVbQVmwNNoKgKIhYRQsleKmsRBuDmKjghQiBXCxmF0VxM5k950yi5wdfscvwnvf9Zoc9lyGTyWQymcz/Skfi8bpxHAPYhU2N79/iJW436mtiX9FZjLP4gJlZagxn0FmL0wh0467Zg/9e99FTg9+grMALcw/frOdYntx1QG6qHr5ZN5K7DsQR7Ydv1sHE3oPwVLgGDCf23jbbhAvfrK0xjC6KIYrDETT7I2hGa8CWBaIZrQHrImhuiKAZrQExprKfI2hGa8C7BaIZrQEPI2gORdCMRidGhfsLfC/SzYr1C5jCpYB6FzEdUC8JS/Fa+3f/FZYk9h6Mnfiievhv2J3cdWD68Mncw3/E/hr8RmE7HikffkixnvjnGFDs+X33Z+hx3MLRlIZSb4o2WaZY3W1sfB7BG0VjMplMJpPJZJIQ6wByLY7hEJ60odOBc9is2F+Y1xOlNTitCDzl5xS3nX2By7/oTOExTmF1W04D04vrmPD3xc01rJyDZg8GW+hNNMbsDZKgIn24p9ipKbPCG8EJdLXQ7MLJxrVlNKcbHg5UDVFlMdSPC9hXccxx3MEzxXNNsee/V7ESrHocPozzivcKorBDYTz0mV/oeoA9IYOvwlVMzoNwZWsSV5R4w6TMIzAqzlFXCsawvtUFZRowE8ZLbbTMGOtcYMGQG1C3gbrJDajbQN3kBtRtoG5yA+o2kMlkMplMJlMXPwAQlnQd3J0ImQAAAABJRU5ErkJggg=="
+                  />
+                  User management
+                </li>
+                <!-- <li class="list-group-item" routerLinkActive="active-class">
                 <a href="../../../mel/dhis-web-maintenance"></a>
                 <img
                   height="25"
@@ -197,14 +195,14 @@
                 />
                 User management
               </li> -->
-            </ul>
+              </ul>
+            </div>
           </div>
         </div>
-      </div>
-      <div class="col-md-10 right-panel">
-        <router-outlet></router-outlet>
-        <!-- <div class="footer"></div> -->
-        <!-- <div
+        <div class="right-panel">
+          <router-outlet></router-outlet>
+          <!-- <div class="footer"></div> -->
+          <!-- <div
           class="w-100"
           style="
             position: fixed;
@@ -221,6 +219,7 @@
             src="assets/img/footer_banner_lhrc.png"
           />
         </div> -->
+        </div>
       </div>
     </div>
   </div>

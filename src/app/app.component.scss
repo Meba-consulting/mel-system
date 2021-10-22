@@ -42,7 +42,11 @@ a {
 
 .left-panel {
   margin-top: 53px;
-  z-index: 90 !important;
+  z-index: 190 !important;
+  width: 200px;
+  position: fixed;
+  left: 0;
+  height: calc(100vh - 55px);
 }
 
 .right-panel {
@@ -50,6 +54,8 @@ a {
   z-index: 90 !important;
   height: auto !important;
   margin-bottom: 53px;
+  margin-left: 200px;
+  width: calc(100% - 200px);
 }
 
 .left-img-lhrc {

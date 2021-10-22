@@ -13,12 +13,12 @@
   </ul>
   <!-- / tabs -->
   <div
-    class="row dashboard-menu d-flex justify-content-between"
+    class="dashboard-menu w-100 d-flex justify-content-left"
     style="margin-bottom: -10px"
   >
     <ul
       style="overflow-x: auto; overflow-y: hidden"
-      class="col-md-11 col-sx-12 col-sm-12 dashboard-menu-list"
+      class="dashboard-menu-list"
     >
       <!-- Hide add dashboard actions -->
 
@@ -33,28 +33,28 @@
           (dashboardToEdit)="onSetEditDashboard($event)"
         ></app-dashboard-menu-item>
       </li>
-    </ul>
+      <!-- </ul>
     <div class="col-md-1 col-sx-12 col-sm-12">
       <ul
         style="list-style-type: none; padding: 0"
         class="d-flex justify-content-left"
-      >
-        <li>
-          <app-add-dashboard
-            (create)="onCreateDashboard($event)"
-          ></app-add-dashboard>
-        </li>
-        <li class="ml-2">
-          <a routerLink="/dashboards/analysis/playground" title="Play ground">
-            <img
-              height="18"
-              style="margin-top: 10px"
-              src="assets/icons/combined.png"
-            />
-          </a>
-        </li>
-      </ul>
-    </div>
+      > -->
+      <li class="ml-2">
+        <app-add-dashboard
+          (create)="onCreateDashboard($event)"
+        ></app-add-dashboard>
+      </li>
+      <li class="ml-2">
+        <a routerLink="/dashboards/analysis/playground" title="Play ground">
+          <img
+            height="18"
+            style="margin-top: 5px"
+            src="assets/icons/combined.png"
+          />
+        </a>
+      </li>
+    </ul>
+    <!-- </div> -->
   </div>
 
   <!-- / tab_content -->
