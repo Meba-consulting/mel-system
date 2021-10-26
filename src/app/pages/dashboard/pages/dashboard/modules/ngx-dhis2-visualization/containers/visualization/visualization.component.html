@@ -168,7 +168,7 @@
   </div>
   <!--end of visualization body block-->
 </mat-card>
-<mat-card *ngIf="dashboardType && dashboardType == 'SINGLE_VALUE'">
+<mat-card class="mb-2" *ngIf="dashboardType && dashboardType == 'SINGLE_VALUE'">
   <div
     *ngIf="
       (visualizationProgress$ | async) &&

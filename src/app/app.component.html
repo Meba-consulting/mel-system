@@ -5,7 +5,14 @@
 >
   <!-- Sidebar-->
   <div class="border-end bg-white" id="sidebar-wrapper">
-    <div class="sidebar-heading border-bottom bg-light">MEL</div>
+    <div class="sidebar-heading border-bottom bg-light">
+      <img
+        height="45"
+        style="margin-left: -20px; margin-top: -10px"
+        src="assets/img/logo_lhrc.png"
+      />
+      MEL
+    </div>
     <div class="list-group list-group-flush">
       <a
         class="list-group-item list-group-item-action list-group-item-light p-3"
@@ -53,7 +60,10 @@
       class="w-100 navbar-expand-lg navbar-light bg-light border-bottom"
       style="padding: 0 !important"
     >
-      <div class="container-fluid d-flex justify-content-end">
+      <div
+        class="container-fluid d-flex justify-content-end"
+        style="background-color: #3ea9d9"
+      >
         <!-- <button class="btn btn-primary" id="sidebarToggle">Toggle Menu</button> -->
         <button
           class="navbar-toggler float-left"
@@ -198,7 +208,7 @@
           </li> -->
         </ul>
       </div>
-      <div class="w-100" style="margin-top: -10px">
+      <div class="w-100">
         <router-outlet></router-outlet>
       </div>
     </div>
