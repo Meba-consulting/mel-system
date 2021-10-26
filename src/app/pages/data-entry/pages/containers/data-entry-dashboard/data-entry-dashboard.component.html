@@ -7,14 +7,15 @@
   } as params"
 >
   <div class="col-md-9">
-    <p-accordion>
-      <p-accordionTab
-        header="Form selection {{
-          isFormSelected ? ' : ' + currentProgram?.name : ''
-        }}"
-        [selected]="!isFormSelected"
-      >
-        <!-- <ng-template pTemplate="content"> -->
+    <mat-accordion>
+      <mat-expansion-panel [expanded]="!isFormSelected">
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            Form selection
+            {{ isFormSelected ? ' : ' + currentProgram?.name : '' }}
+          </mat-panel-title>
+          <mat-panel-description> </mat-panel-description>
+        </mat-expansion-panel-header>
         <div style="height: 200px; overflow: auto" *ngIf="formattedPrograms">
           <ngx-option-selector
             [options]="formattedPrograms"
@@ -25,16 +26,21 @@
             (selectedOption)="onGetSelectedProgram($event)"
           ></ngx-option-selector>
         </div>
-        <!-- </ng-template> -->
-      </p-accordionTab>
-      <p-accordionTab
-        header="Organisation Unit {{
-          selectedOu && !ouFilterIsSet ? ' : ' + selectedOu?.name : ''
-        }}"
-        [selected]="
+      </mat-expansion-panel>
+
+      <mat-expansion-panel
+        [expanded]="
           (selectedOu && isFormSelected) || !isFormSelected ? false : true
         "
       >
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            Organisation Unit
+            {{ selectedOu && !ouFilterIsSet ? ' : ' + selectedOu?.name : '' }}
+          </mat-panel-title>
+          <mat-panel-description> </mat-panel-description>
+        </mat-expansion-panel-header>
+
         <div *ngIf="currentProgram">
           <!-- <ng-template pTemplate="content"> -->
           <ngx-dhis2-org-unit-filter
@@ -48,8 +54,8 @@
           ></ngx-dhis2-org-unit-filter>
           <!-- </ng-template> -->
         </div>
-      </p-accordionTab>
-    </p-accordion>
+      </mat-expansion-panel>
+    </mat-accordion>
     <div
       *ngIf="
         paramersSet &&
