@@ -51,6 +51,7 @@ export class AppComponent implements OnInit {
   accessGeneralRegistrationPage: boolean = false;
   accessReportsPage: boolean = false;
   accessResourcesPage: boolean = false;
+  shouldShowTopMenu: boolean = false;
   constructor(
     private store: Store<State>,
     private translate: TranslateService,
@@ -61,6 +62,11 @@ export class AppComponent implements OnInit {
     private dialog: MatDialog
   ) {
     this.searchInput = '';
+  }
+
+  toggleTopMenu(event: Event): void {
+    event.stopPropagation();
+    this.shouldShowTopMenu = !this.shouldShowTopMenu;
   }
 
   ngOnInit() {

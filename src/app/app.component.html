@@ -1,4 +1,210 @@
 <div
+  class="d-flex"
+  id="wrapper"
+  *ngIf="{ currentUser: currentUser$ | async } as params"
+>
+  <!-- Sidebar-->
+  <div class="border-end bg-white" id="sidebar-wrapper">
+    <div class="sidebar-heading border-bottom bg-light">MEL</div>
+    <div class="list-group list-group-flush">
+      <a
+        class="list-group-item list-group-item-action list-group-item-light p-3"
+        [routerLink]="'/dashboards/'"
+        routerLinkActive="active-class"
+        >Dashboard</a
+      >
+
+      <a
+        class="list-group-item list-group-item-action list-group-item-light p-3"
+        [routerLink]="'/data-entry'"
+        routerLinkActive="active-class"
+        >Data Entry</a
+      >
+      <a
+        class="list-group-item list-group-item-action list-group-item-light p-3"
+        [routerLink]="'/reports'"
+        routerLinkActive="active-class"
+        >Reports</a
+      >
+      <a
+        class="list-group-item list-group-item-action list-group-item-light p-3"
+        [routerLink]="'/general-registration'"
+        routerLinkActive="active-class"
+        >General Registration</a
+      >
+      <a
+        class="list-group-item list-group-item-action list-group-item-light p-3"
+        [routerLink]="'/resources'"
+        routerLinkActive="active-class"
+        >Resources</a
+      >
+      <a
+        class="list-group-item list-group-item-action list-group-item-light p-3"
+        [routerLink]="'/user-management'"
+        routerLinkActive="active-class"
+        >User Management</a
+      >
+    </div>
+  </div>
+  <!-- Page content wrapper-->
+  <div id="page-content-wrapper">
+    <!-- Top navigation-->
+    <nav
+      class="w-100 navbar-expand-lg navbar-light bg-light border-bottom"
+      style="padding: 0 !important"
+    >
+      <div class="container-fluid d-flex justify-content-end">
+        <!-- <button class="btn btn-primary" id="sidebarToggle">Toggle Menu</button> -->
+        <button
+          class="navbar-toggler float-left"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarSupportedContent"
+          aria-controls="navbarSupportedContent"
+          (click)="toggleTopMenu($event)"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <a
+          class="float-right user-details-menu"
+          [matMenuTriggerFor]="menu"
+          *ngIf="!shouldShowTopMenu"
+        >
+          <img
+            height="25"
+            src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAABmJLR0QA/wD/AP+gvaeTAAACQUlEQVR4nO3au2sUURjG4SfGwluC8V4o4qUQRVMItppGo0j0b9BSEQtrwVbQVmwNNoKgKIhYRQsleKmsRBuDmKjghQiBXCxmF0VxM5k950yi5wdfscvwnvf9Zoc9lyGTyWQymcz/Skfi8bpxHAPYhU2N79/iJW436mtiX9FZjLP4gJlZagxn0FmL0wh0467Zg/9e99FTg9+grMALcw/frOdYntx1QG6qHr5ZN5K7DsQR7Ydv1sHE3oPwVLgGDCf23jbbhAvfrK0xjC6KIYrDETT7I2hGa8CWBaIZrQHrImhuiKAZrQExprKfI2hGa8C7BaIZrQEPI2gORdCMRidGhfsLfC/SzYr1C5jCpYB6FzEdUC8JS/Fa+3f/FZYk9h6Mnfiievhv2J3cdWD68Mncw3/E/hr8RmE7HikffkixnvjnGFDs+X33Z+hx3MLRlIZSb4o2WaZY3W1sfB7BG0VjMplMJpPJZJIQ6wByLY7hEJ60odOBc9is2F+Y1xOlNTitCDzl5xS3nX2By7/oTOExTmF1W04D04vrmPD3xc01rJyDZg8GW+hNNMbsDZKgIn24p9ipKbPCG8EJdLXQ7MLJxrVlNKcbHg5UDVFlMdSPC9hXccxx3MEzxXNNsee/V7ESrHocPozzivcKorBDYTz0mV/oeoA9IYOvwlVMzoNwZWsSV5R4w6TMIzAqzlFXCsawvtUFZRowE8ZLbbTMGOtcYMGQG1C3gbrJDajbQN3kBtRtoG5yA+o2kMlkMplMJlMXPwAQlnQd3J0ImQAAAABJRU5ErkJggg=="
+          />
+          {{
+            params?.currentUser?.email
+              ? params?.currentUser?.email
+              : params?.currentUser?.name
+          }}</a
+        >
+
+        <mat-menu #menu="matMenu">
+          <button
+            mat-menu-item
+            (click)="onEditUser($event, params?.currentUser)"
+          >
+            <mat-icon>person</mat-icon>
+            <span
+              >{{ params?.currentUser?.name }}
+              <em class="text-small"
+                >({{ params?.currentUser?.userCredentials?.username }})</em
+              ></span
+            >
+          </button>
+
+          <button
+            mat-menu-item
+            (click)="onEditUser($event, params?.currentUser)"
+          >
+            <mat-icon>edit</mat-icon>
+            Edit profile
+          </button>
+          <button
+            mat-menu-item
+            (click)="onOpenUserSettings($event, params?.currentUser)"
+          >
+            <mat-icon>settings</mat-icon>
+            Change password
+          </button>
+          <button mat-menu-item (click)="deleteIndexDB($event)">
+            <mat-icon>clear</mat-icon>
+            Clear cache
+          </button>
+          <button mat-menu-item (click)="onLogOut($event)">
+            <img
+              style="margin-right: 16px; vertical-align: middle"
+              src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAABmJLR0QA/wD/AP+gvaeTAAABNElEQVRIie3Uuy5EURQG4G8ECZUHMAjegciIxKVRege33lOQiBJReAGFVjITnkDENdFQumVGaF2KfYhMTubsM6acvztn/+tfa6/1r00bLUAJezhDDe+4xi5ms4ILDc6GsI+pRPgY9/hEMRHvwwkWcZun6nG8opoE96RwurCEB7xgMla8iCehDf0R/AGcJ0lGYxIUsCq0KBYDeEQlR4z5PGQs4wszMeSNhLyQI0G3YIadWPFdjV2WhgNhdr/orCOsYw0fGMZRhuBc3fdd/b+OnBW2BP9t0VWeJM0MeTs2IK9NV5KiprOIzSzaoLD95Rjyz1NxI2xojPgFnjESW9GY0M+q8KD1pnC6hbY8JeKlWPG/lVWEvtZwiC1sCm6pJWflPJWnYUKw7KlwozdcCm7JHGgbmfgGuINGiyHM8GoAAAAASUVORK5CYII="
+            />
+            Logout
+          </button>
+        </mat-menu>
+      </div>
+    </nav>
+    <!-- Page content-->
+    <div class="container-fluid">
+      <div *ngIf="shouldShowTopMenu">
+        <ul class="navbar-nav ms-auto mt-2 mt-lg-0">
+          <li class="nav-item">
+            <a
+              class="nav-link"
+              [routerLink]="'/dashboards/'"
+              routerLinkActive="active-class"
+              >Dashboard</a
+            >
+          </li>
+          <li class="nav-item">
+            <a
+              class="nav-link"
+              [routerLink]="'/data-entry'"
+              routerLinkActive="active-class"
+              >Data Entry</a
+            >
+          </li>
+          <li class="nav-item">
+            <a
+              class="nav-link"
+              [routerLink]="'/reports'"
+              routerLinkActive="active-class"
+              >Reports</a
+            >
+          </li>
+          <li class="nav-item">
+            <a
+              class="nav-link"
+              [routerLink]="'/general-registration'"
+              routerLinkActive="active-class"
+              >General Registration</a
+            >
+          </li>
+          <li class="nav-item">
+            <a
+              class="nav-link"
+              [routerLink]="'/resources'"
+              routerLinkActive="active-class"
+              >Resources</a
+            >
+          </li>
+          <li class="nav-item">
+            <a
+              class="nav-link"
+              [routerLink]="'/user-management'"
+              routerLinkActive="active-class"
+              >User Management</a
+            >
+          </li>
+          <!-- <li class="nav-item dropdown">
+            <a
+              class="nav-link dropdown-toggle"
+              id="navbarDropdown"
+              href="#"
+              role="button"
+              data-bs-toggle="dropdown"
+              aria-haspopup="true"
+              aria-expanded="false"
+              >Dropdown</a
+            >
+            <div
+              class="dropdown-menu dropdown-menu-end"
+              aria-labelledby="navbarDropdown"
+            >
+              <a class="dropdown-item" href="#">Action</a>
+              <a class="dropdown-item" href="#">Another action</a>
+              <div class="dropdown-divider"></div>
+              <a class="dropdown-item" href="#">Something else here</a>
+            </div>
+          </li> -->
+        </ul>
+      </div>
+      <div class="w-100" style="margin-top: -10px">
+        <router-outlet></router-outlet>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- <div
   class="application-container"
   *ngIf="{ currentUser: currentUser$ | async } as params"
 >
@@ -70,7 +276,6 @@
                 src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAABmJLR0QA/wD/AP+gvaeTAAABNElEQVRIie3Uuy5EURQG4G8ECZUHMAjegciIxKVRege33lOQiBJReAGFVjITnkDENdFQumVGaF2KfYhMTubsM6acvztn/+tfa6/1r00bLUAJezhDDe+4xi5ms4ILDc6GsI+pRPgY9/hEMRHvwwkWcZun6nG8opoE96RwurCEB7xgMla8iCehDf0R/AGcJ0lGYxIUsCq0KBYDeEQlR4z5PGQs4wszMeSNhLyQI0G3YIadWPFdjV2WhgNhdr/orCOsYw0fGMZRhuBc3fdd/b+OnBW2BP9t0VWeJM0MeTs2IK9NV5KiprOIzSzaoLD95Rjyz1NxI2xojPgFnjESW9GY0M+q8KD1pnC6hbY8JeKlWPG/lVWEvtZwiC1sCm6pJWflPJWnYUKw7KlwozdcCm7JHGgbmfgGuINGiyHM8GoAAAAASUVORK5CYII="
               />
               Logout
-              <!-- <mat-icon>login</mat-icon> -->
             </button>
           </mat-menu>
         </div>
@@ -79,26 +284,8 @@
         <div class="no-print left-panel" style="border-right: solid 1px #eee">
           <div>
             <div class="user-panel text-left" style="height: 30px">
-              <!-- <img
-              height="120"
-              src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAABmJLR0QA/wD/AP+gvaeTAAACQUlEQVR4nO3au2sUURjG4SfGwluC8V4o4qUQRVMItppGo0j0b9BSEQtrwVbQVmwNNoKgKIhYRQsleKmsRBuDmKjghQiBXCxmF0VxM5k950yi5wdfscvwnvf9Zoc9lyGTyWQymcz/Skfi8bpxHAPYhU2N79/iJW436mtiX9FZjLP4gJlZagxn0FmL0wh0467Zg/9e99FTg9+grMALcw/frOdYntx1QG6qHr5ZN5K7DsQR7Ydv1sHE3oPwVLgGDCf23jbbhAvfrK0xjC6KIYrDETT7I2hGa8CWBaIZrQHrImhuiKAZrQExprKfI2hGa8C7BaIZrQEPI2gORdCMRidGhfsLfC/SzYr1C5jCpYB6FzEdUC8JS/Fa+3f/FZYk9h6Mnfiievhv2J3cdWD68Mncw3/E/hr8RmE7HikffkixnvjnGFDs+X33Z+hx3MLRlIZSb4o2WaZY3W1sfB7BG0VjMplMJpPJZJIQ6wByLY7hEJ60odOBc9is2F+Y1xOlNTitCDzl5xS3nX2By7/oTOExTmF1W04D04vrmPD3xc01rJyDZg8GW+hNNMbsDZKgIn24p9ipKbPCG8EJdLXQ7MLJxrVlNKcbHg5UDVFlMdSPC9hXccxx3MEzxXNNsee/V7ESrHocPozzivcKorBDYTz0mV/oeoA9IYOvwlVMzoNwZWsSV5R4w6TMIzAqzlFXCsawvtUFZRowE8ZLbbTMGOtcYMGQG1C3gbrJDajbQN3kBtRtoG5yA+o2kMlkMplMJlMXPwAQlnQd3J0ImQAAAABJRU5ErkJggg=="
-            />
-            <br /> -->
-              <!-- <div class="h6 text-center"> -->
               {{ params?.currentUser?.name }}
-              <!-- </div> -->
             </div>
-            <!-- <div class="header-banner d-flex" style="width: 100%">
-            <div class="float-left w-25">
-              <img src="assets/img/lhrc_msg.png" class="left-img-lhrc" />
-            </div> -->
-            <!-- <div class="w-50">
-              <h2 style="text-align: center !important; margin-top: 15px">
-                LEGAL & HUMAN RIGHTS CENTER - MEL
-              </h2>
-            </div> -->
-            <!-- <div class="float-right w-25"></div>
-          </div> -->
             <div class="dashboard-menu">
               <ul class="list-group">
                 <li
@@ -187,40 +374,12 @@
                   />
                   User management
                 </li>
-                <!-- <li class="list-group-item" routerLinkActive="active-class">
-                <a href="../../../mel/dhis-web-maintenance"></a>
-                <img
-                  height="25"
-                  src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAABmJLR0QA/wD/AP+gvaeTAAACQUlEQVR4nO3au2sUURjG4SfGwluC8V4o4qUQRVMItppGo0j0b9BSEQtrwVbQVmwNNoKgKIhYRQsleKmsRBuDmKjghQiBXCxmF0VxM5k950yi5wdfscvwnvf9Zoc9lyGTyWQymcz/Skfi8bpxHAPYhU2N79/iJW436mtiX9FZjLP4gJlZagxn0FmL0wh0467Zg/9e99FTg9+grMALcw/frOdYntx1QG6qHr5ZN5K7DsQR7Ydv1sHE3oPwVLgGDCf23jbbhAvfrK0xjC6KIYrDETT7I2hGa8CWBaIZrQHrImhuiKAZrQExprKfI2hGa8C7BaIZrQEPI2gORdCMRidGhfsLfC/SzYr1C5jCpYB6FzEdUC8JS/Fa+3f/FZYk9h6Mnfiievhv2J3cdWD68Mncw3/E/hr8RmE7HikffkixnvjnGFDs+X33Z+hx3MLRlIZSb4o2WaZY3W1sfB7BG0VjMplMJpPJZJIQ6wByLY7hEJ60odOBc9is2F+Y1xOlNTitCDzl5xS3nX2By7/oTOExTmF1W04D04vrmPD3xc01rJyDZg8GW+hNNMbsDZKgIn24p9ipKbPCG8EJdLXQ7MLJxrVlNKcbHg5UDVFlMdSPC9hXccxx3MEzxXNNsee/V7ESrHocPozzivcKorBDYTz0mV/oeoA9IYOvwlVMzoNwZWsSV5R4w6TMIzAqzlFXCsawvtUFZRowE8ZLbbTMGOtcYMGQG1C3gbrJDajbQN3kBtRtoG5yA+o2kMlkMplMJlMXPwAQlnQd3J0ImQAAAABJRU5ErkJggg=="
-                />
-                User management
-              </li> -->
               </ul>
             </div>
           </div>
         </div>
-        <div class="right-panel">
-          <router-outlet></router-outlet>
-          <!-- <div class="footer"></div> -->
-          <!-- <div
-          class="w-100"
-          style="
-            position: fixed;
-            bottom: 0;
-            z-index: 1001;
-            height: 50px;
-            margin-bottom: 20px;
-          "
-        >
-          <img
-            width="85%"
-            style="margin-left: -12px; margin-top: 20px"
-            height="50"
-            src="assets/img/footer_banner_lhrc.png"
-          />
-        </div> -->
-        </div>
+        <div class="right-panel"></div>
       </div>
     </div>
   </div>
-</div>
+</div> -->
