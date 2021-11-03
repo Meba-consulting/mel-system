@@ -39,6 +39,7 @@ export class AnalysisDashboardComponent implements OnInit {
   periodFilterConfig: any;
   orgUnitFilterConfig: any;
   favoriteTitle: string = '';
+  updated: boolean = true;
 
   @ViewChild(MatMenuTrigger) menuTrigger: MatMenuTrigger;
   @ViewChild(CurrentPlaygroundVisualizationComponent, { static: false })
@@ -69,11 +70,13 @@ export class AnalysisDashboardComponent implements OnInit {
     {
       id: 'column',
       name: 'Column',
+      key: 'COLUMN',
       iconPath: 'assets/icons/column.png',
     },
     {
       id: 'bar',
       name: 'Bar',
+      key: 'BAR',
       iconPath: 'assets/icons/bar.png',
     },
   ];
@@ -353,6 +356,14 @@ export class AnalysisDashboardComponent implements OnInit {
             ),
           ];
     }
+  }
+
+  onUpdate(event: Event): void {
+    event.stopPropagation();
+    this.updated = false;
+    setTimeout(() => {
+      this.updated = true;
+    }, 200);
   }
 
   onFilterUpdate(selectedItems: any) {

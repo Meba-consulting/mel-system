@@ -62,6 +62,14 @@
             </div>
           </div>
         </mat-menu>
+        <button
+          class="ml-2"
+          mat-stroked-button
+          [disabled]="dataSelections?.length < 3"
+          (click)="onUpdate($event)"
+        >
+          Update
+        </button>
       </div>
       <div class="d-flex bg-white border-bottom" cdkDropListGroup>
         <div class="col-md-4 col-sm-12 col-sx-12 border-right">
@@ -163,11 +171,15 @@
       </div>
     </div>
     <!-- {{ dataSelections?.length }} -->
-    <div class="col-12" *ngIf="dataSelections && dataSelections?.length > 2">
+    <div
+      class="col-12"
+      *ngIf="dataSelections && dataSelections?.length > 2 && updated"
+    >
       <app-current-playground-visualization
         [dataSelections]="dataSelections"
         [layout]="layout"
         [favoriteTitle]="favoriteTitle"
+        [chartType]="currentChartOption"
       ></app-current-playground-visualization>
     </div>
   </div>

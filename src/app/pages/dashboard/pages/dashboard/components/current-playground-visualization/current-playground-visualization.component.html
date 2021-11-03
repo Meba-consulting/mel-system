@@ -2,8 +2,8 @@
   <ngx-dhis2-visualization
     *ngIf="visualizationLayers"
     [visualizationLayers]="visualizationLayers"
-    [id]="'favorite'"
-    [name]="'Untitled'"
+    [id]="visualizationLayers[0]?.id"
+    [name]="favoriteTitle"
     [hideHeader]="true"
   ></ngx-dhis2-visualization>
   <mat-progress-bar

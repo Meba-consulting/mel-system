@@ -44,10 +44,11 @@ export class ChartListComponent implements OnInit {
     if (this.visualizationLayers.length > 0) {
       this.chartLayers = this.visualizationLayers.map(
         (layer: any, layerIndex: number) => {
+          // console.log('layer', layer);
           return {
             chartConfiguration: getChartConfiguration(
               layer.config || {},
-              layer.id == '' ? 'favorite' : layer.id,
+              layer.config?.id,
               layer.layout,
               '',
               this.legendSets
