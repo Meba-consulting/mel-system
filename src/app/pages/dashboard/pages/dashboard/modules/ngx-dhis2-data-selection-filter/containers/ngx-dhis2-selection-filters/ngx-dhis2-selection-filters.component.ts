@@ -231,6 +231,7 @@ export class NgxDhis2SelectionFiltersComponent implements OnInit {
   }
 
   onFilterUpdate(selectedItems, selectedFilter) {
+    console.log('selectedItems', selectedItems, selectedFilter);
     if (selectedFilter === 'LAYOUT') {
       const layouts = _.flatten(
         _.map(_.keys(selectedItems), (selectedItemKey: string) => {

@@ -80,13 +80,13 @@
 
 .selection-filter-body {
   position: absolute;
-  top: 40px;
+  /* top: 40px; */
   background-color: rgba(255, 255, 255, 0.95);
   -webkit-box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.12);
   -moz-box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.12);
   box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.12);
-  padding: 5px;
-  min-width: 550px;
+  padding: 15px;
+  min-width: 600px;
   min-height: 250px;
   z-index: 1320;
 }
@@ -113,9 +113,10 @@
   padding: 7px;
   font-size: 13px;
   height: 30px;
-  background-color: #b2dfdb;
+  background-color: #3ea9d9;
   border-radius: 3px;
   cursor: pointer;
+  color: #fff;
 }
 
 .selection-button mat-icon {
@@ -153,4 +154,19 @@
   .selection-filter-body {
     width: 95%;
   }
+}
+
+a {
+  text-decoration: none !important;
+}
+
+::ng-deep .mat-menu-panel {
+  min-width: 350px;
+  max-width: 480px;
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
+  max-height: calc(70vh - 48px);
+  border-radius: 4px;
+  outline: 0;
+  min-height: 64px;
 }

@@ -80,7 +80,11 @@
       >
         <button mat-stroked-button (click)="onClose($event)">Close</button
         >&nbsp;
-        <button mat-stroked-button color="primary" (click)="onUpdate($event)">
+        <button
+          mat-stroked-button
+          color="primary"
+          (click)="onUpdate($event, ouItems)"
+        >
           Update
         </button>
       </div>

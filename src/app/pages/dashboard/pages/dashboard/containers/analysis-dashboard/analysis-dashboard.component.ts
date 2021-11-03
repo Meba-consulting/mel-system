@@ -65,6 +65,21 @@ export class AnalysisDashboardComponent implements OnInit {
     };
   }
 
+  supportedChartTypes: any[] = [
+    {
+      id: 'column',
+      name: 'Column',
+      iconPath: 'assets/icons/column.png',
+    },
+    {
+      id: 'bar',
+      name: 'Bar',
+      iconPath: 'assets/icons/bar.png',
+    },
+  ];
+
+  currentChartOption: any;
+
   onUpdateVisualizationName(event) {
     this.favoriteTitle = event.target.value;
     // this.playGroundBody.setFavoriteTitle(event.target.value);
@@ -161,6 +176,7 @@ export class AnalysisDashboardComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.currentChartOption = this.supportedChartTypes[0];
     this.currentDashboard$ = this.store.select(getCurrentDashboardId);
     this.currentUser$ = this.store.select(getCurrentUser);
     this.currentUser$.subscribe((response) => {
@@ -267,7 +283,7 @@ export class AnalysisDashboardComponent implements OnInit {
       dataSelections: this.dataSelections,
     };
 
-    const width = '700px';
+    const width = '600px';
 
     const selectionDialog = this.dialog.open(SelectionFiltersModalComponent, {
       width,
@@ -278,7 +294,6 @@ export class AnalysisDashboardComponent implements OnInit {
     selectionDialog.afterClosed().subscribe((dialogData: any) => {
       if (dialogData) {
         this.dataSelections = dialogData.selectionItems;
-        // console.log('dialog data', dialogData.selectionItems);
         const selectedDimension: any = dialogData.selectionItems;
         // Array.isArray(dialogData.selectionItems)
         //   ? dialogData.selectionItems[0]
@@ -378,5 +393,9 @@ export class AnalysisDashboardComponent implements OnInit {
       : dataSelections
       ? [...dataSelections, selectedObject]
       : [selectedObject];
+  }
+
+  setCurrentChartType(event: Event, chartType): void {
+    this.currentChartOption = chartType;
   }
 }

@@ -160,8 +160,8 @@ export class NgxDhis2SelectionFiltersComponent implements OnInit {
   }
 
   onClickOutside() {
-    this.selectedFilter = '';
-    this.showFilterBody = false;
+    // this.selectedFilter = '';
+    // this.showFilterBody = false;
   }
 
   onFilterClose(selectedItems, selectedFilter) {

@@ -24,28 +24,6 @@
       </button>
       <!--end of data filter button-->
 
-      <!--data filter button-->
-      <!-- <button
-        mat-stroked-button
-        [disabled]="saving"
-        *ngIf="filterConfig?.showDataFilter"
-        color="{{ selectedFilter === 'INTERVENTION' ? 'primary' : '' }}"
-        [title]="'Filter by data' | translate"
-        (click)="toggleCurrentFilter($event, 'INTERVENTION')"
-      >
-        <i class="fa fa-th"></i>&nbsp;{{ 'Intervention' | translate }}&nbsp;
-        <span class="badge badge-secondary">{{
-          selectedInterventions | summarizeSelection
-        }}</span
-        >&nbsp;
-        <i
-          class="fa {{
-            selectedFilter === 'INTERVENTION' ? 'fa-caret-up' : 'fa-caret-down'
-          }}"
-        ></i>
-      </button> -->
-      <!--end of data filter button-->
-
       <!--Legend configuration button-->
       <button
         *ngIf="filterConfig?.showDataFilter && currentUserHasAuthorities"
@@ -145,14 +123,6 @@
     class="selection-filter-body"
     *ngIf="selectedFilter !== '' && showFilterBody"
   >
-    <!-- intervention filter -->
-    <app-intervention-filter
-      *ngIf="selectedFilter === 'INTERVENTION'"
-      [selectedInterventions]="selectedInterventions"
-      (close)="onFilterClose($event, 'INTERVENTION')"
-      (update)="onFilterUpdate($event, 'INTERVENTION')"
-    ></app-intervention-filter>
-    <!-- end of intervention filter -->
     <!--data filter-->
     <!-- <app-data-filter
       *ngIf="selectedFilter === 'DATA'"

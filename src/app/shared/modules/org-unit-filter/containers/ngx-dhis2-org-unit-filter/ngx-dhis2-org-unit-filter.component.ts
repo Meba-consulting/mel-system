@@ -60,6 +60,7 @@ export class NgxDhis2OrgUnitFilterComponent implements OnInit, OnDestroy {
   loadingOrgUnits$: Observable<boolean>;
   orgUnitLoaded$: Observable<boolean>;
   topOrgUnitLevel$: Observable<number>;
+  ouItems: any = [];
 
   @Output() orgUnitUpdate: EventEmitter<any> = new EventEmitter<any>();
   @Output() orgUnitClose: EventEmitter<any> = new EventEmitter<any>();
@@ -186,6 +187,9 @@ export class NgxDhis2OrgUnitFilterComponent implements OnInit, OnDestroy {
                 )),
             orgUnit,
           ];
+
+      // console.log('selectedOrgUnitItems', this.selectedOrgUnitItems);
+      this.ouItems = this.selectedOrgUnitItems;
     }
 
     // Also update organisation units
@@ -275,8 +279,9 @@ export class NgxDhis2OrgUnitFilterComponent implements OnInit, OnDestroy {
     this.onOrgUnitClose();
   }
 
-  onUpdate(e) {
+  onUpdate(e: Event, selectedOrgUnitItems: any) {
     e.stopPropagation();
+    this.selectedOrgUnitItems = selectedOrgUnitItems;
     this.onOrgUnitUpdate();
   }
 }
