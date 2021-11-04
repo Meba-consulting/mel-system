@@ -119,6 +119,7 @@ export class DataFilterComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     // set data filter selections
+    this.selected = this.selectedItems;
     const enabledSelections = _.uniq(['in']);
     this.dataFilterSelections = _.filter(
       fromConstants.DATA_FILTER_SELECTIONS || [],

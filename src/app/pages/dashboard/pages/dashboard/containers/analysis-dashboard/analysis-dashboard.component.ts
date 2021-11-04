@@ -329,8 +329,6 @@ export class AnalysisDashboardComponent implements OnInit {
             layout: this.layoutItems[selectedDimension.dimension],
           });
         }
-      } else {
-        // Closed the modal
       }
     });
   }

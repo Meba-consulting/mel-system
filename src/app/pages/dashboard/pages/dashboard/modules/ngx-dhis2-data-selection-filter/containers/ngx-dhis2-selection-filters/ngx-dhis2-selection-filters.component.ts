@@ -231,7 +231,7 @@ export class NgxDhis2SelectionFiltersComponent implements OnInit {
       this.showFilterBody = false;
     }
 
-    this.filterClose.emit(true);
+    this.filterClose.emit(this.dataSelections);
   }
 
   onFilterUpdate(selectedItems, selectedFilter) {
