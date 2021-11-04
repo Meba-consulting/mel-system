@@ -30,6 +30,10 @@ export class SelectionFiltersModalComponent implements OnInit {
     };
   }
 
+  onFilterClose(shouldCloseModal): void {
+    this.dialogRef.close();
+  }
+
   onFilterUpdateAction(selections) {
     this.dialogRef.close({
       selectionItems: selections,

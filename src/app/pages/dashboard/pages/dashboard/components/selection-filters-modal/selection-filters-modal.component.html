@@ -3,6 +3,7 @@
   {{ selectionDialogData | json }} -->
   <ngx-dhis2-selection-filters
     (filterUpdate)="onFilterUpdateAction($event)"
+    (filterClose)="onFilterClose($event)"
     [dataSelections]="dataSelections"
     [selectionFilterConfig]="selectionFilterConfig"
     [showFilterByDefault]="true"

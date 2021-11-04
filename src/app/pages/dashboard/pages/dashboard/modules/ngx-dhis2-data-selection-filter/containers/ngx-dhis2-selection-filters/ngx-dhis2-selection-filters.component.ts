@@ -38,6 +38,8 @@ export class NgxDhis2SelectionFiltersComponent implements OnInit {
   @Output()
   optionsUpdate: EventEmitter<any> = new EventEmitter<any>();
 
+  @Output() filterClose: EventEmitter<any> = new EventEmitter<any>();
+
   showFilters: boolean;
   showFilterBody: boolean;
 
@@ -228,6 +230,8 @@ export class NgxDhis2SelectionFiltersComponent implements OnInit {
       this.selectedFilter = '';
       this.showFilterBody = false;
     }
+
+    this.filterClose.emit(true);
   }
 
   onFilterUpdate(selectedItems, selectedFilter) {

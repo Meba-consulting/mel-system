@@ -113,6 +113,7 @@ export class VisualizationComponent implements OnInit, OnChanges {
       .subscribe((visualizationInputs) => {
         if (visualizationInputs) {
           // initialize visualization object
+          // console.log('visualizationInputs##', visualizationInputs);
           this.store.dispatch(
             new InitializeVisualizationObjectAction(
               visualizationInputs.id,

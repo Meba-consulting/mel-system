@@ -138,14 +138,13 @@ export class VisualizationObjectEffects {
             }
           }
         } else {
-          const initialVisualizationObject: Visualization = getStandardizedVisualizationObject(
-            {
+          const initialVisualizationObject: Visualization =
+            getStandardizedVisualizationObject({
               id: action.id,
               name: action.name,
               type: action.visualizationType,
               isNew: true,
-            }
-          );
+            });
 
           // set initial visualization object
           this.store.dispatch(
@@ -199,7 +198,7 @@ export class VisualizationObjectEffects {
                       ...visualizationLayer,
                       id: initialVisualizationObject.favorite
                         ? initialVisualizationObject.favorite.id
-                        : '',
+                        : action?.id,
                       analytics: visualizationLayer.analytics
                         ? getStandardizedAnalyticsObject(
                             visualizationLayer.analytics,
@@ -363,9 +362,8 @@ export class VisualizationObjectEffects {
             const visualizationLayers: VisualizationLayer[] = _.map(
               action.favorite.mapViews || [action.favorite],
               (favoriteLayer: any) => {
-                const dataSelections = getSelectionDimensionsFromFavorite(
-                  favoriteLayer
-                );
+                const dataSelections =
+                  getSelectionDimensionsFromFavorite(favoriteLayer);
                 return {
                   id: favoriteLayer.id,
                   dataSelections,

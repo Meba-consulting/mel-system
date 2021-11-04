@@ -118,35 +118,39 @@ export class VisualizationLayerEffects {
                     const newVisualizationLayers: VisualizationLayer[] = _.map(
                       visualizationLayers,
                       (visualizationLayer: VisualizationLayer) => {
-                        const dataSelections: VisualizationDataSelection[] = _.map(
-                          visualizationLayer.dataSelections,
-                          (dataSelection: VisualizationDataSelection) => {
-                            switch (dataSelection.dimension) {
-                              case 'dx': {
-                                return {
-                                  ...dataSelection,
-                                  items: _.map(
-                                    dataSelection.items,
-                                    (item: any) => {
-                                      if (item.type === 'FUNCTION_RULE') {
-                                        const functionRule = _.find(
-                                          functionRules,
-                                          ['id', item.id]
-                                        );
-                                        return functionRule
-                                          ? { ...functionRule, type: item.type }
-                                          : item;
+                        const dataSelections: VisualizationDataSelection[] =
+                          _.map(
+                            visualizationLayer.dataSelections,
+                            (dataSelection: VisualizationDataSelection) => {
+                              switch (dataSelection.dimension) {
+                                case 'dx': {
+                                  return {
+                                    ...dataSelection,
+                                    items: _.map(
+                                      dataSelection.items,
+                                      (item: any) => {
+                                        if (item.type === 'FUNCTION_RULE') {
+                                          const functionRule = _.find(
+                                            functionRules,
+                                            ['id', item.id]
+                                          );
+                                          return functionRule
+                                            ? {
+                                                ...functionRule,
+                                                type: item.type,
+                                              }
+                                            : item;
+                                        }
+                                        return item;
                                       }
-                                      return item;
-                                    }
-                                  ),
-                                };
+                                    ),
+                                  };
+                                }
+                                default:
+                                  return dataSelection;
                               }
-                              default:
-                                return dataSelection;
                             }
-                          }
-                        );
+                          );
                         return { ...visualizationLayer, dataSelections };
                       }
                     );
@@ -171,13 +175,14 @@ export class VisualizationLayerEffects {
                             const visualizationLayer: VisualizationLayer =
                               visualizationLayers[analyticsIndex];
 
-                            const dataSelections = updateDataSelectionsWithSummaryNames(
-                              visualizationLayer.dataSelections,
-                              orgUnitGroups,
-                              orgUnitLevels,
-                              currentUser,
-                              analytics
-                            );
+                            const dataSelections =
+                              updateDataSelectionsWithSummaryNames(
+                                visualizationLayer.dataSelections,
+                                orgUnitGroups,
+                                orgUnitLevels,
+                                currentUser,
+                                analytics
+                              );
                             this.store.dispatch(
                               new LoadVisualizationAnalyticsSuccessAction(
                                 visualizationLayer.id,
@@ -192,9 +197,10 @@ export class VisualizationLayerEffects {
                                   dataSelections,
                                   config: {
                                     ...visualizationLayer.config,
-                                    subtitle: getVisualizationLayerSubtitle(
-                                      dataSelections
-                                    ),
+                                    subtitle:
+                                      getVisualizationLayerSubtitle(
+                                        dataSelections
+                                      ),
                                   },
                                 }
                               )

@@ -79,7 +79,11 @@ export class CurrentPlaygroundVisualizationComponent
       try {
         const visualizationResult = await Fn.all(visualizationLayerPromises)
           .postProcess((analyticsArray) => {
-            const ID = 'favorite_' + this.timeStampNow;
+            const ID =
+              'favorite_' +
+              this.dataSelections[0]?.items.map((item) => item?.id).join('_') +
+              this.dataSelections[1]?.items.map((item) => item?.id).join('_') +
+              this.dataSelections[2]?.items.map((item) => item?.id).join('_');
             return analyticsArray.map((analyticsResult, index) => {
               const visualizationLayer = {};
               const config = {
