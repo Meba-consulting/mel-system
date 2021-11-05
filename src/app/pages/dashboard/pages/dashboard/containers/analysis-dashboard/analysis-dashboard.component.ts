@@ -21,6 +21,9 @@ import { MatMenuTrigger } from '@angular/material/menu';
 import { MatDialog } from '@angular/material/dialog';
 import { SelectionFiltersModalComponent } from '../../components/selection-filters-modal/selection-filters-modal.component';
 import { CurrentPlaygroundVisualizationComponent } from '../../components/current-playground-visualization/current-playground-visualization.component';
+import { SearchFavoriteComponent } from '../../components/search-favorite/search-favorite.component';
+import { ActivatedRoute, Router } from '@angular/router';
+import { NgxDhis2HttpClientService } from '@iapps/ngx-dhis2-http-client';
 
 @Component({
   selector: 'app-analysis-dashboard',
@@ -49,7 +52,16 @@ export class AnalysisDashboardComponent implements OnInit {
   @Output() layoutUpdate: EventEmitter<any> = new EventEmitter<any>();
   @Output()
   interventionSettingsUpdate: EventEmitter<any> = new EventEmitter<any>();
-  constructor(private store: Store<State>, private dialog: MatDialog) {
+
+  favoriteId: string;
+  constructor(
+    private store: Store<State>,
+    private dialog: MatDialog,
+    private router: Router,
+    private route: ActivatedRoute,
+    private httpClient: NgxDhis2HttpClientService
+  ) {
+    this.favoriteId = this.route.snapshot.queryParams['id'];
     this.showFilters = true;
     this.showFilterBody = false;
     this.periodFilterConfig = {
@@ -191,10 +203,88 @@ export class AnalysisDashboardComponent implements OnInit {
         );
       }
     });
+
+    if (this.favoriteId) {
+      this.httpClient
+        .get(`visualizations/${this.favoriteId}.json?fields=*`)
+        .subscribe((response) => {
+          if (response) {
+            // console.log('res', response);
+            this.favoriteTitle = response?.displayName;
+            this.dataSelections = [
+              {
+                dimension: 'ou',
+                items: response?.organisationUnits.map((ou) => {
+                  return {
+                    id: ou?.id,
+                    name: '',
+                  };
+                }),
+              },
+              {
+                dimension: 'dx',
+                items: response?.dataDimensionItems.map((dataDimensionItem) => {
+                  if (
+                    dataDimensionItem?.dataDimensionItemType ===
+                    'PROGRAM_INDICATOR'
+                  ) {
+                    return {
+                      id: dataDimensionItem?.programIndicator?.id,
+                      name: '',
+                    };
+                  } else if (
+                    dataDimensionItem?.dataDimensionItemType === 'INDICATOR'
+                  ) {
+                    return {
+                      id: dataDimensionItem?.indicator?.id,
+                      name: '',
+                    };
+                  }
+                }),
+              },
+              {
+                dimension: 'pe',
+                items: [
+                  {
+                    id: new Date().getFullYear().toString(),
+                    name: new Date().getFullYear().toString(),
+                  },
+                ],
+              },
+            ];
+          }
+        });
+    } else {
+      this.dataSelections = [
+        {
+          dimension: 'pe',
+          items: [
+            {
+              id: new Date().getFullYear().toString(),
+              name: new Date().getFullYear().toString(),
+            },
+          ],
+        },
+      ];
+    }
+
     this.selectionFilterConfig = {
       showDataFilter: true,
       showLayout: true,
     };
+  }
+
+  onFilterUpdateAction(selections) {
+    this.dataSelections = selections;
+  }
+
+  newFavorite(event: Event): void {
+    event.stopPropagation();
+    this.favoriteTitle = '';
+    this.router.navigate([], {
+      relativeTo: this.route,
+      queryParams: {},
+    });
     this.dataSelections = [
       {
         dimension: 'pe',
@@ -206,10 +296,6 @@ export class AnalysisDashboardComponent implements OnInit {
         ],
       },
     ];
-  }
-
-  onFilterUpdateAction(selections) {
-    this.dataSelections = selections;
   }
 
   drop(event: CdkDragDrop<string[]>) {
@@ -331,6 +417,23 @@ export class AnalysisDashboardComponent implements OnInit {
         }
       }
     });
+  }
+
+  openSearchFavoritesModal(event: Event): void {
+    // event.stopPropagation();
+    this.dialog
+      .open(SearchFavoriteComponent, {
+        width: '30%',
+      })
+      .afterClosed()
+      .subscribe((dialogData) => {
+        if (dialogData) {
+          this.router.navigate([], {
+            relativeTo: this.route,
+            queryParams: { id: dialogData?.id },
+          });
+        }
+      });
   }
 
   onClickOutside() {

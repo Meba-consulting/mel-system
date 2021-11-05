@@ -161,8 +161,8 @@ a {
 }
 
 ::ng-deep .mat-menu-panel {
-  min-width: 350px;
-  max-width: 480px;
+  min-width: 150px;
+  max-width: 200px;
   overflow: auto;
   -webkit-overflow-scrolling: touch;
   max-height: calc(70vh - 48px);

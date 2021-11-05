@@ -14,6 +14,7 @@ import { DashboardItemEditComponent } from './dashboard-item-edit/dashboard-item
 import { CurrentPlaygroundVisualizationComponent } from './current-playground-visualization/current-playground-visualization.component';
 import { SelectionFiltersModalComponent } from './selection-filters-modal/selection-filters-modal.component';
 import { AddDashboardModalComponent } from './add-dashboard-modal/add-dashboard-modal.component';
+import { SearchFavoriteComponent } from './search-favorite/search-favorite.component';
 
 export const components: any[] = [
   DashboardMenuComponent,
@@ -32,6 +33,10 @@ export const components: any[] = [
   CurrentPlaygroundVisualizationComponent,
   SelectionFiltersModalComponent,
   AddDashboardModalComponent,
+  SearchFavoriteComponent,
 ];
 
-export const dashboardEntryComponents: any[] = [AddDashboardModalComponent];
+export const dashboardEntryComponents: any[] = [
+  AddDashboardModalComponent,
+  SearchFavoriteComponent,
+];

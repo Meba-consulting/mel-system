@@ -1,0 +1,26 @@
+<div class="search-favorite-container">
+  <div class="h4">Open your favorite</div>
+  <mat-form-field appearance="fill" class="w-100 mt-2">
+    <mat-label>Search filed chart / table</mat-label>
+    <input
+      type="text"
+      matInput
+      (keyup)="searchFavorite($event)"
+      [matAutocomplete]="auto"
+    />
+    <mat-autocomplete #auto="matAutocomplete">
+      <mat-option
+        *ngFor="let option of filteredOptions$ | async"
+        (click)="openFavorite($event, option)"
+        [value]="option?.name"
+      >
+        <span>
+          {{ option.name }}
+        </span>
+      </mat-option>
+    </mat-autocomplete>
+  </mat-form-field>
+  <div class="d-flex justify-content-end">
+    <button (click)="onClose($event)" mat-stroked-button>Close</button>
+  </div>
+</div>
