@@ -11,13 +11,16 @@
       (editObjective)="onEditObjective($event)"
     ></app-strategic-objectives-list>
 
-    <div class="btns" *ngIf="!showFormForAddingNewObjective">
+    <div
+      class="btns d-flex justify-content-end"
+      *ngIf="!showFormForAddingNewObjective"
+    >
       <button
         mat-stroked-button
-        class="float-right mel-themed-btn"
+        class="mel-themed-btn"
         (click)="onAddNewObjective($event, key)"
       >
-        New Objective
+        Add Objective
       </button>
     </div>
     <div class="new-objective" *ngIf="showFormForAddingNewObjective">
@@ -51,28 +54,27 @@
           ></textarea>
         </mat-form-field>
 
-        <button
-          [disabled]="!objectiveForm.valid || saving"
-          mat-stroked-button
-          class="mr-2 float-left"
-          (click)="onSave($event, params?.activityDetails, objectiveForm.value)"
-        >
-          <mat-spinner
-            *ngIf="saving"
-            color="accent"
-            [diameter]="20"
-            style="display: inline-block !important; margin-right: 4px"
+        <div class="d-flex justify-content-end">
+          <button class="mr-2" mat-stroked-button (click)="onCancel($event)">
+            Cancel
+          </button>
+          <button
+            [disabled]="!objectiveForm.valid || saving"
+            mat-stroked-button
+            (click)="
+              onSave($event, params?.activityDetails, objectiveForm.value)
+            "
           >
-          </mat-spinner>
-          Save
-        </button>
-        <button
-          class="mr-2 float-left"
-          mat-stroked-button
-          (click)="onCancel($event)"
-        >
-          Cancel
-        </button>
+            <mat-spinner
+              *ngIf="saving"
+              color="accent"
+              [diameter]="20"
+              style="display: inline-block !important; margin-right: 4px"
+            >
+            </mat-spinner>
+            Save
+          </button>
+        </div>
       </form>
     </div>
   </div>

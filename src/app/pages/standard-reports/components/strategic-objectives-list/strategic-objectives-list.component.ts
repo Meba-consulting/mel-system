@@ -80,6 +80,7 @@ export class StrategicObjectivesListComponent implements OnInit {
             this.targetIndicators.map((indicator) => {
               return {
                 id: indicator?.id,
+                forActivityTracker: indicator?.forActivityTracker,
                 showOnMatrix: indicator?.showOnMatrix,
                 targetPerYear: indicator?.targetPerYear
                   ? indicator?.targetPerYear
@@ -176,6 +177,8 @@ export class StrategicObjectivesListComponent implements OnInit {
           indicators: selectedIndicators.map((indicator) => {
             return {
               ...indicator,
+              forActivityTracker:
+                this.keyedIndicators[indicator?.id]?.forActivityTracker,
               showOnMatrix: this.keyedIndicators[indicator?.id]?.showOnMatrix,
               targetPerYear: this.keyedIndicators[indicator?.id]?.targetPerYear,
               baseline: this.keyedIndicators[indicator?.id]?.baseline,
@@ -220,6 +223,19 @@ export class StrategicObjectivesListComponent implements OnInit {
       this.keyedIndicators[indicator?.id] = this.keyedIndicators[indicator?.id]
         ? { ...this.keyedIndicators[indicator?.id], showOnMatrix: false }
         : { showOnMatrix: false };
+    }
+  }
+
+  getIndicatorSelectedForTracker(event, indicator) {
+    // console.log(event);
+    if (event?.target?.checked) {
+      this.keyedIndicators[indicator?.id] = this.keyedIndicators[indicator?.id]
+        ? { ...this.keyedIndicators[indicator?.id], forActivityTracker: true }
+        : { forActivityTracker: true };
+    } else {
+      this.keyedIndicators[indicator?.id] = this.keyedIndicators[indicator?.id]
+        ? { ...this.keyedIndicators[indicator?.id], forActivityTracker: false }
+        : { forActivityTracker: false };
     }
   }
 

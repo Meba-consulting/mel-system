@@ -246,11 +246,18 @@
                   </table>
                 </div>
 
-                <div style="margin-top: 20px">
+                <div class="btns d-flex justify-content-end">
+                  <button
+                    mat-stroked-button
+                    class="mr-2"
+                    (click)="onCancelOpenedObjective($event)"
+                  >
+                    Cancel
+                  </button>
                   <button
                     [disabled]="!outComeForm.valid || saving"
                     mat-stroked-button
-                    class="mr-2 float-left mel-themed-btn"
+                    class="mel-themed-btn"
                     (click)="
                       onSaveOutCome(
                         $event,
@@ -274,23 +281,6 @@
                   </button>
                 </div>
               </form>
-            </div>
-
-            <div class="btns">
-              <button
-                mat-stroked-button
-                class="mr-2 float-right"
-                (click)="onCancelOpenedObjective($event)"
-              >
-                Cancel
-              </button>
-              <button
-                mat-stroked-button
-                class="mr-2 float-right mel-themed-btn"
-                (click)="addOucomeToObjective($event)"
-              >
-                New ouctome
-              </button>
             </div>
           </td>
         </tr>

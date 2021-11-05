@@ -56,13 +56,13 @@
             <td colspan="4">
               <div class="activities-container">
                 <div class="activities-list">
-                  <table class="table activities">
+                  <table class="table table-bordered activities">
                     <thead>
                       <tr>
                         <th>SN</th>
                         <th>Activity</th>
                         <th>Description</th>
-                        <th>Indicator</th>
+                        <th>Indicators Count</th>
                         <th></th>
                       </tr>
                     </thead>
@@ -80,7 +80,7 @@
                         </td>
                         <td>{{ activity?.name }}</td>
                         <td>{{ activity?.description }}</td>
-                        <td>{{ activity?.indicator?.name }}</td>
+                        <td>{{ activity?.indicators.length }}</td>
                         <td>
                           <button
                             mat-icon-button
@@ -196,7 +196,8 @@
                         <thead>
                           <tr>
                             <th>Indicator</th>
-                            <th>Show on matrix</th>
+                            <th>Show on Activity Tracker</th>
+                            <th>Show on Indicator Matrix</th>
                             <th>Baseline</th>
                             <th>Target per Year</th>
                           </tr>
@@ -204,6 +205,20 @@
                         <tbody>
                           <tr *ngFor="let indicator of targetIndicators">
                             <td>{{ indicator?.name }}</td>
+                            <td>
+                              <input
+                                type="checkbox"
+                                [checked]="
+                                  keyedIndicatorsTracker[indicator?.id]
+                                "
+                                (change)="
+                                  getIndicatorSelectedForTracker(
+                                    $event,
+                                    indicator
+                                  )
+                                "
+                              />
+                            </td>
                             <td>
                               <input
                                 type="checkbox"
@@ -259,7 +274,13 @@
                           border-radius: 0 !important;
                         "
                         mat-stroked-button
-                        class="mr-2 float-left w-100 text-left toggle-filter-btns"
+                        class="
+                          mr-2
+                          float-left
+                          w-100
+                          text-left
+                          toggle-filter-btns
+                        "
                         (click)="openTargetSettings($event, key)"
                       >
                         Targets {{ targetsDisplayed }}
@@ -267,11 +288,14 @@
                       <!-- <app-targets-settings [key]="key"></app-targets-settings> -->
                     </div>
                   </form>
-                  <div class="w-100" style="padding: 15px 0; margin-top: 15px">
+                  <div
+                    class="w-100 d-flex justify-content-end mb-2 mt-2"
+                    style="padding: 15px 0; margin-top: 15px"
+                  >
                     <button
                       [disabled]="!activityForm.valid || saving"
                       mat-stroked-button
-                      class="mr-2 float-left mel-themed-btn"
+                      class="mel-themed-btn"
                       style="margin-top: 15px"
                       (click)="
                         onSaveActivity($event, output, activityForm.value)
@@ -450,24 +474,21 @@
     </div>
   </div>
   <div
-    class="btns"
+    class="btns d-flex justify-content-end mb-2"
     style="border-top: solid 1px #eee; padding: 5px; margin-top: 8px"
   >
     <!-- <button mat-stroked-button class="mr-2 float-left">Save</button> -->
+
+    <button mat-stroked-button class="mr-2" (click)="onClose($event)">
+      Close
+    </button>
     <button
       [disabled]="saving"
       mat-stroked-button
-      class="mr-2 float-left mel-themed-btn"
+      class="mr-2 mel-themed-btn"
       (click)="onAddNewOutput($event)"
     >
-      New output
-    </button>
-    <button
-      mat-stroked-button
-      class="mr-2 float-left"
-      (click)="onClose($event)"
-    >
-      Close
+      Add Output
     </button>
   </div>
 </div>

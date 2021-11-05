@@ -50,6 +50,7 @@ export class OutputModalComponent implements OnInit {
   sourceIndicators: any[] = [];
   targetIndicators: any[] = [];
   keyedIndicators: any = {};
+  keyedIndicatorsTracker: any = {};
   constructor(
     private dialogRef: MatDialogRef<OutputModalComponent>,
     @Inject(MAT_DIALOG_DATA) data,
@@ -104,6 +105,9 @@ export class OutputModalComponent implements OnInit {
             this.targetIndicators.map((indicator) => {
               return {
                 ...indicator,
+                forActivityTracker:
+                  this.keyedIndicatorsTracker[indicator?.id]
+                    ?.forActivityTracker,
                 showOnMatrix: this.keyedIndicators[indicator?.id]?.showOnMatrix,
                 targetPerYear:
                   this.keyedIndicators[indicator?.id]?.targetPerYear,
@@ -163,6 +167,7 @@ export class OutputModalComponent implements OnInit {
             this.targetIndicators.map((indicator) => {
               return {
                 id: indicator?.id,
+                forActivityTracker: indicator?.forActivityTracker,
                 showOnMatrix: indicator?.showOnMatrix,
                 targetPerYear: indicator?.targetPerYear,
                 baseline: indicator?.baseline,
@@ -267,6 +272,9 @@ export class OutputModalComponent implements OnInit {
             this.targetIndicators.map((indicator) => {
               return {
                 ...indicator,
+                forActivityTracker:
+                  this.keyedIndicatorsTracker[indicator?.id]
+                    ?.forActivityTracker,
                 showOnMatrix: this.keyedIndicators[indicator?.id]?.showOnMatrix,
                 targetPerYear:
                   this.keyedIndicators[indicator?.id]?.targetPerYear,
@@ -400,6 +408,23 @@ export class OutputModalComponent implements OnInit {
             'id'
           )
         : {};
+    this.keyedIndicatorsTracker =
+      this.targetIndicators && this.targetIndicators?.length > 0
+        ? keyBy(
+            this.targetIndicators
+              .filter((ind) => ind?.forActivityTracker === true)
+              .map((indicator) => {
+                return {
+                  id: indicator?.id,
+                  forActivityTracker: indicator?.forActivityTracker,
+                  showOnMatrix: indicator?.showOnMatrix,
+                  targetPerYear: indicator?.targetPerYear,
+                  baseline: indicator?.baseline,
+                };
+              }),
+            'id'
+          )
+        : {};
     this.targetsDisplayed = this.formatTargets(this.targets);
     this.activityForm = new FormGroup({
       name: new FormControl(activity?.name, [
@@ -475,6 +500,29 @@ export class OutputModalComponent implements OnInit {
       this.keyedIndicators[indicator?.id] = this.keyedIndicators[indicator?.id]
         ? { ...this.keyedIndicators[indicator?.id], showOnMatrix: false }
         : { showOnMatrix: false };
+    }
+  }
+
+  getIndicatorSelectedForTracker(event, indicator) {
+    // console.log(event);
+    if (event?.target?.checked) {
+      this.keyedIndicatorsTracker[indicator?.id] = this.keyedIndicatorsTracker[
+        indicator?.id
+      ]
+        ? {
+            ...this.keyedIndicatorsTracker[indicator?.id],
+            forActivityTracker: true,
+          }
+        : { forActivityTracker: true };
+    } else {
+      this.keyedIndicatorsTracker[indicator?.id] = this.keyedIndicatorsTracker[
+        indicator?.id
+      ]
+        ? {
+            ...this.keyedIndicatorsTracker[indicator?.id],
+            forActivityTracker: false,
+          }
+        : { forActivityTracker: false };
     }
   }
 
