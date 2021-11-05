@@ -47,10 +47,16 @@ export class ProgramStageDataEntryComponent implements OnInit {
         this.programDataStoreConfigs?.stagesConfigs[this.stage?.id]?.id
       ]
     ) {
+      const matchedFormField = (this.formFields.filter(
+        (field) =>
+          field?.id ===
+          this.programDataStoreConfigs?.stagesConfigs[this.stage?.id]?.id
+      ) || [])[0];
       this.currentFormData[
         this.programDataStoreConfigs?.stagesConfigs[this.stage?.id]?.id
       ] = {
         id: this.programDataStoreConfigs?.stagesConfigs[this.stage?.id]?.id,
+        options: matchedFormField ? matchedFormField?.options : [],
         value:
           this.programDataStoreConfigs?.stagesConfigs[this.stage?.id][
             this.programDataStoreConfigs?.stagesConfigs[this.stage?.id]?.id

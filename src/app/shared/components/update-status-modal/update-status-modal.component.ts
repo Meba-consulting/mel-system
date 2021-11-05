@@ -65,21 +65,23 @@ export class UpdateStatusModalComponent implements OnInit {
         (option) => option?.name === this.eventData[this.dataElement?.id]?.value
       ) || [])[0]?.id,
     };
+    const optionsFormatted = this.dataElement?.optionSet
+      ? _.map(this.dataElement?.optionSet?.options, (option) => {
+          return {
+            id: option?.id,
+            name: option?.name,
+            label: option?.name,
+            key: option?.id,
+          };
+        })
+      : [];
     this.formFields = [
       {
         id: this.dataElement?.id,
         label: this.dataElement?.name,
         key: this.dataElement?.id,
-        options: this.dataElement?.optionSet
-          ? _.map(this.dataElement?.optionSet?.options, (option) => {
-              return {
-                id: option?.id,
-                name: option?.name,
-                label: option?.name,
-                key: option?.id,
-              };
-            })
-          : [],
+        options: optionsFormatted,
+        shouldSearch: optionsFormatted?.length > 5,
         controlType:
           this.dataElement?.valueType == 'LONG_TEXT'
             ? 'textarea'

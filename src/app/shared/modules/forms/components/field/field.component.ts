@@ -1,13 +1,15 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormGroup } from '@angular/forms';
+import { Observable, of } from 'rxjs';
 import { Field } from '../../models/field.model';
+import { FieldItemService } from '../../services/field-items.service';
 
 @Component({
   selector: 'app-field',
   templateUrl: './field.component.html',
   styleUrls: ['./field.component.scss'],
 })
-export class FieldComponent {
+export class FieldComponent implements OnInit {
   @Input() field: Field<string>;
   @Input() form: FormGroup;
   @Input() isCheckBoxButton: boolean;
@@ -19,6 +21,13 @@ export class FieldComponent {
 
   hide = true;
   hideRepeat = true;
+  members$: Observable<any[]>;
+
+  constructor(private fieldItemService: FieldItemService) {}
+
+  ngOnInit(): void {
+    this.members$ = of(this.field?.options);
+  }
 
   get isValid(): boolean {
     // console.log('controls', this.form.controls[this.field.id]);
@@ -64,6 +73,22 @@ export class FieldComponent {
     let val = {};
     val[field?.key] = data;
     this.form.patchValue(val);
+    this.fieldUpdate.emit(this.form);
+  }
+
+  searchItem(event): void {
+    const searchingText = event.target.value;
+    this.members$ = this.fieldItemService.searchItemService(this.field, {
+      q: searchingText,
+    });
+  }
+
+  getSelectedItemFromOption(event: Event, item, key): void {
+    event.stopPropagation();
+    const value = item?.isDrug ? item?.formattedKey : item?.uuid;
+    let objectToUpdate = {};
+    objectToUpdate[key] = value;
+    this.form.patchValue(objectToUpdate);
     this.fieldUpdate.emit(this.form);
   }
 }

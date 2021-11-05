@@ -48,8 +48,18 @@
           <div style="padding: 2px">
             <a mat-menu-item (click)="newFavorite($event)">New</a>
             <a mat-menu-item (click)="openSearchFavoritesModal($event)">Open</a>
-            <a mat-menu-item [disabled]="dataSelections?.length < 3">Save</a>
-            <a mat-menu-item>Save as</a>
+            <a
+              mat-menu-item
+              [disabled]="dataSelections?.length < 3 || !favoriteTitle"
+              >Save</a
+            >
+            <a
+              mat-menu-item
+              [disabled]="
+                dataSelections?.length < 3 || !favoriteId || !favoriteTitle
+              "
+              >Save as</a
+            >
           </div>
         </mat-menu>
       </div>

@@ -14,6 +14,7 @@ export class Field<T> {
   max: number;
   hidden: boolean;
   units: string;
+  shouldSearch?: boolean;
 
   constructor(
     options: {
@@ -32,6 +33,7 @@ export class Field<T> {
       max?: number;
       hidden?: boolean;
       units?: string;
+      shouldSearch?: boolean;
     } = {}
   ) {
     this.value = options.value;
@@ -49,5 +51,6 @@ export class Field<T> {
     this.max = options.max;
     this.hidden = options.hidden || false;
     this.units = options.units || '';
+    this.shouldSearch = options?.shouldSearch || false;
   }
 }

@@ -7,12 +7,39 @@ export function createFormFieldsFromProgramStageDataElement(
   programStageFormData?
 ) {
   return _.map(stageDataElements, (stageDataElement) => {
+    const optionsFormatted = stageDataElement?.dataElement?.optionSet
+      ? _.map(stageDataElement?.dataElement?.optionSet?.options, (option) => {
+          return {
+            id: option?.id,
+            name: option?.name,
+            label: option?.name,
+            key: option?.id,
+          };
+        }).filter(
+          (option) =>
+            (configs['multipleSelections'] &&
+              configs['multipleSelections'][
+                stageDataElement?.dataElement?.id
+              ] &&
+              configs['multipleSelections'][stageDataElement?.dataElement?.id][
+                'optionsToOmit'
+              ] &&
+              configs['multipleSelections'][stageDataElement?.dataElement?.id][
+                'optionsToOmit'
+              ]
+                .join(',')
+                .indexOf(option?.id) === -1) ||
+            !configs['multipleSelections']
+        )
+      : [];
     return {
       id: stageDataElement?.dataElement?.id,
       label: stageDataElement?.dataElement?.name,
       key: stageDataElement?.dataElement?.id,
       controlType:
-        stageDataElement?.dataElement?.valueType == 'LONG_TEXT'
+        optionsFormatted.length > 0
+          ? 'dropdown'
+          : stageDataElement?.dataElement?.valueType == 'LONG_TEXT'
           ? 'textarea'
           : stageDataElement?.dataElement?.valueType == 'TEXT' &&
             !stageDataElement?.dataElement?.optionSet
@@ -55,31 +82,8 @@ export function createFormFieldsFromProgramStageDataElement(
           : stageDataElement?.dataElement?.valueType == 'INTEGER_POSITIVE'
           ? 1
           : null,
-      options: stageDataElement?.dataElement?.optionSet
-        ? _.map(stageDataElement?.dataElement?.optionSet?.options, (option) => {
-            return {
-              id: option?.id,
-              name: option?.name,
-              label: option?.name,
-              key: option?.id,
-            };
-          }).filter(
-            (option) =>
-              (configs['multipleSelections'] &&
-                configs['multipleSelections'][
-                  stageDataElement?.dataElement?.id
-                ] &&
-                configs['multipleSelections'][
-                  stageDataElement?.dataElement?.id
-                ]['optionsToOmit'] &&
-                configs['multipleSelections'][
-                  stageDataElement?.dataElement?.id
-                ]['optionsToOmit']
-                  .join(',')
-                  .indexOf(option?.id) === -1) ||
-              !configs['multipleSelections']
-          )
-        : [],
+      options: optionsFormatted,
+      shouldSearch: optionsFormatted.length > 5,
       name: stageDataElement?.dataElement?.name,
       required: stageDataElement?.compulsory,
       disabled:

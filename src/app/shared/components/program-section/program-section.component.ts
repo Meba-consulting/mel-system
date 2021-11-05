@@ -26,6 +26,17 @@ export class ProgramSectionComponent implements OnInit {
         const details = (this.programStageDataElements.filter(
           (elem) => elem?.id == dataElement?.id
         ) || [])[0];
+
+        const optionsFormatted = details?.optionSet
+          ? _.map(details?.optionSet?.options, (option) => {
+              return {
+                id: option?.id,
+                name: option?.name,
+                label: option?.name,
+                key: option?.id,
+              };
+            })
+          : [];
         return {
           id: dataElement?.id,
           label: dataElement?.name,
@@ -61,16 +72,8 @@ export class ProgramSectionComponent implements OnInit {
               : details?.valueType == 'INTEGER_POSITIVE'
               ? 1
               : null,
-          options: details?.optionSet
-            ? _.map(details?.optionSet?.options, (option) => {
-                return {
-                  id: option?.id,
-                  name: option?.name,
-                  label: option?.name,
-                  key: option?.id,
-                };
-              })
-            : [],
+          options: optionsFormatted,
+          shouldSearch: optionsFormatted?.length > 5,
           required: details?.compulsory,
         };
       }

@@ -33,13 +33,28 @@ export class DefaultFormEntryComponent implements OnInit, OnChanges {
       this.formFields = _.map(
         this.trackedEntityType?.trackedEntityTypeAttributes,
         (attribute) => {
+          const optionsFormatted = attribute?.trackedEntityAttribute?.optionSet
+            ? _.map(
+                attribute?.trackedEntityAttribute?.optionSet?.options,
+                (option) => {
+                  return {
+                    id: option?.id,
+                    name: option?.code,
+                    label: option?.name,
+                    key: option?.id,
+                  };
+                }
+              )
+            : [];
           return {
             id: attribute?.trackedEntityAttribute?.id,
             label: attribute?.trackedEntityAttribute?.name,
             key: attribute?.trackedEntityAttribute?.id,
             controlType:
-              attribute?.trackedEntityAttribute?.valueType == 'TEXT' &&
-              !attribute?.trackedEntityAttribute?.optionSet
+              optionsFormatted.length > 0
+                ? 'dropdown'
+                : attribute?.trackedEntityAttribute?.valueType == 'TEXT' &&
+                  !attribute?.trackedEntityAttribute?.optionSet
                 ? 'textbox'
                 : attribute?.trackedEntityAttribute?.valueType == 'LONG_TEXT' &&
                   !attribute?.trackedEntityAttribute?.optionSet
@@ -74,19 +89,8 @@ export class DefaultFormEntryComponent implements OnInit, OnChanges {
                 : null,
             name: attribute?.trackedEntityAttribute?.name,
             required: attribute?.mandatory,
-            options: attribute?.trackedEntityAttribute?.optionSet
-              ? _.map(
-                  attribute?.trackedEntityAttribute?.optionSet?.options,
-                  (option) => {
-                    return {
-                      id: option?.id,
-                      name: option?.code,
-                      label: option?.name,
-                      key: option?.id,
-                    };
-                  }
-                )
-              : [],
+            options: optionsFormatted,
+            shouldSearch: optionsFormatted.length > 5,
           };
         }
       );
@@ -100,13 +104,28 @@ export class DefaultFormEntryComponent implements OnInit, OnChanges {
       this.formFields = _.map(
         this.trackedEntityType?.trackedEntityTypeAttributes,
         (attribute) => {
+          const optionsFormatted = attribute?.trackedEntityAttribute?.optionSet
+            ? _.map(
+                attribute?.trackedEntityAttribute?.optionSet?.options,
+                (option) => {
+                  return {
+                    id: option?.id,
+                    name: option?.code,
+                    label: option?.name,
+                    key: option?.id,
+                  };
+                }
+              )
+            : [];
           return {
             id: attribute?.trackedEntityAttribute?.id,
             label: attribute?.trackedEntityAttribute?.name,
             key: attribute?.trackedEntityAttribute?.id,
             controlType:
-              attribute?.trackedEntityAttribute?.valueType == 'TEXT' &&
-              !attribute?.trackedEntityAttribute?.optionSet
+              optionsFormatted?.length > 0
+                ? 'dropdown'
+                : attribute?.trackedEntityAttribute?.valueType == 'TEXT' &&
+                  !attribute?.trackedEntityAttribute?.optionSet
                 ? 'textbox'
                 : attribute?.trackedEntityAttribute?.valueType == 'LONG_TEXT' &&
                   !attribute?.trackedEntityAttribute?.optionSet
@@ -140,19 +159,8 @@ export class DefaultFormEntryComponent implements OnInit, OnChanges {
                 ? 1
                 : null,
             name: attribute?.trackedEntityAttribute?.name,
-            options: attribute?.trackedEntityAttribute?.optionSet
-              ? _.map(
-                  attribute?.trackedEntityAttribute?.optionSet?.options,
-                  (option) => {
-                    return {
-                      id: option?.id,
-                      name: option?.code,
-                      label: option?.name,
-                      key: option?.id,
-                    };
-                  }
-                )
-              : [],
+            options: optionsFormatted,
+            shouldSearch: optionsFormatted.length > 5,
             required: true,
           };
         }

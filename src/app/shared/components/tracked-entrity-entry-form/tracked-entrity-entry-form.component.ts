@@ -69,7 +69,22 @@ export class TrackedEntrityEntryFormComponent implements OnInit, OnChanges {
           if (
             attribute?.trackedEntityAttribute?.id !== 'C1i3bPWYBRG' &&
             attribute?.trackedEntityAttribute?.id !== 'ek3AWEEIOBJ'
-          )
+          ) {
+            const optionsFormatted = attribute?.trackedEntityAttribute
+              ?.optionSet
+              ? _.map(
+                  attribute?.trackedEntityAttribute?.optionSet?.options,
+                  (option) => {
+                    return {
+                      id: option?.id,
+                      name: option?.code,
+                      label: option?.name,
+                      key: option?.id,
+                    };
+                  }
+                )
+              : [];
+
             return {
               id: attribute?.trackedEntityAttribute?.id,
               label: attribute?.trackedEntityAttribute?.name,
@@ -116,21 +131,11 @@ export class TrackedEntrityEntryFormComponent implements OnInit, OnChanges {
                   ? 1
                   : null,
               name: attribute?.trackedEntityAttribute?.name,
-              options: attribute?.trackedEntityAttribute?.optionSet
-                ? _.map(
-                    attribute?.trackedEntityAttribute?.optionSet?.options,
-                    (option) => {
-                      return {
-                        id: option?.id,
-                        name: option?.code,
-                        label: option?.name,
-                        key: option?.id,
-                      };
-                    }
-                  )
-                : [],
+              options: optionsFormatted,
+              shouldSearch: optionsFormatted?.length > 5,
               required: attribute?.mandatory,
             };
+          }
         }
       ),
       (field) => field

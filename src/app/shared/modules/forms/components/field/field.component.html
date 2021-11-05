@@ -1,4 +1,4 @@
-<div [formGroup]="form" *ngIf="isCommonField">
+<div [formGroup]="form" *ngIf="isCommonField && !field?.shouldSearch">
   <mat-form-field
     [ngSwitch]="field?.controlType"
     appearance="outline"
@@ -13,6 +13,7 @@
       [id]="field?.key"
       [min]="field?.min"
       [max]="field?.max"
+      [disabled]="field?.disabled"
       [placeholder]="field?.placeholder"
       [type]="field?.type"
       matInput
@@ -28,6 +29,7 @@
       [max]="field?.max"
       [placeholder]="field?.placeholder"
       [type]="field?.type"
+      [disabled]="field?.disabled"
       matInput
       (keyup)="onFieldUpdate(field?.controlType)"
     />
@@ -56,6 +58,7 @@
       [minlength]="field?.min"
       [placeholder]="field?.placeholder"
       [type]="field?.type"
+      [disabled]="field?.disabled"
       matInput
       (keyup)="onFieldUpdate(field?.controlType)"
     />
@@ -67,6 +70,7 @@
       [formControlName]="field?.key"
       autocomplete="off"
       [id]="field?.key"
+      [disabled]="field?.disabled"
       [placeholder]="field?.placeholder"
       [type]="hide ? 'password' : 'text'"
       matInput
@@ -79,6 +83,7 @@
       *ngSwitchCase="'rePassword'"
       [formControlName]="field?.key"
       autocomplete="off"
+      [disabled]="field?.disabled"
       [id]="field?.key"
       [placeholder]="field?.placeholder"
       [type]="hide ? 'password' : 'text'"
@@ -95,6 +100,7 @@
       [formControlName]="field?.key"
       [id]="field?.key"
       [maxLength]="field?.max"
+      [disabled]="field?.disabled"
       [placeholder]="field?.placeholder"
       [type]="field?.type"
       matInput
@@ -106,6 +112,7 @@
     <mat-select
       [id]="field?.key"
       *ngSwitchCase="'dropdown'"
+      [disabled]="field?.disabled"
       [placeholder]="field?.placeholder"
       [formControlName]="field?.key"
       (selectionChange)="onFieldUpdate(field?.controlType)"
@@ -121,6 +128,7 @@
       [id]="field?.key"
       *ngSwitchCase="'dropdownM'"
       [placeholder]="field?.placeholder"
+      [disabled]="field?.disabled"
       [formControlName]="field?.key"
       multiple
       (selectionChange)="onFieldUpdate(field?.controlType)"
@@ -138,6 +146,7 @@
       matInput
       [id]="field?.key"
       [formControlName]="field?.key"
+      [disabled]="field?.disabled"
       [placeholder]="field?.placeholder"
       (keyup)="onFieldUpdate(field?.controlType)"
     ></textarea>
@@ -224,10 +233,38 @@
   <!-- end of data field -->
 </div>
 
+<div
+  [formGroup]="form"
+  *ngIf="
+    isCommonField && field?.shouldSearch && field?.controlType === 'dropdown'
+  "
+>
+  <mat-form-field class="w-100" appearance="fill">
+    <mat-label>{{ field?.label }}</mat-label>
+    <input
+      type="text"
+      [disabled]="field?.disabled"
+      placeholder="Search {{ field?.label }}"
+      matInput
+      (keyup)="searchItem($event)"
+      [matAutocomplete]="auto"
+    />
+    <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+      <mat-option
+        *ngFor="let option of members$ | async"
+        (click)="getSelectedItemFromOption($event, option, field?.key)"
+        [value]="option?.display ? option?.display : option?.name"
+      >
+        {{ option?.display ? option?.display : option?.name }}
+      </mat-option>
+    </mat-autocomplete>
+  </mat-form-field>
+</div>
+
 <div [formGroup]="form" *ngIf="isFile">
-  <p>TESTING</p>
   <input
     type="file"
+    [disabled]="field?.disabled"
     style="border: none; background-color: transparent; float: left"
     name="file"
     accept=".pdf,.doc, .docx"
