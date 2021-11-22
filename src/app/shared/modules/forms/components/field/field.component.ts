@@ -85,7 +85,7 @@ export class FieldComponent implements OnInit {
 
   getSelectedItemFromOption(event: Event, item, key): void {
     event.stopPropagation();
-    const value = item?.isDrug ? item?.formattedKey : item?.uuid;
+    const value = item?.key;
     let objectToUpdate = {};
     objectToUpdate[key] = value;
     this.form.patchValue(objectToUpdate);

@@ -32,7 +32,6 @@ export const getReportById = createSelector(
 export const getProgramsForGeneralReports = createSelector(
   getAllPrograms,
   (programs: any[]) => {
-    console.log('programs', programs);
     return (
       programs.filter(
         (program) =>

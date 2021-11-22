@@ -432,6 +432,64 @@ export class AnalysisDashboardComponent implements OnInit {
             relativeTo: this.route,
             queryParams: { id: dialogData?.id },
           });
+          this.updated = false;
+
+          this.favoriteId = dialogData?.id;
+
+          this.httpClient
+            .get(`visualizations/${this.favoriteId}.json?fields=*`)
+            .subscribe((response) => {
+              if (response) {
+                // console.log('res', response);
+                this.favoriteTitle = response?.displayName;
+                this.dataSelections = [
+                  {
+                    dimension: 'ou',
+                    items: response?.organisationUnits.map((ou) => {
+                      return {
+                        id: ou?.id,
+                        name: '',
+                      };
+                    }),
+                  },
+                  {
+                    dimension: 'dx',
+                    items: response?.dataDimensionItems.map(
+                      (dataDimensionItem) => {
+                        if (
+                          dataDimensionItem?.dataDimensionItemType ===
+                          'PROGRAM_INDICATOR'
+                        ) {
+                          return {
+                            id: dataDimensionItem?.programIndicator?.id,
+                            name: '',
+                          };
+                        } else if (
+                          dataDimensionItem?.dataDimensionItemType ===
+                          'INDICATOR'
+                        ) {
+                          return {
+                            id: dataDimensionItem?.indicator?.id,
+                            name: '',
+                          };
+                        }
+                      }
+                    ),
+                  },
+                  {
+                    dimension: 'pe',
+                    items: [
+                      {
+                        id: new Date().getFullYear().toString(),
+                        name: new Date().getFullYear().toString(),
+                      },
+                    ],
+                  },
+                ];
+
+                this.updated = true;
+              }
+            });
         }
       });
   }
