@@ -7,3 +7,9 @@ table td {
 .mat-typography {
   font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
 }
+
+.download-btns {
+  margin: 1px !important;
+  min-width: 30px !important;
+  padding: 2px !important;
+}
