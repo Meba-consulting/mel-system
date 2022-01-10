@@ -12,4 +12,10 @@ table td {
   margin: 1px !important;
   min-width: 30px !important;
   padding: 2px !important;
+  margin-right: 8px !important;
+  background-color: #fff !important;
+}
+
+.download-btns:hover {
+  background-color: #fff !important;
 }
