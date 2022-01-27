@@ -7,6 +7,7 @@ import { ActivityTrackerService } from '../../services/activity-tracker.service'
 import { OutputModalComponent } from '../output-modal/output-modal.component';
 
 import { keyBy } from 'lodash';
+import { DeletingItemComponent } from 'src/app/shared/components/deleting-item/deleting-item.component';
 
 @Component({
   selector: 'app-strategic-objectives-list',
@@ -58,6 +59,33 @@ export class StrategicObjectivesListComponent implements OnInit {
       ]),
       description: new FormControl('', [Validators.minLength(8)]),
     });
+  }
+
+  onDeleteOutCome(event: Event, objective: any, activityDetails: any): void {
+    // console.log(JSON.stringify(activityDetails));
+    const filteredData =
+      activityDetails.filter(
+        (objectiveData) => objectiveData?.id !== objective?.id
+      ) || [];
+    this.dialog
+      .open(DeletingItemComponent, {
+        width: '500px',
+        data: {
+          path: this.key,
+          itemName: objective?.label,
+          dataStore: true,
+          data: filteredData,
+        },
+      })
+      .afterClosed()
+      .subscribe((response) => {
+        if (response) {
+          this.activityDetails = null;
+          setTimeout(() => {
+            this.activityDetails = filteredData;
+          }, 100);
+        }
+      });
   }
 
   onViewOuComes(e, objective) {

@@ -37,6 +37,13 @@
                 <mat-icon>add</mat-icon>
                 <span>Add outcome</span>
               </button>
+              <button
+                (click)="onDeleteOutCome($event, objective, activityDetails)"
+                mat-menu-item
+              >
+                <mat-icon>delete</mat-icon>
+                <span>Delete</span>
+              </button>
               <button (click)="onViewOuComes($event, objective)" mat-menu-item>
                 <mat-icon>remove_red_eye</mat-icon>
                 <span>View outcomes</span>

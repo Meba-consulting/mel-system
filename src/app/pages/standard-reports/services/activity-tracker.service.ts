@@ -83,7 +83,12 @@ export class ActivityTrackerService {
   }
 
   saveActivityTrackerDetails(key, details): Observable<any> {
-    return this.httpClient.put('dataStore/activity-trackers/' + key, details);
+    return this.httpClient
+      .put('dataStore/activity-trackers/' + key, details)
+      .pipe(
+        map((response) => response),
+        catchError((e) => of(e))
+      );
   }
 
   constructor(private httpClient: NgxDhis2HttpClientService) {}

@@ -8,27 +8,37 @@
 
   <hr />
 </div> -->
-<div style="padding: 6px 25px">
-  <h4 class="text-center">
-    Are you sure to delete
-    <b>
-      {{ itemName }}
-    </b>
-  </h4>
+<div style="padding: 6px 25px; min-height: 180px">
+  <div class="mt-2">
+    <h4 class="text-left">
+      <b> Confirm deletion </b>
+    </h4>
+  </div>
+  <hr />
   <mat-dialog-content>
+    <div class="p-1">
+      <p style="font-size: 1.2rem">
+        Are you sure to delete
+        <b>
+          {{ itemName }}
+        </b>
+      </p>
+    </div>
     <div class="p-1">
       <p class="text-center" *ngIf="!deletingItem">
         {{
           (deleteResponse$ | async)?.status === 500 ||
           (deleteResponse$ | async)?.status === 404
             ? 'Failed, ' + (deleteResponse$ | async)?.message
-            : 'Successfully deleted'
+            : deletedItem
+            ? 'Successfully deleted'
+            : ''
         }}
       </p>
     </div>
   </mat-dialog-content>
   <mat-dialog-actions>
-    <div style="padding: 10px" class="d-flex justify-content-between">
+    <div class="w-100 d-flex justify-content-end">
       <button
         [disabled]="deletingItem || deletedItem"
         (click)="onConfirmDelete($event)"
