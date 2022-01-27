@@ -8,6 +8,7 @@ import { OutputModalComponent } from '../output-modal/output-modal.component';
 
 import { keyBy } from 'lodash';
 import { DeletingItemComponent } from 'src/app/shared/components/deleting-item/deleting-item.component';
+import { Observable, of } from 'rxjs';
 
 @Component({
   selector: 'app-strategic-objectives-list',
@@ -16,6 +17,7 @@ import { DeletingItemComponent } from 'src/app/shared/components/deleting-item/d
 })
 export class StrategicObjectivesListComponent implements OnInit {
   @Input() activityDetails: any[];
+  activityDetails$: Observable<any[]>;
   @Input() key: string;
   @Input() indicators: any[];
   @Output() editObjective = new EventEmitter<any>();
@@ -40,6 +42,7 @@ export class StrategicObjectivesListComponent implements OnInit {
     this.primengConfig.ripple = true;
     this.sourceIndicators = this.indicators;
     this.selectedIndicators = [];
+    this.activityDetails$ = of(this.activityDetails);
   }
 
   onEdit(e, objective) {
@@ -61,8 +64,7 @@ export class StrategicObjectivesListComponent implements OnInit {
     });
   }
 
-  onDeleteOutCome(event: Event, objective: any, activityDetails: any): void {
-    // console.log(JSON.stringify(activityDetails));
+  onDeleteObjective(event: Event, objective: any, activityDetails: any): void {
     const filteredData =
       activityDetails.filter(
         (objectiveData) => objectiveData?.id !== objective?.id
@@ -84,6 +86,49 @@ export class StrategicObjectivesListComponent implements OnInit {
           setTimeout(() => {
             this.activityDetails = filteredData;
           }, 100);
+        }
+      });
+  }
+
+  onDeleteOutCome(
+    event: Event,
+    outComeToDelete: any,
+    objectiveWhereOutComeBelongs: any,
+    activityDetails: any[]
+  ): void {
+    const filteredData = activityDetails.map((objective) => {
+      return {
+        ...objective,
+        outComes:
+          objectiveWhereOutComeBelongs?.id === objective?.id
+            ? objective?.outComes.filter(
+                (outCome) => outCome?.id !== outComeToDelete?.id
+              ) || []
+            : objective?.outComes,
+      };
+    });
+
+    this.dialog
+      .open(DeletingItemComponent, {
+        width: '500px',
+        data: {
+          path: this.key,
+          itemName: outComeToDelete?.name,
+          dataStore: true,
+          data: filteredData,
+        },
+      })
+      .afterClosed()
+      .subscribe((response) => {
+        if (response) {
+          this.activityDetails = null;
+          this.activityDetails$ = of(null);
+          setTimeout(() => {
+            this.activityDetails = filteredData;
+            this.currentObjective = null;
+            this.currentOutCome = null;
+            this.activityDetails$ = of(filteredData);
+          }, 200);
         }
       });
   }

@@ -1,4 +1,4 @@
-<div *ngIf="activityDetails">
+<div *ngIf="activityDetails$ | async as activityDetails">
   <table class="table">
     <thead>
       <tr>
@@ -38,7 +38,7 @@
                 <span>Add outcome</span>
               </button>
               <button
-                (click)="onDeleteOutCome($event, objective, activityDetails)"
+                (click)="onDeleteObjective($event, objective, activityDetails)"
                 mat-menu-item
               >
                 <mat-icon>delete</mat-icon>
@@ -108,6 +108,21 @@
                           >
                             <mat-icon>add</mat-icon>
                             <span>Add output</span>
+                          </button>
+
+                          <button
+                            (click)="
+                              onDeleteOutCome(
+                                $event,
+                                outCome,
+                                objective,
+                                activityDetails
+                              )
+                            "
+                            mat-menu-item
+                          >
+                            <mat-icon>delete</mat-icon>
+                            <span>Delete outcome</span>
                           </button>
 
                           <button
@@ -304,3 +319,7 @@
     </ng-container>
   </table>
 </div>
+<mat-progress-bar
+  *ngIf="!activityDetails"
+  mode="indeterminate"
+></mat-progress-bar>
