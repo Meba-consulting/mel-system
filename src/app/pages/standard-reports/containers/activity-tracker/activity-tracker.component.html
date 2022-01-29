@@ -25,10 +25,25 @@
       params?.indicators
     "
   >
+    <div class="w-100 d-flex justify-content-end">
+      <img
+        height="20"
+        style="cursor: pointer"
+        (click)="toggleMELHelp($event)"
+        src="assets/icons/help_icon-48.png"
+      />
+    </div>
     <app-activity-tracker-dashboard
       [keys]="params?.activityTrackerYears"
       [indicators]="params?.indicators"
       (reloadData)="shouldReload($event)"
     ></app-activity-tracker-dashboard>
+    <MEL-help
+      *ngIf="isInfoOpen"
+      (cancel)="onInfoClose($event)"
+      [isInfoOpen]="isInfoOpen"
+      [documentURL]="documentURL"
+      [appName]="'Activity Tracker'"
+    ></MEL-help>
   </div>
 </div>

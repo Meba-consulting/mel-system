@@ -5,6 +5,7 @@ import { EntrySideBarSummaryComponent } from './entry-side-bar-summary/entry-sid
 import { EventProgramDataComponent } from './event-program-data/event-program-data.component';
 import { EventProgramEntryComponent } from './event-program-entry/event-program-entry.component';
 import { EventProgramListComponent } from './event-program-list/event-program-list.component';
+import { MELHelpComponent } from './mel-help/mel-help.component';
 import { ProgramSectionComponent } from './program-section/program-section.component';
 import { ProgramStageDataEntryComponent } from './program-stage-data-entry/program-stage-data-entry.component';
 import { ProgramStageDataListComponent } from './program-stage-data-list/program-stage-data-list.component';
@@ -48,4 +49,5 @@ export const sharedComponents: any[] = [
   UploadExcelDataModalComponent,
   ProgramStageDataListComponent,
   DownloadFileResourceComponent,
+  MELHelpComponent,
 ];
