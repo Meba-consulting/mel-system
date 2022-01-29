@@ -6,11 +6,12 @@ import {
   MAT_DIALOG_DATA,
 } from '@angular/material/dialog';
 import { NgxDhis2HttpClientService } from '@iapps/ngx-dhis2-http-client';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { ActivityTrackerService } from '../../services/activity-tracker.service';
 
 import { filter, keyBy } from 'lodash';
 import { TargetsSettingsComponent } from '../targets-settings/targets-settings.component';
+import { DeletingItemComponent } from 'src/app/shared/components/deleting-item/deleting-item.component';
 
 @Component({
   selector: 'app-output-modal',
@@ -19,6 +20,7 @@ import { TargetsSettingsComponent } from '../targets-settings/targets-settings.c
 })
 export class OutputModalComponent implements OnInit {
   outCome: any;
+  outCome$: Observable<any>;
   currentOutComeSn: string;
   key: string;
   objectives: any;
@@ -64,6 +66,7 @@ export class OutputModalComponent implements OnInit {
     this.currentObjective = data?.objective;
     this.currentOutComeSn = data?.currentOutComeSn;
     this.sourceIndicators = data?.indicators;
+    this.outCome$ = of(this.outCome);
   }
 
   ngOnInit(): void {
@@ -89,6 +92,69 @@ export class OutputModalComponent implements OnInit {
       baseline: new FormControl(''),
       targetPerYear: new FormControl(''),
     });
+  }
+
+  onDeleteOutput(
+    event: Event,
+    currentOutput: any,
+    objectives: any[],
+    currentObjective: any,
+    currentOutCome: any,
+    key: string
+  ): void {
+    let formattedOutCome;
+    let formattedObjective;
+    const formattedObjectives = objectives.map((objective) => {
+      if (objective?.id === currentObjective?.id) {
+        formattedObjective = {
+          ...objective,
+          outComes: objective.outComes.map((outCome) => {
+            if (outCome?.id === currentOutCome?.id) {
+              formattedOutCome = {
+                ...outCome,
+                outputs: outCome?.outputs
+                  .map((output) => {
+                    if (output?.id !== currentOutput?.id) {
+                      return output;
+                    }
+                  })
+                  .filter((outPut) => outPut),
+              };
+              return formattedOutCome;
+            } else {
+              return outCome;
+            }
+          }),
+        };
+        return formattedObjective;
+      } else {
+        return objective;
+      }
+    });
+
+    this.dialog
+      .open(DeletingItemComponent, {
+        width: '500px',
+        data: {
+          path: this.key,
+          itemName: currentOutput?.name,
+          dataStore: true,
+          data: formattedObjectives,
+        },
+      })
+      .afterClosed()
+      .subscribe((response) => {
+        if (response) {
+          this.outCome = null;
+          this.outCome$ = of(null);
+          this.currentObjective = null;
+          setTimeout(() => {
+            this.outCome = formattedOutCome;
+            this.outCome$ = of(formattedOutCome);
+            this.currentObjective = formattedObjective;
+          }, 200);
+        }
+      });
   }
 
   onSaveOutput(e, formValues) {

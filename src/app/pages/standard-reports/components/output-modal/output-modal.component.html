@@ -1,7 +1,8 @@
 <div
   class="output-container"
   *ngIf="{
-    responsibles: responsibles$ | async
+    responsibles: responsibles$ | async,
+    outCome: outCome$ | async
   } as params"
 >
   <div class="h4 p-1">
@@ -18,8 +19,12 @@
           <th></th>
         </tr>
       </thead>
-      <ng-container *ngIf="outCome?.outputs && outCome?.outputs?.length > 0">
-        <tbody *ngFor="let output of outCome?.outputs; let count = index">
+      <ng-container
+        *ngIf="params?.outCome?.outputs && params?.outCome?.outputs?.length > 0"
+      >
+        <tbody
+          *ngFor="let output of params?.outCome?.outputs; let count = index"
+        >
           <tr>
             <td>{{ currentOutComeSn }}.{{ count + 1 }}</td>
             <td>{{ output?.name }}</td>
@@ -36,6 +41,22 @@
                 <button (click)="onEditOutput($event, output)" mat-menu-item>
                   <mat-icon>edit</mat-icon>
                   <span>Edit</span>
+                </button>
+                <button
+                  (click)="
+                    onDeleteOutput(
+                      $event,
+                      output,
+                      objectives,
+                      currentObjective,
+                      outCome,
+                      key
+                    )
+                  "
+                  mat-menu-item
+                >
+                  <mat-icon>delete</mat-icon>
+                  <span>Delete</span>
                 </button>
                 <button (click)="onAddActivity($event, output)" mat-menu-item>
                   <mat-icon>add</mat-icon>
@@ -274,13 +295,7 @@
                           border-radius: 0 !important;
                         "
                         mat-stroked-button
-                        class="
-                          mr-2
-                          float-left
-                          w-100
-                          text-left
-                          toggle-filter-btns
-                        "
+                        class="mr-2 float-left w-100 text-left toggle-filter-btns"
                         (click)="openTargetSettings($event, key)"
                       >
                         Targets {{ targetsDisplayed }}
@@ -455,21 +470,23 @@
           </table>
         </div>
 
-        <button
-          [disabled]="!outputForm.valid || saving"
-          mat-stroked-button
-          class="mr-2 float-left mel-themed-btn"
-          (click)="onSaveOutput($event, outputForm.value)"
-        >
-          <mat-spinner
-            *ngIf="saving"
-            color="accent"
-            [diameter]="20"
-            style="display: inline-block !important; margin-right: 4px"
+        <div class="w-100 d-flex justify-content-end">
+          <button
+            [disabled]="!outputForm.valid || saving"
+            mat-stroked-button
+            class="mr-2 float-left mel-themed-btn"
+            (click)="onSaveOutput($event, outputForm.value)"
           >
-          </mat-spinner>
-          Save
-        </button>
+            <mat-spinner
+              *ngIf="saving"
+              color="accent"
+              [diameter]="20"
+              style="display: inline-block !important; margin-right: 4px"
+            >
+            </mat-spinner>
+            Save
+          </button>
+        </div>
       </form>
     </div>
   </div>
