@@ -83,9 +83,13 @@ export class StrategicObjectivesListComponent implements OnInit {
       .subscribe((response) => {
         if (response) {
           this.activityDetails = null;
+          this.activityDetails$ = of(null);
           setTimeout(() => {
             this.activityDetails = filteredData;
-          }, 100);
+            this.currentObjective = null;
+            this.currentOutCome = null;
+            this.activityDetails$ = of(filteredData);
+          }, 200);
         }
       });
   }

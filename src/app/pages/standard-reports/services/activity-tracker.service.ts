@@ -12,7 +12,7 @@ export class ActivityTrackerService {
   getActivityTrackerYears(): Observable<any> {
     return this.httpClient.get('dataStore/activity-trackers').pipe(
       map((keys) => {
-        return keys;
+        return keys.sort();
       }),
       catchError((error) => {
         return of(error);
@@ -75,11 +75,26 @@ export class ActivityTrackerService {
   }
 
   createActivityYear(key): Observable<any> {
-    return this.httpClient.post('dataStore/activity-trackers/' + key, []);
+    return this.httpClient.post('dataStore/activity-trackers/' + key, []).pipe(
+      map((response) => response),
+      catchError((e) => of(e))
+    );
+  }
+
+  createActivityYearWithDetails(key: string, data: any): Observable<any> {
+    return this.httpClient
+      .post('dataStore/activity-trackers/' + key, data)
+      .pipe(
+        map((response) => response),
+        catchError((e) => of(e))
+      );
   }
 
   getActivityDetailsByKey(key): Observable<any> {
-    return this.httpClient.get('dataStore/activity-trackers/' + key);
+    return this.httpClient.get('dataStore/activity-trackers/' + key).pipe(
+      map((response) => response),
+      catchError((e) => of(e))
+    );
   }
 
   saveActivityTrackerDetails(key, details): Observable<any> {

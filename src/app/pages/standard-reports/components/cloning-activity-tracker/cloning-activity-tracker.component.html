@@ -1,0 +1,53 @@
+<div class="loading-overlay" *ngIf="savingData">
+  <div class="text-center">
+    <div>Saving data</div>
+    <div class="mt-3 d-flex justify-content-center w-100">
+      <mat-spinner diameter="50" strokeWidth="2"></mat-spinner>
+    </div>
+  </div>
+</div>
+<div
+  class="cloning-container p-2"
+  *ngIf="{ activityDetails: activityDetails$ | async } as params"
+>
+  <div class="mt-2">
+    <h4>Cloning metadata for {{ dialogData?.key }}</h4>
+  </div>
+  <hr />
+  <div class="content-area p-2">
+    <mat-form-field class="w-100">
+      <mat-label>Select year to clone to</mat-label>
+      <mat-select [(ngModel)]="selectedValue" name="year">
+        <mat-option
+          *ngFor="let option of options"
+          [value]="option"
+          [disabled]="availableOptions[option]"
+        >
+          {{ option }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <div>
+      <!-- {{ params?.activityDetails | json }} -->
+    </div>
+  </div>
+  <div class="w-100 d-flex justify-content-end">
+    <button
+      mat-stroked-button
+      [disabled]="!selectedValue || savedSuccefully"
+      class="mr-2"
+      (click)="onSave($event, params?.activityDetails, selectedValue)"
+    >
+      <mat-spinner
+        *ngIf="savingData"
+        color="accent"
+        [diameter]="20"
+        style="display: inline-block !important; margin-right: 4px"
+      >
+      </mat-spinner>
+      Save
+    </button>
+    <button mat-stroked-button (click)="onClose($event)">Close</button>
+  </div>
+</div>

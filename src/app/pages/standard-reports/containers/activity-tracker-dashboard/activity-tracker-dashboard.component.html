@@ -13,15 +13,31 @@
         style="background-color: transparent"
         *ngIf="selectedTab.value == count"
       >
-        <app-add-activity
-          [indicators]="indicators"
-          [key]="key"
-        ></app-add-activity>
+        <div class="w-100 d-flex justify-content-between mb-2">
+          <div class="w-50 text-left">
+            <b>{{ key }}</b>
+          </div>
+          <div class="w-50 d-flex justify-content-end">
+            <button
+              mat-stroked-button
+              (click)="onOpenClone($event, key, keys)"
+              title="Make a copy of this"
+            >
+              Clone
+            </button>
+          </div>
+        </div>
+        <div class="w-100">
+          <app-add-activity
+            [indicators]="indicators"
+            [key]="key"
+          ></app-add-activity>
+        </div>
       </div>
     </mat-tab>
   </mat-tab-group>
 
-  <div>
+  <div class="w-100 d-flex justify-content-end">
     <button
       (click)="onAddNewActivityYear($event)"
       tabindex="0"
@@ -48,7 +64,6 @@
         overflow: hidden;
         border-radius: 50%;
         text-align: center;
-        float: right;
       "
     >
       <div>
