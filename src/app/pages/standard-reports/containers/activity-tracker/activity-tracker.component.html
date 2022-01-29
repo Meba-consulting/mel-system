@@ -28,6 +28,7 @@
     <app-activity-tracker-dashboard
       [keys]="params?.activityTrackerYears"
       [indicators]="params?.indicators"
+      (reloadData)="shouldReload($event)"
     ></app-activity-tracker-dashboard>
   </div>
 </div>

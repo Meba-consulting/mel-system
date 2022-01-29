@@ -14,7 +14,16 @@ export class ActivityTrackerComponent implements OnInit {
   constructor(private activityTrackerService: ActivityTrackerService) {}
 
   ngOnInit(): void {
-    this.activityTrackerYears$ = this.activityTrackerService.getActivityTrackerYears();
+    this.activityTrackerYears$ =
+      this.activityTrackerService.getActivityTrackerYears();
     this.indicators$ = this.activityTrackerService.getIndicators();
+  }
+
+  shouldReload(reload: boolean) {
+    if (reload) {
+      this.activityTrackerYears$ =
+        this.activityTrackerService.getActivityTrackerYears();
+      this.indicators$ = this.activityTrackerService.getIndicators();
+    }
   }
 }
