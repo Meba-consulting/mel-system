@@ -19,6 +19,12 @@ export class UploadedReportsComponent implements OnInit, OnDestroy {
   navigationSubscription: any;
   allDataLoaded: boolean = false;
   userGroups$: Observable<any>;
+
+  isInfoOpen: boolean = false;
+  isExpanded: boolean = true;
+  isDark: boolean = false;
+  documentURL: string =
+    'https://josephatj.github.io/MEL-user-manual/docs/reports/uploaded_reports';
   constructor(
     private store: Store<State>,
     private router: Router,
@@ -69,5 +75,30 @@ export class UploadedReportsComponent implements OnInit, OnDestroy {
     if (this.navigationSubscription) {
       this.navigationSubscription.unsubscribe();
     }
+  }
+
+  toggleMELHelp(event: Event): void {
+    event.stopPropagation();
+    this.isInfoOpen = !this.isInfoOpen;
+  }
+
+  onOpenInfo(): void {
+    this.isInfoOpen = true;
+  }
+
+  onInfoClose(e): void {
+    this.isInfoOpen = e;
+  }
+
+  toggleLogMonitor() {
+    this.isExpanded = !this.isExpanded;
+  }
+
+  toggleTheme() {
+    this.isDark = !this.isDark;
+  }
+
+  onOpenConsole() {
+    this.isExpanded = !this.isExpanded;
   }
 }

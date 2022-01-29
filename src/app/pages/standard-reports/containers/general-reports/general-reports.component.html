@@ -13,6 +13,14 @@
         placeholder="Ex. Legal "
       />
     </mat-form-field>
+    <div class="w-50 d-flex justify-content-end">
+      <img
+        height="20"
+        style="cursor: pointer"
+        (click)="toggleMELHelp($event)"
+        src="assets/icons/help_icon-48.png"
+      />
+    </div>
   </div>
   <div class="row" *ngIf="params?.programs">
     <div
@@ -53,3 +61,11 @@
     mode="indeterminate"
   ></mat-progress-bar>
 </div>
+
+<MEL-help
+  *ngIf="isInfoOpen"
+  (cancel)="onInfoClose($event)"
+  [isInfoOpen]="isInfoOpen"
+  [documentURL]="documentURL"
+  [appName]="'Activity Tracker'"
+></MEL-help>

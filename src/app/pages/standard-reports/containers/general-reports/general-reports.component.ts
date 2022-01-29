@@ -15,6 +15,11 @@ export class GeneralReportsComponent implements OnInit {
   @Input() dataSets: any[];
   mergedProgramsAndForms: any[] = [];
   searchingString: string = '';
+  isInfoOpen: boolean = false;
+  isExpanded: boolean = true;
+  isDark: boolean = false;
+  documentURL: string =
+    'https://josephatj.github.io/MEL-user-manual/docs/reports/general_reports';
   constructor(private store: Store<State>) {}
 
   ngOnInit(): void {
@@ -32,5 +37,30 @@ export class GeneralReportsComponent implements OnInit {
       ['name'],
       ['asc']
     );
+  }
+
+  toggleMELHelp(event: Event): void {
+    event.stopPropagation();
+    this.isInfoOpen = !this.isInfoOpen;
+  }
+
+  onOpenInfo(): void {
+    this.isInfoOpen = true;
+  }
+
+  onInfoClose(e): void {
+    this.isInfoOpen = e;
+  }
+
+  toggleLogMonitor() {
+    this.isExpanded = !this.isExpanded;
+  }
+
+  toggleTheme() {
+    this.isDark = !this.isDark;
+  }
+
+  onOpenConsole() {
+    this.isExpanded = !this.isExpanded;
   }
 }

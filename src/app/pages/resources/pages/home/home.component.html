@@ -1,4 +1,23 @@
 <div class="row">
   <div class="col-12 h5 mat-elevation-z1 p-3" style="margin: 0">Resources</div>
 </div>
+<div class="w-100 d-flex justify-content-between">
+  <div class="w-50"></div>
+  <div class="w-50 d-flex justify-content-end">
+    <img
+      height="20"
+      style="cursor: pointer"
+      (click)="toggleMELHelp($event)"
+      src="assets/icons/help_icon-48.png"
+    />
+  </div>
+</div>
 <router-outlet></router-outlet>
+
+<MEL-help
+  *ngIf="isInfoOpen"
+  (cancel)="onInfoClose($event)"
+  [isInfoOpen]="isInfoOpen"
+  [documentURL]="documentURL"
+  [appName]="'Activity Tracker'"
+></MEL-help>
