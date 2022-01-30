@@ -52,6 +52,7 @@ export class AppComponent implements OnInit {
   accessReportsPage: boolean = false;
   accessResourcesPage: boolean = false;
   shouldShowTopMenu: boolean = false;
+  dashboardDetails$: Observable<any>;
   constructor(
     private store: Store<State>,
     private translate: TranslateService,
@@ -138,6 +139,8 @@ export class AppComponent implements OnInit {
           this.titleService.setTitle('Loading .......');
         }
       });
+
+    this.dashboardDetails$ = this.httpClient.get('me/dashboard');
   }
 
   public setTitle(newTitle: string) {

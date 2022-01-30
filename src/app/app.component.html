@@ -1,7 +1,10 @@
 <div
   class="d-flex"
   id="wrapper"
-  *ngIf="{ currentUser: currentUser$ | async } as params"
+  *ngIf="{
+    currentUser: currentUser$ | async,
+    dashboardDetails: dashboardDetails$ | async
+  } as params"
 >
   <!-- Sidebar-->
   <div class="border-end bg-white" id="sidebar-wrapper">
@@ -62,7 +65,7 @@
     >
       <div
         class="container-fluid d-flex justify-content-end"
-        style="background-color: #3ea9d9"
+        style="background-color: #3ea9d9; padding: 6px"
       >
         <!-- <button class="btn btn-primary" id="sidebarToggle">Toggle Menu</button> -->
         <button
@@ -75,6 +78,26 @@
         >
           <span class="navbar-toggler-icon"></span>
         </button>
+
+        <a
+          class="position-relative float-right user-details-menu mr-2"
+          title="{{
+            params?.dashboardDetails?.unreadMessageConversations
+          }} unread messages"
+          style="margin-top: 4px"
+        >
+          <img
+            height="20"
+            style="color: #fff"
+            src="assets/icons/message_icon.png"
+          />
+          <span
+            class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+          >
+            {{ params?.dashboardDetails?.unreadMessageConversations }}
+            <span class="visually-hidden">unread messages</span>
+          </span>
+        </a>
         <a
           class="float-right user-details-menu"
           [matMenuTriggerFor]="menu"
