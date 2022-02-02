@@ -26,6 +26,8 @@ import { HttpClient } from '@angular/common/http';
 import { UserSettingsComponent } from './shared/components/user-settings/user-settings.component';
 import { MatDialog } from '@angular/material/dialog';
 import { UserProfileComponent } from './shared/components/user-profile/user-profile.component';
+import { MessagesModalComponent } from './shared/components/messages-modal/messages-modal.component';
+import { InterpretationModalComponent } from './shared/components/interpretation-modal/interpretation-modal.component';
 
 @Component({
   selector: 'app-root',
@@ -141,6 +143,19 @@ export class AppComponent implements OnInit {
       });
 
     this.dashboardDetails$ = this.httpClient.get('me/dashboard');
+  }
+
+  openModal(event: Event, type): void {
+    event.stopPropagation();
+    if (type === 'message') {
+      this.dialog.open(MessagesModalComponent, {
+        width: '50%',
+      });
+    } else {
+      this.dialog.open(InterpretationModalComponent, {
+        width: '70%',
+      });
+    }
   }
 
   public setTitle(newTitle: string) {

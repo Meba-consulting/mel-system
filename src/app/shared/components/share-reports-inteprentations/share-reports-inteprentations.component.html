@@ -1,0 +1,105 @@
+<div
+  class="inteprentations-container"
+  *ngIf="{
+    savingInterpretationResponse: savingInterpretationResponse$ | async,
+    interpretationResponse: interpretationResponse$ | async
+  } as params"
+>
+  <div class="p-2">
+    <div class="w-100">
+      <mat-accordion>
+        <mat-expansion-panel [expanded]="false">
+          <mat-expansion-panel-header>
+            <mat-panel-title> View Intepretations </mat-panel-title>
+            <!-- <mat-panel-description> </mat-panel-description> -->
+          </mat-expansion-panel-header>
+          <div class="row" *ngIf="params?.interpretationResponse">
+            <div
+              class="col-md-12 mb-2"
+              *ngFor="let interpretation of params?.interpretationResponse"
+            >
+              <div class="interpretation">
+                <div class="p-1 w-100">
+                  <p>
+                    <span class="user-details">
+                      {{ interpretation?.user?.displayName }}
+                    </span>
+                    <span class="ml-2 interpretation-date">
+                      {{ interpretation?.created | date }}
+                    </span>
+                  </p>
+                </div>
+                <p>{{ interpretation?.text }}</p>
+              </div>
+              <div class="comments w-100 mb-2">
+                <div class="comments-list">
+                  <p>Comments:</p>
+                  <div
+                    class="p-1 w-100"
+                    *ngFor="let userComment of interpretation?.comments"
+                  >
+                    <p>
+                      <span class="user-details">
+                        {{ userComment?.user?.displayName }}
+                      </span>
+                      <span class="ml-2 interpretation-date">
+                        {{ userComment?.created | date }}
+                      </span>
+                    </p>
+                    <p>{{ userComment?.text }}</p>
+                  </div>
+                </div>
+                <mat-form-field class="w-100">
+                  <mat-label>Comment</mat-label>
+                  <textarea
+                    matInput
+                    (keyup)="setComment($event, interpretation)"
+                  ></textarea>
+                </mat-form-field>
+                <button
+                  mat-stroked-button
+                  [disabled]="!comment || savingComment"
+                  class="float-left"
+                  (click)="onSaveComment($event, comment, interpretation)"
+                >
+                  <mat-spinner
+                    *ngIf="savingComment"
+                    color="accent"
+                    [diameter]="20"
+                    style="display: inline-block !important; margin-right: 4px"
+                  >
+                  </mat-spinner>
+                  Post
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <mat-progress-bar
+            mode="indeterminate"
+            *ngIf="!params?.interpretationResponse"
+          ></mat-progress-bar>
+        </mat-expansion-panel>
+      </mat-accordion>
+    </div>
+    <mat-form-field class="w-100">
+      <mat-label>{{ itemNameForSharing }}</mat-label>
+      <textarea matInput (keyup)="setDescription($event)"></textarea>
+    </mat-form-field>
+    <button
+      mat-stroked-button
+      [disabled]="!description || !params?.savingInterpretationResponse"
+      class="float-right"
+      (click)="onSave($event, description, itemType, parameters, itemUid)"
+    >
+      <mat-spinner
+        *ngIf="savingInterpretation && !params?.savingInterpretationResponse"
+        color="accent"
+        [diameter]="20"
+        style="display: inline-block !important; margin-right: 4px"
+      >
+      </mat-spinner>
+      Save
+    </button>
+  </div>
+</div>

@@ -1,0 +1,64 @@
+<div class="loading-overlay" *ngIf="sendingMessage">
+  <div class="text-center">
+    <div>Sending messages</div>
+    <div class="mt-3 d-flex justify-content-center w-100">
+      <mat-spinner diameter="50" strokeWidth="2"></mat-spinner>
+    </div>
+  </div>
+</div>
+
+<div class="messages-container p-4" *ngIf="{ users: users$ | async } as params">
+  <div style="border: solid 1px #eee">
+    <h4>Message</h4>
+    <div>
+      <mat-form-field class="w-100">
+        <mat-label>Users</mat-label>
+        <mat-chip-list #chipList aria-label="User selection">
+          <mat-chip *ngFor="let user of selectedUsers" (removed)="remove(user)">
+            {{ user?.displayName }}
+            <button matChipRemove>
+              <mat-icon>cancel</mat-icon>
+            </button>
+          </mat-chip>
+          <input
+            placeholder="New user..."
+            #userInput
+            [formControl]="userControl"
+            (keyup)="searchUsers($event)"
+            [matAutocomplete]="auto"
+            [matChipInputFor]="chipList"
+            [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+            (matChipInputTokenEnd)="add($event)"
+          />
+        </mat-chip-list>
+        <mat-autocomplete
+          #auto="matAutocomplete"
+          (optionSelected)="selected($event)"
+        >
+          <mat-option
+            *ngFor="let searchedUser of params?.users"
+            [value]="searchedUser"
+          >
+            {{ searchedUser?.displayName }}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+      <mat-form-field class="w-100">
+        <mat-label>Message body</mat-label>
+        <textarea matInput (keyup)="onGetMessage($event)"></textarea>
+      </mat-form-field>
+    </div>
+    <div class="d-flex justify-content-end mt-2">
+      <button mat-stroked-button (click)="onCancel($event)" class="mr-2">
+        Cancel
+      </button>
+      <button
+        [disabled]="!message || selectedUsers.length === 0"
+        mat-stroked-button
+        (click)="onSave($event, message, selectedUsers)"
+      >
+        Send
+      </button>
+    </div>
+  </div>
+</div>

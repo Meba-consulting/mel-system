@@ -1,0 +1,16 @@
+::ng-deep .mat-expansion-panel:not([class*='mat-elevation-z']) {
+  box-shadow: none !important;
+  border: solid 1px #eee !important;
+}
+
+.user-details {
+  color: #3162c5;
+}
+
+.interpretation-date {
+  color: rgb(117, 115, 115);
+}
+
+.comments {
+  margin: 10px 5% 10px 5% !important;
+}

@@ -80,7 +80,28 @@
         </button>
 
         <a
-          class="position-relative float-right user-details-menu mr-2"
+          class="position-relative float-right user-details-menu mr-3"
+          (click)="openModal($event, 'interpretation')"
+          title="{{
+            params?.dashboardDetails?.unreadInterpretations
+          }} unread Interpretations"
+          style="margin-top: 4px"
+        >
+          <img
+            height="20"
+            style="color: #fff"
+            src="assets/icons/interpretation_icon.png"
+          />
+          <span
+            class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+          >
+            {{ params?.dashboardDetails?.unreadInterpretations }}
+            <span class="visually-hidden">unread messages</span>
+          </span>
+        </a>
+        <a
+          class="position-relative float-right user-details-menu mr-3"
+          (click)="openModal($event, 'message')"
           title="{{
             params?.dashboardDetails?.unreadMessageConversations
           }} unread messages"
@@ -89,7 +110,7 @@
           <img
             height="20"
             style="color: #fff"
-            src="assets/icons/message_icon.png"
+            src="assets/icons/message_64.png"
           />
           <span
             class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
