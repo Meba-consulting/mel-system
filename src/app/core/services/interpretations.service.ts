@@ -15,17 +15,26 @@ export class InterpretationsService {
     queryParams: any,
     data: any
   ): Observable<any> {
-    return this.httpClient
-      .post(`interpretations/${itemType}/${itemId}?${queryParams}`, data)
-      .pipe(
-        map((response) => {
-          return response;
-        }),
-        catchError((error) => of(error))
-      );
+    const url =
+      itemType === 'dataSetReport'
+        ? `interpretations/${itemType}/${itemId}?${queryParams}`
+        : `interpretations/eventReport/${itemId}`;
+    return this.httpClient.post(url, data).pipe(
+      map((response) => {
+        return response;
+      }),
+      catchError((error) => of(error))
+    );
   }
 
-  getIntepretations(
+  getAllInterpretations(): Observable<any[]> {
+    return this.httpClient.get('interpretations?fields=*,comments[*]').pipe(
+      map((response) => response?.interpretations),
+      catchError((e) => of(e))
+    );
+  }
+
+  getIntepretationsForSpecificReport(
     itemType: string,
     itemId: string,
     pe: string,
@@ -35,6 +44,15 @@ export class InterpretationsService {
       return this.httpClient
         .get(
           `interpretations.json?paging=false&fields=id,text,*,comments[*],dataSet&filter=dataSet.id:in:[${itemId}]&filter=period.id:eq:${pe}&filter=organisationUnit.id:eq:${ou}`
+        )
+        .pipe(
+          map((response) => response?.interpretations),
+          catchError((error) => of(error))
+        );
+    } else if (itemType === 'eventReport') {
+      return this.httpClient
+        .get(
+          `interpretations.json?fields=*,comments[*],eventReport&filter=eventReport.id:in:[${itemId}]`
         )
         .pipe(
           map((response) => response?.interpretations),
