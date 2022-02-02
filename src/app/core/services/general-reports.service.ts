@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { NgxDhis2HttpClientService } from '@iapps/ngx-dhis2-http-client';
-import { from, Observable, zip } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { from, Observable, of, zip } from 'rxjs';
+import { catchError, map } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
 
 @Injectable({
@@ -104,5 +104,23 @@ export class GeneralReportsService {
         '&dimension='
       )}&displayProperty=NAME&outputType=EVENT&desc=eventdate&paging=false`
     );
+  }
+
+  saveEventReport(data): Observable<any> {
+    return this.httpClientService.post('eventReports', data).pipe(
+      map((response) => response),
+      catchError((e) => of(e))
+    );
+  }
+
+  getSavedEventReports(q: string): Observable<any> {
+    return this.httpClientService
+      .get(
+        `eventReports.json?fields=id,displayName~rename(name),created,lastUpdated,access,title,description,user&filter=displayName:ilike:${q}&order=name:asc&pageSize=1&page=1`
+      )
+      .pipe(
+        map((response) => response?.eventReports),
+        catchError((error) => of(error))
+      );
   }
 }
