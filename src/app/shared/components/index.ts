@@ -7,6 +7,7 @@ import { EventProgramEntryComponent } from './event-program-entry/event-program-
 import { EventProgramListComponent } from './event-program-list/event-program-list.component';
 import { InterpretationModalComponent } from './interpretation-modal/interpretation-modal.component';
 import { MELHelpComponent } from './mel-help/mel-help.component';
+import { MessagesListingComponent } from './messages-listing/messages-listing.component';
 import { MessagesModalComponent } from './messages-modal/messages-modal.component';
 import { ProgramSectionComponent } from './program-section/program-section.component';
 import { ProgramStageDataEntryComponent } from './program-stage-data-entry/program-stage-data-entry.component';
@@ -60,6 +61,7 @@ export const sharedComponents: any[] = [
   InterpretationModalComponent,
   TrackerReportRenderTemplateComponent,
   SharedVisualizationComponent,
+  MessagesListingComponent,
 ];
 
 export const sharedEntryComponents: any[] = [

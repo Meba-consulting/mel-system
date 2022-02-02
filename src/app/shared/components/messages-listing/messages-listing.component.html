@@ -1,0 +1,51 @@
+<div *ngIf="{ unReadMessages: unReadMessages$ | async } as params">
+  <mat-progress-bar
+    class="w-100"
+    mode="indeterminate"
+    *ngIf="!params?.unReadMessages"
+  ></mat-progress-bar>
+  <table class="table" *ngIf="params?.unReadMessages">
+    <thead>
+      <tr>
+        <th style="width: 15px">SN</th>
+        <th>Message</th>
+        <th>Sender</th>
+        <th>Date & Time</th>
+      </tr>
+    </thead>
+    <tbody>
+      <ng-container
+        *ngIf="params?.unReadMessages && params?.unReadMessages?.length > 0"
+      >
+        <ng-container
+          *ngFor="
+            let messageConversation of params?.unReadMessages;
+            let count = index
+          "
+        >
+          <tr style="cursor: pointer">
+            <td>
+              <!-- {{ count + 1 }} -->
+            </td>
+            <td>{{ messageConversation?.subject }}</td>
+            <td>
+              {{ messageConversation?.user?.displayName }}
+            </td>
+            <td>
+              {{ messageConversation?.lastUpdated | date: 'medium' }}
+            </td>
+          </tr>
+        </ng-container>
+      </ng-container>
+      <ng-container
+        *ngIf="params?.unReadMessages && params?.unReadMessages?.length === 0"
+      >
+        <tr>
+          <td colspan="100%">
+            <div class="alert alert-warning" role="alert">No messages</div>
+          </td>
+        </tr>
+      </ng-container>
+    </tbody>
+  </table>
+</div>

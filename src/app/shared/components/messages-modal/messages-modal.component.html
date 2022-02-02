@@ -37,132 +37,170 @@
             </mat-expansion-panel-header>
             <div class="w-100">
               <!-- {{ params?.unReadMessages | json }} -->
-              <table class="table">
-                <thead>
-                  <tr>
-                    <th style="width: 15px">SN</th>
-                    <th>Message</th>
-                    <th>Sender</th>
-                    <th>Date & Time</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <ng-container
-                    *ngIf="
-                      params?.unReadMessages &&
-                      params?.unReadMessages?.length > 0
-                    "
-                  >
-                    <ng-container
-                      *ngFor="
-                        let messageConversation of params?.unReadMessages;
-                        let count = index
-                      "
-                    >
-                      <tr
-                        style="cursor: pointer"
-                        (click)="setCurrentMessage($event, messageConversation)"
-                      >
-                        <td>
-                          <!-- {{ count + 1 }} -->
-                        </td>
-                        <td>{{ messageConversation?.subject }}</td>
-                        <td>{{ messageConversation?.user?.displayName }}</td>
-                        <td>
-                          {{
-                            messageConversation?.lastUpdated | date: 'medium'
-                          }}
-                        </td>
-                      </tr>
-                      <tr
-                        *ngIf="messageConversation?.id === currentMessage?.id"
-                        class="p-1"
-                      >
-                        <td colspan="100%">
-                          <div
-                            class="w-100 p-2"
-                            style="max-height: 300px; overflow: auto"
+              <mat-tab-group
+                [selectedIndex]="selectedTab.value"
+                (selectedIndexChange)="selectedTab.setValue($event)"
+              >
+                <mat-tab label="Private" (click)="changeTab($event, 0)">
+                  <div class="p-1" *ngIf="selectedTab.value == 0">
+                    <table class="table">
+                      <thead>
+                        <tr>
+                          <th style="width: 15px">SN</th>
+                          <th>Message</th>
+                          <th>Sender</th>
+                          <th>Date & Time</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <ng-container
+                          *ngIf="
+                            params?.unReadMessages &&
+                            params?.unReadMessages?.length > 0
+                          "
+                        >
+                          <ng-container
+                            *ngFor="
+                              let messageConversation of params?.unReadMessages;
+                              let count = index
+                            "
                           >
-                            <div
-                              class="w-100"
-                              *ngIf="
-                                currentMessage$
-                                  | async as currentMessageConversation
+                            <tr
+                              style="cursor: pointer"
+                              (click)="
+                                setCurrentMessage($event, messageConversation)
                               "
                             >
-                              <!-- {{ currentMessage | json }} -->
-                              <div *ngIf="currentMessage">
+                              <td>
+                                <!-- {{ count + 1 }} -->
+                              </td>
+                              <td>{{ messageConversation?.subject }}</td>
+                              <td>
+                                {{ messageConversation?.user?.displayName }}
+                              </td>
+                              <td>
+                                {{
+                                  messageConversation?.lastUpdated
+                                    | date: 'medium'
+                                }}
+                              </td>
+                            </tr>
+                            <tr
+                              *ngIf="
+                                messageConversation?.id === currentMessage?.id
+                              "
+                              class="p-1"
+                            >
+                              <td colspan="100%">
                                 <div
-                                  class="w-100 ml-2 mt-2 mr-2"
-                                  *ngFor="
-                                    let conversation of currentMessageConversation?.messages
-                                  "
+                                  class="w-100 p-2"
+                                  style="max-height: 300px; overflow: auto"
                                 >
-                                  <p>
-                                    <span class="user-details">
-                                      {{ conversation?.sender?.displayName }}
-                                    </span>
-                                    |
-                                    <span class="message-date">
-                                      {{ conversation?.created | date }}
-                                    </span>
-                                  </p>
-                                  <p style="margin-top: -10px" class="ml-2">
-                                    {{ conversation?.name }}
-                                  </p>
+                                  <div
+                                    class="w-100"
+                                    *ngIf="
+                                      currentMessage$
+                                        | async as currentMessageConversation
+                                    "
+                                  >
+                                    <!-- {{ currentMessage | json }} -->
+                                    <div *ngIf="currentMessage">
+                                      <div
+                                        class="w-100 ml-2 mt-2 mr-2"
+                                        *ngFor="
+                                          let conversation of currentMessageConversation?.messages
+                                        "
+                                      >
+                                        <p>
+                                          <span class="user-details">
+                                            {{
+                                              conversation?.sender?.displayName
+                                            }}
+                                          </span>
+                                          |
+                                          <span class="message-date">
+                                            {{ conversation?.created | date }}
+                                          </span>
+                                        </p>
+                                        <p
+                                          style="margin-top: -10px"
+                                          class="ml-2"
+                                        >
+                                          {{ conversation?.name }}
+                                        </p>
+                                      </div>
+                                    </div>
+                                    <mat-progress-bar
+                                      class="w-100"
+                                      mode="indeterminate"
+                                      *ngIf="
+                                        savingReplay ||
+                                        !currentMessageConversation
+                                      "
+                                    ></mat-progress-bar>
+                                  </div>
+                                  <mat-form-field class="w-100">
+                                    <mat-label>Reply</mat-label>
+                                    <textarea
+                                      matInput
+                                      (keyup)="onGetMessage($event)"
+                                    ></textarea>
+                                  </mat-form-field>
+                                  <div class="d-flex justify-content-end">
+                                    <button
+                                      [disabled]="!message || savingReplay"
+                                      mat-stroked-button
+                                      (click)="
+                                        onSaveMessageConversation(
+                                          $event,
+                                          message,
+                                          currentMessage
+                                        )
+                                      "
+                                    >
+                                      Send
+                                    </button>
+                                  </div>
                                 </div>
+                              </td>
+                            </tr>
+                          </ng-container>
+                        </ng-container>
+                        <ng-container
+                          *ngIf="
+                            params?.unReadMessages &&
+                            params?.unReadMessages?.length === 0
+                          "
+                        >
+                          <tr>
+                            <td colspan="100%">
+                              <div class="alert alert-warning" role="alert">
+                                No unread messages
                               </div>
-                              <mat-progress-bar
-                                class="w-100"
-                                mode="indeterminate"
-                                *ngIf="
-                                  savingReplay || !currentMessageConversation
-                                "
-                              ></mat-progress-bar>
-                            </div>
-                            <mat-form-field class="w-100">
-                              <mat-label>Reply</mat-label>
-                              <textarea
-                                matInput
-                                (keyup)="onGetMessage($event)"
-                              ></textarea>
-                            </mat-form-field>
-                            <div class="d-flex justify-content-end">
-                              <button
-                                [disabled]="!message || savingReplay"
-                                mat-stroked-button
-                                (click)="
-                                  onSaveMessageConversation(
-                                    $event,
-                                    message,
-                                    currentMessage
-                                  )
-                                "
-                              >
-                                Send
-                              </button>
-                            </div>
-                          </div>
-                        </td>
-                      </tr>
-                    </ng-container>
-                  </ng-container>
-                  <ng-container
-                    *ngIf="
-                      params?.unReadMessages &&
-                      params?.unReadMessages?.length === 0
-                    "
-                  >
-                    <tr>
-                      <td colspan="100%">
-                        <div class="alert alert-warning" role="alert">
-                          No unread messages
-                        </div>
-                      </td>
-                    </tr>
-                  </ng-container>
-                </tbody>
-              </table>
+                            </td>
+                          </tr>
+                        </ng-container>
+                      </tbody>
+                    </table>
+                  </div>
+                </mat-tab>
+
+                <mat-tab label="Feedback" (click)="changeTab($event, 1)">
+                  <div class="p-1" *ngIf="selectedTab.value == 1">
+                    <app-messages-listing
+                      [type]="'TICKET'"
+                    ></app-messages-listing>
+                  </div>
+                </mat-tab>
+
+                <mat-tab label="System" (click)="changeTab($event, 2)">
+                  <div class="p-1" *ngIf="selectedTab.value == 2">
+                    <app-messages-listing
+                      [type]="'SYSTEM'"
+                    ></app-messages-listing>
+                  </div>
+                </mat-tab>
+              </mat-tab-group>
             </div>
           </mat-expansion-panel>
         </mat-accordion>

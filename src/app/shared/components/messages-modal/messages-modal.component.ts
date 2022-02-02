@@ -36,6 +36,7 @@ export class MessagesModalComponent implements OnInit {
   messageSubject: string;
   showComposeMessage: boolean = false;
   messageSent: boolean = false;
+  selectedTab = new FormControl(0);
 
   @ViewChild('userInput') userInput: ElementRef<HTMLInputElement>;
   constructor(
