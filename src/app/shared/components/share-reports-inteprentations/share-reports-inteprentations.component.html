@@ -60,13 +60,15 @@
                     <p style="margin: -10px 5px">{{ userComment?.text }}</p>
                   </div>
                 </div>
-                <mat-form-field class="w-100">
-                  <mat-label>Comment</mat-label>
-                  <textarea
-                    matInput
-                    (keyup)="setComment($event, interpretation)"
-                  ></textarea>
-                </mat-form-field>
+                <div class="w-100">
+                  <mat-form-field class="w-100">
+                    <mat-label>Comment</mat-label>
+                    <textarea
+                      matInput
+                      (keyup)="setComment($event, interpretation)"
+                    ></textarea>
+                  </mat-form-field>
+                </div>
                 <button
                   mat-stroked-button
                   [disabled]="!comment || savingComment"
@@ -85,7 +87,6 @@
               </div>
             </div>
           </div>
-
           <mat-progress-bar
             mode="indeterminate"
             *ngIf="!params?.interpretationResponse"

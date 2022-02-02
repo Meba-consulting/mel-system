@@ -1,0 +1,14 @@
+::ng-deep .mat-expansion-panel:not([class*='mat-elevation-z']) {
+  box-shadow: none !important;
+  border: solid 1px #eee !important;
+}
+
+.user-details {
+  color: #3162c5;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.message-date {
+  color: rgb(117, 115, 115);
+}

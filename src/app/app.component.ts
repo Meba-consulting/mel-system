@@ -149,7 +149,10 @@ export class AppComponent implements OnInit {
     event.stopPropagation();
     if (type === 'message') {
       this.dialog.open(MessagesModalComponent, {
-        width: '50%',
+        width: '40%',
+        data: {
+          shouldShowMessages: true,
+        },
       });
     } else {
       this.dialog.open(InterpretationModalComponent, {

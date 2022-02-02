@@ -7,52 +7,221 @@
   </div>
 </div>
 
-<div class="messages-container p-4" *ngIf="{ users: users$ | async } as params">
-  <div style="border: solid 1px #eee">
-    <h4>Message</h4>
+<div
+  class="messages-container p-3"
+  *ngIf="{
+    users: users$ | async,
+    unReadMessages: unReadMessages$ | async
+  } as params"
+>
+  <div style="border: solid 1px #eee" class="p-2">
     <div>
-      <mat-form-field class="w-100">
-        <mat-label>Users</mat-label>
-        <mat-chip-list #chipList aria-label="User selection">
-          <mat-chip *ngFor="let user of selectedUsers" (removed)="remove(user)">
-            {{ user?.displayName }}
-            <button matChipRemove>
-              <mat-icon>cancel</mat-icon>
-            </button>
-          </mat-chip>
-          <input
-            placeholder="New user..."
-            #userInput
-            [formControl]="userControl"
-            (keyup)="searchUsers($event)"
-            [matAutocomplete]="auto"
-            [matChipInputFor]="chipList"
-            [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-            (matChipInputTokenEnd)="add($event)"
-          />
-        </mat-chip-list>
-        <mat-autocomplete
-          #auto="matAutocomplete"
-          (optionSelected)="selected($event)"
+      <div class="w-100 d-flex justify-content-left mb-2 mt-2">
+        <a
+          style="text-decoration: none; color: #222"
+          *ngIf="!showComposeMessage"
+          (click)="openComposeMessage($event)"
         >
-          <mat-option
-            *ngFor="let searchedUser of params?.users"
-            [value]="searchedUser"
+          Compose
+        </a>
+        <a *ngIf="showComposeMessage" (click)="openComposeMessage($event)">
+          <img height="25" src="assets/icons/west_black_arrow.png" />
+        </a>
+      </div>
+      <div class="w-100" *ngIf="!showComposeMessage">
+        <mat-accordion>
+          <mat-expansion-panel [expanded]="true">
+            <mat-expansion-panel-header>
+              <mat-panel-title> View messages </mat-panel-title>
+              <!-- <mat-panel-description> </mat-panel-description> -->
+            </mat-expansion-panel-header>
+            <div class="w-100">
+              <!-- {{ params?.unReadMessages | json }} -->
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 15px">SN</th>
+                    <th>Message</th>
+                    <th>Sender</th>
+                    <th>Date & Time</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <ng-container
+                    *ngIf="
+                      params?.unReadMessages &&
+                      params?.unReadMessages?.length > 0
+                    "
+                  >
+                    <ng-container
+                      *ngFor="
+                        let messageConversation of params?.unReadMessages;
+                        let count = index
+                      "
+                    >
+                      <tr
+                        style="cursor: pointer"
+                        (click)="setCurrentMessage($event, messageConversation)"
+                      >
+                        <td>
+                          <!-- {{ count + 1 }} -->
+                        </td>
+                        <td>{{ messageConversation?.subject }}</td>
+                        <td>{{ messageConversation?.user?.displayName }}</td>
+                        <td>
+                          {{
+                            messageConversation?.lastUpdated | date: 'medium'
+                          }}
+                        </td>
+                      </tr>
+                      <tr
+                        *ngIf="messageConversation?.id === currentMessage?.id"
+                        class="p-1"
+                      >
+                        <td colspan="100%">
+                          <div
+                            class="w-100 p-2"
+                            style="max-height: 300px; overflow: auto"
+                          >
+                            <div
+                              class="w-100"
+                              *ngIf="
+                                currentMessage$
+                                  | async as currentMessageConversation
+                              "
+                            >
+                              <!-- {{ currentMessage | json }} -->
+                              <div *ngIf="currentMessage">
+                                <div
+                                  class="w-100 ml-2 mt-2 mr-2"
+                                  *ngFor="
+                                    let conversation of currentMessageConversation?.messages
+                                  "
+                                >
+                                  <p>
+                                    <span class="user-details">
+                                      {{ conversation?.sender?.displayName }}
+                                    </span>
+                                    |
+                                    <span class="message-date">
+                                      {{ conversation?.created | date }}
+                                    </span>
+                                  </p>
+                                  <p style="margin-top: -10px" class="ml-2">
+                                    {{ conversation?.name }}
+                                  </p>
+                                </div>
+                              </div>
+                              <mat-progress-bar
+                                class="w-100"
+                                mode="indeterminate"
+                                *ngIf="
+                                  savingReplay || !currentMessageConversation
+                                "
+                              ></mat-progress-bar>
+                            </div>
+                            <mat-form-field class="w-100">
+                              <mat-label>Reply</mat-label>
+                              <textarea
+                                matInput
+                                (keyup)="onGetMessage($event)"
+                              ></textarea>
+                            </mat-form-field>
+                            <div class="d-flex justify-content-end">
+                              <button
+                                [disabled]="!message || savingReplay"
+                                mat-stroked-button
+                                (click)="
+                                  onSaveMessageConversation(
+                                    $event,
+                                    message,
+                                    currentMessage
+                                  )
+                                "
+                              >
+                                Send
+                              </button>
+                            </div>
+                          </div>
+                        </td>
+                      </tr>
+                    </ng-container>
+                  </ng-container>
+                  <ng-container
+                    *ngIf="
+                      params?.unReadMessages &&
+                      params?.unReadMessages?.length === 0
+                    "
+                  >
+                    <tr>
+                      <td colspan="100%">
+                        <div class="alert alert-warning" role="alert">
+                          No unread messages
+                        </div>
+                      </td>
+                    </tr>
+                  </ng-container>
+                </tbody>
+              </table>
+            </div>
+          </mat-expansion-panel>
+        </mat-accordion>
+      </div>
+      <div class="w-100 mt-2" *ngIf="showComposeMessage">
+        <mat-form-field class="w-100">
+          <mat-label>Users</mat-label>
+          <mat-chip-list #chipList aria-label="User selection">
+            <mat-chip
+              *ngFor="let user of selectedUsers"
+              (removed)="remove(user)"
+            >
+              {{ user?.displayName }}
+              <button matChipRemove>
+                <mat-icon>cancel</mat-icon>
+              </button>
+            </mat-chip>
+            <input
+              placeholder="New user..."
+              #userInput
+              [formControl]="userControl"
+              (keyup)="searchUsers($event)"
+              [matAutocomplete]="auto"
+              [matChipInputFor]="chipList"
+              [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+              (matChipInputTokenEnd)="add($event)"
+            />
+          </mat-chip-list>
+          <mat-autocomplete
+            #auto="matAutocomplete"
+            (optionSelected)="selected($event)"
           >
-            {{ searchedUser?.displayName }}
-          </mat-option>
-        </mat-autocomplete>
-      </mat-form-field>
-      <mat-form-field class="w-100">
-        <mat-label>Message body</mat-label>
-        <textarea matInput (keyup)="onGetMessage($event)"></textarea>
-      </mat-form-field>
+            <mat-option
+              *ngFor="let searchedUser of params?.users"
+              [value]="searchedUser"
+            >
+              {{ searchedUser?.displayName }}
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
+        <mat-form-field class="w-100">
+          <mat-label>Subject</mat-label>
+          <input matInput (keyup)="setSubject($event)" placeholder="" />
+        </mat-form-field>
+        <mat-form-field class="w-100">
+          <mat-label>Message body</mat-label>
+          <textarea matInput (keyup)="onGetMessage($event)"></textarea>
+        </mat-form-field>
+        <div *ngIf="messageSent" role="alert" class="alert alert-success">
+          Message was successfully sent.
+        </div>
+      </div>
     </div>
     <div class="d-flex justify-content-end mt-2">
       <button mat-stroked-button (click)="onCancel($event)" class="mr-2">
         Cancel
       </button>
       <button
+        *ngIf="showComposeMessage"
         [disabled]="!message || selectedUsers.length === 0"
         mat-stroked-button
         (click)="onSave($event, message, selectedUsers)"
