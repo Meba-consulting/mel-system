@@ -16,6 +16,7 @@ import { ProgramStageEntryModalComponent } from './program-stage-entry-modal/pro
 import { RenderProgramStageDataComponent } from './render-program-stage-data/render-program-stage-data.component';
 import { SetColumnsModalComponent } from './set-columns-modal/set-columns-modal.component';
 import { ShareReportsInteprentationsComponent } from './share-reports-inteprentations/share-reports-inteprentations.component';
+import { SharedVisualizationComponent } from './shared-visualization/shared-visualization.component';
 import { SharingSettingsComponent } from './sharing-settings/sharing-settings.component';
 import { SuccessErrorModalComponent } from './success-error-modal/success-error-modal.component';
 import { TrackedEntityInstanceListComponent } from './tracked-entity-instance-list/tracked-entity-instance-list.component';
@@ -58,6 +59,7 @@ export const sharedComponents: any[] = [
   ShareReportsInteprentationsComponent,
   InterpretationModalComponent,
   TrackerReportRenderTemplateComponent,
+  SharedVisualizationComponent,
 ];
 
 export const sharedEntryComponents: any[] = [

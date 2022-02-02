@@ -1,0 +1,22 @@
+<div *ngIf="{ reportReponse: reportReponse$ | async } as params">
+  <mat-progress-bar
+    mode="indeterminate"
+    *ngIf="!params?.reportReponse"
+  ></mat-progress-bar>
+
+  <div *ngIf="params?.reportReponse && !params?.reportReponse?.statusText">
+    <!-- {{ params?.reportReponse | json }} -->
+    <app-tracker-report-render-template
+      [showOnlyReport]="true"
+      [data]="params?.reportReponse?.dataToRender"
+    ></app-tracker-report-render-template>
+  </div>
+
+  <div
+    class="alert alert-warning"
+    role="alert"
+    *ngIf="params?.reportReponse && params?.reportReponse?.statusText"
+  >
+    <div [innerHtml]="params?.reportReponse?.message"></div>
+  </div>
+</div>

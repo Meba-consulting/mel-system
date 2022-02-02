@@ -11,6 +11,7 @@ export class TrackerReportRenderTemplateComponent implements OnInit {
   @Input() program: any;
   @Input() parameters: any;
   @Input() data: any;
+  @Input() showOnlyReport: boolean;
   availableReports$: Observable<any>;
   savingEventReport: boolean = false;
   constructor(private generalService: GeneralReportsService) {}

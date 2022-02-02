@@ -25,11 +25,7 @@ export class ShareReportsInteprentationsComponent implements OnInit {
   constructor(private interpretationService: InterpretationsService) {}
 
   ngOnInit(): void {
-    if (!this.showAllTypesOfInterpretations) {
-      this.getInterpretationsForSpecificReport();
-    } else {
-      this.getInterpretations();
-    }
+    this.getInterpretationsAccordingly();
   }
 
   getInterpretations(): void {
@@ -62,9 +58,17 @@ export class ShareReportsInteprentationsComponent implements OnInit {
       .subscribe((response) => {
         if (response) {
           this.savingComment = false;
+          this.getInterpretationsAccordingly();
         }
       });
-    this.getInterpretationsForSpecificReport();
+  }
+
+  getInterpretationsAccordingly(): void {
+    if (!this.showAllTypesOfInterpretations) {
+      this.getInterpretationsForSpecificReport();
+    } else {
+      this.getInterpretations();
+    }
   }
 
   onSave(
@@ -86,7 +90,7 @@ export class ShareReportsInteprentationsComponent implements OnInit {
       );
     this.savingInterpretationResponse$.subscribe((response) => {
       if (response) {
-        this.getInterpretationsForSpecificReport();
+        this.getInterpretationsAccordingly();
       }
     });
   }

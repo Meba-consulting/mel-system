@@ -17,13 +17,19 @@
           <div
             class="row"
             *ngIf="params?.interpretationResponse"
-            style="max-height: 500px; overflow: auto"
+            style="max-height: 500px; overflow: auto; padding: 5px 40px"
           >
             <div
               class="col-md-12 mb-2"
               *ngFor="let interpretation of params?.interpretationResponse"
             >
               <div class="interpretation">
+                <div class="w-100 p-2 mb-2 mt-4" style="background-color: #eee">
+                  <app-shared-visualization
+                    *ngIf="showAllTypesOfInterpretations"
+                    [visualizationId]="interpretation?.eventReport?.id"
+                  ></app-shared-visualization>
+                </div>
                 <div class="p-1 w-100">
                   <p>
                     <span class="user-details">
@@ -34,16 +40,16 @@
                     </span>
                   </p>
                 </div>
-                <p>{{ interpretation?.text }}</p>
+                <p style="margin: -10px 5px">{{ interpretation?.text }}</p>
               </div>
               <div class="comments w-100 mb-2">
                 <div class="comments-list">
-                  <p>Comments:</p>
+                  <h5>Comments:</h5>
                   <div
                     class="p-1 w-100"
                     *ngFor="let userComment of interpretation?.comments"
                   >
-                    <p>
+                    <p class="mt-4">
                       <span class="user-details">
                         {{ userComment?.user?.displayName }}
                       </span>
@@ -51,7 +57,7 @@
                         {{ userComment?.created | date }}
                       </span>
                     </p>
-                    <p>{{ userComment?.text }}</p>
+                    <p style="margin: -10px 5px">{{ userComment?.text }}</p>
                   </div>
                 </div>
                 <mat-form-field class="w-100">
