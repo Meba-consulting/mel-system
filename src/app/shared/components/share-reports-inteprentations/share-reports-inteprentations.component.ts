@@ -14,22 +14,34 @@ export class ShareReportsInteprentationsComponent implements OnInit {
   description: string;
   comment: string;
   @Input() parameters: { ou: any; pe: any };
+  @Input() shouldOpenAccordion: boolean;
+  @Input() showAllTypesOfInterpretations: boolean;
   savingInterpretationResponse$: Observable<any>;
   interpretationResponse$: Observable<any>;
+  allInterpretationsTypesResponse$: Observable<any>;
   savingInterpretation: boolean = false;
   savingComment: boolean = false;
 
   constructor(private interpretationService: InterpretationsService) {}
 
   ngOnInit(): void {
-    this.getInterpretations();
+    if (!this.showAllTypesOfInterpretations) {
+      this.getInterpretationsForSpecificReport();
+    } else {
+      this.getInterpretations();
+    }
   }
 
   getInterpretations(): void {
+    this.interpretationResponse$ =
+      this.interpretationService.getAllInterpretations();
+  }
+
+  getInterpretationsForSpecificReport(): void {
     this.interpretationResponse$ = of(null);
     setTimeout(() => {
       this.interpretationResponse$ =
-        this.interpretationService.getIntepretations(
+        this.interpretationService.getIntepretationsForSpecificReport(
           this.itemType,
           this.itemUid,
           this.parameters?.pe?.id,
@@ -52,7 +64,7 @@ export class ShareReportsInteprentationsComponent implements OnInit {
           this.savingComment = false;
         }
       });
-    this.getInterpretations();
+    this.getInterpretationsForSpecificReport();
   }
 
   onSave(
@@ -74,7 +86,7 @@ export class ShareReportsInteprentationsComponent implements OnInit {
       );
     this.savingInterpretationResponse$.subscribe((response) => {
       if (response) {
-        this.getInterpretations();
+        this.getInterpretationsForSpecificReport();
       }
     });
   }

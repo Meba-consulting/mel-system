@@ -7,13 +7,32 @@
   </div>
 </div>
 
-<div class="interpretation-modal-container p-4">
-  <div style="border: solid 1px #eee" class="p-1">
-    <app-share-reports-inteprentations
-      [itemNameForSharing]="'Description'"
-      [itemType]="'dataSetReport'"
-      [parameters]="parameters"
-      [itemUid]="'eiutoire'"
-    ></app-share-reports-inteprentations>
+<div class="interpretation-modal-container">
+  <div class="w-100 d-flex no-print">
+    <!-- <span>Report</span> -->
+    <div class="w-50 d-flex justify-content-left"></div>
+    <div class="w-50 d-flex justify-content-end">
+      <button
+        style="margin-top: -10px"
+        mat-icon-button
+        mat-dialog-close
+        matTooltip="close"
+      >
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
+  </div>
+
+  <div class="p-4">
+    <div style="border: solid 1px #eee" class="p-1">
+      <app-share-reports-inteprentations
+        [itemNameForSharing]="'Description'"
+        [itemType]="'dataSetReport'"
+        [parameters]="parameters"
+        [itemUid]="'eiutoire'"
+        [shouldOpenAccordion]="true"
+        [showAllTypesOfInterpretations]="true"
+      ></app-share-reports-inteprentations>
+    </div>
   </div>
 </div>

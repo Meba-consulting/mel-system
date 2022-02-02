@@ -1,0 +1,131 @@
+<div
+  class="renderer-container"
+  *ngIf="{ availableReports: availableReports$ | async } as params"
+>
+  <div class="h3 text-center">
+    <b> Legal and Human Rights Center - Tanzania </b>
+  </div>
+  <div class="h4 text-center">
+    <b>
+      {{ data?.reportHeader }}
+    </b>
+  </div>
+  <div class="text-justify" *ngFor="let otherDetail of data?.otherDetails">
+    <p class="text-justify">
+      <b>{{ otherDetail?.name }}:</b>{{ otherDetail?.value }}
+    </p>
+  </div>
+  <div class="stages">
+    <div *ngFor="let stage of program?.programStages" style="padding: 15px 2px">
+      <div
+        class="h5 text-left w-100"
+        style="border-bottom: solid 1px #eee; margin-bottom: 5px"
+      >
+        <b>
+          {{ stage?.name }}
+        </b>
+      </div>
+      <div *ngIf="data[stage?.id]?.length === 0">
+        <p class="text-left">No data</p>
+      </div>
+      <div
+        class="w-100"
+        style="overflow: auto"
+        *ngIf="data[stage?.id]?.length > 0"
+      >
+        <table class="table table-bordered">
+          <thead>
+            <tr>
+              <th>SN</th>
+              <th
+                class="text-center"
+                *ngFor="
+                  let programStageDataElement of stage?.programStageDataElements
+                "
+              >
+                {{ programStageDataElement.dataElement.name }}
+              </th>
+              <th>Reported by</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let dataRow of data[stage?.id]; let count = index">
+              <td>
+                {{ count + 1 }}
+              </td>
+              <td
+                *ngFor="
+                  let programStageDataElement of stage?.programStageDataElements
+                "
+              >
+                {{
+                  dataRow?.keyedDataValues[
+                    programStageDataElement?.dataElement?.id
+                  ]
+                    ? dataRow?.keyedDataValues[
+                        programStageDataElement?.dataElement?.id
+                      ]?.value
+                    : ''
+                }}
+              </td>
+              <td>
+                {{ dataRow.storedBy }}
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  <div>
+    <div class="w-100 d-flex justify-content-end">
+      <mat-progress-bar
+        class="w-100"
+        mode="indeterminate"
+        *ngIf="savingEventReport || !params?.availableReports"
+      ></mat-progress-bar>
+      <div
+        class="w-100 d-flex justify-content-end"
+        *ngIf="params?.availableReports && params?.availableReports?.length > 0"
+      >
+        <p>This report has been saved</p>
+      </div>
+      <div
+        class="w-100 d-flex justify-content-end"
+        *ngIf="
+          params?.availableReports && params?.availableReports?.length === 0
+        "
+      >
+        <span
+          ><p>
+            Do you wish to share some ideas or comments? If YES, click save to
+            keep records
+          </p></span
+        >
+        <span>
+          <button
+            class="ml-2"
+            [disabled]="savingEventReport"
+            (click)="onSaveTheReport($event, data, parameters, program)"
+            mat-stroked-button
+          >
+            Save this report
+          </button>
+        </span>
+      </div>
+    </div>
+    <div
+      class="w-100"
+      *ngIf="params?.availableReports && params?.availableReports?.length > 0"
+    >
+      <app-share-reports-inteprentations
+        [itemNameForSharing]="'Description'"
+        [itemType]="'eventReport'"
+        [parameters]="parameters"
+        [itemUid]="params?.availableReports[0]?.id"
+        [shouldOpenAccordion]="false"
+        [showAllTypesOfInterpretations]="false"
+      ></app-share-reports-inteprentations>
+    </div>
+  </div>
+</div>

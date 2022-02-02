@@ -21,6 +21,7 @@ import { SuccessErrorModalComponent } from './success-error-modal/success-error-
 import { TrackedEntityInstanceListComponent } from './tracked-entity-instance-list/tracked-entity-instance-list.component';
 import { TrackedEntityInstanceSelectorComponent } from './tracked-entity-instance-selector/tracked-entity-instance-selector.component';
 import { TrackedEntrityEntryFormComponent } from './tracked-entrity-entry-form/tracked-entrity-entry-form.component';
+import { TrackerReportRenderTemplateComponent } from './tracker-report-render-template/tracker-report-render-template.component';
 import { UpdateStatusModalComponent } from './update-status-modal/update-status-modal.component';
 import { UploadExcelDataModalComponent } from './upload-excel-data-modal/upload-excel-data-modal.component';
 import { UserProfileComponent } from './user-profile/user-profile.component';
@@ -56,6 +57,7 @@ export const sharedComponents: any[] = [
   MessagesModalComponent,
   ShareReportsInteprentationsComponent,
   InterpretationModalComponent,
+  TrackerReportRenderTemplateComponent,
 ];
 
 export const sharedEntryComponents: any[] = [

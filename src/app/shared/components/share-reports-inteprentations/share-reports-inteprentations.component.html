@@ -2,18 +2,23 @@
   class="inteprentations-container"
   *ngIf="{
     savingInterpretationResponse: savingInterpretationResponse$ | async,
-    interpretationResponse: interpretationResponse$ | async
+    interpretationResponse: interpretationResponse$ | async,
+    allInterpretationsTypesResponse: allInterpretationsTypesResponse$ | async
   } as params"
 >
-  <div class="p-2">
+  <div>
     <div class="w-100">
       <mat-accordion>
-        <mat-expansion-panel [expanded]="false">
+        <mat-expansion-panel [expanded]="shouldOpenAccordion">
           <mat-expansion-panel-header>
             <mat-panel-title> View Intepretations </mat-panel-title>
             <!-- <mat-panel-description> </mat-panel-description> -->
           </mat-expansion-panel-header>
-          <div class="row" *ngIf="params?.interpretationResponse">
+          <div
+            class="row"
+            *ngIf="params?.interpretationResponse"
+            style="max-height: 500px; overflow: auto"
+          >
             <div
               class="col-md-12 mb-2"
               *ngFor="let interpretation of params?.interpretationResponse"
@@ -82,24 +87,38 @@
         </mat-expansion-panel>
       </mat-accordion>
     </div>
-    <mat-form-field class="w-100">
+    <mat-form-field
+      class="w-100"
+      *ngIf="
+        params?.interpretationResponse &&
+        params?.interpretationResponse?.length === 0
+      "
+    >
       <mat-label>{{ itemNameForSharing }}</mat-label>
       <textarea matInput (keyup)="setDescription($event)"></textarea>
     </mat-form-field>
-    <button
-      mat-stroked-button
-      [disabled]="!description || !params?.savingInterpretationResponse"
-      class="float-right"
-      (click)="onSave($event, description, itemType, parameters, itemUid)"
+    <div
+      class="w-100 d-flex justify-content-end"
+      *ngIf="
+        params?.interpretationResponse &&
+        params?.interpretationResponse?.length === 0
+      "
     >
-      <mat-spinner
-        *ngIf="savingInterpretation && !params?.savingInterpretationResponse"
-        color="accent"
-        [diameter]="20"
-        style="display: inline-block !important; margin-right: 4px"
+      <button
+        mat-stroked-button
+        [disabled]="!description"
+        class="float-right"
+        (click)="onSave($event, description, itemType, parameters, itemUid)"
       >
-      </mat-spinner>
-      Save
-    </button>
+        <mat-spinner
+          *ngIf="savingInterpretation && !params?.savingInterpretationResponse"
+          color="accent"
+          [diameter]="20"
+          style="display: inline-block !important; margin-right: 4px"
+        >
+        </mat-spinner>
+        Save
+      </button>
+    </div>
   </div>
 </div>
