@@ -8,7 +8,12 @@
 >
   <div>
     <div class="w-100">
-      <mat-accordion>
+      <mat-accordion
+        *ngIf="
+          params?.interpretationResponse &&
+          params?.interpretationResponse.length > 0
+        "
+      >
         <mat-expansion-panel [expanded]="shouldOpenAccordion">
           <mat-expansion-panel-header>
             <mat-panel-title> View Intepretations </mat-panel-title>

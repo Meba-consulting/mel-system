@@ -17,7 +17,6 @@ export class TrackerReportRenderTemplateComponent implements OnInit {
   constructor(private generalService: GeneralReportsService) {}
 
   ngOnInit(): void {
-    console.log(this.data);
     this.getSaveEventsReports();
   }
 

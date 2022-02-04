@@ -56,98 +56,12 @@
         'border-bottom': dataToRender.length > 1 ? 'solid 2px #3ea9d9' : 'none'
       }"
     >
-      <div class="h3 text-center">
-        <b> Legal and Human Rights Center - Tanzania </b>
-      </div>
-      <div class="h4 text-center">
-        <b>
-          {{ formattedTrackedEntityInstanceData?.reportHeader }}
-        </b>
-      </div>
-      <div
-        class="text-justify"
-        *ngFor="
-          let otherDetail of formattedTrackedEntityInstanceData?.otherDetails
-        "
-      >
-        <p class="text-justify">
-          <b>{{ otherDetail?.name }}:</b>{{ otherDetail?.value }}
-        </p>
-      </div>
-      <div class="stages">
-        <div
-          *ngFor="let stage of program?.programStages"
-          style="padding: 15px 2px"
-        >
-          <div
-            class="h5 text-left w-100"
-            style="border-bottom: solid 1px #eee; margin-bottom: 5px"
-          >
-            <b>
-              {{ stage?.name }}
-            </b>
-          </div>
-          <div
-            *ngIf="formattedTrackedEntityInstanceData[stage?.id]?.length === 0"
-          >
-            <p class="text-left">No data</p>
-          </div>
-          <div
-            class="w-100"
-            style="overflow: auto"
-            *ngIf="formattedTrackedEntityInstanceData[stage?.id]?.length > 0"
-          >
-            <table class="table table-bordered">
-              <thead>
-                <tr>
-                  <th>SN</th>
-                  <th
-                    class="text-center"
-                    *ngFor="
-                      let programStageDataElement of stage?.programStageDataElements
-                    "
-                  >
-                    {{ programStageDataElement.dataElement.name }}
-                  </th>
-                  <th>Reported by</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr
-                  *ngFor="
-                    let dataRow of formattedTrackedEntityInstanceData[
-                      stage?.id
-                    ];
-                    let count = index
-                  "
-                >
-                  <td>
-                    {{ count + 1 }}
-                  </td>
-                  <td
-                    *ngFor="
-                      let programStageDataElement of stage?.programStageDataElements
-                    "
-                  >
-                    {{
-                      dataRow?.keyedDataValues[
-                        programStageDataElement?.dataElement?.id
-                      ]
-                        ? dataRow?.keyedDataValues[
-                            programStageDataElement?.dataElement?.id
-                          ]?.value
-                        : ''
-                    }}
-                  </td>
-                  <td>
-                    {{ dataRow.storedBy }}
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </div>
+      <app-tracker-report-render-template
+        [showOnlyReport]="false"
+        [parameters]="parameters"
+        [program]="program"
+        [data]="formattedTrackedEntityInstanceData"
+      ></app-tracker-report-render-template>
     </div>
   </div>
 
